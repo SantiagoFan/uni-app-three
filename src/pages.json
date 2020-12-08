@@ -1,0 +1,335 @@
+{
+  "easycom": {
+		"^u-(.*)": "uview-ui/components/u-$1/u-$1.vue"
+	},
+	"pages": [
+    
+    {
+			"path": "pages/surveyDetail/surveyDetail",
+			"style": {
+        "navigationBarTitleText": "问卷调查",
+        "navigationBarBackgroundColor": "#0ec698",
+        "navigationBarTextStyle": "white"
+			}
+    },
+    {
+			"path": "pages/index/index",
+			"style": {
+        "navigationBarTitleText": "首页",
+        "backgroundColor": "#000000"
+			}
+    },
+    {
+			"path": "pages/checkReport/checkReport",
+			"style": {
+        "navigationBarTitleText": "检验检查报告",
+        "navigationBarBackgroundColor": "#0ec698",
+        "navigationBarTextStyle": "white"
+			}
+    },
+    {
+			"path": "pages/myLineUp/myLineUp",
+			"style": {
+        "navigationBarTitleText": "我的排队",
+        "navigationBarBackgroundColor": "#0ec698",
+        "navigationBarTextStyle": "#ffffff"
+			}
+    },
+    {
+			"path": "pages/paymentDetail/paymentDetail",
+			"style": {
+        "navigationBarTitleText": "缴费详情",
+        "navigationBarBackgroundColor": "#0ec698",
+        "navigationBarTextStyle": "#ffffff"
+			}
+    },
+    {
+			"path": "pages/payRecordDetail/payRecordDetail",
+			"style": {
+        "navigationBarTitleText": "缴费详情",
+        "navigationBarBackgroundColor": "#0ec698",
+        "navigationBarTextStyle": "#ffffff"
+			}
+    },
+    {
+			"path": "pages/my/my",
+			"style": {
+				"navigationBarTitleText": "个人中心"
+			}
+    },
+    {
+			"path": "pages/patientDetail/patientDetail",
+			"style": {
+        "navigationBarTitleText": "就诊人详情",
+        "navigationBarBackgroundColor": "#0ec698",
+        "navigationBarTextStyle": "#ffffff"
+			}
+    },
+    {
+			"path": "pages/myPatient/myPatient",
+			"style": {
+        "navigationBarTitleText": "我的就诊人",
+        "navigationBarBackgroundColor": "#0ec698",
+        "navigationBarTextStyle": "#ffffff"
+			}
+    },
+    {
+			"path": "pages/awaitPayPatient/awaitPayPatient",
+			"style": {
+        "navigationBarTitleText": "待缴费列表",
+        "navigationBarBackgroundColor": "#0ec698",
+        "navigationBarTextStyle": "#ffffff"
+			}
+    },
+    {
+			"path": "pages/branchSearch/branchSearch",
+			"style": {
+        "navigationBarTitleText": "科室列表",
+        "navigationBarBackgroundColor": "#0ec698",
+        "navigationBarTextStyle": "white"
+			}
+    },
+    {
+			"path": "pages/doctorDetail/doctorDetail",
+			"style": {
+        "navigationBarTitleText": "医生主页",
+        "navigationBarBackgroundColor": "#0ec698",
+        "navigationBarTextStyle": "#ffffff"
+			}
+    },
+    {
+			"path": "pages/myResidentDetail/myResidentDetail",
+			"style": {
+        "navigationBarTitleText": "住院人详情",
+        "navigationBarBackgroundColor": "#0ec698",
+        "navigationBarTextStyle": "white"
+			}
+    },
+    {
+			"path": "pages/depositPay/depositPay",
+			"style": {
+        "navigationBarTitleText": "住院押金缴纳",
+        "navigationBarBackgroundColor": "#0ec698",
+        "navigationBarTextStyle": "white"
+			}
+    },
+    {
+			"path": "pages/myResidentBill/myResidentBill",
+			"style": {
+        "navigationBarTitleText": "住院日清单",
+        "navigationBarBackgroundColor": "#0ec698",
+        "navigationBarTextStyle": "white"
+			}
+    },
+    {
+			"path": "pages/myResidentServe/myResidentServe",
+			"style": {
+        "navigationBarTitleText": "住院服务",
+        "navigationBarBackgroundColor": "#0ec698",
+        "navigationBarTextStyle": "white"
+			}
+    },
+    {
+			"path": "pages/myResidents/myResidents",
+			"style": {
+        "navigationBarTitleText": "我的住院人",
+        "navigationBarBackgroundColor": "#0ec698",
+        "navigationBarTextStyle": "white"
+			}
+    },
+    {
+			"path": "pages/doctorList/doctorList",
+			"style": {
+        "navigationBarTitleText": "医生列表",
+        "navigationBarBackgroundColor": "#0ec698",
+        "navigationBarTextStyle": "#ffffff"
+			}
+    },
+    {
+			"path": "pages/clinicPayDetail/clinicPayDetail",
+			"style": {
+        "navigationBarTitleText": "门诊缴费详情",
+        "navigationBarBackgroundColor": "#0ec698",
+        "navigationBarTextStyle": "#ffffff"
+			}
+    },
+    {
+			"path": "pages/payRecord/payRecord",
+			"style": {
+        "navigationBarTitleText": "住院缴费记录",
+        "navigationBarBackgroundColor": "#0ec698",
+        "navigationBarTextStyle": "#ffffff"
+			}
+    },
+    {
+			"path": "pages/branchInfo/branchInfo",
+			"style": {
+        "navigationBarTitleText": "科室信息",
+        "navigationBarBackgroundColor": "#0ec698",
+        "navigationBarTextStyle": "white"
+			}
+    },
+    {
+			"path": "pages/branchPlace/branchPlace",
+			"style": {
+        "navigationBarTitleText": "科室分布",
+        "navigationBarBackgroundColor": "#0ec698",
+        "navigationBarTextStyle": "white"
+			}
+    },
+    {
+			"path": "pages/registerRecordDetail/registerRecordDetail",
+			"style": {
+        "navigationBarTitleText": "挂号详情",
+        "navigationBarBackgroundColor": "#0ec698",
+        "navigationBarTextStyle": "white"
+			}
+    },
+    {
+			"path": "pages/hospital/hospital",
+			"style": {
+				"navigationBarTitleText": "医院信息"
+			}
+    },
+    {
+			"path": "pages/payment/payment",
+			"style": {
+        "navigationBarTitleText": "收银台",
+        "navigationBarBackgroundColor": "#0ec698",
+        "navigationBarTextStyle": "#ffffff"
+			}
+    },
+    
+    {
+			"path": "pages/branchDetail/branchDetail",
+			"style": {
+        "navigationBarTitleText": "五疗科",
+        "navigationBarBackgroundColor": "#0ec698",
+        "navigationBarTextStyle": "#ffffff"
+			}
+    },
+    {
+			"path": "pages/branchList/branchList",
+			"style": {
+        "navigationBarTitleText": "科室列表",
+        "navigationBarBackgroundColor": "#0ec698",
+        "navigationBarTextStyle": "#ffffff"
+			}
+    },
+    {
+			"path": "pages/reportDownload/reportDownload",
+			"style": {
+        "navigationBarTitleText": "报告下载",
+        "navigationBarBackgroundColor": "#0ec698",
+        "navigationBarTextStyle": "#ffffff"
+			}
+    },
+    {
+			"path": "pages/hospitalTrendsDetail/hospitalTrendsDetail",
+			"style": {
+        "navigationBarTitleText": "新闻详情",
+        "navigationBarBackgroundColor": "#0ec698",
+        "navigationBarTextStyle": "#ffffff"
+			}
+    },
+    {
+			"path": "pages/hospitalTrends/hospitalTrends",
+			"style": {
+        "navigationBarTitleText": "医院动态",
+        "navigationBarBackgroundColor": "#0ec698",
+        "navigationBarTextStyle": "#ffffff"
+			}
+    },
+    {
+			"path": "pages/awaitPay/awaitPay",
+			"style": {
+        "navigationBarTitleText": "待缴费列表",
+        "navigationBarBackgroundColor": "#0ec698",
+        "navigationBarTextStyle": "#ffffff"
+			}
+    },
+    {
+			"path": "pages/patientAdd/patientAdd",
+			"style": {
+        "navigationBarTitleText": "添加就诊人",
+        "navigationBarBackgroundColor": "#0ec698",
+        "navigationBarTextStyle": "#ffffff"
+			}
+    },
+    {
+			"path": "pages/medicalCardBind/medicalCardBind",
+			"style": {
+        "navigationBarTitleText": "绑定就诊卡",
+        "navigationBarBackgroundColor": "#0ec698",
+        "navigationBarTextStyle": "#ffffff"
+			}
+    },
+    {
+			"path": "pages/medicalCardRegister/medicalCardRegister",
+			"style": {
+        "navigationBarTitleText": "新建就诊卡",
+        "navigationBarBackgroundColor": "#0ec698",
+        "navigationBarTextStyle": "#ffffff"
+			}
+    },
+    {
+			"path": "pages/medicalCardLogin/medicalCardLogin",
+			"style": {
+        "navigationBarTitleText": "新建就诊卡",
+        "navigationBarBackgroundColor": "#0ec698",
+        "navigationBarTextStyle": "#ffffff"
+			}
+    },
+    {
+			"path": "pages/survey/survey",
+			"style": {
+        "navigationBarTitleText": "问卷调查列表",
+        "navigationBarBackgroundColor": "#0ec698",
+        "navigationBarTextStyle": "#ffffff"
+			}
+    },
+    {
+			"path": "pages/registerRecord/registerRecord",
+			"style": {
+        "navigationBarTitleText": "挂号记录",
+        "navigationBarBackgroundColor": "#0ec698",
+        "navigationBarTextStyle": "#ffffff"
+			}
+    },
+    {
+			"path": "pages/myCollect/myCollect",
+			"style": {
+        "navigationBarTitleText": "我的收藏",
+        "navigationBarBackgroundColor": "#0ec698",
+        "navigationBarTextStyle": "#ffffff"
+			}
+		}
+	],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "医疗",
+		"navigationBarBackgroundColor": "#ffffff"
+  },
+  "tabBar": {
+    "color": "#797979",
+    "selectedColor": "#0ec698",
+    "borderStyle": "black",
+    "backgroundColor": "#ffffff",
+    "list": [{
+      "pagePath": "pages/index/index",
+      "iconPath": "static/image/tabbar01.png",
+      "selectedIconPath": "static/image/tabbar01-h.png",
+      "text": "首页"
+    }, {
+      "pagePath": "pages/hospital/hospital",
+      "iconPath": "static/image/tabbar02.png",
+      "selectedIconPath": "static/image/tabbar02-h.png",
+      "text": "医院信息"
+    }, {
+      "pagePath": "pages/my/my",
+      "iconPath": "static/image/tabbar03.png",
+      "selectedIconPath": "static/image/tabbar03-h.png",
+      "text": "个人中心"
+    }]
+  }
+}

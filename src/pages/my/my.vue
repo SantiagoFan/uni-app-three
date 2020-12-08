@@ -1,0 +1,224 @@
+<template>
+  <view class="my-container">
+    <view class="my-main">
+      <view class="my-wrap">
+        <view class="my-wrap__info">
+          <view class="art1">
+            <view class="art1_avatar">
+              <image class="img" mode="aspectFill" src="@/static/image/test_avatar.jpg" />
+            </view>
+            <view class="art1_info">
+              <view class="art1_info__name">姓名</view>
+              <view class="art1_info__count">
+                <view class="text">就诊卡 <text class="num">1</text> 张</view>
+                <view class="jt">
+                  <text class="iconfont icon-arrowb"></text>
+                </view>
+              </view>
+            </view>
+          </view>
+          <view class="art2">
+            <view class="art2_title">
+              <view class="art2_title__name">姓名</view>
+              <view class="art2_title__tag">
+                <view class="art2_title__tag-item">默认卡</view>
+                <view class="art2_title__tag-item">电子就诊卡</view>
+              </view>
+            </view>
+            <view class="art2_subt">院内诊疗号：1000000182574</view>
+          </view>
+        </view>
+        <view class="my-wrap__list">
+          <navigator url="/pages/payRecord/payRecord" class="item">
+            <view class="item__icon">
+              <image class="img" mode="widthFix" src="@/static/image/my_icon1.jpg" />
+            </view>
+            <view class="item__text">挂号记录</view>
+            <view class="item__jt">
+              <text class="iconfont icon-arrowb"></text>
+            </view>
+          </navigator>
+          <navigator url="/pages/payRecord/payRecord" class="item">
+            <view class="item__icon">
+              <image class="img" mode="widthFix" src="@/static/image/my_icon2.jpg" />
+            </view>
+            <view class="item__text">门诊缴费记录</view>
+            <view class="item__jt">
+              <text class="iconfont icon-arrowb"></text>
+            </view>
+          </navigator>
+          <navigator url="/pages/payRecord/payRecord" class="item">
+            <view class="item__icon">
+              <image class="img" mode="widthFix" src="@/static/image/my_icon3.jpg" />
+            </view>
+            <view class="item__text">诊间支付缴费记录</view>
+            <view class="item__jt">
+              <text class="iconfont icon-arrowb"></text>
+            </view>
+          </navigator>
+          <navigator url="/pages/payRecord/payRecord" class="item">
+            <view class="item__icon">
+              <image class="img" mode="widthFix" src="@/static/image/my_icon4.jpg" />
+            </view>
+            <view class="item__text">住院缴费记录</view>
+            <view class="item__jt">
+              <text class="iconfont icon-arrowb"></text>
+            </view>
+          </navigator>
+          <navigator url="/pages/myCollect/myCollect" class="item">
+            <view class="item__icon">
+              <image class="img" mode="widthFix" src="@/static/image/my_icon5.jpg" />
+            </view>
+            <view class="item__text">我的收藏</view>
+            <view class="item__jt">
+              <text class="iconfont icon-arrowb"></text>
+            </view>
+          </navigator>
+        </view>
+      </view>
+    </view>
+  </view>
+</template>
+
+<script>
+  export default {
+    
+  }
+</script>
+
+<style lang="scss" scoped>
+.my-container {
+  min-height: 100vh;
+  background: #fff;
+  border-top: 1rpx solid #f6f6f6;
+  .my-main {
+    .my-wrap {
+      &__info {
+        position: relative;
+        padding: 35rpx 35rpx 40rpx 35rpx;
+        &::after {
+          content: '';
+          position: absolute;
+          width: 680rpx;
+          border-top: 1rpx solid #f6f6f6;
+          bottom: 0;
+          left: 50%;
+          transform: translateX(-50%);
+        }
+        .art1 {
+          display: flex;
+          &_avatar {
+            width: 120rpx;
+            height: 120rpx;
+            border-radius: 20rpx;
+            overflow: hidden;
+            .img {
+              width: 100%;
+              height: 100%;
+              display: block;
+            }
+          }
+          &_info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            margin-left: 20rpx;
+            &__name {
+              color: #333333;
+              font-size: 36rpx;
+              font-weight: bold;
+            }
+            &__count {
+              display: flex;
+              align-items: center;
+              color: #898989;
+              font-size: 26rpx;
+              margin-top: 15rpx;
+              .num {
+                color: #0ec698;
+                margin: 0 10rpx;
+              }
+              .jt {
+                color: #cdcdcd;
+              }
+            }
+          }
+        }
+        .art2 {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          width: 100%;
+          height: 160rpx;
+          color: #fff;
+          font-size: 24rpx;
+          padding: 0 25rpx;
+          margin-top: 40rpx;
+          background: url('@/static/image/my_info_bg.jpg') no-repeat;
+          background-size: 100% 100%;
+          border-radius: 20rpx;
+          &_title {
+            display: flex;
+            align-items: center;
+            &__name {
+              font-size: 36rpx;
+              font-weight: bold;
+              margin-right: 20rpx;
+            }
+            &__tag {
+              display: flex;
+              align-items: center;
+              &-item {
+                line-height: 34rpx;
+                border: 1rpx solid #fff;
+                font-size: 20rpx;
+                margin-right: 20rpx;
+                padding: 0 12rpx;
+                border-radius: 8rpx;
+                &:last-child {
+                  margin-right: 0;
+                }
+              }
+            }
+          }
+          &_subt {
+            margin-top: 15rpx;
+          }
+        }
+      }
+      &__list {
+        margin-top: 30rpx;
+        .item {
+          display: flex;
+          align-items: center;
+          height: 80rpx;
+          padding: 0 35rpx;
+          margin-bottom: 20rpx;
+          &:last-child {
+            margin-bottom: 0;
+          }
+          &__icon {
+            width: 60rpx;
+            margin-right: 35rpx;
+            .img {
+              width: 100%;
+              height: auto;
+              display: block;
+            }
+          }
+          &__text {
+            flex: 1;
+            color: #040404;
+            font-size: 30rpx;
+          }
+          &__jt {
+            color: #797979;
+            font-weight: bold;
+          }
+        }
+      }
+    }
+  }
+}
+</style>
