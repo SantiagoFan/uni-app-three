@@ -153,6 +153,9 @@ export default {
       payDetailShow: false
     }
   },
+  onLoad(options) {
+    console.log('options', options)
+  },
   methods: {
     // 点击缴费详情
     handleBt() {

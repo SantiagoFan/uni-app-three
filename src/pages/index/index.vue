@@ -7,20 +7,25 @@
       <view class="index-wrap">
         <view class="index-wrap__user">
           <view class="index-wrap__user-info">
-            <view class="add_btn" v-if="noAddCard">
-              <view class="add_btn__icon">
-                <text class="iconfont icon-add-fill"></text>
-              </view>
-              <view class="add_btn__text">添加就诊卡</view>
-            </view>
-            <template v-else>
+            <view v-if="noBindCard">
               <view class="title">
                 <view class="name">姓名</view>
                 <view class="tag">电子就诊卡</view>
                 <view class="check">切换</view>
               </view>
               <view class="code">院内诊疗号：1000000182574</view>
-            </template>
+            </view>
+            <navigator
+              url="/pages/medicalCardLogin/medicalCardLogin"
+              hover-class="none"
+              class="add_btn"
+              v-else
+            >
+              <view class="add_btn__icon">
+                <text class="iconfont icon-add-fill"></text>
+              </view>
+              <view class="add_btn__text">添加就诊卡</view>
+            </navigator>
           </view>
           <view class="index-wrap__user-pic">
             <image class="img" mode="widthFix" src="@/static/image/index_rw.png" />
@@ -33,13 +38,13 @@
         </view>
         <u-gap height="20" bg-color="#f6f6f6"></u-gap>
         <view class="index-wrap__art2">
-          <view class="index-wrap__art2-item">
+          <navigator url="/pages/branchList/branchList" hover-class="none" class="index-wrap__art2-item">
             <view class="img-box">
               <image class="img" mode="widthFix" src="@/static/image/index-type1.jpg" />
             </view>
             <view class="title">在线挂号</view>
             <view class="subt">实时查看医生情况</view>
-          </view>
+          </navigator>
           <navigator url="/pages/awaitPay/awaitPay" hover-class="none" class="index-wrap__art2-item">
             <view class="img-box">
               <image class="img" mode="widthFix" src="@/static/image/index-type2.jpg" />
@@ -47,13 +52,13 @@
             <view class="title">门诊缴费</view>
             <view class="subt">快速缴费不排队</view>
           </navigator>
-          <view class="index-wrap__art2-item">
+          <navigator url="/pages/myResidentServe/myResidentServe" hover-class="none" class="index-wrap__art2-item">
             <view class="img-box">
               <image class="img" mode="widthFix" src="@/static/image/index-type3.jpg" />
             </view>
             <view class="title">住院服务</view>
             <view class="subt">省心省力安心养病</view>
-          </view>
+          </navigator>
         </view>
         <u-gap height="20" bg-color="#f6f6f6"></u-gap>
         <view class="index-wrap__art3">
@@ -81,12 +86,18 @@
               </navigator>
             </view>
             <view class="list" v-if="typeIndex === 1">
-              <view class="item" v-for="(item, index) in list2" :key="index">
+              <navigator
+                :url="item.url"
+                hover-class="none"
+                class="item"
+                v-for="(item, index) in list2"
+                :key="index"
+              >
                 <view class="icon">
                   <image class="img" mode="widthFix" :src="item.image" />
                 </view>
                 <view class="text">{{item.title}}</view>
-              </view>
+              </navigator>
             </view>
           </view>
         </view>
@@ -121,7 +132,7 @@ export default {
       },{
         text: '住院'
       }],
-      noAddCard: true,
+      noBindCard: true, // 是否绑定就诊卡 true:是 falseL 否
       list1: indexList.list1,
       list2: indexList.list2,
       visitCodeShow: false // 就诊码
@@ -136,6 +147,10 @@ export default {
     visitCodeShow(status) {
       status ? uni.hideTabBar() : uni.showTabBar()
     }
+  },
+  onShow() {
+    const token = uni.getStorageSync('token')
+    this.noBindCard = token ? true : false
   },
   methods: {
     // 
@@ -275,6 +290,7 @@ export default {
             width: 120rpx;
             .img {
               width: 100%;
+              height: auto;
               display: block;
             }
           }

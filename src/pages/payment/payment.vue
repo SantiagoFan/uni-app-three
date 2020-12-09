@@ -46,7 +46,7 @@
       </view>
     </view>
     <view class="wrap-btn">
-      <view class="wrap-btn__con">微信支付</view>
+      <view class="wrap-btn__con" @click="hanldePay">微信支付</view>
     </view>
   </view>
 </template>
@@ -56,6 +56,11 @@ export default {
   data() {
     return {
       timestamp: 600
+    }
+  },
+  methods: {
+    hanldePay() {
+      console.log('点击支付')
     }
   },
 }

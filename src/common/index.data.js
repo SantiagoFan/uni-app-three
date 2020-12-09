@@ -45,13 +45,15 @@ export default {
     {
       "title": "住院日清单",
       "image": require("@/static/image/indx-sta11.jpg"),
-      "url": "pages/myResidentBill/myResidentBill"
+      "url": "/pages/myResidentBill/myResidentBill"
     }, {
       "title": "住院缴费",
-      "image": require("@/static/image/indx-sta12.jpg")
+      "image": require("@/static/image/indx-sta12.jpg"),
+      "url": "/pages/myResidentBill/myResidentBill"
     }, {
       "title": "住院人信息",
-      "image": require("@/static/image/indx-sta13.jpg")
+      "image": require("@/static/image/indx-sta13.jpg"),
+      "url": "/pages/myResidents/myResidents"
     }
   ]
 }

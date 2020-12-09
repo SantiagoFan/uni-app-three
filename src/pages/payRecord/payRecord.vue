@@ -2,7 +2,7 @@
   <view class="record">
     <view class="record-m">
       <view class="record-m__list">
-        <view class="item">
+        <view class="item" @click="handleItem">
           <view class="icon">
             <text class="iconfont icon-duihao"></text>
           </view>
@@ -12,7 +12,7 @@
               <view class="price">¥10000.00</view>
             </view>
             <view class="subt">
-              <view class="name">姓名</view>
+              <view class="name">贾铭</view>
               <view class="date">2020-07-18  10:30:00</view>
             </view>
           </view>
@@ -24,7 +24,16 @@
 
 <script>
 export default {
-
+  methods: {
+    handleItem() {
+      this.$u.route({
+				url: '/pages/clinicPayDetail/clinicPayDetail',
+				params: {
+					id: 1234
+				}
+			})
+    }
+  },
 }
 </script>
 

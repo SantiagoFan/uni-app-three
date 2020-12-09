@@ -9,12 +9,17 @@
           </view>
           <view class="code">院内诊疗号：1000000182574</view>
         </view>
-        <view class="switch">切换就诊人</view>
+        <view class="switch" @click="show = true">切换就诊人</view>
       </view>
       <view class="wrap__list">
-        <view class="item" v-for="item in 5" :key="item">
+        <view
+          class="item"
+          v-for="(item, index) in list"
+          :key="index"
+          @click="handleChoose(index)"
+        >
           <view class="item-sta">
-            <view class="item-sta__icon active">
+            <view :class="['item-sta__icon', {active: item.checked}]">
               <text class="iconfont icon-duihao2"></text>
             </view>
             <view class="item-sta__con">
@@ -41,15 +46,56 @@
         <text class="price">￥0.00</text>
         <text>{{val}}</text>
       </view>
-      <view class="fot-box__btn active">
+      <navigator url="/pages/payment/payment" class="fot-box__btn active">
         <text class="text">去缴费</text>
-      </view>
+      </navigator>
     </view>
+    <!-- 弹出层 -->
+    <u-popup v-model="show" mode="bottom" :border-radius="20">
+			<view class="check-wrap">
+        <view class="check-wrap__title">切换就诊人</view>
+        <view class="check-wrap__con">
+          <view class="list">
+            <view class="item active">
+              <view class="info">
+                <view class="name">李想</view>
+                <view class="code">就诊卡：100000254151</view>
+              </view>
+              <view class="radio">
+                <text class="iconfont icon-duihao"></text>
+              </view>
+            </view>
+          </view>
+        </view>
+        <view class="check-wrap__btn">
+          <view class="item">添加就诊人</view>
+          <view class="item">管理就诊人</view>
+        </view>
+      </view>
+		</u-popup>
   </view>
 </template>
 
 <script>
-  export default {}
+  export default {
+    data() {
+      return {
+        show: false,  //  切换弹出层
+        list: [{
+          title: '项目名称1',
+          checked: false
+        },{
+          title: '项目名称2',
+          checked: false
+        }]
+      }
+    },
+    methods: {
+      handleChoose(index) {
+        this.list[index].checked = !this.list[index].checked
+      }
+    },
+  }
 </script>
 
 <style lang="scss" scoped>
@@ -111,7 +157,6 @@
           position: absolute;
           top: 25rpx;
           right: 20rpx;
-          height: 42rpx;
           line-height: 42rpx;
           padding: 0 15rpx;
           color: #51d6b5;
@@ -212,6 +257,74 @@
         font-size: 28rpx;
       }
       &.active {
+        background: #0ec698;
+      }
+    }
+  }
+  // 弹出层
+  .check-wrap {
+    &__title {
+      height: 84rpx;
+      line-height: 84rpx;
+      text-align: center;
+      color: #333333;
+      font-size: 32rpx;
+      border-bottom: 1rpx solid #e3e3e3;
+    }
+    &__con {
+      .list {
+        .item {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 20rpx 40rpx;
+          .info {
+            font-size: 28rpx;
+            .name {
+              color: #333333;
+            }
+            .code {
+              color: #999999;
+              margin-top: 10rpx;
+            }
+          }
+          .radio {
+            width: 54rpx;
+            height: 54rpx;
+            line-height: 54rpx;
+            text-align: center;
+            color: #ffffff;
+            border-radius: 50%;
+            border: 1rpx solid;
+            border-color: #e3e3e3;
+            .icon {
+              display: none;
+            }
+          }
+          &.active {
+            .radio {
+              border-color: #0ec698;
+              background: #0ec698;
+              .icon {
+                display: block;
+              }
+            }
+          }
+        }
+      }
+    }
+    &__btn {
+      display: flex;
+      justify-content: space-between;
+      padding: 30rpx 70rpx;
+      .item {
+        width: 275rpx;
+        height: 64rpx;
+        line-height: 64rpx;
+        color: #ffffff;
+        text-align: center;
+        font-size: 28rpx;
+        border-radius: 8rpx;
         background: #0ec698;
       }
     }

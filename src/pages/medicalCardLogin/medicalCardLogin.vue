@@ -3,27 +3,25 @@
     <view class="wrap">
       <view class="wrap__title">请选择就诊人类型</view>
       <view class="wrap__list">
-        <view class="item">
+        <navigator url="/pages/medicalCardRegister/medicalCardRegister" hover-class="none" class="item">
           <view class="text">初次使用，请实名注册</view>
           <view class="jt">
             <text class="iconfont icon-arrowb"></text>
           </view>
-        </view>
-        <view class="item">
+        </navigator>
+        <navigator url="/pages/medicalCardBind/medicalCardBind" hover-class="none" class="item">
           <view class="text">已有就诊卡，请绑定您的就诊信息</view>
           <view class="jt">
             <text class="iconfont icon-arrowb"></text>
           </view>
-        </view>
+        </navigator>
       </view>
     </view>
   </view>
 </template>
 
 <script>
-export default {
-
-}
+export default {}
 </script>
 
 <style lang="scss" scoped>

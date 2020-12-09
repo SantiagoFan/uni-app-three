@@ -2,73 +2,97 @@
   <view class="container">
     <view class="wrap">
       <view class="wrap__massage">温馨提示：<br>本院实行实名制就诊，<br>请如实填写就诊人信息，系统将为您办理新建卡</view>
-      <view class="wrap__con">
-        <view class="wrap__con-art">
-          <view class="wrap__con-art-item">
-            <view class="label">姓名</view>
-            <view class="input-box">
-              <input
-                class="input"
-                type="text"
-                placeholder="请输入姓名"
-                placeholder-class="placr_style"
-              >
+      <form @submit="formSubmit">
+        <view class="wrap__con">
+          <view class="wrap__con-art">
+            <view class="wrap__con-art-item">
+              <view class="label">姓名</view>
+              <view class="input-box">
+                <input
+                  class="input"
+                  type="text"
+                  name="name"
+                  placeholder="请输入姓名"
+                  placeholder-class="placr_style"
+                >
+              </view>
             </view>
-          </view>
-          <view class="wrap__con-art-item">
-            <view class="label">身份证</view>
-            <view class="input-box">
-              <input
-                class="input"
-                type="text"
-                placeholder="请输身份证号"
-                placeholder-class="placr_style"
-              >
+            <view class="wrap__con-art-item">
+              <view class="label">身份证</view>
+              <view class="input-box">
+                <input
+                  class="input"
+                  type="text"
+                  name="card"
+                  placeholder="请输身份证号"
+                  placeholder-class="placr_style"
+                >
+              </view>
             </view>
-          </view>
-          <view class="wrap__con-art-item">
-            <view class="label">手机号码</view>
-            <view class="input-box">
-              <input
-                class="input"
-                type="text"
-                placeholder="请输入姓名"
-                placeholder-class="placr_style"
-              >
+            <view class="wrap__con-art-item">
+              <view class="label">手机号码</view>
+              <view class="input-box">
+                <input
+                  class="input"
+                  type="text"
+                  name="tel"
+                  placeholder="请输入姓名"
+                  placeholder-class="placr_style"
+                >
+              </view>
             </view>
-          </view>
-          <view class="wrap__con-art-item">
-            <view class="label">住址</view>
-            <view class="input-box">
-              <input
-                class="input"
-                type="text"
-                placeholder="请输入住址"
-                placeholder-class="placr_style"
-              >
+            <view class="wrap__con-art-item">
+              <view class="label">住址</view>
+              <view class="input-box">
+                <input
+                  class="input"
+                  type="text"
+                  name="address"
+                  placeholder="请输入住址"
+                  placeholder-class="placr_style"
+                >
+              </view>
             </view>
-          </view>
-          <view class="wrap__con-art-item">
-            <view class="label">民族</view>
-            <view class="input-box">
-              <input
-                class="input"
-                type="text"
-                placeholder="请选择民族"
-                placeholder-class="placr_style"
-              >
+            <view class="wrap__con-art-item">
+              <view class="label">民族</view>
+              <view class="input-box">
+                <input
+                  class="input"
+                  type="text"
+                  name="race"
+                  placeholder="请选择民族"
+                  placeholder-class="placr_style"
+                >
+              </view>
             </view>
           </view>
         </view>
-      </view>
-      <view class="wrap__btn">立即新建</view>
+        <button form-type="submit" class="wrap__btn active">立即新建</button>
+      </form>
     </view>
   </view>
 </template>
 
 <script>
 export default {
-
+  methods: {
+    formSubmit(e) {
+      const { value } = e.detail
+      uni.setStorageSync('token', '666');
+      uni.showToast({
+        title: '新建成功，正在跳转...',
+        icon: 'none',
+        duration: 2000,
+        success() {
+          setTimeout(() => {
+            uni.reLaunch({
+              url: '/pages/index/index'
+            })
+          }, 2000)
+        }
+      })
+    }
+  },
 }
 </script>
 
