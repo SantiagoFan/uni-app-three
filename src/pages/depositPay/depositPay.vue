@@ -148,6 +148,7 @@ export default {
         }
         .input {
           flex: 1;
+          height: 100%;
           padding: 0 30rpx;
           font-size: 24rpx;
         }

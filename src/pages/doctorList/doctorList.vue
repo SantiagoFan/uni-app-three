@@ -3,7 +3,7 @@
     <view class="wrap-main">
       <view class="wrap-massage">五疗科共有<text class="count">3</text>名医生</view>
       <view class="wrap-list">
-        <view class="wrap-item" v-for="item in 3" :key="item">
+        <view class="wrap-item" v-for="item in 3" :key="item" @click="handleClickDetail">
           <view class="wrap-item__avatar">
             <image class="img" mode="aspectFill" src="@/static/image/doctor_avatar.jpg" />
           </view>
@@ -20,7 +20,13 @@
 
 <script>
 export default {
-
+  methods: {
+    handleClickDetail() {
+      uni.navigateTo({
+        url: '/pages/doctorDetail/doctorDetail?tabIndex=1'
+      })
+    }
+  },
 }
 </script>
 

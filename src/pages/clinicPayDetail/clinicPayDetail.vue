@@ -150,7 +150,7 @@ export default {
   data() {
     return {
       codeIndex: 0,
-      payDetailShow: false
+      payDetailShow: true
     }
   },
   onLoad(options) {
@@ -159,7 +159,7 @@ export default {
   methods: {
     // 点击缴费详情
     handleBt() {
-      this.payDetailShow = true
+      // this.payDetailShow = true
     }
   },
 }

@@ -2,8 +2,8 @@
   <view class="record">
     <view class="record-m">
       <view class="record-m__list">
-        <view class="item" @click="handleItem">
-          <view class="icon">
+        <view class="item" v-for="item in 2" :key="item" @click="handleItem">
+          <view class="icon"> 
             <text class="iconfont icon-duihao"></text>
           </view>
           <view class="info">
@@ -24,14 +24,54 @@
 
 <script>
 export default {
+  data() {
+    return {
+      type: ''
+    }
+  },
+  watch: {
+    type() {
+      let title;
+      switch (this.type) {
+        case 0:
+          title = '门诊缴费记录'
+          break;
+        case 1:
+          title = '诊间支付缴费记录'
+          break;
+        case 2:
+          title = '住院缴费记录'
+        default:
+          break;
+      }
+      uni.setNavigationBarTitle({
+        title: title
+      })
+    }
+  },
+  onLoad(options = {}) {
+    // 从我的跳转过来 type: 0、门诊缴费记录 1、诊间支付缴费记录 2、住院缴费记录
+    this.type = Number(options.type)
+  },
   methods: {
     handleItem() {
-      this.$u.route({
-				url: '/pages/clinicPayDetail/clinicPayDetail',
-				params: {
-					id: 1234
-				}
-			})
+      const { type } = this
+      let url
+      switch (type) {
+        case 0:
+          url = '/pages/clinicPayDetail/clinicPayDetail'
+          break;
+        case 1:
+          url = '/pages/payRecordDetail/payRecordDetail'
+          break;
+        case 2:
+          url = '/pages/paymentDetail/paymentDetail'
+          break;
+        default:
+          url = '/pages/clinicPayDetail/clinicPayDetail'
+          break;
+      }
+      uni.navigateTo({url})
     }
   },
 }
@@ -46,6 +86,7 @@ export default {
         display: flex;
         align-items: center;
         padding: 25rpx;
+        margin-bottom: 20rpx;
         background: #ffffff;
         border-radius: 10rpx;
         .icon {
@@ -80,6 +121,9 @@ export default {
             font-size: 26rpx;
             margin-top: 20rpx;
           }
+        }
+        &:last-child {
+          margin-bottom: 0;
         }
       }
     }

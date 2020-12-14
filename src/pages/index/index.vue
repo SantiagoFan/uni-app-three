@@ -11,7 +11,7 @@
               <view class="title">
                 <view class="name">{{name}}</view>
                 <view class="tag">电子就诊卡</view>
-                <view class="check">切换</view>
+                <navigator url="/pages/patientAdd/patientAdd" class="check">切换</navigator>
               </view>
               <view class="code">院内诊疗号：1000000182574</view>
             </view>
@@ -193,7 +193,6 @@ export default {
         background: #ffffff url('@/static/image/box_bg.png') no-repeat 18rpx 18rpx;
         background-size: 250rpx;
         &-info {
-          flex: 1;
           color: #0ec698;
           font-size: 24rpx;
           .add_btn {

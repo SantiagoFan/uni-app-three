@@ -2,7 +2,7 @@
   <view class="register-r">
     <view class="register-r-main">
       <view class="register-r-main__list">
-        <view class="item">
+        <view class="item" @click="hanldeClickDetail(0)">
           <view class="icon active">
             <text class="iconfont icon-duihao"></text>
           </view>
@@ -21,7 +21,7 @@
             </view>
           </view>
         </view>
-        <view class="item">
+        <view class="item" @click="hanldeClickDetail(1)">
           <view class="icon">
             <text class="iconfont icon-jianhao"></text>
           </view>
@@ -40,7 +40,7 @@
             </view>
           </view>
         </view>
-        <view class="item">
+        <view class="item" @click="hanldeClickDetail(2)">
           <view class="icon">
             <text class="iconfont icon-dasuozi"></text>
           </view>
@@ -66,7 +66,14 @@
 
 <script>
 export default {
-
+  methods: {
+    hanldeClickDetail (type, id=1) {
+      // 0：预约挂号 1：取消挂号 2：锁号成功
+      uni.navigateTo({
+        url: `/pages/registerRecordDetail/registerRecordDetail?type=${type}&id=${id}`
+      })
+    }
+  },
 }
 </script>
 

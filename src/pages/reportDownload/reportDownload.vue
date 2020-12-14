@@ -68,9 +68,9 @@
           </view>
         </view>
       </view>
-      <view class="report-wrap__btn">
+      <!-- <view class="report-wrap__btn">
         <view class="report-wrap__btn-box">下载报告</view>
-      </view>
+      </view> -->
     </view>
   </view>
 </template>

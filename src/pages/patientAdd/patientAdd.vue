@@ -2,7 +2,7 @@
   <view class="patient">
     <view class="patient-m">
       <view class="patient-m__list">
-        <view class="item" v-for="item in 2" :key="item">
+        <navigator url="/pages/patientDetail/patientDetail" class="item" v-for="item in 2" :key="item">
           <view class="info">
             <view class="title">
               <view class="name">姓名</view>
@@ -10,10 +10,10 @@
             </view>
             <view class="code">院内诊疗号：1000000182574</view>
           </view>
-          <view class="jt">
+          <view class="arrow">
             <text class="iconfont icon-arrowb"></text>
           </view>
-        </view>
+        </navigator>
       </view>
       <view class="patient-m__add">
         <view class="patient-m__add-icon">
@@ -81,9 +81,11 @@ export default {
             margin-top: 20rpx;
           }
         }
-        .jt {
+        .arrow {
           color: #cbcbcb;
-          font-weight: bold;
+          .iconfont {
+            font-size: 35rpx;
+          }
         }
       }
     }
@@ -118,7 +120,9 @@ export default {
       }
       &-jt {
         color: #cbcbcb;
-        font-weight: bold;
+        .iconfont {
+          font-size: 35rpx;
+        }
       }
     }
   }

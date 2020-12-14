@@ -12,11 +12,10 @@
       </view>
     </view>
     <view class="wrap__tab">
-      <view class="wrap__tab-item active">
+      <view :class="['wrap__tab-item', { active: tabIndex === 0 }]" @click="handleTabItem(0)">
         <view class="text">候诊排队</view>
       </view>
-      <view class="xian"></view>
-      <view class="wrap__tab-item">
+      <view :class="['wrap__tab-item', { active: tabIndex === 1 }]" @click="handleTabItem(1)">
         <view class="text">检查排队</view>
       </view>
     </view>
@@ -44,7 +43,18 @@
 </template>
 
 <script>
-  export default {}
+  export default {
+    data() {
+      return {
+        tabIndex: 0
+      }
+    },
+    methods: {
+      handleTabItem(index) {
+        this.tabIndex = index
+      }
+    },
+  }
 </script>
 
 <style lang="scss" scoped>
@@ -97,18 +107,24 @@
     display: flex;
     align-items: center;
     background: #ffffff;
-    .xian {
-      width: 2rpx;
-      height: 42rpx;
-      background: #f6f6f6;
-    }
     &-item {
+      position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
       flex: 1;
       color: #333333;
       font-size: 28rpx;
+      &::after {
+        position: absolute;
+        top: 50%;
+        right: 0;
+        transform: translateY(-50%);
+        width: 2rpx;
+        height: 42rpx;
+        background: #f6f6f6;
+        content: '';
+      }
       .text {
         position: relative;
         height: 100%;

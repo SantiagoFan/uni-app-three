@@ -45,7 +45,7 @@
     {
 			"path": "pages/payRecordDetail/payRecordDetail",
 			"style": {
-        "navigationBarTitleText": "缴费详情",
+        "navigationBarTitleText": "诊间支付缴费详情",
         "navigationBarBackgroundColor": "#0ec698",
         "navigationBarTextStyle": "#ffffff"
 			}

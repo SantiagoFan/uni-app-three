@@ -2,7 +2,7 @@
   <view class="patient">
     <view class="patient-m">
       <view class="patient-m__list">
-        <view class="item" v-for="item in 1" :key="item">
+        <view class="item" v-for="item in 1" :key="item" @click="handleClickDetail">
           <view class="info">
             <view class="title">
               <view class="name">贾铭</view>
@@ -33,7 +33,13 @@
 
 <script>
 export default {
-
+  methods: {
+    handleClickDetail() {
+      uni.navigateTo({
+        url: '/pages/myResidentDetail/myResidentDetail'
+      })
+    }
+  },
 }
 </script>
 

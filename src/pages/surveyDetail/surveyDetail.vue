@@ -10,49 +10,53 @@
         <view class="subt">发布单位：内蒙古呼和浩特市蒙医中医医院</view>
       </view>
     </view>
-    <view class="wrap-con">
-      <view class="wrap-con__item">
-        <view class="label">来医院的目的</view>
-        <!-- 选择 -->
-        <view class="radio-list" v-if="status == 0">
-          <u-radio-group v-model="value" :wrap="true" :size="35" :icon-size="24">
-            <u-radio
-              class="radio"
-              v-for="(item, index) in list" :key="index" 
-              :name="item.name"
-              active-color="#0ec698"
-            >
-              {{item.name}}
-            </u-radio>
-          </u-radio-group>
+    <form @submit="formSubmit">
+      <view class="wrap-con">
+        <view class="wrap-con__item">
+          <view class="label">来医院的目的</view>
+          <!-- 选择 -->
+          <view class="radio-list" v-if="status == 0">
+            <u-radio-group v-model="value" :wrap="true" :size="35" :icon-size="24">
+              <u-radio class="radio" name="q1" active-color="#0ec698">就诊</u-radio>
+              <u-radio class="radio" name="q2" active-color="#0ec698">陪护</u-radio>
+              <u-radio class="radio" name="q3" active-color="#0ec698">公务</u-radio>
+            </u-radio-group>
+          </view>
         </view>
-        <!-- 填空 -->
-        <view class="textarea" v-if="status == 1">
-          <u-input type="textarea" :height="60" placeholder="请在此输入（最多20字）" />
+        <view class="wrap-con__item">
+          <view class="label">近期发热情况</view>
+          <!-- 选择 -->
+          <view class="radio-list" v-if="status == 0">
+            <u-radio-group v-model="value1" :wrap="true" :size="35" :icon-size="24">
+              <u-radio class="radio" name="w1" active-color="#0ec698">有</u-radio>
+              <u-radio class="radio" name="w2" active-color="#0ec698">无</u-radio>
+            </u-radio-group>
+          </view>
+        </view>
+        <view class="wrap-con__item">
+          <view class="label">性别</view>
+          <!-- 填空 -->
+          <view class="textarea">
+            <u-input type="textarea" :height="60" placeholder="请在此输入（最多20字）" />
+          </view>
+        </view>
+        <view class="wrap-con__item">
+          <view class="label">年龄</view>
+          <!-- 填空 -->
+          <view class="textarea">
+            <u-input type="textarea" :height="60" placeholder="请在此输入（最多20字）" />
+          </view>
+        </view>
+        <view class="wrap-con__item">
+          <view class="label">联系电话</view>
+          <!-- 填空 -->
+          <view class="textarea">
+            <u-input type="textarea" :height="60" placeholder="请在此输入（最多20字）" />
+          </view>
         </view>
       </view>
-      <view class="wrap-con__item">
-        <view class="label">来医院的目的</view>
-        <!-- 选择 -->
-        <view class="radio-list" v-if="false">
-          <u-radio-group v-model="value" :wrap="true" :size="35" :icon-size="24">
-            <u-radio
-              class="radio"
-              v-for="(item, index) in list" :key="index" 
-              :name="item.name"
-              active-color="#0ec698"
-            >
-              {{item.name}}
-            </u-radio>
-          </u-radio-group>
-        </view>
-        <!-- 填空 -->
-        <view class="textarea">
-          <u-input type="textarea" :height="60" placeholder="请在此输入（最多20字）" />
-        </view>
-      </view>
-    </view>
-    <view class="wrap-btn">提交</view>
+      <button class="wrap-btn" form-type="submit">提交</button>
+    </form>
   </view>
 </template>
 
@@ -60,24 +64,24 @@
 export default {
 	data() {
 		return {
-			list: [
-				{
-					name: '就诊',
-					disabled: false
-				},
-				{
-					name: '陪护',
-					disabled: false
-				},
-				{
-					name: '公务',
-					disabled: false
-				}
-			],
       value: 'orange',
+      value1: '',
       status: 0  // 0:单选 1： 填空
-		};
-	}
+		}
+  },
+  methods: {
+    formSubmit(e) {
+      uni.showToast({
+        title: '提交成功',
+        duration: 2000,
+        success() {
+          setTimeout(() => {
+            uni.navigateBack({delta: 1})
+          }, 2000);
+        }
+      });
+    }
+  },
 };
 </script>
 

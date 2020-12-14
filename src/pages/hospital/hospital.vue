@@ -29,13 +29,13 @@
         <view class="hospital-m__wrap-sta">
           <view class="bt">功能清单</view>
           <view class="menu">
-            <navigator url="/pages/branchList/branchList" hover-class="none" class="menu-item">
+            <navigator url="/pages/branchList/branchList?type=0" hover-class="none" class="menu-item">
               <view class="icon">
                 <image class="img" mode="widthFix" src="@/static/image/hos_icon1.jpg" />
               </view>
               <view class="text">科室介绍</view>
             </navigator>
-            <navigator url="/pages/branchList/branchList" hover-class="none" class="menu-item">
+            <navigator url="/pages/branchList/branchList?type=1" hover-class="none" class="menu-item">
               <view class="icon">
                 <image class="img" mode="widthFix" src="@/static/image/hos_icon2.jpg" />
               </view>

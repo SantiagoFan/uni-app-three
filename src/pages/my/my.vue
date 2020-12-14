@@ -9,15 +9,15 @@
             </view>
             <view class="art1_info">
               <view class="art1_info__name">姓名</view>
-              <view class="art1_info__count">
+              <navigator url="/pages/patientAdd/patientAdd" hover-class="none" class="art1_info__count">
                 <view class="text">就诊卡 <text class="num">1</text> 张</view>
                 <view class="jt">
                   <text class="iconfont icon-arrowb"></text>
                 </view>
-              </view>
+              </navigator>
             </view>
           </view>
-          <view class="art2">
+          <navigator url="/pages/patientDetail/patientDetail" hover-class="none" class="art2">
             <view class="art2_title">
               <view class="art2_title__name">姓名</view>
               <view class="art2_title__tag">
@@ -26,10 +26,10 @@
               </view>
             </view>
             <view class="art2_subt">院内诊疗号：1000000182574</view>
-          </view>
+          </navigator>
         </view>
         <view class="my-wrap__list">
-          <navigator url="/pages/payRecord/payRecord" class="item">
+          <navigator url="/pages/registerRecord/registerRecord" class="item">
             <view class="item__icon">
               <image class="img" mode="widthFix" src="@/static/image/my_icon1.jpg" />
             </view>
@@ -38,7 +38,7 @@
               <text class="iconfont icon-arrowb"></text>
             </view>
           </navigator>
-          <navigator url="/pages/payRecord/payRecord" class="item">
+          <navigator url="/pages/payRecord/payRecord?type=0" class="item">
             <view class="item__icon">
               <image class="img" mode="widthFix" src="@/static/image/my_icon2.jpg" />
             </view>
@@ -47,7 +47,7 @@
               <text class="iconfont icon-arrowb"></text>
             </view>
           </navigator>
-          <navigator url="/pages/payRecord/payRecord" class="item">
+          <navigator url="/pages/payRecord/payRecord?type=1" class="item">
             <view class="item__icon">
               <image class="img" mode="widthFix" src="@/static/image/my_icon3.jpg" />
             </view>
@@ -56,7 +56,7 @@
               <text class="iconfont icon-arrowb"></text>
             </view>
           </navigator>
-          <navigator url="/pages/payRecord/payRecord" class="item">
+          <navigator url="/pages/payRecord/payRecord?type=2" class="item">
             <view class="item__icon">
               <image class="img" mode="widthFix" src="@/static/image/my_icon4.jpg" />
             </view>
@@ -119,7 +119,6 @@
             }
           }
           &_info {
-            flex: 1;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -149,7 +148,6 @@
           display: flex;
           flex-direction: column;
           justify-content: center;
-          width: 100%;
           height: 160rpx;
           color: #fff;
           font-size: 24rpx;

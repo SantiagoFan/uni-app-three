@@ -37,12 +37,17 @@
                   </navigator>
                 </view>
                 <template v-else>
-                  <navigator url="/pages/branchDetail/branchDetail" class="thumb-box" v-for="(item1, index1) in item.foods" :key="index1">
+                  <view
+                    class="thumb-box"
+                    v-for="(item1, index1) in item.foods"
+                    :key="index1"
+                    @click="handleClickDetail"
+                  >
                     <view class="item-menu-name">{{item1.name}}</view>
                     <view class="arrow">
                       <text class="iconfont icon-arrowb"></text>
                     </view>
-                  </navigator>
+                  </view>
                 </template>
 							</view>
 						</view>
@@ -65,15 +70,28 @@
 				menuHeight: 0, // 左边菜单的高度
 				menuItemHeight: 0, // 左边菜单item的高度
         show: false,
-        val: ''
+        val: '',
+        type: '' // 0、科室信息 1、医生介绍
 			}
-		},
-		computed: {
-			
-		},
+    },
+    onLoad(options={}) {
+      // type : 0、科室信息 1、医生介绍
+      const { type } = options
+      console.log('options', options)
+      this.type = type
+    },
 		methods: {
       focusPrice() {
         console.log('11')
+      },
+      // 点击详情
+      handleClickDetail() {
+        let url = this.type == 0 ?
+        '/pages/branchInfo/branchInfo' :
+        '/pages/doctorList/doctorList'
+
+        uni.navigateTo({url})
+
       },
       change(e) {
         let inputVal = this.val

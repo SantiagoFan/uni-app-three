@@ -26,11 +26,11 @@
     <view class="wrap__con">
       <u-sticky>
         <view class="wrap__con-tab">
-          <view :class="['item', {active: curr === 0}]" @click="handleSwitchItem(0)">挂号</view>
-          <view :class="['item', {active: curr === 1}]" @click="handleSwitchItem(1)">介绍</view>
+          <view :class="['item', {active: tabIndex == 0}]" @click="handleSwitchItem(0)">挂号</view>
+          <view :class="['item', {active: tabIndex == 1}]" @click="handleSwitchItem(1)">介绍</view>
         </view>
       </u-sticky>
-      <view class="register" v-show="curr === 0">
+      <view class="register" v-show="tabIndex == 0">
         <view class="register-list">
           <view class="register-list__cell">
             <view class="title">
@@ -56,7 +56,7 @@
           </view>
         </view>
       </view>
-      <view class="wrap__con-intr"  v-show="curr === 1">
+      <view class="wrap__con-intr"  v-show="tabIndex == 1">
         科室：国家重点专科蒙医针灸五疗科<br>
         专业职称：主任医师(享受国务院特殊津贴、国家二级教授、硕导)<br>
         科主任介绍：<br>
@@ -117,14 +117,19 @@
 export default {
   data() {
     return {
-      curr: 0,
+      tabIndex: 0,
       orderPopupStatus: false
+    }
+  },
+  onLoad(options = {}) {
+    if(options) {
+      this.tabIndex = options.tabIndex
     }
   },
   methods: {
     // 修改tab 索引
     handleSwitchItem(index) {
-      this.curr = index
+      this.tabIndex = index
     }
   }
 }

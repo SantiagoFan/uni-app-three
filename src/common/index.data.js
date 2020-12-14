@@ -13,7 +13,7 @@ export default {
     }, {
       "title": "报告查询",
       "image": require("@/static/image/indx-sta3.jpg"),
-      "url": "/pages/myLineUp/myLineUp",
+      "url": "/pages/checkReport/checkReport",
       "openType": "navigate"
     }, {
       "title": "调查问卷",
@@ -61,7 +61,7 @@ export default {
     }, {
       "title": "住院缴费",
       "image": require("@/static/image/indx-sta12.jpg"),
-      "url": "/pages/myResidentBill/myResidentBill",
+      "url": "/pages/awaitPayPatient/awaitPayPatient",
       "openType": "navigate"
     }, {
       "title": "住院人信息",

@@ -33,7 +33,7 @@
           </view>
         </view>
       </view>
-      <navigator url="/pages/myResidentBill/myResidentBill" class="wrap-info__bill">
+      <navigator url="/pages/myResidentBill/myResidentBill" hover-class="none" class="wrap-info__bill">
         <view class="wrap-info__bill-text">住院费用日清单</view>
         <view class="wrap-info__bill-arrow">
           <text class="iconfont icon-arrowb"></text>

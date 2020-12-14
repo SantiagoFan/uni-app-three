@@ -1,13 +1,19 @@
 <template>
   <view class="wrap" id="wrap">
-    <view class="wrap-status">
+    <view :class="['wrap-status', { 'wrap-status__bg': type == 1}]">
       <view class="wrap-status__info">
         <view class="icon">
           <!-- icon icon-dasuozi：锁号 icon-duihao：预约挂号成功 icon-jianhao：icon-jianhao -->
-          <view class="iconfont icon-jianhao"></view>
+          <view v-if="type == 0" class="iconfont icon-duihao"></view>
+          <view v-if="type == 1" class="iconfont icon-jianhao"></view>
+          <view v-if="type == 2" class="iconfont icon-dasuozi"></view>
         </view>
-        <view class="text">锁号成功</view>
-        <view class="time">13:49</view>
+        <view class="title">预约挂号成功</view>
+        <view v-if="type == 1" class="tag">有退款</view>
+        <!-- 锁号成功显示 -->
+        <view class="time" v-if="type == 2">
+          <u-count-down :timestamp="timestamp" :show-days="false" :show-hours="false"></u-count-down>
+        </view>
       </view>
       <view class="wrap-status__msg">请在锁号的时间内完成支付，负责将取消号源。</view>
     </view>
@@ -27,7 +33,7 @@
         </view>
       </view>
     </view>
-    <view class="refund-line">
+    <view class="refund-line" v-if="type == 1">
       <view class="refund-line__text">退款进度</view>
       <view class="refund-line__list">
         <view class="item active">
@@ -82,7 +88,7 @@
           </view>
         </view>
       </view>
-      <view class="wrap-info__box">
+      <view class="wrap-info__box" v-if="type == 0 || type == 1">
         <view :class="['bt', {'bt-show': payDetailShow}]" @click="handleBt">
           <view class="bt-text">缴费详情</view>
           <view class="bt-arrow">
@@ -129,13 +135,30 @@ export default {
   data() {
     return {
       codeIndex: 0,
-      payDetailShow: false
+      payDetailShow: true,
+      type: 0,
+      timestamp: 86400 // 锁号时间
+    }
+  },
+  onLoad(options) {
+    const { type, id } = options
+    this.type = type
+    console.log('id', id)
+  },
+  watch: {
+    type() {
+      if (this.type == 1) {
+        uni.setNavigationBarColor({
+          frontColor: '#ffffff',
+          backgroundColor: '#979797'
+        })
+      }
     }
   },
   methods: {
     // 点击缴费详情
     handleBt() {
-      this.payDetailShow = true
+      this.payDetailShow = !this.payDetailShow
     }
   },
 }
@@ -160,8 +183,15 @@ export default {
         background: #ffffff;
         border-radius: 50%;
       }
-      .text {
+      .title {
         font-size: 34rpx;
+      }
+      .tag {
+        line-height: 40rpx;
+        font-size: 26rpx;
+        padding: 0 10rpx;
+        margin-left: 20rpx;
+        border: 1rpx solid #ffffff;
       }
       .time {
         margin-left: auto;
@@ -171,6 +201,12 @@ export default {
     &__msg {
       font-size: 26rpx;
       margin-top: 30rpx;
+    }
+    &__bg {
+      background: #979797;
+      .icon {
+        color: #979797;
+      }
     }
   }
   &-code {

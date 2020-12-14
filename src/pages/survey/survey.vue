@@ -2,20 +2,13 @@
   <view class="survey">
     <view class="survey-m">
       <view class="survey-m__list">
-        <view class="item">
+        <navigator url="/pages/surveyDetail/surveyDetail" class="item" v-for="item in 2" :key="item">
           <view class="title">流行病学调查登记表</view>
           <view class="date">2020-07-18  10:30:34</view>
           <view class="status">
             <image class="img" mode="widthFix" src="@/static/image/tian_status1.png" />
           </view>
-        </view>
-        <view class="item">
-          <view class="title">流行病学调查登记表</view>
-          <view class="date">2020-07-18  10:30:34</view>
-          <view class="status">
-            <image class="img" mode="widthFix" src="@/static/image/tian_status2.png" />
-          </view>
-        </view>
+        </navigator>
       </view>
     </view>
   </view>
@@ -45,7 +38,6 @@ export default {
         .title {
           color: #333333;
           font-size: 34rpx;
-          font-weight: bold;
           @include textOverflow(1);
         }
         .date {

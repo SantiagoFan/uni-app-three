@@ -12,7 +12,7 @@
       </view>
     </view>
     <view class="wrap-list">
-      <view class="item" v-for="item in 2" :key="item">
+      <view class="item" v-for="item in 2" :key="item" @click="handleClickDetail">
         <view class="title">血常规</view>
         <view class="date">2020-07-04  14:44:14</view>
         <view class="status">
@@ -25,7 +25,13 @@
 
 <script>
 export default {
-
+  methods: {
+    handleClickDetail() {
+      uni.navigateTo({
+        url: '/pages/reportDownload/reportDownload'
+      })
+    }
+  },
 }
 </script>
 
