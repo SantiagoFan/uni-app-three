@@ -41,10 +41,10 @@
               </view>
             </view>
             <view class="list">
-              <navigator url="/pages/awaitPay/awaitPay" class="item item-active">
+              <view class="item item-active">
                 <view class="date">08:00:00~09:00:00</view>
                 <view class="price">已无号</view>
-              </navigator>
+              </view>
               <view class="item" v-for="item in 4" :key="item" @click="orderPopupStatus = true">
                 <view class="date">08:00:00~09:00:00</view>
                 <view class="price">¥15.00</view>

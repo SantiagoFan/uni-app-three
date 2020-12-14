@@ -9,7 +9,7 @@
           <view class="index-wrap__user-info">
             <view v-if="noBindCard">
               <view class="title">
-                <view class="name">姓名</view>
+                <view class="name">{{name}}</view>
                 <view class="tag">电子就诊卡</view>
                 <view class="check">切换</view>
               </view>
@@ -73,10 +73,11 @@
           <view class="index-wrap__art3-con">
             <view class="list" v-if="typeIndex === 0">
               <navigator
-                :url="item.url"
                 class="item"
                 v-for="(item, index) in list1"
                 :key="index"
+                :url="item.url"
+                :open-type="item.openType"
                 hover-class="none"
               >
                 <view class="icon">
@@ -127,6 +128,7 @@ export default {
   data() {
     return {
       typeIndex: 0,
+      name: '',
       typeList: [{
         text: '门诊'
       },{
@@ -138,11 +140,6 @@ export default {
       visitCodeShow: false // 就诊码
     }
   },
-  computed: {
-    name() {
-      return this.text 
-    }
-  },
   watch: {
     visitCodeShow(status) {
       status ? uni.hideTabBar() : uni.showTabBar()
@@ -150,10 +147,10 @@ export default {
   },
   onShow() {
     const token = uni.getStorageSync('token')
+    this.name = token
     this.noBindCard = token ? true : false
   },
   methods: {
-    // 
     handleTypeItem(index) {
       this.typeIndex = index
     },
@@ -166,6 +163,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/scss/mixin.scss';
 .index-container {
   .index-main {
     .top_pic {
@@ -221,8 +219,11 @@ export default {
             align-items: center;
             margin-bottom: 20rpx;
             .name {
+              max-width: 110rpx;
               font-size: 36rpx;
               font-weight: bold;
+              word-wrap:break-word;
+              @include textOverflow(1);
             }
             .tag {
               height: 32rpx;

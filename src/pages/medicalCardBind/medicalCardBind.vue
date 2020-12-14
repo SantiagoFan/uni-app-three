@@ -68,7 +68,7 @@ export default {
   methods: {
     formSubmit(e) {
       const { value } = e.detail
-      uni.setStorageSync('token', '666');
+      uni.setStorageSync('token', value.name)
       uni.showToast({
         title: '绑定成功，正在跳转...',
         icon: 'none',

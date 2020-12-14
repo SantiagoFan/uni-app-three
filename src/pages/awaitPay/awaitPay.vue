@@ -135,7 +135,6 @@
             color: #333333;
             font-size: 36rpx;
             margin-right: 15rpx;
-            font-weight: bold;
           }
           .tag {
             height: 32rpx;

@@ -14,7 +14,9 @@
 
 <script>
 export default {
-
+  onLoad(options) {
+    console.log('options', options)
+  }
 }
 </script>
 

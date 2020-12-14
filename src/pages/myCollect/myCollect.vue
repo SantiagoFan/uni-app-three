@@ -2,7 +2,7 @@
   <view class="collect">
     <view class="collect-main">
       <view class="collect-list">
-        <view class="collect-item" v-for="item in 3" :key="item">
+        <navigator url="/pages/doctorDetail/doctorDetail" class="collect-item" v-for="item in 3" :key="item">
           <view class="collect-item__avatar">
             <image class="img" mode="aspectFill" src="@/static/image/test_avatar.jpg" />
           </view>
@@ -11,7 +11,7 @@
             <view class="title">职称：主任医师</view>
             <view class="post">职务：党总支书记</view>
           </view>
-        </view>
+        </navigator>
       </view>
     </view>
   </view>

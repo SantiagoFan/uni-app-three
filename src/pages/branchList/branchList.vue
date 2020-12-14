@@ -2,10 +2,10 @@
 	<view class="u-wrap">
     <u-top-tips ref="uTips"></u-top-tips>
 		<view class="u-search-box">
-			<view class="u-search-inner">
+			<navigator url="/pages/branchSearch/branchSearch" class="u-search-inner">
 				<u-icon name="search" color="#909399" :size="28"></u-icon>
 				<text class="u-search-text">搜索科室、医生</text>
-			</view>
+			</navigator>
 		</view>
 		<view class="u-menu-wrap">
 			<scroll-view scroll-y scroll-with-animation class="u-tab-view menu-scroll-view" :scroll-top="scrollTop">
@@ -23,7 +23,7 @@
 						<view class="class-item">
 							<view class="item-container">
                 <view class="doctor-s" v-if="current === 0 || current === 1">
-                  <view class="doctor-wrap" v-for="item in 2" :key="item">
+                  <navigator url="/pages/doctorDetail/doctorDetail" class="doctor-wrap" v-for="item in 2" :key="item">
                     <view class="doctor-wrap__avatar">
                       <image class="img" mode="aspectFill" src="@/static/image/doctor_avatar.jpg" />
                     </view>
@@ -34,15 +34,15 @@
                     <view class="doctor-wrap__arrow">
                       <text class="iconfont icon-arrowb"></text>
                     </view>
-                  </view>
+                  </navigator>
                 </view>
                 <template v-else>
-                  <view class="thumb-box" v-for="(item1, index1) in item.foods" :key="index1">
+                  <navigator url="/pages/branchDetail/branchDetail" class="thumb-box" v-for="(item1, index1) in item.foods" :key="index1">
                     <view class="item-menu-name">{{item1.name}}</view>
                     <view class="arrow">
                       <text class="iconfont icon-arrowb"></text>
                     </view>
-                  </view>
+                  </navigator>
                 </template>
 							</view>
 						</view>

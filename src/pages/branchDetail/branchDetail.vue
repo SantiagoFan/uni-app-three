@@ -9,7 +9,7 @@
     </view>
     <view class="wrap_con">
       <view class="wrap_con__list">
-        <view class="cell" v-for="item in 3" :key="item">
+        <navigator url="/pages/doctorDetail/doctorDetail" class="cell" v-for="item in 3" :key="item">
           <view class="cell__avatar">
             <image class="img" mode="aspectFill" src="@/static/image/doctor_avatar.jpg" />
           </view>
@@ -21,7 +21,7 @@
             <view class="post">职称：主任医师</view>
             <view class="content">以蒙医针灸五疗治疗疾病见长，并把针以蒙医针灸五疗治疗疾病见长，并把针以蒙医针灸五疗治疗疾病见长，并把针以蒙医针灸五疗治疗疾病见长，并把针</view>
           </view>
-        </view>
+        </navigator>
       </view>
     </view>
     <!-- 日历 -->
