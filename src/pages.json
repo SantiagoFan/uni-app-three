@@ -302,13 +302,6 @@
         "navigationBarBackgroundColor": "#0ec698",
         "navigationBarTextStyle": "#ffffff"
 			}
-    },
-    {
-			"path": "pages/test/test",
-			"style": {
-        "navigationBarTitleText": "首页",
-        "backgroundColor": "#000000"
-			}
     }
 	],
 	"globalStyle": {

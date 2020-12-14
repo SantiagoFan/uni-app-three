@@ -15,7 +15,7 @@
           </view>
         </navigator>
       </view>
-      <view class="patient-m__add">
+      <view class="patient-m__add" @click="handleClickAdd">
         <view class="patient-m__add-icon">
           <text class="iconfont icon-jiahao"></text>
         </view>
@@ -33,7 +33,13 @@
 
 <script>
 export default {
-
+  methods: {
+    handleClickAdd() {
+      uni.navigateTo({
+        url: '/pages/medicalCardLogin/medicalCardLogin'
+      })
+    }
+  },
 }
 </script>
 

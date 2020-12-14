@@ -8,7 +8,7 @@
           </view>
           <view class="code">院内诊疗号：1000000182574</view>
         </view>
-        <view class="switch">切换就诊人</view>
+        <view class="switch" @click="handleCheck">切换就诊人</view>
       </view>
     </view>
     <view class="wrap__tab">
@@ -39,22 +39,32 @@
         </view>
       </view>
     </view>
+    <!-- 弹出层 -->
+    <check-popup ref="popup" />
   </view>
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
-        tabIndex: 0
-      }
+import CheckPopup from '@/components/common/CheckPopup'
+export default {
+  data() {
+    return {
+      tabIndex: 0
+    }
+  },
+  methods: {
+    handleTabItem(index) {
+      this.tabIndex = index
     },
-    methods: {
-      handleTabItem(index) {
-        this.tabIndex = index
-      }
-    },
+    // 切换就诊人
+    handleCheck() {
+      this.$refs.popup.handleChoose()
+    }
+  },
+  components: {
+    CheckPopup
   }
+}
 </script>
 
 <style lang="scss" scoped>

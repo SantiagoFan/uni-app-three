@@ -38,7 +38,7 @@ export default {
     }, {
       "title": "报告下载",
       "image": require("@/static/image/indx-sta8.jpg"),
-      "url": "/pages/reportDownload/reportDownload",
+      "url": "/pages/checkReport/checkReport",
       "openType": "navigate"
     }, {
       "title": "健康指导",

@@ -8,7 +8,7 @@
           </view>
           <view class="code">就诊卡：0000514984444</view>
         </view>
-        <view class="switch">切换就诊人</view>
+        <view class="switch" @click="handleCheck">切换就诊人</view>
       </view>
     </view>
     <view class="wrap-list">
@@ -20,18 +20,28 @@
         </view>
       </view>
     </view>
+    <!-- 弹出层 -->
+    <check-popup ref="popup" />
   </view>
 </template>
 
 <script>
+import CheckPopup from '@/components/common/CheckPopup'
 export default {
   methods: {
     handleClickDetail() {
       uni.navigateTo({
         url: '/pages/reportDownload/reportDownload'
       })
+    },
+    // 切换就诊人
+    handleCheck() {
+      this.$refs.popup.handleChoose()
     }
   },
+  components: {
+    CheckPopup
+  }
 }
 </script>
 
