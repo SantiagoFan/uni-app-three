@@ -12,7 +12,15 @@
         <view v-if="type == 1" class="tag">有退款</view>
         <!-- 锁号成功显示 -->
         <view class="time" v-if="type == 2">
-          <u-count-down :timestamp="timestamp" :show-days="false" :show-hours="false"></u-count-down>
+          <u-count-down
+            :timestamp="timestamp"
+            :show-days="false"
+            :show-hours="false"
+            bg-color="transparent"
+            color="#ffffff"
+            separator-color="#ffffff"
+            :font-size="40"
+          />
         </view>
       </view>
       <view class="wrap-status__msg">请在锁号的时间内完成支付，负责将取消号源。</view>
