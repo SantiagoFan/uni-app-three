@@ -2,7 +2,10 @@
   <view class="wrap">
     <view class="wrap-info">
       <view class="wrap-info__logo">
-        <image class="img" mode="widthFix" src="@/static/image/logo.png" />
+        <view class="logo">
+          <image class="img" mode="widthFix" src="@/static/image/logo.png" />
+        </view>
+        <view class="text">呼和浩特市蒙医中医医院</view>
       </view>
       <view class="wrap-info__con">
         <view class="avatar">
@@ -63,11 +66,21 @@ export default {
     background-size: 100%;
     border-radius: 10rpx;
     &__logo {
-      width: 405rpx;
-      .img {
-        width: 100%;
-        height: auto;
-        display: block;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      .logo {
+        width: 50rpx;
+        margin-right: 20rpx;
+        .img {
+          width: 100%;
+          height: auto;
+          display: block;
+        }
+      }
+      .text {
+        font-size: 30rpx;
+        color: #333333;
       }
     }
     &__con {
