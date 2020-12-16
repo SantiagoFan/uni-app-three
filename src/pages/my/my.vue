@@ -31,7 +31,7 @@
         <view class="my-wrap__list">
           <navigator url="/pages/registerRecord/registerRecord" class="item">
             <view class="item__icon">
-              <image class="img" mode="widthFix" src="@/static/image/my_icon1.jpg" />
+              <image class="img" mode="widthFix" src="@/static/image/my_icon1.png" />
             </view>
             <view class="item__text">挂号记录</view>
             <view class="item__jt">
@@ -40,7 +40,7 @@
           </navigator>
           <navigator url="/pages/payRecord/payRecord?type=0" class="item">
             <view class="item__icon">
-              <image class="img" mode="widthFix" src="@/static/image/my_icon2.jpg" />
+              <image class="img" mode="widthFix" src="@/static/image/my_icon2.png" />
             </view>
             <view class="item__text">门诊缴费记录</view>
             <view class="item__jt">
@@ -49,7 +49,7 @@
           </navigator>
           <navigator url="/pages/payRecord/payRecord?type=1" class="item">
             <view class="item__icon">
-              <image class="img" mode="widthFix" src="@/static/image/my_icon3.jpg" />
+              <image class="img" mode="widthFix" src="@/static/image/my_icon3.png" />
             </view>
             <view class="item__text">诊间支付缴费记录</view>
             <view class="item__jt">
@@ -58,7 +58,7 @@
           </navigator>
           <navigator url="/pages/payRecord/payRecord?type=2" class="item">
             <view class="item__icon">
-              <image class="img" mode="widthFix" src="@/static/image/my_icon4.jpg" />
+              <image class="img" mode="widthFix" src="@/static/image/my_icon4.png" />
             </view>
             <view class="item__text">住院缴费记录</view>
             <view class="item__jt">
@@ -67,7 +67,7 @@
           </navigator>
           <navigator url="/pages/myCollect/myCollect" class="item">
             <view class="item__icon">
-              <image class="img" mode="widthFix" src="@/static/image/my_icon5.jpg" />
+              <image class="img" mode="widthFix" src="@/static/image/my_icon5.png" />
             </view>
             <view class="item__text">我的收藏</view>
             <view class="item__jt">
