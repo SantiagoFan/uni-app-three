@@ -11,6 +11,14 @@
 			}
     },
     {
+			"path": "pages/patientManage/patientManage",
+			"style": {
+        "navigationBarTitleText": "问卷调查",
+        "navigationBarBackgroundColor": "#0ec698",
+        "navigationBarTextStyle": "white"
+			}
+    },
+    {
 			"path": "pages/surveyDetail/surveyDetail",
 			"style": {
         "navigationBarTitleText": "问卷调查",
