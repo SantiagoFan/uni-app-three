@@ -23,7 +23,7 @@
                 <input
                   class="input"
                   type="text"
-                  name="card"
+                  name="idcard"
                   placeholder="请输身份证号"
                   placeholder-class="placr_style"
                 >
@@ -35,8 +35,8 @@
                 <input
                   class="input"
                   type="text"
-                  name="tel"
-                  placeholder="请输入姓名"
+                  name="phone"
+                  placeholder="手机号码"
                   placeholder-class="placr_style"
                 >
               </view>
@@ -59,7 +59,7 @@
                 <input
                   class="input"
                   type="text"
-                  name="race"
+                  name="nation"
                   placeholder="请选择民族"
                   placeholder-class="placr_style"
                 >
@@ -72,26 +72,106 @@
     </view>
   </view>
 </template>
-
+na
 <script>
+import { isCardNo,isMobile } from "@/utils/common.js";
 export default {
+  data(){
+    return{
+
+    }
+  },
+  created(){
+   
+  },
   methods: {
-    formSubmit(e) {
-      const { value } = e.detail
-      uni.setStorageSync('token', value.name)
-      uni.showToast({
-        title: '新建成功，正在跳转...',
-        icon: 'none',
-        duration: 2000,
-        success() {
-          setTimeout(() => {
-            uni.reLaunch({
-              url: '/pages/index/index'
-            })
-          }, 2000)
+    formSubmit(e){
+      uni.removeStorageSync('patientInfo');
+      var data = e.detail.value;
+      if(data['name'].trim()==''){
+        uni.showToast({
+          title: '请输入姓名',
+          duration: 2000,
+          icon:'none',
+        });
+        return false;
+      }
+      if(!isCardNo(data['idcard'])){
+				uni.showToast({
+					title: "身份证号不正确",
+					icon: "none"
+				});
+				return false;
+			}
+      if(!isMobile(data['phone'])){
+				uni.showToast({
+					title: "手机号码不正确",
+					icon: "none"
+				});
+				return false;
+      }
+      if(data['address'].trim()==''){
+        uni.showToast({
+          title: '请输入住址',
+          duration: 2000,
+          icon:'none',
+        });
+        return false;
+      }
+      if(data['nation'].trim()==''){
+        uni.showToast({
+          title: '请输入民族',
+          duration: 2000,
+          icon:'none',
+        });
+        return false;
+      }
+      this.$http.post(this.API.ADD_PATIENT,data).then(res=>{
+        switch(res.code){
+          case 50001:
+            uni.setStorageSync('patientInfo', res.data)
+            uni.showModal({
+              title: '提示',
+              content: res.message,
+              confirmText: '去绑定',
+              success: function (res) {
+                  if (res.confirm) {
+                       uni.redirectTo({
+                          url: '/pages/medicalCardBind/medicalCardBind'
+                        })
+                  } else if (res.cancel) {
+                      console.log('用户点击取消');
+                  }
+              }
+          });
+          break;
+          case 50000:
+            uni.showToast({
+              title: res.message,
+              duration: 2000,
+              icon:'none',
+            });
+          break;
         }
       })
     }
+    // formSubmit(e) {
+    //   const { value } = e.detail
+    //   uni.setStorageSync('token', value.name)
+    //   uni.showToast({
+    //     title: '新建成功，正在跳转...',
+    //     icon: 'none',
+    //     duration: 2000,
+    //     success() {
+    //       setTimeout(() => {
+    //         uni.reLaunch({
+    //           url: '/pages/index/index'
+    //         })
+    //       }, 2000)
+    //     }
+    //   })
+    // },
+
   },
 }
 </script>
