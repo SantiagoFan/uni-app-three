@@ -4,14 +4,16 @@
 	},
 	"pages": [
     {
-			"path": "pages/index/index",
+      "path": "pages/index/index",
+      "name":"index",
 			"style": {
         "navigationBarTitleText": "首页",
         "backgroundColor": "#000000"
 			}
     },
     {
-			"path": "pages/patientManage/patientManage",
+      "path": "pages/patientManage/patientManage",
+      "name":"patientManage",
 			"style": {
         "navigationBarTitleText": "问卷调查",
         "navigationBarBackgroundColor": "#0ec698",
@@ -19,7 +21,8 @@
 			}
     },
     {
-			"path": "pages/surveyDetail/surveyDetail",
+      "path": "pages/surveyDetail/surveyDetail",
+      "name":"surveyDetail",
 			"style": {
         "navigationBarTitleText": "问卷调查",
         "navigationBarBackgroundColor": "#0ec698",
@@ -27,7 +30,8 @@
 			}
     },
     {
-			"path": "pages/checkReport/checkReport",
+      "path": "pages/checkReport/checkReport",
+      "name":"checkReport",
 			"style": {
         "navigationBarTitleText": "检验检查报告",
         "navigationBarBackgroundColor": "#0ec698",
@@ -35,7 +39,8 @@
 			}
     },
     {
-			"path": "pages/myLineUp/myLineUp",
+      "path": "pages/myLineUp/myLineUp",
+      "name":"myLineUp",
 			"style": {
         "navigationBarTitleText": "我的排队",
         "navigationBarBackgroundColor": "#0ec698",
@@ -43,7 +48,8 @@
 			}
     },
     {
-			"path": "pages/paymentDetail/paymentDetail",
+      "path": "pages/paymentDetail/paymentDetail",
+      "name":"paymentDetail",
 			"style": {
         "navigationBarTitleText": "缴费详情",
         "navigationBarBackgroundColor": "#0ec698",
@@ -51,7 +57,8 @@
 			}
     },
     {
-			"path": "pages/payRecordDetail/payRecordDetail",
+      "path": "pages/payRecordDetail/payRecordDetail",
+      "name":"payRecordDetail",
 			"style": {
         "navigationBarTitleText": "诊间支付缴费详情",
         "navigationBarBackgroundColor": "#0ec698",
@@ -59,13 +66,15 @@
 			}
     },
     {
-			"path": "pages/my/my",
+      "path": "pages/my/my",
+      "name":"my",
 			"style": {
 				"navigationBarTitleText": "个人中心"
 			}
     },
     {
-			"path": "pages/patientDetail/patientDetail",
+      "path": "pages/patientDetail/patientDetail",
+      "name":"patientDetail",
 			"style": {
         "navigationBarTitleText": "就诊人详情",
         "navigationBarBackgroundColor": "#0ec698",
@@ -73,7 +82,8 @@
 			}
     },
     {
-			"path": "pages/myPatient/myPatient",
+      "path": "pages/myPatient/myPatient",
+      "name":"myPatient",
 			"style": {
         "navigationBarTitleText": "我的就诊人",
         "navigationBarBackgroundColor": "#0ec698",
@@ -81,7 +91,8 @@
 			}
     },
     {
-			"path": "pages/awaitPayPatient/awaitPayPatient",
+      "path": "pages/awaitPayPatient/awaitPayPatient",
+      "name":"awaitPayPatient",
 			"style": {
         "navigationBarTitleText": "待缴费列表",
         "navigationBarBackgroundColor": "#0ec698",
@@ -89,7 +100,8 @@
 			}
     },
     {
-			"path": "pages/branchSearch/branchSearch",
+      "path": "pages/branchSearch/branchSearch",
+      "name":"branchSearch",
 			"style": {
         "navigationBarTitleText": "科室列表",
         "navigationBarBackgroundColor": "#0ec698",
@@ -97,7 +109,8 @@
 			}
     },
     {
-			"path": "pages/doctorDetail/doctorDetail",
+      "path": "pages/doctorDetail/doctorDetail",
+      "name":"doctorDetail",
 			"style": {
         "navigationBarTitleText": "医生主页",
         "navigationBarBackgroundColor": "#0ec698",
@@ -105,7 +118,8 @@
 			}
     },
     {
-			"path": "pages/myResidentDetail/myResidentDetail",
+      "path": "pages/myResidentDetail/myResidentDetail",
+      "name":"myResidentDetail",
 			"style": {
         "navigationBarTitleText": "住院人详情",
         "navigationBarBackgroundColor": "#0ec698",
@@ -113,7 +127,8 @@
 			}
     },
     {
-			"path": "pages/depositPay/depositPay",
+      "path": "pages/depositPay/depositPay",
+      "name":"depositPay",
 			"style": {
         "navigationBarTitleText": "住院押金缴纳",
         "navigationBarBackgroundColor": "#0ec698",
@@ -121,7 +136,8 @@
 			}
     },
     {
-			"path": "pages/myResidentBill/myResidentBill",
+      "path": "pages/myResidentBill/myResidentBill",
+      "name":"myResidentBill",
 			"style": {
         "navigationBarTitleText": "住院日清单",
         "navigationBarBackgroundColor": "#0ec698",
@@ -129,7 +145,8 @@
 			}
     },
     {
-			"path": "pages/myResidentServe/myResidentServe",
+      "path": "pages/myResidentServe/myResidentServe",
+      "name":"myResidentServe",
 			"style": {
         "navigationBarTitleText": "住院服务",
         "navigationBarBackgroundColor": "#0ec698",
@@ -137,7 +154,8 @@
 			}
     },
     {
-			"path": "pages/myResidents/myResidents",
+      "path": "pages/myResidents/myResidents",
+      "name":"myResidents",
 			"style": {
         "navigationBarTitleText": "我的住院人",
         "navigationBarBackgroundColor": "#0ec698",
@@ -145,7 +163,8 @@
 			}
     },
     {
-			"path": "pages/doctorList/doctorList",
+      "path": "pages/doctorList/doctorList",
+      "name":"doctorList",
 			"style": {
         "navigationBarTitleText": "医生列表",
         "navigationBarBackgroundColor": "#0ec698",
@@ -153,7 +172,8 @@
 			}
     },
     {
-			"path": "pages/clinicPayDetail/clinicPayDetail",
+      "path": "pages/clinicPayDetail/clinicPayDetail",
+      "name":"clinicPayDetail",
 			"style": {
         "navigationBarTitleText": "门诊缴费详情",
         "navigationBarBackgroundColor": "#0ec698",
@@ -161,7 +181,8 @@
 			}
     },
     {
-			"path": "pages/payRecord/payRecord",
+      "path": "pages/payRecord/payRecord",
+      "name":"payRecord",
 			"style": {
         "navigationBarTitleText": "门诊缴费记录",
         "navigationBarBackgroundColor": "#0ec698",
@@ -169,7 +190,8 @@
 			}
     },
     {
-			"path": "pages/branchInfo/branchInfo",
+      "path": "pages/branchInfo/branchInfo",
+      "name":"branchInfo",
 			"style": {
         "navigationBarTitleText": "科室信息",
         "navigationBarBackgroundColor": "#0ec698",
@@ -177,7 +199,8 @@
 			}
     },
     {
-			"path": "pages/branchPlace/branchPlace",
+      "path": "pages/branchPlace/branchPlace",
+      "name":"branchPlace",
 			"style": {
         "navigationBarTitleText": "科室分布",
         "navigationBarBackgroundColor": "#0ec698",
@@ -185,7 +208,8 @@
 			}
     },
     {
-			"path": "pages/registerRecordDetail/registerRecordDetail",
+      "path": "pages/registerRecordDetail/registerRecordDetail",
+      "name":"registerRecordDetail",
 			"style": {
         "navigationBarTitleText": "挂号详情",
         "navigationBarBackgroundColor": "#0ec698",
@@ -193,13 +217,15 @@
 			}
     },
     {
-			"path": "pages/hospital/hospital",
+      "path": "pages/hospital/hospital",
+      "name":"hospital",
 			"style": {
 				"navigationBarTitleText": "医院信息"
 			}
     },
     {
-			"path": "pages/payment/payment",
+      "path": "pages/payment/payment",
+      "name":"payment",
 			"style": {
         "navigationBarTitleText": "收银台",
         "navigationBarBackgroundColor": "#0ec698",
@@ -208,7 +234,8 @@
     },
     
     {
-			"path": "pages/branchDetail/branchDetail",
+      "path": "pages/branchDetail/branchDetail",
+      "name":"branchDetail",
 			"style": {
         "navigationBarTitleText": "五疗科",
         "navigationBarBackgroundColor": "#0ec698",
@@ -216,7 +243,8 @@
 			}
     },
     {
-			"path": "pages/branchList/branchList",
+      "path": "pages/branchList/branchList",
+      "name":"branchList",
 			"style": {
         "navigationBarTitleText": "科室列表",
         "navigationBarBackgroundColor": "#0ec698",
@@ -224,7 +252,8 @@
 			}
     },
     {
-			"path": "pages/reportDownload/reportDownload",
+      "path": "pages/reportDownload/reportDownload",
+      "name":"reportDownload",
 			"style": {
         "navigationBarTitleText": "报告下载",
         "navigationBarBackgroundColor": "#0ec698",
@@ -232,7 +261,8 @@
 			}
     },
     {
-			"path": "pages/hospitalTrendsDetail/hospitalTrendsDetail",
+      "path": "pages/hospitalTrendsDetail/hospitalTrendsDetail",
+      "name":"hospitalTrendsDetail",
 			"style": {
         "navigationBarTitleText": "新闻详情",
         "navigationBarBackgroundColor": "#0ec698",
@@ -240,7 +270,8 @@
 			}
     },
     {
-			"path": "pages/hospitalTrends/hospitalTrends",
+      "path": "pages/hospitalTrends/hospitalTrends",
+      "name":"hospitalTrends",
 			"style": {
         "navigationBarTitleText": "医院动态",
         "navigationBarBackgroundColor": "#0ec698",
@@ -248,7 +279,8 @@
 			}
     },
     {
-			"path": "pages/awaitPay/awaitPay",
+      "path": "pages/awaitPay/awaitPay",
+      "name":"awaitPay",
 			"style": {
         "navigationBarTitleText": "待缴费列表",
         "navigationBarBackgroundColor": "#0ec698",
@@ -256,7 +288,8 @@
 			}
     },
     {
-			"path": "pages/patientAdd/patientAdd",
+      "path": "pages/patientAdd/patientAdd",
+      "name":"patientAdd",
 			"style": {
         "navigationBarTitleText": "添加就诊人",
         "navigationBarBackgroundColor": "#0ec698",
@@ -264,7 +297,8 @@
 			}
     },
     {
-			"path": "pages/medicalCardBind/medicalCardBind",
+      "path": "pages/medicalCardBind/medicalCardBind",
+      "name":"medicalCardBind",
 			"style": {
         "navigationBarTitleText": "绑定就诊卡",
         "navigationBarBackgroundColor": "#0ec698",
@@ -272,7 +306,8 @@
 			}
     },
     {
-			"path": "pages/medicalCardRegister/medicalCardRegister",
+      "path": "pages/medicalCardRegister/medicalCardRegister",
+      "name":"medicalCardRegister",
 			"style": {
         "navigationBarTitleText": "新建就诊卡",
         "navigationBarBackgroundColor": "#0ec698",
@@ -280,7 +315,8 @@
 			}
     },
     {
-			"path": "pages/medicalCardLogin/medicalCardLogin",
+      "path": "pages/medicalCardLogin/medicalCardLogin",
+      "name":"medicalCardLogin",
 			"style": {
         "navigationBarTitleText": "绑定就诊卡",
         "navigationBarBackgroundColor": "#0ec698",
@@ -288,7 +324,8 @@
 			}
     },
     {
-			"path": "pages/survey/survey",
+      "path": "pages/survey/survey",
+      "name":"survey",
 			"style": {
         "navigationBarTitleText": "问卷调查列表",
         "navigationBarBackgroundColor": "#0ec698",
@@ -296,7 +333,8 @@
 			}
     },
     {
-			"path": "pages/registerRecord/registerRecord",
+      "path": "pages/registerRecord/registerRecord",
+      "name":"registerRecord",
 			"style": {
         "navigationBarTitleText": "挂号记录",
         "navigationBarBackgroundColor": "#0ec698",
@@ -304,12 +342,17 @@
 			}
     },
     {
-			"path": "pages/myCollect/myCollect",
+      "path": "pages/myCollect/myCollect",
+      "name":"myCollect",
 			"style": {
         "navigationBarTitleText": "我的收藏",
         "navigationBarBackgroundColor": "#0ec698",
         "navigationBarTextStyle": "#ffffff"
 			}
+    },
+    {
+      "path": "pages/author/author",
+      "name":"author"
     }
 	],
 	"globalStyle": {

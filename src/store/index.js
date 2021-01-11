@@ -1,15 +1,41 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import Vue from "vue";
+import Vuex from "vuex";
+import { httpPost } from "@/utils/request.js";
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    count: 100
+    userInfo: null,
+  },
+  getters: {
+    getToken() {
+      return uni.getStorageSync("token");
+    },
   },
   mutations: {
-    increment(state) {
-      state.count++
-    }
-  }
-})
+    setUserInfo(state, userInfo) {
+      state.userInfo = userInfo;
+    },
+  },
+  actions: {
+    login() {
+      return new Promise((resolve, reject) => {
+        uni.login({
+          provider: "weixin",
+          success: function(loginRes) {
+            if (loginRes.errMsg == "login:ok") {
+              let code = loginRes.code;
+              httpPost("aaa", { code }).then((res) => {
+                console.log(res);
+              });
+            }
+          },
+          fail: function(es) {
+            console.log("login,fail");
+          },
+        });
+      });
+    },
+  },
+});

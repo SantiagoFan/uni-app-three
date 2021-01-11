@@ -1,15 +1,23 @@
 <script>
-	export default {
-		onLaunch: function() {
-			console.log('App Launch')
-		}
-	}
+export default {
+  onLaunch: function() {
+    console.log("App Launch");
+  },
+  onShow: function() {
+    console.log("App Show");
+  },
+  onHide: function() {
+    console.log("App Hide");
+  },
+};
 </script>
 
 <style lang="scss">
-  page {
-    font-family:Monospaced Number,Chinese Quote,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,PingFang SC,Hiragino Sans GB,Microsoft YaHei,Helvetica Neue,Helvetica,Arial,sans-serif!important;
-  }
-  @import "uview-ui/index.scss";
-  @import "@/assets/scss/index.scss";
+page {
+  font-family: Monospaced Number, Chinese Quote, -apple-system,
+    BlinkMacSystemFont, Segoe UI, Roboto, PingFang SC, Hiragino Sans GB,
+    Microsoft YaHei, Helvetica Neue, Helvetica, Arial, sans-serif !important;
+}
+@import "uview-ui/index.scss";
+@import "@/assets/scss/index.scss";
 </style>

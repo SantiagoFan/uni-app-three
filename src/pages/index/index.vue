@@ -1,17 +1,23 @@
 <template>
-	<view class="index-container">
-		<view class="index-main">
+  <view class="index-container">
+    <view class="index-main">
       <view class="top_pic">
-        <image class="img" mode="widthFix" src="@/static/image/index_img01.jpg" />
+        <image
+          class="img"
+          mode="widthFix"
+          src="@/static/image/index_img01.jpg"
+        />
       </view>
       <view class="index-wrap">
         <view class="index-wrap__user">
           <view class="index-wrap__user-info">
             <view v-if="noBindCard">
               <view class="title">
-                <view class="name">{{name}}</view>
+                <view class="name">{{ name }}</view>
                 <view class="tag">电子就诊卡</view>
-                <navigator url="/pages/patientAdd/patientAdd" class="check">切换</navigator>
+                <navigator url="/pages/patientAdd/patientAdd" class="check"
+                  >切换</navigator
+                >
               </view>
               <view class="code">院内诊疗号：1000000182574</view>
             </view>
@@ -28,47 +34,82 @@
             </navigator>
           </view>
           <view class="index-wrap__user-pic">
-            <image class="img" mode="widthFix" src="@/static/image/index_rw.png" />
+            <image
+              class="img"
+              mode="widthFix"
+              src="@/static/image/index_rw.png"
+            />
           </view>
         </view>
         <view class="index-wrap__art1">
-          <navigator url="/pages/registerRecord/registerRecord" hover-class="none" class="index-wrap__art1-item">挂号记录</navigator>
-          <navigator url="/pages/payRecord/payRecord" hover-class="none" class="index-wrap__art1-item">缴费记录</navigator>
-          <view class="index-wrap__art1-item" @click="handleVisitCode">就诊码</view>
+          <navigator
+            url="/pages/registerRecord/registerRecord"
+            hover-class="none"
+            class="index-wrap__art1-item"
+            >挂号记录</navigator
+          >
+          <navigator
+            url="/pages/payRecord/payRecord"
+            hover-class="none"
+            class="index-wrap__art1-item"
+            >缴费记录</navigator
+          >
+          <view class="index-wrap__art1-item" @click="handleVisitCode"
+            >就诊码</view
+          >
         </view>
         <u-gap height="20" bg-color="#f6f6f6"></u-gap>
         <view class="index-wrap__art2">
-          <navigator url="/pages/branchList/branchList" hover-class="none" class="index-wrap__art2-item">
-            <view class="img-box">
-              <image class="img" mode="widthFix" src="@/static/image/index-type1.jpg" />
+          <router-link :to="{ name: 'branchList' }">
+            <view class="index-wrap__art2-item">
+              <view class="img-box">
+                <image
+                  class="img"
+                  mode="widthFix"
+                  src="@/static/image/index-type1.jpg"
+                />
+              </view>
+              <view class="title">在线挂号</view>
+              <view class="subt">实时查看医生情况</view>
             </view>
-            <view class="title">在线挂号</view>
-            <view class="subt">实时查看医生情况</view>
-          </navigator>
-          <navigator url="/pages/awaitPay/awaitPay" hover-class="none" class="index-wrap__art2-item">
-            <view class="img-box">
-              <image class="img" mode="widthFix" src="@/static/image/index-type2.jpg" />
+          </router-link>
+          <router-link :to="{ name: 'awaitPay' }">
+            <view class="index-wrap__art2-item">
+              <view class="img-box">
+                <image
+                  class="img"
+                  mode="widthFix"
+                  src="@/static/image/index-type2.jpg"
+                />
+              </view>
+              <view class="title">门诊缴费</view>
+              <view class="subt">快速缴费不排队</view>
             </view>
-            <view class="title">门诊缴费</view>
-            <view class="subt">快速缴费不排队</view>
-          </navigator>
-          <navigator url="/pages/myResidentServe/myResidentServe" hover-class="none" class="index-wrap__art2-item">
-            <view class="img-box">
-              <image class="img" mode="widthFix" src="@/static/image/index-type3.jpg" />
+          </router-link>
+          <router-link :to="{ name: 'myResidentServe' }">
+            <view class="index-wrap__art2-item">
+              <view class="img-box">
+                <image
+                  class="img"
+                  mode="widthFix"
+                  src="@/static/image/index-type3.jpg"
+                />
+              </view>
+              <view class="title">住院服务</view>
+              <view class="subt">省心省力安心养病</view>
             </view>
-            <view class="title">住院服务</view>
-            <view class="subt">省心省力安心养病</view>
-          </navigator>
+          </router-link>
         </view>
         <u-gap height="20" bg-color="#f6f6f6"></u-gap>
         <view class="index-wrap__art3">
           <view class="index-wrap__art3-tab">
             <view
-              :class="['item', {active: typeIndex === index}]"
+              :class="['item', { active: typeIndex === index }]"
               v-for="(item, index) in typeList"
               :key="index"
               @click="handleTypeItem(index)"
-          >{{item.text}}</view>
+              >{{ item.text }}</view
+            >
           </view>
           <view class="index-wrap__art3-con">
             <view class="list" v-if="typeIndex === 0">
@@ -83,7 +124,7 @@
                 <view class="icon">
                   <image class="img" mode="widthFix" :src="item.image" />
                 </view>
-                <view class="text">{{item.title}}</view>
+                <view class="text">{{ item.title }}</view>
               </navigator>
             </view>
             <view class="list" v-if="typeIndex === 1">
@@ -97,7 +138,7 @@
                 <view class="icon">
                   <image class="img" mode="widthFix" :src="item.image" />
                 </view>
-                <view class="text">{{item.title}}</view>
+                <view class="text">{{ item.title }}</view>
               </navigator>
             </view>
           </view>
@@ -112,58 +153,62 @@
       :close-icon-size="40"
       :border-radius="10"
     >
-			<view class="visit-wrap">
+      <view class="visit-wrap">
         <view class="visit-wrap__name">姓名</view>
         <view class="visit-wrap__code">
           <image class="img" mode="aspectFill" src="@/static/image/code1.jpg" />
         </view>
       </view>
-		</u-popup>
-	</view>
+    </u-popup>
+  </view>
 </template>
 
 <script>
-import indexList from '@/common/index.data.js'
+import indexList from "@/common/index.data.js";
 export default {
   data() {
     return {
       typeIndex: 0,
-      name: '',
-      typeList: [{
-        text: '门诊'
-      },{
-        text: '住院'
-      }],
+      name: "",
+      typeList: [
+        {
+          text: "门诊",
+        },
+        {
+          text: "住院",
+        },
+      ],
       noBindCard: true, // 是否绑定就诊卡 true:是 falseL 否
       list1: indexList.list1,
       list2: indexList.list2,
-      visitCodeShow: false // 就诊码
-    }
+      visitCodeShow: false, // 就诊码
+    };
   },
   watch: {
     visitCodeShow(status) {
-      status ? uni.hideTabBar() : uni.showTabBar()
-    }
+      status ? uni.hideTabBar() : uni.showTabBar();
+    },
   },
+  onLoad() {},
   onShow() {
-    const token = uni.getStorageSync('token')
-    this.name = token
-    this.noBindCard = token ? true : false
+    const token = uni.getStorageSync("token");
+    this.name = token;
+    this.noBindCard = token ? true : false;
   },
   methods: {
     handleTypeItem(index) {
-      this.typeIndex = index
+      this.typeIndex = index;
     },
     // 就诊码
     handleVisitCode() {
-      this.visitCodeShow = true
-    }
-  }
-}
+      this.visitCodeShow = true;
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/scss/mixin.scss';
+@import "@/assets/scss/mixin.scss";
 .index-container {
   .index-main {
     .top_pic {
@@ -189,8 +234,9 @@ export default {
         height: 160rpx;
         padding: 0 25rpx;
         border-radius: 20rpx;
-        box-shadow: 0 10rpx 12rpx rgba($color: #61b47c, $alpha: .2);
-        background: #ffffff url('@/static/image/box_bg.png') no-repeat 18rpx 18rpx;
+        box-shadow: 0 10rpx 12rpx rgba($color: #61b47c, $alpha: 0.2);
+        background: #ffffff url("@/static/image/box_bg.png") no-repeat 18rpx
+          18rpx;
         background-size: 250rpx;
         &-info {
           color: #0ec698;
@@ -221,7 +267,7 @@ export default {
               max-width: 110rpx;
               font-size: 36rpx;
               font-weight: bold;
-              word-wrap:break-word;
+              word-wrap: break-word;
               @include textOverflow(1);
             }
             .tag {
@@ -268,7 +314,7 @@ export default {
           color: #040404;
           font-size: 28rpx;
           &::before {
-            content: '';
+            content: "";
             width: 12rpx;
             height: 12rpx;
             border-radius: 50%;
@@ -280,6 +326,7 @@ export default {
       }
       &__art2 {
         display: flex;
+        justify-content: space-around;
         padding: 50rpx 0;
         &-item {
           display: flex;
@@ -322,7 +369,7 @@ export default {
             &.active {
               transform: scale(1.4);
               &::after {
-                content: '';
+                content: "";
                 position: absolute;
                 left: 50%;
                 bottom: -15rpx;
