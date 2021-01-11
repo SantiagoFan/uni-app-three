@@ -12,6 +12,7 @@
                   class="input"
                   type="text"
                   name="name"
+                  v-model="name"
                   placeholder="请输入姓名"
                   placeholder-class="placr_style"
                 >
@@ -23,7 +24,8 @@
                 <input
                   class="input"
                   type="text"
-                  name="card"
+                  name="idcard"
+                  v-model="idcard"
                   placeholder="请输身份证号"
                   placeholder-class="placr_style"
                 >
@@ -37,7 +39,7 @@
                 <input
                   class="input"
                   type="text"
-                  name="code"
+                  name="patient_code"
                   placeholder="请输入就诊卡号或13位院内卡号"
                   placeholder-class="placr_style"
                 >
@@ -49,7 +51,8 @@
                 <input
                   class="input"
                   type="text"
-                  name="tel"
+                  name="phone"
+                  v-model="phone"
                   placeholder="请输入手机号"
                   placeholder-class="placr_style"
                 >
@@ -64,21 +67,68 @@
 </template>
 
 <script>
+import { isCardNo,isMobile } from "@/utils/common.js";
 export default {
+  data(){
+    return{
+      name: '',
+      phone: '',
+      idcard: ''
+    }
+  },
+  created(){
+    var obj = uni.getStorageSync('patientInfo');
+    if(obj){
+      this.name = obj.name;
+      this.phone = obj.phone;
+      this.idcard = obj.idcard;
+    };
+  },
   methods: {
     formSubmit(e) {
-      const { value } = e.detail
-      uni.setStorageSync('token', value.name)
-      uni.showToast({
-        title: '绑定成功，正在跳转...',
-        icon: 'none',
-        duration: 2000,
-        success() {
-          setTimeout(() => {
+      var data = e.detail.value;
+      if(data['name'].trim()==''){
+        uni.showToast({
+          title: '请输入姓名',
+          duration: 2000,
+          icon:'none',
+        });
+        return false;
+      }
+      if(!isCardNo(data['idcard'])){
+				uni.showToast({
+					title: "身份证号不正确",
+					icon: "none"
+				});
+				return false;
+      }
+      if(data['patient_code'].trim()==''){
+        uni.showToast({
+          title: '请输入院内卡号',
+          duration: 2000,
+          icon:'none',
+        });
+        return false;
+      }
+      if(!isMobile(data['phone'])){
+				uni.showToast({
+					title: "手机号码不正确",
+					icon: "none"
+				});
+				return false;
+      }
+      this.$http.post(this.API.BIND_PATIENT,data).then(res=>{
+        uni.showToast({
+          title: res.message,
+          duration: 2000,
+          icon:'none',
+        });
+        if(res.code==20000){
+          setTimeout(()=>{
             uni.reLaunch({
               url: '/pages/index/index'
             })
-          }, 2000)
+          },1000)
         }
       })
     }
