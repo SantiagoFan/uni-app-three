@@ -160,11 +160,13 @@
         </view>
       </view>
     </u-popup>
+    <auth></auth>
   </view>
 </template>
 
 <script>
 import indexList from "@/common/index.data.js";
+import { mapState } from "vuex";
 export default {
   data() {
     return {
@@ -184,13 +186,20 @@ export default {
       visitCodeShow: false, // 就诊码
     };
   },
+  computed: {
+    ...mapState(["userInfo"]),
+  },
   watch: {
     visitCodeShow(status) {
       status ? uni.hideTabBar() : uni.showTabBar();
     },
   },
-  onLoad() {},
+  onLoad() {
+    console.log("onLoad")
+    console.log(this.$store.state)
+  },
   onShow() {
+    console.log("onShow")
     const token = uni.getStorageSync("token");
     this.name = token;
     this.noBindCard = token ? true : false;

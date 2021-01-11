@@ -1,0 +1,124 @@
+<template>
+  <view>
+    <view class="loginMask" v-if="loginPopupShow" @click="closePopup"></view>
+    <view class="loginPopup" v-if="loginPopupShow">
+      <view class="loginBox">
+        <image class="logo" :src="base.logoUrl"></image>
+        <view class="platformName">{{ base.platformName }}</view>
+        <view class="description" v-if="base.description">{{
+          base.description
+        }}</view>
+      </view>
+      <button
+        type="primary"
+        class="btn"
+        hover-class="active"
+        open-type="getUserInfo"
+        @getuserinfo="getUserInfo"
+      >
+        授权登录
+      </button>
+    </view>
+  </view>
+</template>
+<script>
+import { mapState, mapMutations } from "vuex";
+export default {
+  data() {
+    return {
+      base: {
+        logoUrl:'../../static/image/hos_logo.jpg',
+        platformName:'申请获得您的公开信息（头像，昵称等）',
+        description:''
+      },
+    };
+  },
+  computed: {
+    ...mapState(["userInfo", "loginPopupShow"]),
+  },
+  methods: {
+    ...mapMutations(['setUserInfo', 'setLoginPopupShow']),
+    getUserInfo(e) {
+      if (e.detail.errMsg == "getUserInfo:fail auth deny") {
+        uni.showToast({
+          title: "请同意授权",
+          icon: "none",
+        });
+      } else {
+        var info = e.detail.userInfo;
+        var data = {
+          headimgurl: info.avatarUrl,
+          nickname: info.nickName,
+        };
+        this.$http.post(this.API.UPDATE_USERINFO, data).then((res) => {
+          if (res.code == 20000) {
+            uni.showToast({
+              title: res.message,
+              icon: "none",
+            });
+            this.setUserInfo(res.data);
+            this.setLoginPopupShow(false);
+          }
+        });
+      }
+    },
+    //关闭弹窗
+    closePopup() {
+      this.setLoginPopupShow(false);
+    },
+  },
+};
+</script>
+<style lang="scss" scoped>
+.loginMask {
+  position: fixed;
+  top: 0upx;
+  left: 0upx;
+  right: 0upx;
+  bottom: 0upx;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 10;
+}
+.loginPopup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  width: 500upx;
+  background-color: #fff;
+  border-radius: 20upx;
+  overflow: hidden;
+  z-index: 11;
+  .btn{
+    width:300upx;
+    height: 60upx;
+    line-height: 60upx;
+    font-size: 24upx;
+    margin-bottom: 40upx;
+  }
+  .loginBox {
+    padding: 30upx 15upx 40upx 15upx;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .logo {
+      width: 454upx;
+      height: 130upx;
+      border-radius: 20%;
+    }
+
+    .platformName {
+      font-size: 24upx;
+      color: #999;
+      margin-top: 10upx;
+    }
+
+    .description {
+      margin-top: 15upx;
+      font-size: 30upx;
+      color: #333;
+    }
+  }
+}
+</style>

@@ -72,7 +72,6 @@
     </view>
   </view>
 </template>
-na
 <script>
 import { isCardNo,isMobile } from "@/utils/common.js";
 export default {

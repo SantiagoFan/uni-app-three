@@ -15,15 +15,19 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   console.log("from", from);
   console.log("to", to);
-  let token = store.getters.getToken;
-  console.log(token);
-  if (!token) {
-    store.dispatch("login").then((code) => {});
-    // next({ name: "author", NAVTYPE: "replace" });
+  
+  if (!store.state.userInfo) {
+    store.dispatch("login").then(() => {
+      store.dispatch("checkAuth")
+      next()
+    }).catch(()=>{
+    });
   } else {
+    store.dispatch("checkAuth")
     next();
   }
 });
+
 // 全局路由后置守卫
 router.afterEach((to, from) => {});
 

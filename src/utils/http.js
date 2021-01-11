@@ -11,9 +11,6 @@ http.setConfig((config) => {
 
   config.header = {
     ...config.header,
-    // token: "",
-    // token: decodeURIComponent(uni.getStorageSync('token')),
-    // token: decodeURIComponent('lIOwROSJRCqukYfj1KLBAvtnkI0TngZ71kIqKmUJwrllBb1x5U3WMq7EcK6AmRqt67oq%2FkLPfndW7hM%3D')
   }
   return config
 })

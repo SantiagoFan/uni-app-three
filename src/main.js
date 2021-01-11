@@ -4,19 +4,21 @@ import store from "@/store";
 import uView from "uview-ui";
 
 import mixin from "@/utils/mixin";
+import api from "@/api/api";
 
-import { httpPost, httpGet } from "@/utils/request.js";
+import { http } from '@/utils/http'
+import auth from './components/auth/auth.vue'
 
 import router from "./router";
 import routerLink from "../node_modules/uni-simple-router/component/router-link.vue";
 Vue.component("router-link", routerLink);
-
+Vue.component("auth", auth);
 Vue.prototype.$bus = new Vue(); // event Bus 用于兄弟组件的通信。
 
 App.mpType = "app";
 
-Vue.prototype.$post = httpPost;
-Vue.prototype.$get = httpGet;
+Vue.prototype.$http = http
+Vue.prototype.API = api;
 
 Vue.use(uView);
 
