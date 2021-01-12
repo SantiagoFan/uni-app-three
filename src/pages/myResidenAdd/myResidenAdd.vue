@@ -3,14 +3,14 @@
     <view class="patient-m">
       <view class="patient-m__massage">通过就诊人添加</view>
       <view class="patient-m__list">
-        <view class="item" v-for="item in 2" :key="item">
+        <view class="item" v-for="(item,index) in list" :key="index">
           <view class="info">
             <view class="title">
-              <view class="name">姓名</view>
+              <view class="name">{{item.name}}</view>
             </view>
-            <view class="code">院内诊疗号：1000000182574</view>
+            <view class="code">院内诊疗号：{{item.patient_code}}</view>
           </view>
-          <view class="icon">
+          <view :class="['icon',item.isChoice?'active':'']" @click="choicePatient(index)">
             <text class="iconfont icon-duihao2"></text>
           </view>
         </view>
@@ -18,25 +18,88 @@
       <view class="patient-m__add" @click="handleClickAdd">
         <view class="patient-m__add-info">
           <view class="tit">添加就诊人</view>
-          <view class="sub">还可添加4人</view>
+          <view class="sub">还可添加{{count}}人</view>
         </view>
         <view class="patient-m__add-jt">
           <text class="iconfont icon-arrowb"></text>
         </view>
       </view>
-      <view class="patient-m__btn">确认添加</view>
+      <view class="patient-m__btn" @click="addLivePatient">确认添加</view>
     </view>
   </view>
 </template>
 
 <script>
 export default {
-  methods: {
-    handleClickAdd() {
-      uni.navigateTo({
-        url: '/pages/medicalCardLogin/medicalCardLogin'
-      })
+  data(){
+    return{
+      list: [],
+      count: 0
     }
+  },
+  onShow(){
+    this.getList();
+  },
+  methods: {
+    getList(){
+      this.$http.post(this.API.PATIENT_LIST).then(res=>{
+        this.list = res.data;
+        this.count = res.count;
+      })
+    },
+    choicePatient(index){
+       this.list.forEach((e) => {
+        if (e.isChoice == true || e.isChoice == 1) {
+          e.isChoice = false;
+        }
+      });
+      this.list[index]['isChoice'] = !this.list[index]['isChoice'];
+    },
+    addLivePatient(){
+      var that = this;
+      var patient_code = "";
+      that.list.forEach((e) => {
+        if (e.isChoice == true || e.isChoice == 1) {
+          patient_code = e.patient_code;
+        }
+      });
+      if (patient_code=="") {
+        uni.showToast({
+          title: "请先选择住院人",
+          duration: 2000,
+          icon:'none',
+        });
+        return false;
+      }
+       uni.showModal({
+          title: '提示',
+          content: "确定将该就诊人员添加为住院人吗？",
+          success: function (res) {
+              that.$http.post(that.API.LIVE_PATIENT_ADD,{patient_code:patient_code}).then(res=>{
+                uni.showToast({
+                  title: res.message,
+                  duration: 2000,
+                  icon:'none',
+                });
+                if(res.code==20000){
+                  that.$Router.back(1);
+                }
+              })
+          }
+      });
+    },
+    handleClickAdd() {
+      if(this.count<1){
+          uni.showToast({
+            title: "您添加的人数已经达到限制",
+            duration: 2000,
+            icon:'none',
+          });
+          return false;
+      }else{
+        this.$Router.push('/pages/medicalCardLogin/medicalCardLogin')
+      }
+    },
   },
 }
 </script>

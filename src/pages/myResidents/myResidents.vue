@@ -6,7 +6,7 @@
           <view class="info">
             <view class="title">
               <view class="name">{{item.name}}</view>
-              <view class="tag">默认</view>
+              <view class="tag" v-if="item.is_default">默认</view>
             </view>
             <view class="code">住院号：{{item.live_code}}</view>
           </view>
@@ -15,12 +15,12 @@
           </view>
         </view>
       </view>
-      <view class="patient-m__add">
+      <view class="patient-m__add" @click="addLivePatient">
         <view class="patient-m__add-icon">
           <text class="iconfont icon-jiahao"></text>
         </view>
         <view class="patient-m__add-info">
-          <view class="tit">添加住院人</view>
+          <view class="tit" >添加住院人</view>
           <view class="sub">还可添加{{count}}人</view>
         </view>
         <view class="patient-m__add-arrow">
@@ -43,33 +43,15 @@ export default {
     this.getList();
   },
   methods: {
-     getList(){
+    getList(){
       this.$http.post(this.API.LIVE_PAATIENT_LIST).then(res=>{
         this.list = res.data;
         this.count = res.count;
       })
     },
-    addLivePatient(patient_code){
-      var that = this;
-       uni.showModal({
-          title: '提示',
-          content: "确定将该就诊人员添加为住院人吗？",
-          success: function (res) {
-              that.$http.post(that.API.LIVE_PATIENT_ADD,{patient_code:patient_code}).then(res=>{
-                uni.showToast({
-                  title: res.message,
-                  duration: 2000,
-                  icon:'none',
-                });
-                if(res.code==20000){
-                  that.$Router.back(1);
-                }
-              })
-          }
-      });
-    },
+    
     addLivePatient(){
-      this.$Router.push({path:"/pages/patientAdd/patientAdd",query:{is_live:true}});
+      this.$Router.push("/pages/myResidenAdd/myResidenAdd");
     },
     handleClickDetail() {
       uni.navigateTo({

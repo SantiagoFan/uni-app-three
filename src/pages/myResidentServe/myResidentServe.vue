@@ -1,17 +1,17 @@
 <template>
   <view class="wrap">
     <view class="wrap-user">
-      <view class="no-residen" v-if="isEmpty">
+      <view class="no-residen" v-if="!info">
         <view class="no-residen__text">初次使用，请添加住院人</view>
       </view>
       <view class="wrap-user__list" v-else>
         <view class="cell">
           <view class="info">
             <view class="title">
-              <view class="name">贾铭</view>
+              <view class="name">{{info.name}}</view>
               <view class="tag">默认</view>
             </view>
-            <view class="code">住院号：0000514984444</view>
+            <view class="code">住院号：{{info.live_code}}</view>
           </view>
           <view class="arrow">
             <text class="iconfont icon-arrowb"></text>
@@ -28,7 +28,7 @@
           </view>
           <view class="text">添加住院人</view>
         </navigator>
-        <navigator url="/pages/myResidentBill/myResidentBill" class="wrap-serve__con-item">
+        <navigator url="/pages/myResidentBill/myResidentBill" class="wrap-serve__con-item" v-if="info">
           <view class="icon">
             <image class="img" mode="widthFix" src="@/static/image/serve_icon2.jpg" />
           </view>
@@ -49,9 +49,19 @@
 export default {
   data() {
     return {
-      isEmpty: false
+      info: ""
     }
   },
+  onShow(){
+    this.getDefaultPatient();
+  },
+  methods:{
+    getDefaultPatient(){
+      this.$http.post(this.API.DEFAULT_LIVE_PATIENT).then(res=>{
+        this.info = res.data;
+      })
+    },
+  }
 }
 </script>
 
