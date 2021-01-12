@@ -15,10 +15,10 @@
           </view>
         </view>
         <view class="info">
-          <view class="item">姓名：李想</view>
-          <view class="item">性别：男</view>
+          <view class="item">姓名：{{model.name}}</view>
+          <view class="item">性别：{{model.gender}}</view>
           <view class="item">居民健康卡号码：</view>
-          <view class="item">1502*************0161</view>
+          <view class="item">{{model.health_code}}</view>
         </view>
       </view>
     </view>
@@ -34,12 +34,12 @@
         </view>
         <view class="wrap-code__con-code2" v-else>
           <image class="img" mode="widthFix" src="@/static/image/code.jpg" />
-          <view class="num">100005149844</view>
+          <view class="num">{{model.patient_code}}</view>
         </view>
       </view>
     </view>
     <u-gap height="20" bg-color="transparent"></u-gap>
-    <view class="wrap-btn">删除就诊人</view>
+    <view class="wrap-btn" @click="delPatient">删除就诊人</view>
   </view>
 </template>
 
@@ -47,7 +47,32 @@
 export default {
   data() {
     return {
-      codeIndex: 0
+      codeIndex: 0,
+      model: ''
+    }
+  },
+  onLoad () {
+    this.getDetail();
+  },
+  methods:{
+    getDetail(){
+      this.$http.post(this.API.PATINET_DETAIL,{id:this.$Route.query.id}).then(res=>{
+        this.model = res.data;
+      })
+    },
+    delPatient(){
+       this.$http.post(this.API.PATIENT_DELETE,{id:this.$Route.query.id}).then(res=>{
+        if(res.code==20000){
+          uni.showToast({
+            title: res.message,
+            duration: 2000,
+            icon:'none',
+          });
+          setTimeout(()=>{
+            this.$Router.replace('/pages/patientAdd/patientAdd');
+          },1000)
+        }
+      })
     }
   }
 }

@@ -76,7 +76,7 @@ export default {
       idcard: ''
     }
   },
-  created(){
+  onShow(){
     var obj = uni.getStorageSync('patientInfo');
     if(obj){
       this.name = obj.name;
@@ -125,9 +125,7 @@ export default {
         });
         if(res.code==20000){
           setTimeout(()=>{
-            uni.reLaunch({
-              url: '/pages/index/index'
-            })
+            this.$Router.replaceAll('/pages/index/index')
           },1000)
         }
       })

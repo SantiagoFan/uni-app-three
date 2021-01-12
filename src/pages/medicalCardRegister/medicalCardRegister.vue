@@ -77,14 +77,15 @@ import { isCardNo,isMobile } from "@/utils/common.js";
 export default {
   data(){
     return{
-
+      flag: false
     }
-  },
-  created(){
-   
   },
   methods: {
     formSubmit(e){
+      if(this.flag){
+        return false;
+      }
+      this.flag = true;
       uni.removeStorageSync('patientInfo');
       var data = e.detail.value;
       if(data['name'].trim()==''){
@@ -135,14 +136,14 @@ export default {
               confirmText: '去绑定',
               success: function (res) {
                   if (res.confirm) {
-                       uni.redirectTo({
-                          url: '/pages/medicalCardBind/medicalCardBind'
-                        })
+                    this.$Router.replace('/pages/medicalCardBind/medicalCardBind');
                   } else if (res.cancel) {
-                      console.log('用户点击取消');
+                    this.flag = false;
+                    console.log('用户点击取消');
                   }
               }
           });
+          
           break;
           case 50000:
             uni.showToast({
@@ -150,7 +151,17 @@ export default {
               duration: 2000,
               icon:'none',
             });
+            this.flag = false;
           break;
+          case 20000:
+             uni.showToast({
+              title: res.message,
+              duration: 2000,
+              icon:'none',
+            });
+            setTimeout(()=>{
+              this.$Router.replaceAll('/pages/index/index');
+            },1000)
         }
       })
     }

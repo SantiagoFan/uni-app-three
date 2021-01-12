@@ -11,19 +11,18 @@
       <view class="index-wrap">
         <view class="index-wrap__user">
           <view class="index-wrap__user-info">
-            <view v-if="noBindCard">
+            <view v-if="patientInfo">
               <view class="title">
-                <view class="name">{{ name }}</view>
+                <view class="name">{{ patientInfo.name }}</view>
                 <view class="tag">电子就诊卡</view>
-                <navigator url="/pages/patientAdd/patientAdd" class="check"
-                  >切换</navigator
+                <view @click="changePatient" class="check"
+                  >切换</view
                 >
               </view>
-              <view class="code">院内诊疗号：1000000182574</view>
+              <view class="code">院内诊疗号：{{ patientInfo.patient_code }}</view>
             </view>
-            <navigator
-              url="/pages/medicalCardLogin/medicalCardLogin"
-              hover-class="none"
+            <view
+              @click="addPatient"
               class="add_btn"
               v-else
             >
@@ -31,7 +30,7 @@
                 <text class="iconfont icon-add-fill"></text>
               </view>
               <view class="add_btn__text">添加就诊卡</view>
-            </navigator>
+            </view>
           </view>
           <view class="index-wrap__user-pic">
             <image
@@ -160,6 +159,28 @@
         </view>
       </view>
     </u-popup>
+    <u-popup v-model="show" mode="bottom" :border-radius="20">
+			<view class="check-wrap">
+        <view class="check-wrap__title">切换就诊人</view>
+        <view class="check-wrap__con">
+          <view class="list">
+            <view :class="['item', item.is_default?'active':'']" @click="choicePatient(item.id)" v-for="(item,index) in patientList" :key="index">
+              <view class="info">
+                <view class="name">{{item.name}}</view>
+                <view class="code">就诊卡：{{item.patient_code}}</view>
+              </view>
+              <view class="radio">
+                <text class="iconfont icon-duihao"></text>
+              </view>
+            </view>
+          </view>
+        </view>
+        <view class="check-wrap__btn">
+          <view class="item" @click="addPatient">添加就诊人</view>
+          <view class="item" @click="managePatient">管理就诊人</view>
+        </view>
+      </view>
+		</u-popup>
     <auth></auth>
   </view>
 </template>
@@ -184,6 +205,9 @@ export default {
       list1: indexList.list1,
       list2: indexList.list2,
       visitCodeShow: false, // 就诊码
+      show: false, //  切换就诊人
+      patientList: [],
+      patientInfo: ''
     };
   },
   computed: {
@@ -203,8 +227,20 @@ export default {
     const token = uni.getStorageSync("token");
     this.name = token;
     this.noBindCard = token ? true : false;
+    this.getDefaultPatient();
   },
   methods: {
+    getDefaultPatient(){
+      this.$http.post(this.API.DEFAULT_PATIENT).then(res=>{
+        this.patientInfo = res.data;
+      })
+    },
+    //就诊人
+    getPatientList(){
+      this.$http.post(this.API.PATIENT_LIST).then(res=>{
+        this.patientList = res.data;
+      })
+    },
     handleTypeItem(index) {
       this.typeIndex = index;
     },
@@ -212,6 +248,24 @@ export default {
     handleVisitCode() {
       this.visitCodeShow = true;
     },
+    changePatient(){
+      this.show = true;
+      this.getPatientList();
+    },
+    choicePatient(id){
+      this.$http.post(this.API.CHANGE_DEFAULT_PATIENT,{id:id}).then(res=>{
+        if(res.code==20000){
+          this.getDefaultPatient();
+          this.show=false;
+        }
+      })
+    },
+    addPatient(){
+      this.$Router.push('/pages/medicalCardLogin/medicalCardLogin');
+    },
+    managePatient(){
+      this.$Router.push("/pages/patientAdd/patientAdd")
+    }
   },
 };
 </script>
@@ -439,6 +493,75 @@ export default {
         width: 100%;
         height: 100%;
         display: block;
+      }
+    }
+  }
+  //切换就诊人
+    // 弹出层
+  .check-wrap {
+    &__title {
+      height: 84rpx;
+      line-height: 84rpx;
+      text-align: center;
+      color: #333333;
+      font-size: 32rpx;
+      border-bottom: 1rpx solid #e3e3e3;
+    }
+    &__con {
+      .list {
+        .item {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 20rpx 40rpx;
+          .info {
+            font-size: 28rpx;
+            .name {
+              color: #333333;
+            }
+            .code {
+              color: #999999;
+              margin-top: 10rpx;
+            }
+          }
+          .radio {
+            width: 54rpx;
+            height: 54rpx;
+            line-height: 54rpx;
+            text-align: center;
+            color: #ffffff;
+            border-radius: 50%;
+            border: 1rpx solid;
+            border-color: #e3e3e3;
+            .icon {
+              display: none;
+            }
+          }
+          &.active {
+            .radio {
+              border-color: #0ec698;
+              background: #0ec698;
+              .icon {
+                display: block;
+              }
+            }
+          }
+        }
+      }
+    }
+    &__btn {
+      display: flex;
+      justify-content: space-between;
+      padding: 30rpx 70rpx;
+      .item {
+        width: 275rpx;
+        height: 64rpx;
+        line-height: 64rpx;
+        color: #ffffff;
+        text-align: center;
+        font-size: 28rpx;
+        border-radius: 8rpx;
+        background: #0ec698;
       }
     }
   }

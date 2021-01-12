@@ -2,18 +2,18 @@
   <view class="patient">
     <view class="patient-m">
       <view class="patient-m__list">
-        <navigator url="/pages/patientDetail/patientDetail" class="item" v-for="item in 2" :key="item">
+        <view @click="getDetail(item.id)" class="item" v-for="(item,index) in list" :key="index">
           <view class="info">
             <view class="title">
-              <view class="name">姓名</view>
-              <view class="tag">默认</view>
+              <view class="name">{{item.name}}</view>
+              <view class="tag" v-if="item.is_default">默认</view>
             </view>
-            <view class="code">院内诊疗号：1000000182574</view>
+            <view class="code">院内诊疗号：{{item.patient_code}}</view>
           </view>
           <view class="arrow">
             <text class="iconfont icon-arrowb"></text>
           </view>
-        </navigator>
+        </view>
       </view>
       <view class="patient-m__add" @click="handleClickAdd">
         <view class="patient-m__add-icon">
@@ -21,7 +21,7 @@
         </view>
         <view class="patient-m__add-info">
           <view class="tit">添加就诊人</view>
-          <view class="sub">还可添加4人</view>
+          <view class="sub">还可添加{{count}}人</view>
         </view>
         <view class="patient-m__add-jt">
           <text class="iconfont icon-arrowb"></text>
@@ -33,12 +33,38 @@
 
 <script>
 export default {
-  methods: {
-    handleClickAdd() {
-      uni.navigateTo({
-        url: '/pages/medicalCardLogin/medicalCardLogin'
-      })
+  data(){
+    return{
+      list: [],
+      count: 0,
     }
+  },
+  onShow(){
+    this.getList();
+  },
+  methods: {
+    getList(){
+      this.$http.post(this.API.PATIENT_LIST).then(res=>{
+        this.list = res.data;
+        this.count = res.count;
+      })
+    },
+    handleClickAdd() {
+      if(this.count<1){
+          uni.showToast({
+            title: "您添加的人数已经达到限制",
+            duration: 2000,
+            icon:'none',
+          });
+          return false;
+      }else{
+        this.$Router.push('/pages/medicalCardLogin/medicalCardLogin')
+      }
+    },
+    getDetail(id){
+      this.$Router.push({path: '/pages/patientDetail/patientDetail',query:{id: id}})
+    },
+
   },
 }
 </script>
