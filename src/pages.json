@@ -351,6 +351,14 @@
 			}
     },
     {
+			"path": "pages/myResidenAdd/myResidenAdd",
+			"style": {
+        "navigationBarTitleText": "添加住院人",
+        "navigationBarBackgroundColor": "#0ec698",
+        "navigationBarTextStyle": "white"
+			}
+    },
+    {
       "path": "pages/author/author",
       "name":"author"
     }

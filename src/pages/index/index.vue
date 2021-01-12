@@ -151,7 +151,7 @@
       mode="center"
       :closeable="true"
       :close-icon-size="40"
-      :border-radius="10"
+      :border-radius="30"
     >
       <view class="visit-wrap">
         <view class="visit-wrap__name">姓名</view>
@@ -424,20 +424,23 @@ export default {
   }
   // 就诊码
   .visit-wrap {
-    width: 560rpx;
-    height: 560rpx;
-    padding: 40rpx;
+    padding-bottom: 60rpx;
     &__name {
       color: #333333;
       font-size: 36rpx;
+      padding: 30rpx 40rpx 40rpx 40rpx;
     }
     &__code {
-      width: 310rpx;
-      height: 310rpx;
-      margin: 70rpx auto 0 auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 672rpx;
+      height: 535rpx;
+      background: url('~@/static/image/code_bg.jpg') no-repeat;
+      background-size: 100% 100%;
       .img {
-        width: 100%;
-        height: 100%;
+        width: 325rpx;
+        height: 325rpx;
         display: block;
       }
     }
