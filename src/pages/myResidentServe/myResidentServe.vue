@@ -22,24 +22,24 @@
     <view class="wrap-serve">
       <view class="wrap-serve__bt">住院服务</view>
       <view class="wrap-serve__con">
-        <view class="wrap-serve__con-item">
+        <navigator url="/pages/myResidenAdd/myResidenAdd" class="wrap-serve__con-item">
           <view class="icon">
             <image class="img" mode="widthFix" src="@/static/image/serve_icon1.jpg" />
           </view>
           <view class="text">添加住院人</view>
-        </view>
-        <view class="wrap-serve__con-item">
+        </navigator>
+        <navigator url="/pages/myResidentBill/myResidentBill" class="wrap-serve__con-item">
           <view class="icon">
             <image class="img" mode="widthFix" src="@/static/image/serve_icon2.jpg" />
           </view>
           <view class="text">住院日清单</view>
-        </view>
-        <view class="wrap-serve__con-item">
+        </navigator>
+        <navigator url="/pages/payRecord/payRecord?type=2" class="wrap-serve__con-item">
           <view class="icon">
             <image class="img" mode="widthFix" src="@/static/image/serve_icon3.jpg" />
           </view>
           <view class="text">押金补缴记录</view>
-        </view>
+        </navigator>
       </view>
     </view>
   </view>
