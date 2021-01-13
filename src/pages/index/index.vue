@@ -127,18 +127,14 @@
               </navigator>
             </view>
             <view class="list" v-if="typeIndex === 1">
-              <navigator
-                :url="item.url"
-                hover-class="none"
-                class="item"
-                v-for="(item, index) in list2"
-                :key="index"
-              >
-                <view class="icon">
-                  <image class="img" mode="widthFix" :src="item.image" />
+              <block v-for="(item, index) in list2" :key="index">
+                <view @click="goLivePatient(item.url)" class="item" v-if="liveInfo?true:index != 0" >
+                  <view class="icon">
+                    <image class="img" mode="widthFix" :src="item.image" />
+                  </view>
+                  <view class="text">{{ item.title }}</view>
                 </view>
-                <view class="text">{{ item.title }}</view>
-              </navigator>
+              </block>
             </view>
           </view>
         </view>
@@ -163,7 +159,7 @@
 			<view class="check-wrap">
         <view class="check-wrap__title">切换就诊人</view>
         <view class="check-wrap__con">
-          <view class="list">
+          <view class="list" v-if="patientList.length>0">
             <view :class="['item', item.is_default?'active':'']" @click="choicePatient(item.id)" v-for="(item,index) in patientList" :key="index">
               <view class="info">
                 <view class="name">{{item.name}}</view>
@@ -173,6 +169,9 @@
                 <text class="iconfont icon-duihao"></text>
               </view>
             </view>
+          </view>
+          <view v-else class="nodata">
+            暂无更多就诊人
           </view>
         </view>
         <view class="check-wrap__btn">
@@ -207,11 +206,11 @@ export default {
       visitCodeShow: false, // 就诊码
       show: false, //  切换就诊人
       patientList: [],
-      patientInfo: ''
+      liveInfo: ""
     };
   },
   computed: {
-    ...mapState(["userInfo"]),
+    ...mapState(["userInfo","patientInfo"]),
   },
   watch: {
     visitCodeShow(status) {
@@ -227,22 +226,26 @@ export default {
     const token = uni.getStorageSync("token");
     this.name = token;
     this.noBindCard = token ? true : false;
-    this.getDefaultPatient();
+    
   },
   methods: {
-    getDefaultPatient(){
-      this.$http.post(this.API.DEFAULT_PATIENT).then(res=>{
-        this.patientInfo = res.data;
-      })
-    },
     //就诊人
     getPatientList(){
       this.$http.post(this.API.PATIENT_LIST).then(res=>{
         this.patientList = res.data;
       })
     },
+    //住院人
+    getLivePatient(){
+      this.$http.post(this.API.DEFAULT_LIVE_PATIENT,{patient_code:this.patientInfo.patient_code}).then(res=>{
+        this.liveInfo = res.data;
+      })
+    },
     handleTypeItem(index) {
       this.typeIndex = index;
+      if(this.typeIndex==1){
+        this.getLivePatient();
+      }
     },
     // 就诊码
     handleVisitCode() {
@@ -255,7 +258,7 @@ export default {
     choicePatient(id){
       this.$http.post(this.API.CHANGE_DEFAULT_PATIENT,{id:id}).then(res=>{
         if(res.code==20000){
-          this.getDefaultPatient();
+          this.$store.dispatch("getDefaultPatient");
           this.show=false;
         }
       })
@@ -265,6 +268,9 @@ export default {
     },
     managePatient(){
       this.$Router.push("/pages/patientAdd/patientAdd")
+    },
+    goLivePatient(url){
+      this.$Router.push(url)
     }
   },
 };
@@ -550,6 +556,11 @@ export default {
             }
           }
         }
+      }
+      .nodata{
+        padding: 20rpx;
+        color: #999999;
+        text-align: center;
       }
     }
     &__btn {

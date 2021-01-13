@@ -2,7 +2,7 @@
   <view class="patient">
     <view class="patient-m">
       <view class="patient-m__list">
-        <view class="item" v-for="(item,index) in list" :key="index" @click="handleClickDetail">
+        <view class="item" v-for="(item,index) in list" :key="index" @click="handleClickDetail(item.id)">
           <view class="info">
             <view class="title">
               <view class="name">{{item.name}}</view>
@@ -53,10 +53,8 @@ export default {
     addLivePatient(){
       this.$Router.push("/pages/myResidenAdd/myResidenAdd");
     },
-    handleClickDetail() {
-      uni.navigateTo({
-        url: '/pages/myResidentDetail/myResidentDetail'
-      })
+    handleClickDetail(id) {
+      this.$Router.push({path:"/pages/myResidentDetail/myResidentDetail",query:{id:id}});
     }
   },
 }

@@ -2,8 +2,8 @@
   <div class="wrap">
     <view class="wrap-info">
       <view class="wrap-info__user">
-        <view class="wrap-info__user-name">贾铭</view>
-        <view class="wrap-info__user-code">住院号：0000514984444</view>
+        <view class="wrap-info__user-name">{{model.patient_name}}</view>
+        <view class="wrap-info__user-code">住院号：{{model.live_code}}</view>
       </view>
       <view class="wrap-info__sec">
         <view class="art">
@@ -11,7 +11,7 @@
           <view class="art-list">
             <view class="cell">
               <view class="label">住院科室</view>
-              <view class="text">神经内科</view>
+              <view class="text">{{model.department_name}}</view>
             </view>
           </view>
         </view>
@@ -20,25 +20,25 @@
           <view class="art-list">
             <view class="cell">
               <view class="label">押金总金额</view>
-              <view class="text">11000.00</view>
+              <view class="text">{{model.total_amount}}</view>
             </view>
             <view class="cell">
               <view class="label">住院总消费</view>
-              <view class="text">9144.44</view>
+              <view class="text">{{model.consume_amount}}</view>
             </view>
             <view class="cell">
               <view class="label">剩余押金</view>
-              <view class="text">1844.44</view>
+              <view class="text">{{model.balance}}</view>
             </view>
           </view>
         </view>
       </view>
-      <navigator url="/pages/myResidentBill/myResidentBill" hover-class="none" class="wrap-info__bill">
+      <view @click="goDetail" class="wrap-info__bill">
         <view class="wrap-info__bill-text">住院费用日清单</view>
         <view class="wrap-info__bill-arrow">
           <text class="iconfont icon-arrowb"></text>
         </view>
-      </navigator>
+      </view>
     </view>
     <view class="wrap-btn">删除住院人</view>
   </div>
@@ -46,7 +46,24 @@
 
 <script>
   export default {
-    
+    data(){
+      return{
+        model: ""
+      }
+    },
+    onLoad(){
+      this.getDetail();
+    },
+    methods:{
+      getDetail(){
+        this.$http.post(this.API.LIVE_PATIENT_DETAIL,{id:this.$Route.query.id}).then(res=>{
+          this.model = res.data;
+        })
+      },
+      goDetail(){
+        this.$Router.push({path:'/pages/myResidentBill/myResidentBill',query:{live_code:this.model.live_code}});
+      }
+    }
   }
 </script>
 

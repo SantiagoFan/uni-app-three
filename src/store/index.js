@@ -9,6 +9,7 @@ export default new Vuex.Store({
   state: {
     userInfo: null,
     loginPopupShow: false,
+    patientInfo: null
   },
   getters: {
     getToken() {
@@ -19,12 +20,15 @@ export default new Vuex.Store({
     setUserInfo(state, userInfo) {
       state.userInfo = userInfo;
     },
+    setPatientInfo(state, patientInfo) {
+      state.patientInfo = patientInfo;
+    },
     setLoginPopupShow(state,data){
       state.loginPopupShow = data;
     }
   },
   actions: {
-    login({commit}) {
+    login({commit,dispatch}) {
       return new Promise((resolve, reject) => {
         uni.showLoading({
           title: '登录中'
@@ -39,7 +43,9 @@ export default new Vuex.Store({
                 if(res.code===20000){
                   uni.setStorageSync("token",res.token)
                   commit("setUserInfo",res.data)
-                  resolve()
+                  dispatch("getDefaultPatient").then(()=>{
+                    resolve()
+                  })
                 }else{
                   reject()
                 }
@@ -55,6 +61,16 @@ export default new Vuex.Store({
           },
         });
       });
+    },
+    getDefaultPatient({commit}){
+      return new Promise((resolve,reject)=>{
+        http.post(api.DEFAULT_PATIENT).then(res=>{
+          commit("setPatientInfo",res.data);
+          resolve()
+        }).catch(()=>{
+          reject()
+        })
+      })
     },
     checkAuth({state,commit}){
       if(state.userInfo&&!state.userInfo.nickname){

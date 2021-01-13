@@ -12,5 +12,7 @@ export default {
 	CHANGE_DEFAULT_PATIENT:'/patient/changePatientDefault',//切换默认就诊人
 	DEFAULT_LIVE_PATIENT: '/live_patient/getDefaultLivePatient',//获取默认住院人信息
 	CHANGE_DEFAULT_LIVE_PATIENT:'/live_patient/changeLivePatientDefault',//切换默认住院人
+	LIVE_PATIENT_DETAIL: '/live_patient/getLivePatientDetail',//住院人详情
+	LIVE_DAILY_ORDER: '/live_daily_order/getDetail',//住院日清单
 	
 }

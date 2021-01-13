@@ -2,8 +2,8 @@
   <view class="patient">
     <view class="patient-m">
       <view class="patient-m__massage">通过就诊人添加</view>
-      <view class="patient-m__list">
-        <view class="item" v-for="(item,index) in list" :key="index">
+      <view class="patient-m__list" v-if="list.length>0">
+        <view class="item" v-for="(item,index) in list" :key="index" >
           <view class="info">
             <view class="title">
               <view class="name">{{item.name}}</view>
@@ -14,6 +14,9 @@
             <text class="iconfont icon-duihao2"></text>
           </view>
         </view>
+      </view>
+      <view class="nodata" v-else>
+        暂无可添加的就诊人
       </view>
       <view class="patient-m__add" @click="handleClickAdd">
         <view class="patient-m__add-info">
@@ -42,7 +45,7 @@ export default {
   },
   methods: {
     getList(){
-      this.$http.post(this.API.PATIENT_LIST).then(res=>{
+      this.$http.post(this.API.PATIENT_LIST,{status:1}).then(res=>{
         this.list = res.data;
         this.count = res.count;
       })
@@ -82,7 +85,9 @@ export default {
                   icon:'none',
                 });
                 if(res.code==20000){
-                  that.$Router.back(1);
+                  that.$store.dispatch("getDefaultPatient").then(()=>{
+                     that.$Router.back(1)
+                  })
                 }
               })
           }
@@ -176,6 +181,11 @@ export default {
           }
         }
       }
+    }
+    .nodata{
+      padding: 20rpx;
+      text-align: center;
+      // color: #999999;
     }
     &__add {
       display: flex;

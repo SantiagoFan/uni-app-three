@@ -1,5 +1,5 @@
 <template>
-  <view class="wrap">
+  <view class="wrap" >
     <picker mode="date" :value="date" @change="bindDateChange">
       <view class="wrap-date">
         <view class="wrap-date__text">{{date}}</view>
@@ -8,30 +8,35 @@
         </view>
       </view>
     </picker>
-    <view class="wrap-amount">
-      <view class="wrap-amount__text">本日花费金额（元）</view>
-      <view class="wrap-amount__total">446.24</view>
-    </view>
-    <view class="wrap-con">
-      <view class="wrap-con__bg">
-        <image class="img" mode="widthFix" src="@/static/image/bill_border.jpg" />
+    <view v-if="model">
+      <view class="wrap-amount">
+        <view class="wrap-amount__text">本日花费金额（元）</view>
+        <view class="wrap-amount__total">{{model.total_amount}}</view>
       </view>
-      <view class="recipel">
-        <view class="table-th">
-          <view class="item">项目名称</view>
-          <view class="item">单价(元)</view>
-          <view class="item">数量</view>
-          <view class="item">金额(元)</view>
+      <view class="wrap-con">
+        <view class="wrap-con__bg">
+          <image class="img" mode="widthFix" src="@/static/image/bill_border.jpg" />
         </view>
-        <view class="table-con">
-          <view class="table-con__td" v-for="item in 10" :key="item">
-            <view class="item">网织红细胞分析</view>
-            <view class="item">20.00</view>
-            <view class="item">1</view>
-            <view class="item">20.00</view>
+        <view class="recipel">
+          <view class="table-th">
+            <view class="item">项目名称</view>
+            <view class="item">单价(元)</view>
+            <view class="item">数量</view>
+            <view class="item">金额(元)</view>
+          </view>
+          <view class="table-con">
+            <view class="table-con__td" v-for="(item,index) in list" :key="index">
+              <view class="item">{{item.name}}</view>
+              <view class="item">{{item.price}}</view>
+              <view class="item">{{item.quantity}}</view>
+              <view class="item">{{item.amount}}</view>
+            </view>
           </view>
         </view>
       </view>
+    </view>
+    <view class="nodata" v-else>
+      今日暂无消费
     </view>
   </view>
 </template>
@@ -40,14 +45,28 @@
 export default {
   data() {
     return {
-      date: '2020-07-11',
+      list: [],
+      model: "",
+      date: ''
     }
   },
+  onLoad(){
+    this.getDetail();
+  },
   methods: {
+    getDetail(){
+      var nowDate = new Date();
+      var date = nowDate.getFullYear()+'-'+nowDate.getMonth()+1+'-'+nowDate.getDate();
+      this.date = this.date==""?date:this.date;
+      this.$http.post(this.API.LIVE_DAILY_ORDER,{live_code:this.$Route.query.live_code,date:this.date}).then(res=>{
+        this.list = res.data;
+        this.model = res.model;
+      })
+    },
     // 日期选择
     bindDateChange (e) {
-      console.log('e===', e)
-      this.date = e.detail.value
+      this.date = e.detail.value;
+      this.getDetail();
     }
   }
 }
@@ -148,6 +167,11 @@ export default {
       }
     }
   }
+}
+.nodata{
+  padding: 100rpx;
+  text-align: center;
+  color: #999999;
 }
 
 </style>

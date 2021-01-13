@@ -4,7 +4,7 @@
       <view class="no-residen" v-if="!info">
         <view class="no-residen__text">初次使用，请添加住院人</view>
       </view>
-      <view class="wrap-user__list" v-else>
+      <view class="wrap-user__list" v-else @click="addResident">
         <view class="cell">
           <view class="info">
             <view class="title">
@@ -22,18 +22,18 @@
     <view class="wrap-serve">
       <view class="wrap-serve__bt">住院服务</view>
       <view class="wrap-serve__con">
-        <navigator url="/pages/myResidenAdd/myResidenAdd" class="wrap-serve__con-item">
+        <view @click="addResident" class="wrap-serve__con-item">
           <view class="icon">
             <image class="img" mode="widthFix" src="@/static/image/serve_icon1.jpg" />
           </view>
           <view class="text">添加住院人</view>
-        </navigator>
-        <navigator url="/pages/myResidentBill/myResidentBill" class="wrap-serve__con-item" v-if="info">
+        </view>
+        <view @click="goDetail" class="wrap-serve__con-item" v-if="info">
           <view class="icon">
             <image class="img" mode="widthFix" src="@/static/image/serve_icon2.jpg" />
           </view>
           <view class="text">住院日清单</view>
-        </navigator>
+        </view>
         <navigator url="/pages/payRecord/payRecord?type=2" class="wrap-serve__con-item">
           <view class="icon">
             <image class="img" mode="widthFix" src="@/static/image/serve_icon3.jpg" />
@@ -46,21 +46,31 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   data() {
     return {
       info: ""
     }
   },
+  computed: {
+    ...mapState(["patientInfo"]),
+  },
   onShow(){
     this.getDefaultPatient();
   },
   methods:{
     getDefaultPatient(){
-      this.$http.post(this.API.DEFAULT_LIVE_PATIENT).then(res=>{
+      this.$http.post(this.API.DEFAULT_LIVE_PATIENT,{patient_code:this.patientInfo.patient_code}).then(res=>{
         this.info = res.data;
       })
     },
+    addResident(){
+      this.$Router.push("/pages/myResidenAdd/myResidenAdd");
+    },
+    goDetail(){
+      this.$Router.push({name:"/pages/myResidentBill/myResidentBill",query:{live_code:this.info.live_code}});
+    }
   }
 }
 </script>
