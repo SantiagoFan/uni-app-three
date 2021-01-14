@@ -69,7 +69,7 @@ export default {
       this.$Router.push("/pages/myResidenAdd/myResidenAdd");
     },
     goDetail(){
-      this.$Router.push({name:"/pages/myResidentBill/myResidentBill",query:{live_code:this.info.live_code}});
+      this.$Router.push({name:"/pages/myResidentBill/myResidentBill",query:{patient_code:this.info.patient_code}});
     }
   }
 }

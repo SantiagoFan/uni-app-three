@@ -61,7 +61,7 @@
         })
       },
       goDetail(){
-        this.$Router.push({path:'/pages/myResidentBill/myResidentBill',query:{live_code:this.model.live_code}});
+        this.$Router.push({path:'/pages/myResidentBill/myResidentBill',query:{patient_code:this.model.patient_code}});
       }
     }
   }

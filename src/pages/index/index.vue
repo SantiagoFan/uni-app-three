@@ -128,7 +128,7 @@
             </view>
             <view class="list" v-if="typeIndex === 1">
               <block v-for="(item, index) in list2" :key="index">
-                <view @click="goLivePatient(item.url)" class="item" v-if="liveInfo?true:index != 0" >
+                <view @click="goLivePatient(index)" class="item">
                   <view class="icon">
                     <image class="img" mode="widthFix" :src="item.image" />
                   </view>
@@ -206,7 +206,6 @@ export default {
       visitCodeShow: false, // 就诊码
       show: false, //  切换就诊人
       patientList: [],
-      liveInfo: ""
     };
   },
   computed: {
@@ -235,17 +234,8 @@ export default {
         this.patientList = res.data;
       })
     },
-    //住院人
-    getLivePatient(){
-      this.$http.post(this.API.DEFAULT_LIVE_PATIENT,{patient_code:this.patientInfo.patient_code}).then(res=>{
-        this.liveInfo = res.data;
-      })
-    },
     handleTypeItem(index) {
       this.typeIndex = index;
-      if(this.typeIndex==1){
-        this.getLivePatient();
-      }
     },
     // 就诊码
     handleVisitCode() {
@@ -269,8 +259,12 @@ export default {
     managePatient(){
       this.$Router.push("/pages/patientAdd/patientAdd")
     },
-    goLivePatient(url){
-      this.$Router.push(url)
+    goLivePatient(index){
+      var url = this.list2[index]['url'];
+      if(index==0){
+        url = {path:url,query:{patient_code:this.patientInfo.patient_code}};
+      }
+      this.$Router.push(url);
     }
   },
 };

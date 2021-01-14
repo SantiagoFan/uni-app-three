@@ -58,7 +58,7 @@ export default {
       var nowDate = new Date();
       var date = nowDate.getFullYear()+'-'+nowDate.getMonth()+1+'-'+nowDate.getDate();
       this.date = this.date==""?date:this.date;
-      this.$http.post(this.API.LIVE_DAILY_ORDER,{live_code:this.$Route.query.live_code,date:this.date}).then(res=>{
+      this.$http.post(this.API.LIVE_DAILY_ORDER,{patient_code:this.$Route.query.patient_code,date:this.date}).then(res=>{
         this.list = res.data;
         this.model = res.model;
       })
