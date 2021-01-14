@@ -1,7 +1,7 @@
 <template>
   <view class="wrap">
     <view class="wrap_top">
-      <view class="wrap_top__date">日期：2020-07-22</view><!-- 按日期预约显示 -->
+      <view class="wrap_top__date">日期：{{schemeList[schemeIndex]['date']}}</view><!-- 按日期预约显示 -->
       <view class="wrap_top__tab">
         <view :class="['wrap_top__tab-cell', {active: tabIndex === 0}]" @click="handleTabItem(0)">按日期预约</view>
         <view :class="['wrap_top__tab-cell', {active: tabIndex === 1}]" @click="handleTabItem(1)">按医生预约</view>
@@ -10,11 +10,11 @@
     <view class="wrap_con">
       <view class="wrap_con__date" v-if="tabIndex===0">
         <view :class="['list', {active: isOpen}]">
-          <view class="item" v-for="(item, index) in date" :key="index">
+          <view class="item" v-for="(item, index) in schemeList" :key="index" @click="changeScheme(index)">
             <view class="week">{{item.week}}</view>
-            <view :class="['con', {active: item.active}]">
-              <view class="count" :style="{color: item.status == '有'?'#0ec698': ''}">{{item.count}}</view>
-              <view class="status">{{item.status}}</view>
+            <view :class="['con', {active: index==schemeIndex}]">
+              <view class="count" :style="{color: item.is_exist == 1?'#0ec698': ''}">{{item.day}}</view>
+              <view class="status">{{item.is_exist==1?'有':'无'}}</view>
             </view>
           </view>
         </view>
@@ -25,52 +25,26 @@
         </view> 
       </view>
       <view class="wrap_con__list">
-        <navigator url="/pages/doctorDetail/doctorDetail" class="cell">
+        <view @click="goDetail(item.id)" class="cell" v-for="(item,index) in doctorList" :key="index">
           <view class="cell__avatar">
-            <image class="img" mode="aspectFill" src="@/static/image/doctor_avatar.jpg" />
+            <image class="img" mode="aspectFill" :src="item.headimg" />
           </view>
           <view class="cell__info">
             <view class="title">
-              <view class="name">云耀峰</view>
+              <view class="name">{{item.name}}</view>
               <view class="right">
-                <view class="tag">满诊</view> <!-- 按日期预约显示 -->
+                <view class="sur" v-if="item.is_exist == 1">余号{{item.least_source}}:</view>
+                 <view class="tag" v-if="item.is_exist==1">￥{{item.price}}</view>
+                <view class="tag" v-if="item.is_exist==0">满诊</view>
               </view>
             </view>
-            <view class="post">职称：主任医师</view>
-            <view class="content">以蒙医针灸五疗治疗疾病见长，并把针以蒙医针灸五疗治疗疾病见长，并把针以蒙医针灸五疗治疗疾病见长，并把针以蒙医针灸五疗治疗疾病见长，并把针</view>
+            <view class="post">职称：{{item.professional}}</view>
+            <view class="content">{{item.speciality}}</view>
           </view>
-        </navigator>
-        <navigator url="/pages/doctorDetail/doctorDetail" class="cell">
-          <view class="cell__avatar">
-            <image class="img" mode="aspectFill" src="@/static/image/doctor_avatar.jpg" />
-          </view>
-          <view class="cell__info">
-            <view class="title">
-              <view class="name">云耀峰</view>
-              <view class="right">
-                <view class="tag">满诊</view> <!-- 按日期预约显示 -->
-              </view>
-            </view>
-            <view class="post">职称：主任医师</view>
-            <view class="content">以蒙医针灸五疗治疗疾病见长，并把针以蒙医针灸五疗治疗疾病见长，并把针以蒙医针灸五疗治疗疾病见长，并把针以蒙医针灸五疗治疗疾病见长，并把针</view>
-          </view>
-        </navigator>
-        <navigator url="/pages/doctorDetail/doctorDetail" class="cell">
-          <view class="cell__avatar">
-            <image class="img" mode="aspectFill" src="@/static/image/doctor_avatar.jpg" />
-          </view>
-          <view class="cell__info">
-            <view class="title">
-              <view class="name">云耀峰</view>
-              <view class="right">
-                <view class="sur" v-if="tabIndex === 1">余号:20</view>
-                <view class="tag">¥ 10</view> <!-- 按日期预约显示 -->
-              </view>
-            </view>
-            <view class="post">职称：主任医师</view>
-            <view class="content">以蒙医针灸五疗治疗疾病见长，并把针以蒙医针灸五疗治疗疾病见长，并把针以蒙医针灸五疗治疗疾病见长，并把针以蒙医针灸五疗治疗疾病见长，并把针</view>
-          </view>
-        </navigator>
+        </view>
+        <view class="nodata" v-if="doctorList.length<=0">
+          暂无医生
+        </view>
       </view>
     </view>
   </view>
@@ -83,43 +57,13 @@ export default {
       calendarShow: false,
       tabIndex: 0,
       isOpen: false, // 是否展开日期
-      date: [{
-        week: '周四',
-        count: 21,
-        status: '无',
-        active: true
-      },{
-        week: '周五',
-        count: 21,
-        status: '无',
-        active: false
-      },{
-        week: '周六',
-        count: 21,
-        status: '无',
-        active: false
-      },{
-        week: '周日',
-        count: 21,
-        status: '有',
-        active: false
-      },{
-        week: '周一',
-        count: 10,
-        status: '有',
-        active: false
-      },{
-        week: '周二',
-        count: 22,
-        status: '有',
-        active: false
-      },{
-        week: '周三',
-        count: 25,
-        status: '无',
-        active: false
-      }]
+      doctorList: [],
+      schemeList: [],
+      schemeIndex: 0,
     }
+  },
+  onLoad(){
+    this.getSchemeList();
   },
   methods: {
     change (e) {
@@ -127,6 +71,29 @@ export default {
     },
     handleTabItem(index) {
       this.tabIndex = index
+    },
+    getDoctorList(){
+      var data = {
+        departmentid:this.$Route.query.departmentid,
+        date:this.schemeList[this.schemeIndex]['date']
+      };
+      this.$http.post(this.API.DOCTOR_LIST,data).then(res=>{
+        this.doctorList = res.data;
+      })
+    },
+    goDetail(id){
+      this.$Router.push({path:'/pages/doctorDetail/doctorDetail',query:{id:id}});
+    },
+    getSchemeList(){
+      this.$http.post(this.API.SCHEME_LIST,{departmentid:this.$Route.query.departmentid}).then(res=>{
+        this.schemeList = res.data;
+      }).then(res=>{
+        this.getDoctorList();
+      })
+    },
+    changeScheme(index){
+      this.schemeIndex = index;
+      this.getDoctorList();
     }
   },
 }
@@ -214,7 +181,7 @@ export default {
             &.active {
               background: #0ec698;
               .count {
-                color: #ffffff;
+                color: #ffffff !important;
               }
               .status {
                 color: #ffffff;
@@ -309,6 +276,11 @@ export default {
           }
         }
       }
+    }
+    .nodata{
+      text-align: center;
+      padding: 20rpx;
+      color: #999999;
     }
   }
 }

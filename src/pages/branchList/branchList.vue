@@ -15,55 +15,75 @@
         :scroll-top="scrollTop"
       >
         <view
-          v-for="(item, index) in tabbar"
-          :key="index"
           class="u-tab-item"
-          :class="[current == index ? 'u-tab-item-active' : '']"
-          :data-current="index"
-          @tap.stop="swichMenu(index)"
+          :class="[current == 0 ? 'u-tab-item-active' : '']"
+          @tap.stop="swichMenu(0)"
         >
           <view class="icon">
-            <image class="img" mode="widthFix" :src="item.icon" />
+            <image class="img" mode="widthFix" src="@/static/image/doctor_icon6.png" />
+          </view>
+          <text class="u-line-1">历史挂号</text>
+        </view>
+        <view
+          class="u-tab-item"
+          :class="[current == 1 ? 'u-tab-item-active' : '']"
+          @tap.stop="swichMenu(1)"
+        >
+          <view class="icon">
+            <image class="img" mode="widthFix" src="@/static/image/doctor_icon7.png" />
+          </view>
+          <text class="u-line-1">收藏的医生</text>
+        </view>
+        <view
+          v-for="(item, index) in cateList"
+          :key="index"
+          class="u-tab-item"
+          :class="[current == index+2 ? 'u-tab-item-active' : '']"
+          :data-current="index+2"
+          @tap.stop="swichMenu(index+2)"
+        >
+          <view class="icon">
+            <image class="img" mode="widthFix" src="@/static/image/doctor_icon1.png" />
           </view>
           <text class="u-line-1">{{ item.name }}</text>
         </view>
       </scroll-view>
-      <block v-for="(item, index) in tabbar" :key="index">
-        <scroll-view scroll-y class="right-box" v-if="current == index">
+      <block v-for="(item, index) in cateList" :key="index">
+        <scroll-view scroll-y class="right-box">
           <view class="page-view">
             <view class="class-item">
               <view class="item-container">
                 <view class="doctor-s" v-if="current === 0 || current === 1">
-                  <navigator
-                    url="/pages/doctorDetail/doctorDetail"
+                  <view
+                    @click="handleClickDetail(item.id)"
                     class="doctor-wrap"
-                    v-for="item in 2"
-                    :key="item"
+                    v-for="(item,index) in collectList"
+                    :key="index"
                   >
                     <view class="doctor-wrap__avatar">
                       <image
                         class="img"
                         mode="aspectFill"
-                        src="@/static/image/doctor_avatar.jpg"
+                        :src="item.headimg"
                       />
                     </view>
                     <view class="doctor-wrap__info">
-                      <view class="doctor-wrap__info-name">温启宗</view>
-                      <view class="doctor-wrap__info-subt">脾胃病科</view>
+                      <view class="doctor-wrap__info-name">{{item.name}}</view>
+                      <view class="doctor-wrap__info-subt">{{item.speciality}}</view>
                     </view>
                     <view class="doctor-wrap__arrow">
                       <text class="iconfont icon-arrowb"></text>
                     </view>
-                  </navigator>
+                  </view>
                 </view>
                 <template v-else>
                   <view
                     class="thumb-box"
-                    v-for="(item1, index1) in item.foods"
-                    :key="index1"
-                    @click="handleClickDetail"
+                    v-for="(item, index) in list"
+                    :key="index"
+                    @click="handleClickDetail(item.id)"
                   >
-                    <view class="item-menu-name">{{ item1.name }}</view>
+                    <view class="item-menu-name">{{ item.name }}</view>
                     <view class="arrow">
                       <text class="iconfont icon-arrowb"></text>
                     </view>
@@ -97,6 +117,9 @@ export default {
       show: false,
       val: "",
       type: "", // 0、科室信息 1、医生介绍
+      cateList: [],
+      list: [],
+      collectList: []
     };
   },
   onLoad(options = {}) {
@@ -105,19 +128,19 @@ export default {
     const { type } = options;
     console.log("options", options);
     this.type = type;
+    this.getCateList();
   },
   methods: {
     focusPrice() {
       console.log("11");
     },
     // 点击详情
-    handleClickDetail() {
-      let url =
-        this.type == 0
-          ? "/pages/branchInfo/branchInfo"
-          : "/pages/doctorList/doctorList";
-
-      uni.navigateTo({ url });
+    handleClickDetail(departmentid) {
+      if(this.type==0){
+        this.$Router.push( '/pages/branchInfo/branchInfo' );
+      }else{
+        this.$Router.push({path:'/pages/branchDetail/branchDetail',query:{departmentid:departmentid}});
+      }
     },
     change(e) {
       let inputVal = this.val;
@@ -160,6 +183,9 @@ export default {
         index * this.menuItemHeight +
         this.menuItemHeight / 2 -
         this.menuHeight / 2;
+        if(index==1){
+          this.getCollectList();
+        }
     },
     // 获取一个目标元素的高度
     getElRect(elClass, dataVal) {
@@ -180,6 +206,23 @@ export default {
           .exec();
       });
     },
+    getCateList(){
+      this.$http.post(this.API.DEPARTMENT_CATEGORY).then(res=>{
+        this.cateList = res.data;
+      }).then(response=>{
+        if(this.cateList.length>0){
+          this.$http.post(this.API.DEPARTMENT_LIST,{cateid:this.cateList[0]['id']}).then(res=>{
+            this.list = res.data;
+          })
+        }
+       
+      })
+    },
+    getCollectList(){
+      this.$http.post(this.API.COLLECT_DOCTOR).then(res=>{
+        this.collectList = res.data;
+      })
+    }
   },
 };
 </script>
