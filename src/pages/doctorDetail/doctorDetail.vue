@@ -43,14 +43,15 @@
               </view>
             </view>
             <view class="list">
-              <view class="item item-active">
+              <!-- <view class="item item-active">
                 <view class="date">08:00:00~09:00:00</view>
                 <view class="price">已无号</view>
-              </view>
-              <view class="item" v-for="item in 4" :key="item" @click="orderPopupStatus = true">
-                <view class="date">08:00:00~09:00:00</view>
-                <view class="price">¥15.00</view>
-                <view class="arrow">
+              </view> -->
+              <view :class="['item',item.has_source==0?'':'item-active']" v-for="(item,index) in list" :key="index" @click="orderPopupStatus = true">
+                <view class="date">{{item.time}}</view>
+                <view class="price" v-if="item.has_source==0">¥{{item.price}}</view>
+                <view class="price" v-else>已无号</view>
+                <view class="arrow" v-if="item.has_source==0">
                   <text class="iconfont icon-arrowb"></text>
                 </view>
               </view>
@@ -122,7 +123,8 @@ export default {
     return {
       tabIndex: 0,
       orderPopupStatus: false,
-      model: ''
+      model: '',
+      list: []
     }
   },
   onLoad() {
@@ -136,6 +138,7 @@ export default {
     getDetail(){
       this.$http.post(this.API.DOCTOR_DETAIL,{id:this.$Route.query.id}).then(res=>{
         this.model = res.data;
+        this.list = res.list;
       })
     },
     addCollect(){
