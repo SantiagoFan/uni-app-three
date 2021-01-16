@@ -2,10 +2,10 @@
   <view class="u-wrap">
     <u-top-tips ref="uTips"></u-top-tips>
     <view class="u-search-box">
-      <navigator url="/pages/branchSearch/branchSearch" class="u-search-inner">
+      <view class="u-search-inner">
         <u-icon name="search" color="#909399" :size="28"></u-icon>
-        <text class="u-search-text">搜索科室、医生</text>
-      </navigator>
+        <input class="u-search-text" type="text" confirm-type="search" @confirm="search" v-model="keyword" placeholder="搜索科室、医生"/>
+      </view>
     </view>
     <view class="u-menu-wrap">
       <scroll-view
@@ -55,21 +55,21 @@
               <view class="item-container">
                 <view class="doctor-s" v-if="current === 0 || current === 1">
                   <view
-                    @click="handleClickDetail(item.id)"
+                    @click="goDetail(obj.id)"
                     class="doctor-wrap"
-                    v-for="(item,index) in collectList"
+                    v-for="(obj,index) in collectOrRegisterList"
                     :key="index"
                   >
                     <view class="doctor-wrap__avatar">
                       <image
                         class="img"
                         mode="aspectFill"
-                        :src="item.headimg"
+                        :src="obj.headimg"
                       />
                     </view>
                     <view class="doctor-wrap__info">
-                      <view class="doctor-wrap__info-name">{{item.name}}</view>
-                      <view class="doctor-wrap__info-subt">{{item.speciality}}</view>
+                      <view class="doctor-wrap__info-name">{{obj.name}}</view>
+                      <view class="doctor-wrap__info-subt">{{obj.speciality}}</view>
                     </view>
                     <view class="doctor-wrap__arrow">
                       <text class="iconfont icon-arrowb"></text>
@@ -119,16 +119,17 @@ export default {
       type: "", // 0、科室信息 1、医生介绍
       cateList: [],
       list: [],
-      collectList: []
+      collectOrRegisterList: [],
+      keyword: ""
     };
   },
   onLoad(options = {}) {
-    console.log(111);
     // type : 0、科室信息 1、医生介绍
     const { type } = options;
     console.log("options", options);
     this.type = type;
     this.getCateList();
+    this.getHistoryList();
   },
   methods: {
     focusPrice() {
@@ -185,6 +186,8 @@ export default {
         this.menuHeight / 2;
         if(index==1){
           this.getCollectList();
+        }else if(index==0){
+          this.getHistoryList();
         }
     },
     // 获取一个目标元素的高度
@@ -220,8 +223,19 @@ export default {
     },
     getCollectList(){
       this.$http.post(this.API.COLLECT_DOCTOR).then(res=>{
-        this.collectList = res.data;
+        this.collectOrRegisterList = res.data;
       })
+    },
+    getHistoryList(){
+      this.$http.post(this.API.REGISTER_HISTORY).then(res=>{
+        this.collectOrRegisterList = res.data;
+      })
+    },
+    search(){
+      this.$Router.push({path:"/pages/branchSearch/branchSearch",query:{keyword:this.keyword}})
+    },
+    goDetail(id){
+      this.$Router.push({path:'/pages/doctorDetail/doctorDetail',query:{id:id}})
     }
   },
 };

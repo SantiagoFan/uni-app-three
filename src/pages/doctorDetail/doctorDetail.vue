@@ -109,7 +109,7 @@
               </view>
               <view class="info-cell">
                 <view class="info-cell__label">时段：</view>
-                <view class="info-cell__text">{{model.visit_date}} {{week[model.week]}}   {{timeStatus}} <br> {{time}}</view>
+                <view class="info-cell__text">{{model.date}} {{model.week}}   {{timeStatus}} <br> {{time}}</view>
               </view>
             </view>
           </view>
@@ -138,7 +138,6 @@ export default {
       orderPopupStatus: false,
       model: '',
       list: [],
-      week:['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'],
       time: "",
       timeStatus: "",
       patientList: [],

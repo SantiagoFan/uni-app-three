@@ -9,11 +9,14 @@
       </view>
     </view>
     <view class="wrap_con">
-      <view class="wrap_con__date" v-if="tabIndex===0">
+      <view :class="['wrap_con__date',{active:isOpen}]" v-if="tabIndex===0">
+         <view class="week-box" v-if="isOpen">
+          <view class="week-box__item" v-for="(item,index) in week" :key="index">{{item}}</view>
+        </view>
         <view :class="['list', {active: isOpen}]">
-          <view class="item" v-for="(item, index) in schemeList" :key="index" @click="changeScheme(index)">
-            <view class="week">{{item.week}}</view>
-            <view :class="['con', {active: index==schemeIndex}]">
+          <view class="item" v-for="(item, index) in !isOpen?changeList(schemeList):schemeList" :key="index" @click="changeScheme(index)">
+            <view v-if="!isOpen" class="week">{{item.week}}</view>
+            <view :class="['con', {active: index==schemeIndex}]" v-if="item.day">
               <view class="count" :style="{color: item.is_exist == 1?'#0ec698': ''}">{{item.day}}</view>
               <view class="status">{{item.is_exist==1?'有':'无'}}</view>
             </view>
@@ -61,6 +64,7 @@ export default {
       doctorList: [],
       schemeList: [],
       schemeIndex: 0,
+      week:["周一","周二","周三","周四","周五","周六","周日"]
     }
   },
   onLoad(){
@@ -95,6 +99,10 @@ export default {
     changeScheme(index){
       this.schemeIndex = index;
       this.getDoctorList();
+    },
+    changeList(arr){
+      var newArray = arr.filter(value => Object.keys(value).length!== 0);
+      return newArray;
     }
   },
 }
@@ -139,8 +147,22 @@ export default {
     flex: 1;
     background: #ffffff;
     &__date {
-      display: flex;
+      // display: flex;
+      position: relative;
       margin-bottom: 20rpx;
+      background: #ffffff;
+      padding: 20rpx 0;
+      border-top: 2rpx solid #e4e4e4;
+      .week-box {
+        display: flex;
+        text-align: center;
+        margin-bottom: 10rpx;
+        padding-bottom: 20rpx;
+        border-bottom: 2rpx solid #e4e4e4;
+        &__item {
+          flex: 1;
+        }
+      }
       .list {
         display: flex;
         width: 660rpx;
@@ -157,11 +179,12 @@ export default {
           // width: 110rpx;
           flex-basis: 110rpx;
           flex-shrink: 0;
-          height: 126rpx;
+          // height: 126rpx;
           font-size: 22rpx;
           white-space: nowrap;
           .week {
             color: #666666;
+            margin-bottom: 10rpx;
           }
           .con {
             display: flex;
@@ -170,7 +193,6 @@ export default {
             justify-content: center;
             width: 65rpx;
             height: 65rpx;
-            margin-top: 10rpx;
             border-radius: 50%;
             .count {
               color: #666666;
@@ -182,6 +204,9 @@ export default {
             &.active {
               background: #0ec698;
               .count {
+                color: #ffffff;
+              }
+              .count {
                 color: #ffffff !important;
               }
               .status {
@@ -190,15 +215,16 @@ export default {
             }
           }
         }
-        &.active {
-          flex-wrap: wrap;
-        }
       }
       .arrow {
+        position: absolute;
+        right: 0;
+        top: 0;
         display: flex;
-        flex: 1;
-        height: 126rpx;
+        width: 90rpx;
+        height: 100%;
         border-left: 1rpx solid #e9e9e9;
+        background: rgba($color: #ffffff, $alpha: .7);
         .icon {
           position: relative;
           width: 36rpx;
@@ -218,6 +244,22 @@ export default {
           }
           &.active {
             transform: rotate(180deg)
+          }
+        }
+      }
+      &.active {
+        .arrow {
+          height: 94rpx;
+          top: -94rpx;
+          border-left: none;
+        }
+        .list {
+          display: grid;
+          grid-template-columns: repeat(7, 1fr);
+          width: 100%;
+          margin-top: -10rpx;
+          .item {
+            margin-top: 10rpx;
           }
         }
       }

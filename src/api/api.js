@@ -21,5 +21,9 @@ export default {
 	DOCTOR_DETAIL: '/doctor/getDetailById',//医生详情
 	ADD_COLLECT: '/collect_doctor/addCollect',//添加收藏
 	SCHEME_LIST: '/scheme/getSchemeList',//根据科室获取排班
+	REGISTER_HISTORY: '/register/getDoctorList',//挂号历史
+	DOCTOR_SEARCH: '/doctor/search',//搜索医生
+	DEPARTMENT_SEARCH: '/department/search',//搜索科室
+	LIVE_PATIENT_DELETE: '/live_patient/deleteLivePatient',//删除住院人
 	
 }

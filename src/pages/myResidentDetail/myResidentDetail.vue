@@ -40,7 +40,7 @@
         </view>
       </view>
     </view>
-    <view class="wrap-btn">删除住院人</view>
+    <view class="wrap-btn" @click="deleteLivePatient">删除住院人</view>
   </div>
 </template>
 
@@ -62,6 +62,20 @@
       },
       goDetail(){
         this.$Router.push({path:'/pages/myResidentBill/myResidentBill',query:{patient_code:this.model.patient_code}});
+      },
+      deleteLivePatient(){
+        this.$http.post(this.API.LIVE_PATIENT_DELETE,{live_code:this.model.live_code}).then(res=>{
+          uni.showToast({
+              title: res.message,
+              duration: 2000,
+              icon:'none',
+            });
+          if(res.code==20000){
+            setTimeout(()=>{
+              this.$Router.replace("/pages/myResidents/myResidents");
+            },1000)
+          }
+        })
       }
     }
   }
