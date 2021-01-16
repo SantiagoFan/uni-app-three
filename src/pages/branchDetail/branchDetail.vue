@@ -1,10 +1,11 @@
 <template>
   <view class="wrap">
     <view class="wrap_top">
-      <view class="wrap_top__date">日期：{{schemeList[schemeIndex]['date']}}</view><!-- 按日期预约显示 -->
+      <view class="wrap_top__date" v-if="tabIndex===0">日期：{{schemeList[schemeIndex]['date']}}</view><!-- 按日期预约显示 -->
+      <view class="wrap_top__date" v-else></view><!-- 按日期预约显示 -->
       <view class="wrap_top__tab">
-        <view :class="['wrap_top__tab-cell', {active: tabIndex === 0}]" @click="handleTabItem(0)">按日期预约</view>
-        <view :class="['wrap_top__tab-cell', {active: tabIndex === 1}]" @click="handleTabItem(1)">按医生预约</view>
+        <view :class="['wrap_top__tab-cell', {active: tabIndex === 1}]" @click="handleTabItem(0)">按日期预约</view>
+        <view :class="['wrap_top__tab-cell', {active: tabIndex === 0}]" @click="handleTabItem(1)">按医生预约</view>
       </view>
     </view>
     <view class="wrap_con">
@@ -33,7 +34,7 @@
             <view class="title">
               <view class="name">{{item.name}}</view>
               <view class="right">
-                <view class="sur" v-if="item.is_exist == 1">余号{{item.least_source}}:</view>
+                <view class="sur" v-if="item.is_exist == 1">余号:{{item.least_source}}</view>
                  <view class="tag" v-if="item.is_exist==1">￥{{item.price}}</view>
                 <view class="tag" v-if="item.is_exist==0">满诊</view>
               </view>
@@ -82,7 +83,7 @@ export default {
       })
     },
     goDetail(id){
-      this.$Router.push({path:'/pages/doctorDetail/doctorDetail',query:{id:id}});
+      this.$Router.push({path:'/pages/doctorDetail/doctorDetail',query:{id:id,date:this.schemeList[this.schemeIndex]['date']}});
     },
     getSchemeList(){
       this.$http.post(this.API.SCHEME_LIST,{departmentid:this.$Route.query.departmentid}).then(res=>{

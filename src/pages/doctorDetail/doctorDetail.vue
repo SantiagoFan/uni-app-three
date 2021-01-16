@@ -35,19 +35,31 @@
       <view class="register" v-show="tabIndex == 0">
         <view class="register-list">
           <view class="register-list__cell">
-            <view class="title">
+            <view class="title" @click="openDate">
               <view class="date">2020-07-24   星期五</view>
               <view class="text">更多日期</view>
               <view class="arrow">
                 <text class="iconfont icon-arrowb"></text>
               </view>
             </view>
+            <view class="wrap_con__date" v-if="isShow">
+              <view :class="['list', {active: isOpen}]">
+                <view class="item" v-for="(item, index) in schemeList" :key="index" @click="changeScheme(index)">
+                  <view class="week">{{item.week}}</view>
+                  <view :class="['con', {active: index==schemeIndex}]">
+                    <view class="count" :style="{color: item.is_exist == 1?'#0ec698': ''}">{{item.day}}</view>
+                    <view class="status">{{item.is_exist==1?'有':'无'}}</view>
+                  </view>
+                </view>
+              </view>
+              <view class="arrow" @click="isOpen = !isOpen">
+                <view :class="['icon', {active: isOpen}]">
+                  <text class="iconfont icon-shang"></text>
+                </view>
+              </view> 
+            </view>
             <view class="list">
-              <!-- <view class="item item-active">
-                <view class="date">08:00:00~09:00:00</view>
-                <view class="price">已无号</view>
-              </view> -->
-              <view :class="['item',item.has_source==0?'':'item-active']" v-for="(item,index) in list" :key="index" @click="orderPopupStatus = true">
+              <view :class="['item',item.has_source==0?'':'item-active']" v-for="(item,index) in list" :key="index" @click="goRegister(index)">
                 <view class="date">{{item.time}}</view>
                 <view class="price" v-if="item.has_source==0">¥{{item.price}}</view>
                 <view class="price" v-else>已无号</view>
@@ -80,63 +92,87 @@
         <view class="order-wrap__info">
           <view class="order-wrap__info-user">
             <view class="avatar">
-              <image class="img" mode="aspectFill" src="@/static/image/doctor_avatar.jpg" />
+              <image class="img" mode="aspectFill" :src="model.headimg" />
             </view>
             <view class="info">
               <view class="info-cell">
                 <view class="info-cell__label">医师：</view>
-                <view class="info-cell__text">特木其勒</view>
+                <view class="info-cell__text">{{model.name}}</view>
               </view>
               <view class="info-cell">
                 <view class="info-cell__label">科室：</view>
-                <view class="info-cell__text">针灸科</view>
+                <view class="info-cell__text">{{model.department_name}}</view>
               </view>
               <view class="info-cell">
                 <view class="info-cell__label">费用：</view>
-                <view class="info-cell__text">5.00</view>
+                <view class="info-cell__text">{{model.price}}</view>
               </view>
               <view class="info-cell">
                 <view class="info-cell__label">时段：</view>
-                <view class="info-cell__text">2020-07-24 星期五   上午 <br> 09:00:00~10:00:00</view>
+                <view class="info-cell__text">{{model.visit_date}} {{week[model.week]}}   {{timeStatus}} <br> {{time}}</view>
               </view>
             </view>
           </view>
           <view class="order-wrap__info-con">
             <view class="bt">请点击下方加号添加就诊人</view>
             <view class="list">
-              <view class="item" v-for="item in 1" :key="item">李想</view>
-              <view class="item-add">
+              <view class="item" v-for="(item,index) in patientList" :key="index">{{getName(item.name)}}</view>
+              <view class="item-add" @click="addPatient">
                 <text class="iconfont icon-hao"></text>
               </view>
             </view>
           </view>
         </view>
-        <view class="order-wrap__btn">确认挂号</view>
+        <view class="order-wrap__btn" @click="createOrder">确认挂号</view>
       </view>
 		</u-popup>
   </view>
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   data() {
     return {
       tabIndex: 0,
       orderPopupStatus: false,
       model: '',
-      list: []
+      list: [],
+      week:['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'],
+      time: "",
+      timeStatus: "",
+      patientList: [],
+      isShow: false,
+      schemeList: [],
+      isOpen: false, // 是否展开日期
     }
   },
+  computed: {
+    ...mapState(["patientInfo"]),
+  },
   onLoad() {
-    this.getDetail();
+    // this.getDetail();
+    this.getPatientList();
+    this.getSchemeList();
   },
   methods: {
     // 修改tab 索引
     handleSwitchItem(index) {
       this.tabIndex = index
     },
+    getSchemeList(){
+      this.$http.post(this.API.SCHEME_LIST,{departmentid:this.$Route.query.departmentid}).then(res=>{
+        this.schemeList = res.data;
+      }).then(res=>{
+        this.getDetail();
+      })
+    },
     getDetail(){
-      this.$http.post(this.API.DOCTOR_DETAIL,{id:this.$Route.query.id}).then(res=>{
+      var data = {
+        id: this.$Route.query.id,
+        date: this.$Route.query.date
+      };
+      this.$http.post(this.API.DOCTOR_DETAIL,data).then(res=>{
         this.model = res.data;
         this.list = res.list;
       })
@@ -153,6 +189,33 @@ export default {
         }
 
       })
+    },
+    goRegister(index){
+      this.time = this.list[index]['time'];
+      this.timeStatus = this.list[index]['time_status']=='AM'?'上午':'下午';
+      this.orderPopupStatus = true;
+    },
+    getPatientList(){
+      this.$http.post(this.API.PATIENT_LIST).then(res=>{
+        this.patientList = res.data;
+      })
+    },
+     addPatient(){
+      this.$Router.push("/pages/medicalCardLogin/medicalCardLogin")
+    },
+    createOrder(){
+      this.$Router.push("/pages/payment/payment");
+    },
+    getName(str){
+      if(str.length>2){
+        return str.substr(-2,2);
+      }else{
+        return str;
+      }
+    },
+    openDate(){
+      // this.isOpen = !this.isOpen;
+      this.isShow = !this.isShow;
     }
   }
 }
@@ -259,6 +322,90 @@ export default {
               flex: 1;
             }
           }
+        .wrap_con__date{
+          display: flex;
+          margin-bottom: 20rpx;
+          .list {
+            display: flex;
+            width: 660rpx;
+            overflow-x: auto;
+            white-space: nowrap;
+            &::-webkit-scrollbar {
+              display: none;
+            }
+            .item {
+              display: inline-flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: center;
+              // width: 110rpx;
+              flex-basis: 110rpx;
+              flex-shrink: 0;
+              height: 126rpx;
+              font-size: 22rpx;
+              white-space: nowrap;
+              .week {
+                color: #666666;
+              }
+              .con {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                width: 65rpx;
+                height: 65rpx;
+                margin-top: 10rpx;
+                border-radius: 50%;
+                .count {
+                  color: #666666;
+                  font-size: 24rpx;
+                }
+                .status {
+                  color: #bcbcbc;
+                }
+                &.active {
+                  background: #0ec698;
+                  .count {
+                    color: #ffffff !important;
+                  }
+                  .status {
+                    color: #ffffff;
+                  }
+                }
+              }
+            }
+            &.active {
+              flex-wrap: wrap;
+            }
+          }
+          .arrow {
+            display: flex;
+            flex: 1;
+            height: 126rpx;
+            border-left: 1rpx solid #e9e9e9;
+            .icon {
+              position: relative;
+              width: 36rpx;
+              height: 36rpx;
+              margin: auto;
+              color: #ffffff;
+              text-align: center;
+              background: #0ec698;
+              border-radius: 50%;
+              transition: all .5s;
+              .iconfont {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%,-50%);
+                font-size: 20rpx;
+              }
+              &.active {
+                transform: rotate(180deg)
+              }
+            }
+          }
+        }
           .list {
             .item {
               display: flex;
@@ -295,6 +442,7 @@ export default {
           }
         }
       }
+
     }
     &-intr {
       color: #333333;
@@ -364,7 +512,8 @@ export default {
             font-size: 26rpx;
             text-align: center;
             background: #0ec698;
-            @include textOverflow(1);
+            overflow: hidden;
+            // @include textOverflow(1);
             &-add {
               display: flex;
               align-items: center;
