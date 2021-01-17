@@ -1,7 +1,7 @@
 <template>
   <view class="wrap">
     <view class="wrap_top">
-      <view class="wrap_top__date" v-if="tabIndex===0">日期：{{schemeList[schemeIndex]['date']}}</view><!-- 按日期预约显示 -->
+      <view class="wrap_top__date" v-if="tabIndex===0">日期：{{selectDate}}</view><!-- 按日期预约显示 -->
       <view class="wrap_top__date" v-else></view><!-- 按日期预约显示 -->
       <view class="wrap_top__tab">
         <view :class="['wrap_top__tab-cell', {active: tabIndex === 1}]" @click="handleTabItem(0)">按日期预约</view>
@@ -10,19 +10,19 @@
     </view>
     <view class="wrap_con">
       <view :class="['wrap_con__date',{active:isOpen}]" v-if="tabIndex===0">
-         <view class="week-box" v-if="isOpen">
+        <view class="week-box" v-if="isOpen">
           <view class="week-box__item" v-for="(item,index) in week" :key="index">{{item}}</view>
         </view>
         <view :class="['list', {active: isOpen}]">
-          <view class="item" v-for="(item, index) in !isOpen?changeList(schemeList):schemeList" :key="index" @click="changeScheme(index)">
+          <view  class="item" v-for="(item, index) in schemeList" :key="index" @click="changeScheme(item)">
             <view v-if="!isOpen" class="week">{{item.week}}</view>
-            <view :class="['con', {active: index==schemeIndex}]" v-if="item.day">
+            <view v-if='item' :class="['con', {active: item.date==selectDate}]">
               <view class="count" :style="{color: item.is_exist == 1?'#0ec698': ''}">{{item.day}}</view>
               <view class="status">{{item.is_exist==1?'有':'无'}}</view>
             </view>
           </view>
         </view>
-        <view class="arrow" @click="isOpen = !isOpen">
+        <view class="arrow" @click="openDate()">
           <view :class="['icon', {active: isOpen}]">
             <text class="iconfont icon-shang"></text>
           </view>
@@ -55,6 +55,7 @@
 </template>
 
 <script>
+import moment from "moment"
 export default {
   data() {
     return {
@@ -63,8 +64,10 @@ export default {
       isOpen: false, // 是否展开日期
       doctorList: [],
       schemeList: [],
-      schemeIndex: 0,
-      week:["周一","周二","周三","周四","周五","周六","周日"]
+      selectDate:"",
+      week:["周一","周二","周三","周四","周五","周六","周日"],
+      open_scheme_list:[],
+      postLock:false
     }
   },
   onLoad(){
@@ -80,29 +83,69 @@ export default {
     getDoctorList(){
       var data = {
         departmentid:this.$Route.query.departmentid,
-        date:this.schemeList[this.schemeIndex]['date']
+        date:this.selectDate
       };
+
+      if(this.postLock){
+        return;
+      }
+      this.postLock=true;
+      uni.showLoading({
+          title: '加载中'
+      });
       this.$http.post(this.API.DOCTOR_LIST,data).then(res=>{
         this.doctorList = res.data;
+        this.postLock=false
+        uni.hideLoading()
       })
     },
     goDetail(id){
-      this.$Router.push({path:'/pages/doctorDetail/doctorDetail',query:{id:id,date:this.schemeList[this.schemeIndex]['date']}});
+      this.$Router.push({path:'/pages/doctorDetail/doctorDetail',query:{id:id,date:this.selectDate}});
     },
     getSchemeList(){
       this.$http.post(this.API.SCHEME_LIST,{departmentid:this.$Route.query.departmentid}).then(res=>{
+        this.origin_scheme=res.data;
         this.schemeList = res.data;
+        if(res.data.length>0){
+          this.selectDate=res.data[0].date;
+        }
       }).then(res=>{
         this.getDoctorList();
       })
     },
-    changeScheme(index){
-      this.schemeIndex = index;
-      this.getDoctorList();
+    changeScheme(item){
+      if(!this.postLock&&item&&item.date!=this.selectDate){
+        this.selectDate = item.date;
+        this.getDoctorList();
+      }
     },
     changeList(arr){
       var newArray = arr.filter(value => Object.keys(value).length!== 0);
       return newArray;
+    },
+    openDate(){
+      this.isOpen=!this.isOpen
+      this.schemeList=[];
+      let data=JSON.parse(JSON.stringify(this.origin_scheme))
+      if(this.isOpen){
+        for (let i = 0; i < data.length; i++) {
+          if(i==0){
+            let first=moment(data[i])
+            for(let j=0;j<first.isoWeekday()-1;j++){
+              this.schemeList.push(null);
+            }
+          }
+          this.schemeList.push(data[i]);
+          if(i==data.length-1){
+            let end=moment(data[i])
+            for(let j=0;j<7-end.isoWeekday();j++){
+              this.schemeList.push(null);
+            }
+          }
+        }
+      }else{
+        this.schemeList=data
+      }
     }
   },
 }
