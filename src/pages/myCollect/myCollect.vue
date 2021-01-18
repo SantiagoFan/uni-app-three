@@ -2,14 +2,14 @@
   <view class="collect">
     <view class="collect-main">
       <view class="collect-list">
-        <view class="collect-item" v-for="item in 3" :key="item" @click="handleClickDetail">
+        <view class="collect-item" v-for="(item,index) in collectList" :key="index" @click="handleClickDetail">
           <view class="collect-item__avatar">
-            <image class="img" mode="aspectFill" src="@/static/image/doctor_avatar.jpg" />
+            <image class="img" mode="aspectFill" :src="item.headimg" />
           </view>
           <view class="collect-item__info">
-            <view class="name">云耀峰</view>
-            <view class="title">职称：主任医师</view>
-            <view class="post">职务：党总支书记</view>
+            <view class="name">{{item.name}}</view>
+            <view class="title">职称：{{item.professional}}</view>
+            <view class="post">职务：{{item.position}}</view>
           </view>
         </view>
       </view>
@@ -19,7 +19,20 @@
 
 <script>
 export default {
+  data(){
+    return{
+      collectList: []
+    }
+  },
+  onShow(){
+    this.getCollectList();
+  },
   methods: {
+    getCollectList(){
+      this.$http.post(this.API.COLLECT_DOCTOR).then(res=>{
+        this.collectList = res.data;
+      })
+    },
     handleClickDetail() {
       uni.navigateTo({
         url: `/pages/doctorDetail/doctorDetail?tabIndex=1`

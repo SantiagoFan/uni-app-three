@@ -79,6 +79,8 @@ export default {
     },
     handleTabItem(index) {
       this.tabIndex = index
+      this.selectDate = this.tabIndex==0?this.selectDate:''
+      this.getDoctorList()
     },
     getDoctorList(){
       var data = {

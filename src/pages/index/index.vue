@@ -13,7 +13,7 @@
           <view class="index-wrap__user-info">
             <view v-if="patientInfo">
               <view class="title">
-                <view class="name">{{ patientInfo.name }}</view>
+                <view class="name">{{ getName(patientInfo.name) }}</view>
                 <view class="tag">电子就诊卡</view>
                 <view @click="changePatient" class="check"
                   >切换</view
@@ -228,6 +228,13 @@ export default {
     
   },
   methods: {
+    getName(str){
+      if(str.length>2){
+        return str.substr(-2,2);
+      }else{
+        return str;
+      }
+    },
     //就诊人
     getPatientList(){
       this.$http.post(this.API.PATIENT_LIST).then(res=>{

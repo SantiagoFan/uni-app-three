@@ -25,5 +25,7 @@ export default {
 	DOCTOR_SEARCH: '/doctor/search',//搜索医生
 	DEPARTMENT_SEARCH: '/department/search',//搜索科室
 	LIVE_PATIENT_DELETE: '/live_patient/deleteLivePatient',//删除住院人
+	MEMBER_INDEX: '/member/getIndex',//个人中心就诊卡数量
+	HOSPITAL_INFO: '/hospital_info/getInfo',//医院信息
 	
 }

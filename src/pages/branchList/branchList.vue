@@ -16,24 +16,24 @@
       >
         <view
           class="u-tab-item"
-          :class="[current == 0 ? 'u-tab-item-active' : '']"
-          @tap.stop="swichMenu(0)"
+          :class="[current == 1 ? 'u-tab-item-active' : '']"
+          @tap.stop="swichMenu(1)"
         >
           <view class="icon">
             <image class="img" mode="widthFix" src="@/static/image/doctor_icon6.png" />
           </view>
           <text class="u-line-1">历史挂号</text>
         </view>
-        <view
+        <!-- <view
           class="u-tab-item"
-          :class="[current == 1 ? 'u-tab-item-active' : '']"
-          @tap.stop="swichMenu(1)"
+          :class="[current == 0 ? 'u-tab-item-active' : '']"
+          @tap.stop="swichMenu(0)"
         >
           <view class="icon">
             <image class="img" mode="widthFix" src="@/static/image/doctor_icon7.png" />
           </view>
           <text class="u-line-1">收藏的医生</text>
-        </view>
+        </view> -->
         <view
           v-for="(item, index) in cateList"
           :key="index"
@@ -53,7 +53,7 @@
           <view class="page-view">
             <view class="class-item">
               <view class="item-container">
-                <view class="doctor-s" v-if="current === 0 || current === 1">
+                <view class="doctor-s" v-if="current === 1">
                   <view
                     @click="goDetail(obj.id)"
                     class="doctor-wrap"
@@ -111,7 +111,7 @@ export default {
     return {
       tabbar: classifyData,
       scrollTop: 0, //tab标题的滚动条位置
-      current: 0, // 预设当前项的值
+      current: 1, // 预设当前项的值
       menuHeight: 0, // 左边菜单的高度
       menuItemHeight: 0, // 左边菜单item的高度
       show: false,
@@ -185,8 +185,6 @@ export default {
         this.menuItemHeight / 2 -
         this.menuHeight / 2;
         if(index==1){
-          this.getCollectList();
-        }else if(index==0){
           this.getHistoryList();
         }
     },

@@ -5,28 +5,28 @@
         <view class="my-wrap__info">
           <view class="art1">
             <view class="art1_avatar">
-              <image class="img" mode="aspectFill" src="@/static/image/test_avatar.jpg" />
+              <image class="img" mode="aspectFill" :src="userInfo.headimgurl" />
             </view>
             <view class="art1_info">
-              <view class="art1_info__name">姓名</view>
-              <navigator url="/pages/patientAdd/patientAdd" hover-class="none" class="art1_info__count">
-                <view class="text">就诊卡 <text class="num">1</text> 张</view>
+              <view class="art1_info__name">{{userInfo.nickname}}</view>
+              <view @click="goDetail" hover-class="none" class="art1_info__count">
+                <view class="text">就诊卡 <text class="num">{{count}}</text> 张</view>
                 <view class="jt">
                   <text class="iconfont icon-arrowb"></text>
                 </view>
-              </navigator>
+              </view>
             </view>
           </view>
-          <navigator url="/pages/patientDetail/patientDetail" hover-class="none" class="art2">
+          <view @click="goPatientDetail(patientInfo.id)" hover-class="none" class="art2">
             <view class="art2_title">
-              <view class="art2_title__name">姓名</view>
+              <view class="art2_title__name">{{getName(patientInfo.name)}}</view>
               <view class="art2_title__tag">
                 <view class="art2_title__tag-item">默认卡</view>
                 <view class="art2_title__tag-item">电子就诊卡</view>
               </view>
             </view>
-            <view class="art2_subt">院内诊疗号：1000000182574</view>
-          </navigator>
+            <view class="art2_subt">院内诊疗号：{{patientInfo.patient_code}}</view>
+          </view>
         </view>
         <view class="my-wrap__list">
           <navigator url="/pages/registerRecord/registerRecord" class="item">
@@ -81,8 +81,39 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
   export default {
-    
+    data(){
+      return{
+        count: 0
+      }
+    },
+    onShow(){
+      this.getIndex();
+    },
+    computed: {
+      ...mapState(["userInfo","patientInfo"]),
+    },
+    methods:{
+      getName(str){
+        if(str.length>2){
+          return str.substr(-2,2);
+        }else{
+          return str;
+        }
+      },
+      getIndex(){
+        this.$http.post(this.API.MEMBER_INDEX).then(res=>{
+          this.count = res.data;
+        })
+      },
+      goDetail(){
+        this.$Router.push("/pages/patientAdd/patientAdd")
+      },
+      goPatientDetail(id){
+        this.$Router.push({path:"/pages/patientDetail/patientDetail",query:{id:id}})
+      }
+    }
   }
 </script>
 
