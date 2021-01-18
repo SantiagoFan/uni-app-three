@@ -8,30 +8,53 @@
               <image class="img" mode="aspectFill" :src="userInfo.headimgurl" />
             </view>
             <view class="art1_info">
-              <view class="art1_info__name">{{userInfo.nickname}}</view>
-              <view @click="goDetail" hover-class="none" class="art1_info__count">
-                <view class="text">就诊卡 <text class="num">{{count}}</text> 张</view>
+              <view class="art1_info__name">{{ userInfo.nickname }}</view>
+              <view
+                @click="goDetail"
+                hover-class="none"
+                class="art1_info__count"
+              >
+                <view class="text"
+                  >就诊卡 <text class="num">{{ count }}</text> 张</view
+                >
                 <view class="jt">
                   <text class="iconfont icon-arrowb"></text>
                 </view>
               </view>
             </view>
           </view>
-          <view @click="goPatientDetail(patientInfo.id)" hover-class="none" class="art2">
+          <view
+            @click="goPatientDetail(patientInfo.id)"
+            hover-class="none"
+            class="art2"
+          >
             <view class="art2_title">
-              <view class="art2_title__name">{{getName(patientInfo.name)}}</view>
+              <view class="art2_title__name">{{
+                getName(patientInfo.name)
+              }}</view>
               <view class="art2_title__tag">
                 <view class="art2_title__tag-item">默认卡</view>
                 <view class="art2_title__tag-item">电子就诊卡</view>
               </view>
             </view>
-            <view class="art2_subt">院内诊疗号：{{patientInfo.patient_code}}</view>
+            <view class="art2_subt"
+              >院内诊疗号：{{ patientInfo.patient_code }}</view
+            >
+          </view>
+          <view class="art2">
+            <view class="art2_none">
+              <text class="iconfont icon-hao"></text> 添加就诊卡
+            </view>
           </view>
         </view>
         <view class="my-wrap__list">
           <navigator url="/pages/registerRecord/registerRecord" class="item">
             <view class="item__icon">
-              <image class="img" mode="widthFix" src="@/static/image/my_icon1.png" />
+              <image
+                class="img"
+                mode="widthFix"
+                src="@/static/image/my_icon1.png"
+              />
             </view>
             <view class="item__text">挂号记录</view>
             <view class="item__jt">
@@ -40,7 +63,11 @@
           </navigator>
           <navigator url="/pages/payRecord/payRecord?type=0" class="item">
             <view class="item__icon">
-              <image class="img" mode="widthFix" src="@/static/image/my_icon2.png" />
+              <image
+                class="img"
+                mode="widthFix"
+                src="@/static/image/my_icon2.png"
+              />
             </view>
             <view class="item__text">门诊缴费记录</view>
             <view class="item__jt">
@@ -49,7 +76,11 @@
           </navigator>
           <navigator url="/pages/payRecord/payRecord?type=1" class="item">
             <view class="item__icon">
-              <image class="img" mode="widthFix" src="@/static/image/my_icon3.png" />
+              <image
+                class="img"
+                mode="widthFix"
+                src="@/static/image/my_icon3.png"
+              />
             </view>
             <view class="item__text">诊间支付缴费记录</view>
             <view class="item__jt">
@@ -58,7 +89,11 @@
           </navigator>
           <navigator url="/pages/payRecord/payRecord?type=2" class="item">
             <view class="item__icon">
-              <image class="img" mode="widthFix" src="@/static/image/my_icon4.png" />
+              <image
+                class="img"
+                mode="widthFix"
+                src="@/static/image/my_icon4.png"
+              />
             </view>
             <view class="item__text">住院缴费记录</view>
             <view class="item__jt">
@@ -67,7 +102,11 @@
           </navigator>
           <navigator url="/pages/myCollect/myCollect" class="item">
             <view class="item__icon">
-              <image class="img" mode="widthFix" src="@/static/image/my_icon5.png" />
+              <image
+                class="img"
+                mode="widthFix"
+                src="@/static/image/my_icon5.png"
+              />
             </view>
             <view class="item__text">我的收藏</view>
             <view class="item__jt">
@@ -82,39 +121,42 @@
 
 <script>
 import { mapState } from "vuex";
-  export default {
-    data(){
-      return{
-        count: 0
+export default {
+  data() {
+    return {
+      count: 0,
+    };
+  },
+  onShow() {
+    this.getIndex();
+  },
+  computed: {
+    ...mapState(["userInfo", "patientInfo"]),
+  },
+  methods: {
+    getName(str) {
+      if (str.length > 2) {
+        return str.substr(-2, 2);
+      } else {
+        return str;
       }
     },
-    onShow(){
-      this.getIndex();
+    getIndex() {
+      this.$http.post(this.API.MEMBER_INDEX).then((res) => {
+        this.count = res.data;
+      });
     },
-    computed: {
-      ...mapState(["userInfo","patientInfo"]),
+    goDetail() {
+      this.$Router.push("/pages/patientAdd/patientAdd");
     },
-    methods:{
-      getName(str){
-        if(str.length>2){
-          return str.substr(-2,2);
-        }else{
-          return str;
-        }
-      },
-      getIndex(){
-        this.$http.post(this.API.MEMBER_INDEX).then(res=>{
-          this.count = res.data;
-        })
-      },
-      goDetail(){
-        this.$Router.push("/pages/patientAdd/patientAdd")
-      },
-      goPatientDetail(id){
-        this.$Router.push({path:"/pages/patientDetail/patientDetail",query:{id:id}})
-      }
-    }
-  }
+    goPatientDetail(id) {
+      this.$Router.push({
+        path: "/pages/patientDetail/patientDetail",
+        query: { id: id },
+      });
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -128,7 +170,7 @@ import { mapState } from "vuex";
         position: relative;
         padding: 35rpx 35rpx 40rpx 35rpx;
         &::after {
-          content: '';
+          content: "";
           position: absolute;
           width: 680rpx;
           border-top: 1rpx solid #f6f6f6;
@@ -184,7 +226,7 @@ import { mapState } from "vuex";
           font-size: 24rpx;
           padding: 0 25rpx;
           margin-top: 40rpx;
-          background: url('@/static/image/my_info_bg.jpg') no-repeat;
+          background: url("@/static/image/my_info_bg.jpg") no-repeat;
           background-size: 100% 100%;
           border-radius: 20rpx;
           &_title {
@@ -213,6 +255,18 @@ import { mapState } from "vuex";
           }
           &_subt {
             margin-top: 15rpx;
+          }
+          &_none {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36rpx;
+            letter-spacing: 4rpx;
+            .iconfont {
+              font-size: 28rpx;
+              margin-right: 10rpx;
+              font-weight: bold;
+            }
           }
         }
       }

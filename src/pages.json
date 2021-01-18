@@ -361,6 +361,24 @@
     {
       "path": "pages/author/author",
       "name":"author"
+    },
+    {
+      "path": "pages/department/department",
+      "name":"department",
+      "style": {
+        "navigationBarTitleText": "科室列表",
+        "navigationBarBackgroundColor": "#0ec698",
+        "navigationBarTextStyle": "#ffffff"
+			}
+    },
+    {
+      "path": "pages/department/departmentDetail",
+      "name":"departmentDetail",
+      "style": {
+        "navigationBarTitleText": "科室介绍",
+        "navigationBarBackgroundColor": "#0ec698",
+        "navigationBarTextStyle": "#ffffff"
+			}
     }
 	],
 	"globalStyle": {

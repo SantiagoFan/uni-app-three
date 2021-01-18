@@ -8,20 +8,20 @@
         <view class="hospital-m__wrap-info">
           <view class="logo">
             <image class="img" mode="widthFix" :src="info.image" />
-            <view class="tag">{{info.grade}}</view>
+            <view class="tag">{{ info.grade }}</view>
           </view>
           <view class="menu">
             <view class="menu-item">
               <view class="menu-item__icon">
                 <text class="iconfont icon-dianhua"></text>
               </view>
-              <view class="menu-item__text">{{info.phone}}</view>
+              <view class="menu-item__text">{{ info.phone }}</view>
             </view>
             <view class="menu-item">
               <view class="menu-item__icon">
                 <text class="iconfont icon-weizhi"></text>
               </view>
-              <view class="menu-item__text">{{info.address}}</view>
+              <view class="menu-item__text">{{ info.address }}</view>
             </view>
           </view>
         </view>
@@ -29,21 +29,45 @@
         <view class="hospital-m__wrap-sta">
           <view class="bt">功能清单</view>
           <view class="menu">
-            <navigator url="/pages/branchList/branchList?type=0" hover-class="none" class="menu-item">
+            <router-link
+              :to="{ name: 'department' }"
+              hover-class="none"
+              class="menu-item"
+            >
               <view class="icon">
-                <image class="img" mode="widthFix" src="@/static/image/hos_icon1.jpg" />
+                <image
+                  class="img"
+                  mode="widthFix"
+                  src="@/static/image/hos_icon1.jpg"
+                />
               </view>
               <view class="text">科室介绍</view>
-            </navigator>
-            <navigator url="/pages/branchList/branchList?type=1" hover-class="none" class="menu-item">
+            </router-link>
+            <navigator
+              url="/pages/branchList/branchList?type=1"
+              hover-class="none"
+              class="menu-item"
+            >
               <view class="icon">
-                <image class="img" mode="widthFix" src="@/static/image/hos_icon2.jpg" />
+                <image
+                  class="img"
+                  mode="widthFix"
+                  src="@/static/image/hos_icon2.jpg"
+                />
               </view>
               <view class="text">医生介绍</view>
             </navigator>
-            <navigator url="/pages/branchPlace/branchPlace" hover-class="none" class="menu-item">
+            <navigator
+              url="/pages/branchPlace/branchPlace"
+              hover-class="none"
+              class="menu-item"
+            >
               <view class="icon">
-                <image class="img" mode="widthFix" src="@/static/image/hos_icon3.jpg" />
+                <image
+                  class="img"
+                  mode="widthFix"
+                  src="@/static/image/hos_icon3.jpg"
+                />
               </view>
               <view class="text">科室分布</view>
             </navigator>
@@ -52,8 +76,7 @@
         <u-gap height="20" bg-color="#f3f3f3"></u-gap>
         <view class="hospital-m__wrap-intr">
           <view class="bt">本院介绍</view>
-          <view class="centent" v-html="info.content">
-          </view>
+          <view class="centent" v-html="info.content"> </view>
         </view>
         <u-gap height="20" bg-color="#f3f3f3"></u-gap>
       </view>
@@ -66,21 +89,21 @@ export default {
   data() {
     return {
       info: "",
-      banner: ""
-    }
+      banner: "",
+    };
   },
-  onShow(){
-    this.getInfo()
+  onShow() {
+    this.getInfo();
   },
-  methods:{
-    getInfo(){
-      this.$http.post(this.API.HOSPITAL_INFO).then(res=>{
+  methods: {
+    getInfo() {
+      this.$http.post(this.API.HOSPITAL_INFO).then((res) => {
         this.info = res.data.info;
         this.banner = res.data.banner;
-      })
-    }
-  }
-}
+      });
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -108,7 +131,7 @@ export default {
           border-radius: 50%;
           margin-right: 15rpx;
           background: #0ec698;
-          content: '';
+          content: "";
         }
       }
       &-info {
