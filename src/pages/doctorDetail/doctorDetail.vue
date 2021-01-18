@@ -36,27 +36,24 @@
         <view class="register-list">
           <view class="register-list__cell">
             <view class="title" @click="openDate">
-              <view class="date">2020-07-24   星期五</view>
-              <view class="text">更多日期</view>
+              <view class="date">{{selectDate}}   {{selectWeek}}</view>
+              <view class="text">{{dateName}}</view>
               <view class="arrow">
-                <text class="iconfont icon-arrowb"></text>
+                <text :class="['iconfont icon-arrowb', {active: !isShow}]"></text>
               </view>
             </view>
-            <view class="wrap_con__date" v-if="isShow">
-              <view :class="['list', {active: isOpen}]">
-                <view class="item" v-for="(item, index) in schemeList" :key="index" @click="changeScheme(index)">
-                  <view class="week">{{item.week}}</view>
-                  <view :class="['con', {active: index==schemeIndex}]">
+            <view class="wrap_con__date active" v-if="isShow">
+              <view class="week-box">
+                <view class="week-box__item" v-for="(item,index) in week" :key="index">{{item}}</view>
+              </view>
+              <view class="list active">
+                <view  class="item" v-for="(item, index) in schemeList" :key="index" @click="changeScheme(index)">
+                  <view v-if='item' :class="['con', {active: item.date==selectDate}]">
                     <view class="count" :style="{color: item.is_exist == 1?'#0ec698': ''}">{{item.day}}</view>
                     <view class="status">{{item.is_exist==1?'有':'无'}}</view>
                   </view>
                 </view>
               </view>
-              <view class="arrow" @click="isOpen = !isOpen">
-                <view :class="['icon', {active: isOpen}]">
-                  <text class="iconfont icon-shang"></text>
-                </view>
-              </view> 
             </view>
             <view class="list">
               <view :class="['item',item.has_source==0?'':'item-active']" v-for="(item,index) in list" :key="index" @click="goRegister(index)">
@@ -143,7 +140,10 @@ export default {
       patientList: [],
       isShow: false,
       schemeList: [],
-      isOpen: false, // 是否展开日期
+      week:["周一","周二","周三","周四","周五","周六","周日"],
+      selectDate:"",
+      selectWeek: "",
+      dateName: "更多日期"
     }
   },
   computed: {
@@ -151,6 +151,7 @@ export default {
   },
   onLoad() {
     // this.getDetail();
+    this.selectDate = this.$Route.query.date;
     this.getPatientList();
     this.getSchemeList();
   },
@@ -161,6 +162,7 @@ export default {
     },
     getSchemeList(){
       this.$http.post(this.API.SCHEME_LIST,{departmentid:this.$Route.query.departmentid}).then(res=>{
+        // var newArray = (res.data).filter(value => Object.keys(value).length!== 0);
         this.schemeList = res.data;
       }).then(res=>{
         this.getDetail();
@@ -169,11 +171,13 @@ export default {
     getDetail(){
       var data = {
         id: this.$Route.query.id,
-        date: this.$Route.query.date
+        date: this.selectDate
       };
       this.$http.post(this.API.DOCTOR_DETAIL,data).then(res=>{
         this.model = res.data;
         this.list = res.list;
+        var date = new Date(this.selectDate);
+        this.selectWeek = "星期" + "日一二三四五六".charAt(date.getDay());
       })
     },
     addCollect(){
@@ -213,8 +217,12 @@ export default {
       }
     },
     openDate(){
-      // this.isOpen = !this.isOpen;
       this.isShow = !this.isShow;
+      this.dateName = this.isShow?"收起日期":"更多日期";
+    },
+    changeScheme(index){
+      this.selectDate = this.schemeList[index]['date'];
+      this.getDetail();
     }
   }
 }
@@ -322,90 +330,125 @@ export default {
             }
           }
         .wrap_con__date{
-          display: flex;
-          margin-bottom: 20rpx;
-          .list {
-            display: flex;
-            width: 660rpx;
-            overflow-x: auto;
-            white-space: nowrap;
-            &::-webkit-scrollbar {
-              display: none;
-            }
-            .item {
-              display: inline-flex;
-              flex-direction: column;
-              align-items: center;
-              justify-content: center;
-              // width: 110rpx;
-              flex-basis: 110rpx;
-              flex-shrink: 0;
-              height: 126rpx;
-              font-size: 22rpx;
-              white-space: nowrap;
-              .week {
-                color: #666666;
+            // display: flex;
+            position: relative;
+            margin-bottom: 20rpx;
+            background: #ffffff;
+            padding: 20rpx 0;
+            border-top: 2rpx solid #e4e4e4;
+            .week-box {
+              display: flex;
+              text-align: center;
+              margin-bottom: 10rpx;
+              padding-bottom: 20rpx;
+              border-bottom: 2rpx solid #e4e4e4;
+              &__item {
+                flex: 1;
               }
-              .con {
-                display: flex;
+            }
+            .list {
+              // display: flex;
+              // width: 660rpx;
+              // overflow-x: auto;
+              // white-space: nowrap;
+              &::-webkit-scrollbar {
+                display: none;
+              }
+              .item {
+                display: inline-flex;
                 flex-direction: column;
                 align-items: center;
                 justify-content: center;
-                width: 65rpx;
-                height: 65rpx;
-                margin-top: 10rpx;
-                border-radius: 50%;
-                .count {
+                // width: 110rpx;
+                flex-basis: 110rpx;
+                flex-shrink: 0;
+                // height: 126rpx;
+                font-size: 22rpx;
+                white-space: nowrap;
+                .week {
                   color: #666666;
-                  font-size: 24rpx;
+                  margin-bottom: 10rpx;
                 }
-                .status {
-                  color: #bcbcbc;
-                }
-                &.active {
-                  background: #0ec698;
+                .con {
+                  display: flex;
+                  flex-direction: column;
+                  align-items: center;
+                  justify-content: center;
+                  width: 65rpx;
+                  height: 65rpx;
+                  border-radius: 50%;
                   .count {
-                    color: #ffffff !important;
+                    color: #666666;
+                    font-size: 24rpx;
                   }
                   .status {
-                    color: #ffffff;
+                    color: #bcbcbc;
+                  }
+                  &.active {
+                    background: #0ec698;
+                    .count {
+                      color: #ffffff;
+                    }
+                    .count {
+                      color: #ffffff !important;
+                    }
+                    .status {
+                      color: #ffffff;
+                    }
                   }
                 }
               }
             }
+            .arrow {
+              position: absolute;
+              right: 0;
+              top: 0;
+              display: flex;
+              width: 90rpx;
+              height: 100%;
+              border-left: 1rpx solid #e9e9e9;
+              background: rgba($color: #ffffff, $alpha: .7);
+              .icon {
+                position: relative;
+                width: 36rpx;
+                height: 36rpx;
+                margin: auto;
+                color: #ffffff;
+                text-align: center;
+                background: #0ec698;
+                border-radius: 50%;
+                transition: all .5s;
+                .iconfont {
+                  position: absolute;
+                  top: 50%;
+                  left: 50%;
+                  transform: translate(-50%,-50%);
+                  font-size: 20rpx;
+                }
+                &.active {
+                  transform: rotate(180deg)
+                }
+              }
+              
+            }
             &.active {
-              flex-wrap: wrap;
-            }
-          }
-          .arrow {
-            display: flex;
-            flex: 1;
-            height: 126rpx;
-            border-left: 1rpx solid #e9e9e9;
-            .icon {
-              position: relative;
-              width: 36rpx;
-              height: 36rpx;
-              margin: auto;
-              color: #ffffff;
-              text-align: center;
-              background: #0ec698;
-              border-radius: 50%;
-              transition: all .5s;
-              .iconfont {
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%,-50%);
-                font-size: 20rpx;
+              .arrow {
+                height: 94rpx;
+                top: -94rpx;
+                border-left: none;
               }
-              &.active {
-                transform: rotate(180deg)
+              .list {
+                display: grid;
+                grid-template-columns: repeat(7, 1fr);
+                width: 100%;
+                margin-top: -10rpx;
+                .item {
+                  margin-top: 10rpx;
+                }
               }
             }
-          }
         }
-          .list {
+          & > .list {
             .item {
               display: flex;
               align-items: center;

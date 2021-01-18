@@ -27,5 +27,9 @@ export default {
 	LIVE_PATIENT_DELETE: '/live_patient/deleteLivePatient',//删除住院人
 	MEMBER_INDEX: '/member/getIndex',//个人中心就诊卡数量
 	HOSPITAL_INFO: '/hospital_info/getInfo',//医院信息
+	FLOOR_LIST: '/department/getFloorList',//楼层列表
+	DEPARTMENT_AREA: '/department/getDepartmentArea',//科室分布
+	NEWS_CATE: '/news/getCateList',//健康指导分类
+	NEWS_LIST: '/news/getNewsList',//健康指导列表
 	
 }

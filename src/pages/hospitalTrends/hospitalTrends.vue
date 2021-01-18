@@ -4,28 +4,28 @@
       <view class="wrap__tab">
         <view
           class="wrap__tab-item"
-          v-for="(item, index) in tabList"
+          v-for="(item, index) in cateList"
           :key="index"
           @click="handleTabItem(index)"
         >
-          <view :class="['text', {active: index == tabIndex}]">{{item.title}}</view>
+          <view :class="['text', {active: index == tabIndex}]">{{item.name}}</view>
         </view>
       </view>
       <view class="wrap__con">
         <view class="wrap__con-list">
           <u-empty
-            v-if="feachData.length === 0"
+            v-if="list.length === 0"
             text="暂无数据"
             :margin-top="50"
           ></u-empty>
           <template v-else>
-            <view class="cell" v-for="item in feachData" :key="item" @click="handleClickDetail(1)">
+            <view class="cell" v-for="(item,index) in list" :key="index" @click="handleClickDetail(item.id)">
               <view class="img-box">
-                <image class="img" mode="aspectFill" :src="item.img" />
+                <image class="img" mode="aspectFill" :src="item.image" />
               </view>  
               <view class="info">
-                <view class="title">{{item.title}}</view>
-                <view class="date">{{item.date}}</view>
+                <view class="title">{{item.name}}</view>
+                <view class="date">{{item.create_time}}</view>
               </view>
             </view>
           </template>
@@ -36,27 +36,35 @@
 </template>
 
 <script>
-import data from '@/common/index.data'
   export default {
     data() {
       return {
         tabIndex: 0,
-        tabList: [{
-          title: '专家出诊表'
-        },{
-          title: '医院动态'
-        }],
-        feachData: data.hospitalList1
+        cateList: [],
+        list: []
       }
     },
+    onShow(){
+      this.getCateList();
+    },
     methods: {
+      getCateList(){
+        this.$http.post(this.API.NEWS_CATE).then(res=>{
+          this.cateList = res.data;
+        }).then(()=>{
+          if(this.cateList.length>0){
+            this.getNewsList();
+          }
+        })
+      },
+      getNewsList(){
+        this.$http.post(this.API.NEWS_LIST,{cateid:this.cateList[this.tabIndex]['id']}).then(res=>{
+          this.list = res.data;
+        })
+      },
       handleTabItem(index) {
         this.tabIndex = index
-        this.getData()
-      },
-      // 获取数据
-      getData() {
-        this.feachData = this.tabIndex === 0 ? data.hospitalList1 : data.hospitalList2
+        this.getNewsList()
       },
       // 跳转详情
       handleClickDetail(id) {
