@@ -1,15 +1,34 @@
 <template>
   <view class="department">
-    <view class="title">病理科</view>
+    <view class="title">{{info.name}}</view>
     <view class="content">
-      <view class="info"><text>科室地址</text><text>暂无</text></view>
-      <view class="info"><text>科室电话</text><text>暂无</text></view>
-      <view class="detail">
-        内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容
+      <view class="info"><text>科室地址</text><text>{{info.address}}</text></view>
+      <view class="info"><text>科室电话</text><text>{{info.phone}}</text></view>
+      <view class="detail" v-html="info.content">
+        
       </view>
     </view>
   </view>
 </template>
+<script>
+export default {
+  data() {
+    return {
+      info: []
+    };
+  },
+  onShow(){
+    this.getDetail();
+  },
+  methods: {
+    getDetail(){
+      this.$http.post(this.API.DEPARTMENT_INFO_DETAIL,{id:this.$Route.query.id}).then(res=>{
+        this.info = res.data;
+      })
+    }
+  },
+};
+</script>
 <style lang="scss" scoped>
 .department {
   .title {

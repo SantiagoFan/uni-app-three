@@ -40,7 +40,7 @@
             />
           </view>
         </view>
-        <view class="index-wrap__art1">
+        <view class="index-wrap__art1" v-if="patientInfo">
           <navigator
             url="/pages/registerRecord/registerRecord"
             hover-class="none"

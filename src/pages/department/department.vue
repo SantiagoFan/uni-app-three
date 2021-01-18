@@ -1,8 +1,8 @@
 <template>
   <view class="department">
     <view class="department_list">
-      <view @click="toDetail()" class="department_list_item">
-        <text>病理科</text>
+      <view @click="toDetail(item.id)" v-for="(item,index) in list" :key="index" class="department_list_item">
+        <text>{{item.name}}</text>
         <text class="iconfont icon-arrowb"></text>
       </view>
     </view>
@@ -11,11 +11,21 @@
 <script>
 export default {
   data() {
-    return {};
+    return {
+      list: []
+    };
+  },
+  onShow(){
+    this.getList();
   },
   methods: {
-    toDetail() {
-      this.$Router.push({ name: "departmentDetail" });
+    getList(){
+      this.$http.post(this.API.DEPARTMENT_INFO).then(res=>{
+        this.list = res.data;
+      })
+    },
+    toDetail(id) {
+      this.$Router.push({ name: "departmentDetail",query:{id:id} });
     },
   },
 };

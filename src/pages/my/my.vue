@@ -14,9 +14,9 @@
                 hover-class="none"
                 class="art1_info__count"
               >
-                <view class="text"
-                  >就诊卡 <text class="num">{{ count }}</text> 张</view
-                >
+                <view class="text"  v-if="patientInfo">
+                  就诊卡 <text class="num">{{ count }}</text>
+                   张</view>
                 <view class="jt">
                   <text class="iconfont icon-arrowb"></text>
                 </view>
@@ -27,6 +27,7 @@
             @click="goPatientDetail(patientInfo.id)"
             hover-class="none"
             class="art2"
+            v-if="patientInfo"
           >
             <view class="art2_title">
               <view class="art2_title__name">{{
@@ -41,7 +42,7 @@
               >院内诊疗号：{{ patientInfo.patient_code }}</view
             >
           </view>
-          <view class="art2">
+          <view class="art2" v-else @click="addPatient">
             <view class="art2_none">
               <text class="iconfont icon-hao"></text> 添加就诊卡
             </view>
@@ -155,6 +156,9 @@ export default {
         query: { id: id },
       });
     },
+    addPatient(){
+      this.$Router.push("/pages/medicalCardLogin/medicalCardLogin")
+    }
   },
 };
 </script>

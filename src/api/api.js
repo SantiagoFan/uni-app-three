@@ -31,5 +31,7 @@ export default {
 	DEPARTMENT_AREA: '/department/getDepartmentArea',//科室分布
 	NEWS_CATE: '/news/getCateList',//健康指导分类
 	NEWS_LIST: '/news/getNewsList',//健康指导列表
+	DEPARTMENT_INFO: '/department/getDepartmentList',//科室介绍
+	DEPARTMENT_INFO_DETAIL: '/department/getDepartmentInfo',//科室介绍详情
 	
 }

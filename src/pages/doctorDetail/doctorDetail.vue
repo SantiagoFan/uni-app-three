@@ -38,8 +38,8 @@
             <view class="title" @click="openDate">
               <view class="date">{{selectDate}}   {{selectWeek}}</view>
               <view class="text">{{dateName}}</view>
-              <view class="arrow">
-                <text :class="['iconfont icon-arrowb', {active: !isShow}]"></text>
+              <view :class="['arrow', {active: isShow}]">
+                <text class="iconfont icon-arrowb"></text>
               </view>
             </view>
             <view class="wrap_con__date active" v-if="isShow">
@@ -47,7 +47,7 @@
                 <view class="week-box__item" v-for="(item,index) in week" :key="index">{{item}}</view>
               </view>
               <view class="list active">
-                <view  class="item" v-for="(item, index) in schemeList" :key="index" @click="changeScheme(index)">
+                <view  class="item" v-for="(item, index) in schemeList" :key="index" @click="changeScheme(index)" >
                   <view v-if='item' :class="['con', {active: item.date==selectDate}]">
                     <view class="count" :style="{color: item.is_exist == 1?'#0ec698': ''}">{{item.day}}</view>
                     <view class="status">{{item.is_exist==1?'有':'无'}}</view>
@@ -63,6 +63,10 @@
                 <view class="arrow" v-if="item.has_source==0">
                   <text class="iconfont icon-arrowb"></text>
                 </view>
+              </view>
+              <view class="nodata" v-if="list.length<=0">
+                  <image class="img" mode="widthFix" src="@/static/image/nodata.png" />
+                  <text class="notext">暂无更多</text>
               </view>
             </view>
           </view>
@@ -328,6 +332,12 @@ export default {
             .date {
               flex: 1;
             }
+            .arrow {
+              transition: all .5s;
+              &.active {
+                transform: rotate(-90deg);
+              }
+            }
           }
         .wrap_con__date{
             // display: flex;
@@ -406,8 +416,8 @@ export default {
               display: flex;
               width: 90rpx;
               height: 100%;
-              border-left: 1rpx solid #e9e9e9;
               background: rgba($color: #ffffff, $alpha: .7);
+              border-left: 1rpx solid #e9e9e9;
               .icon {
                 position: relative;
                 width: 36rpx;
@@ -429,7 +439,6 @@ export default {
                   transform: rotate(180deg)
                 }
               }
-              
             }
             &.active {
               .arrow {
@@ -479,6 +488,16 @@ export default {
                 .price {
                   color: #999999;
                 }
+              }
+            }
+            .nodata{
+              min-height: 800rpx;
+              text-align: center;
+              .img{
+                display: block;
+                width: 194rpx;
+                height: 171rpx;
+                margin: 100rpx auto 0 auto;
               }
             }
           }

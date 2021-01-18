@@ -18,6 +18,7 @@
           class="u-tab-item"
           :class="[current == 1 ? 'u-tab-item-active' : '']"
           @tap.stop="swichMenu(1)"
+          v-if="collectOrRegisterList.length>0"
         >
           <view class="icon">
             <image class="img" mode="widthFix" src="@/static/image/doctor_icon6.png" />
@@ -251,8 +252,11 @@ export default {
   font-size: 26rpx;
 }
 .u-search-box {
+  position: relative;
   padding: 30rpx;
   background: #ffffff;
+  box-shadow: 0 3rpx 10rpx #f2f2f2;
+  z-index: 1;
 }
 .u-menu-wrap {
   flex: 1;
@@ -304,6 +308,7 @@ export default {
 
 .right-box {
   color: #333333;
+  padding-left: 30rpx;
   background-color: #ffffff;
 }
 
@@ -316,7 +321,7 @@ export default {
   align-items: center;
   justify-content: space-between;
   height: 96rpx;
-  padding-left: 30rpx;
+  // padding-left: 30rpx;
   border-bottom: 1rpx solid #f3f3f3;
 }
 .doctor-s {
@@ -324,7 +329,7 @@ export default {
   .doctor-wrap {
     display: flex;
     align-items: center;
-    padding: 16rpx 0 16rpx 30rpx;
+    padding: 16rpx 0;
     border-bottom: 1rpx solid #f3f3f3;
     &__avatar {
       width: 85rpx;
