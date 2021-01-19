@@ -270,7 +270,7 @@ export default {
         height: 100%;
         border-left: 1rpx solid #e9e9e9;
         background: rgba($color: #ffffff, $alpha: .7);
-        .icon {
+      .icon {
           position: relative;
           width: 36rpx;
           height: 36rpx;
