@@ -215,9 +215,8 @@
         "navigationBarTextStyle": "#ffffff"
 			}
     },
-    
     {
-      "path": "pages/branchDetail/branchDetail",
+      "path": "pages/register/branchDetail",
       "name":"branchDetail",
 			"style": {
         "navigationBarTitleText": "",
@@ -226,7 +225,7 @@
 			}
     },
     {
-      "path": "pages/branchList/branchList",
+      "path": "pages/register/branchList",
       "name":"branchList",
 			"style": {
         "navigationBarTitleText": "科室列表",

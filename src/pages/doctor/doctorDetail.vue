@@ -57,14 +57,17 @@
       <view class="register" v-show="tabIndex == 0">
         <view class="register-list">
           <view class="register-list__cell">
-            <view class="title" @click="openDate">
-              <view class="date">{{ selectDate }} {{ selectWeek }}</view>
-              <view class="text">{{ dateName }}</view>
+            <view class="title" @click="isShow = !isShow">
+              <view class="date">{{ dateStr }}</view>
+              <view class="text">{{ isShow ? "收起日期" : "更多日期" }}</view>
               <view :class="['arrow', { active: isShow }]">
                 <text class="iconfont icon-arrowb"></text>
               </view>
             </view>
-            <view class="wrap_con__date active" v-if="isShow">
+            <view
+              class="wrap_con__date active"
+              v-if="isShow && schemeList.length > 0"
+            >
               <view class="week-box">
                 <view
                   class="week-box__item"
@@ -78,7 +81,7 @@
                   class="item"
                   v-for="(item, index) in schemeList"
                   :key="index"
-                  @click="changeScheme(index)"
+                  @click="changeScheme(item)"
                 >
                   <view
                     v-if="item"
@@ -122,17 +125,6 @@
         v-show="tabIndex == 1"
         v-html="model.content"
       >
-        <!-- 科室：国家重点专科蒙医针灸五疗科<br>
-        专业职称：主任医师(享受国务院特殊津贴、国家二级教授、硕导)<br>
-        科主任介绍：<br>
-        &emsp;&emsp;享受国务院特殊津贴、国家二级教授（一级为院士科学家）、硕士生导师、国内外著名针灸专家、迄今为止呼市卫生系统首个唯一的国家重点专科主任、自治区名蒙医、全国百名杰出中医、蒙古国总统令特别功勋奖、全国十大医德楷模、全国五一劳动奖章获得者、内蒙古高级职称评审专家、内蒙古自然科学基金评审专家、内蒙古医疗事故鉴定专家、内蒙古预防接种异常反应鉴定专家、内蒙古医学会及蒙医学会理事、北京奥运会火炬手、呼市政协常委、是建国以来呼和浩特市卫生系统唯一国家重点专科蒙医针灸五疗科负责人，国家一类资质中央新闻网站【环球人物】刊载报道的著名针灸专家，他与医院的发展举足轻重，他创造的社会效益、经济效益为医院之首，呼市卫生系统之首。以蒙医针灸五疗治疗疾病见长，并把针灸超长的应用到内、外、妇、儿科。
-        治疗范围：<br>
-        1、脑出血、脑梗死疾病引起的肢体偏瘫。<br>
-        2、颈、腰椎间盘突出症、骨质增生、风湿、类风湿性关节炎、坐骨神经痛、肩周炎。<br>
-        3、高血压、冠心病、支气管哮喘、慢性胃炎、萎缩性胃炎、脂肪肝胆囊炎、肾结石。<br>
-        4、药物致耳聋、神经性耳鸣、过敏性鼻炎、慢性咽炎、神经性头痛、闭合性骨折骨伤。<br>
-        5、前列腺增生、卵巢囊肿、附件炎、小儿腹泻。<br>
-        出诊时间：星期一到星期四全天，星期五凌晨5:00到12：00 -->
       </view>
     </view>
     <!-- 下单 -->
@@ -188,9 +180,14 @@
 
 <script>
 import { mapState } from "vuex";
+import moment from "moment";
+import { weekList, fillWeek } from "@/utils/week.js";
+
 export default {
   data() {
     return {
+      doctor_id: "",
+      department_id: "",
       tabIndex: 0,
       orderPopupStatus: false,
       model: {
@@ -206,18 +203,31 @@ export default {
       patientList: [],
       isShow: false,
       schemeList: [],
-      week: ["周一", "周二", "周三", "周四", "周五", "周六", "周日"],
+      week: weekList(),
       selectDate: "",
-      selectWeek: "",
-      dateName: "更多日期",
+      postLock: false,
     };
   },
   computed: {
     ...mapState(["patientInfo"]),
+    dateStr() {
+      return (
+        this.selectDate +
+        " " +
+        weekList("星期")[moment(this.selectDate).isoWeekday() - 1]
+      );
+    },
   },
   onLoad() {
-    // this.getDetail();
-    this.selectDate = this.$Route.query.date;
+    this.doctor_id = this.$Route.query.id;
+    this.department_id = this.$Route.query.departmentid;
+    if (this.$Route.query.date) {
+      this.selectDate = this.$Route.query.date;
+    } else {
+      this.selectDate = moment().format("YYYY-MM-DD");
+      this.isShow = true;
+    }
+    this.getDetail();
     this.getPatientList();
     this.getSchemeList();
   },
@@ -229,41 +239,53 @@ export default {
     getSchemeList() {
       this.$http
         .post(this.API.SCHEME_LIST, {
-          departmentid: this.$Route.query.departmentid,
+          departmentid: this.department_id,
         })
         .then((res) => {
-          // var newArray = (res.data).filter(value => Object.keys(value).length!== 0);
-          this.schemeList = res.data;
-        })
-        .then((res) => {
-          this.getDetail();
+          this.schemeList = fillWeek(res.data);
+          if (this.selectDate == "") {
+            this.selectDate = res.data[0].date;
+          }
+          this.getList();
         });
     },
     getDetail() {
-      var data = {
-        id: this.$Route.query.id,
-        date: this.selectDate,
-      };
-      this.$http.post(this.API.DOCTOR_DETAIL, data).then((res) => {
-        this.model = res.data;
-        this.list = res.list;
-        var date = new Date(this.selectDate);
-        this.selectWeek = "星期" + "日一二三四五六".charAt(date.getDay());
-      });
+      this.$http
+        .post(this.API.DOCTOR_INFO, { id: this.doctor_id })
+        .then((res) => {
+          this.model = res.data;
+        });
+    },
+    getList() {
+      if (this.postLock) {
+        return;
+      }
+      this.postLock = true;
+      this.$http
+        .post(this.API.DOCTOR_DETAIL, {
+          id: this.doctor_id,
+          date: this.selectDate,
+        })
+        .then((res) => {
+          this.postLock = false;
+          this.list = res.data;
+        });
     },
     addCollect() {
-      this.$http
-        .post(this.API.ADD_COLLECT, { id: this.model.id })
-        .then((res) => {
-          if (res.code == 20000) {
-            this.model.is_collect = !this.model.is_collect;
-            uni.showToast({
-              title: res.message,
-              duration: 2000,
-              icon: "none",
-            });
-          }
-        });
+      if (this.model.id) {
+        this.$http
+          .post(this.API.ADD_COLLECT, { id: this.model.id })
+          .then((res) => {
+            if (res.code == 20000) {
+              this.model.is_collect = !this.model.is_collect;
+              uni.showToast({
+                title: res.message,
+                duration: 2000,
+                icon: "none",
+              });
+            }
+          });
+      }
     },
     goRegister(index) {
       this.time = this.list[index]["time"];
@@ -289,13 +311,11 @@ export default {
         return str;
       }
     },
-    openDate() {
-      this.isShow = !this.isShow;
-      this.dateName = this.isShow ? "收起日期" : "更多日期";
-    },
-    changeScheme(index) {
-      this.selectDate = this.schemeList[index]["date"];
-      this.getDetail();
+    changeScheme(item) {
+      if (!this.postLock && item && item.date != this.selectDate) {
+        this.selectDate = item.date;
+        this.getList();
+      }
     },
   },
 };
@@ -373,6 +393,7 @@ export default {
         color: #333333;
         font-size: 26rpx;
         padding: 0 10rpx;
+
         &.active {
           color: #0ec698;
           &::after {
@@ -416,6 +437,7 @@ export default {
             background: #ffffff;
             padding: 20rpx 0;
             border-top: 2rpx solid #e4e4e4;
+            border-bottom: 2rpx solid #e4e4e4;
             .week-box {
               display: flex;
               text-align: center;
@@ -534,6 +556,7 @@ export default {
               height: 78rpx;
               margin-bottom: 10rpx;
               padding: 0 30rpx;
+              border-bottom: 2rpx solid #e9e9e9;
               &:last-child {
                 margin-bottom: 0;
               }

@@ -61,7 +61,7 @@
       </view>
       <view class="wrap_con__list" v-if="tabIndex === 0">
         <view
-          @click="goDetail(item.id)"
+          @click="goDetail(item.id, selectDate)"
           class="cell"
           v-for="(item, index) in doctorList"
           :key="index"
@@ -82,7 +82,7 @@
                 <view class="tag" v-if="item.is_exist == 0">满诊</view>
               </view>
             </view>
-            <view class="post">职称：{{ item.professional }}</view>
+            <view class="post">{{ item.professional }}</view>
             <view class="content">{{ item.speciality }}</view>
           </view>
         </view>
@@ -114,7 +114,7 @@
 
 <script>
 import moment from "moment";
-import { weekList } from "@/utils/week.js";
+import { weekList, fillWeek } from "@/utils/week.js";
 export default {
   data() {
     return {
@@ -124,7 +124,7 @@ export default {
       doctorList: [],
       schemeList: [],
       selectDate: "",
-      week: weekList,
+      week: weekList(),
       open_scheme_list: [],
       postLock: false,
       department_id: "",
@@ -132,7 +132,6 @@ export default {
     };
   },
   onLoad() {
-    console.log(this.$Route.query);
     this.department_id = this.$Route.query.departmentid;
     uni.setNavigationBarTitle({
       title: this.$Route.query.departmentName,
@@ -145,7 +144,7 @@ export default {
       return moment(val).format("DD");
     },
     getWeek(val) {
-      return weekList[moment(val).isoWeekday() - 1];
+      return weekList()[moment(val).isoWeekday() - 1];
     },
   },
   methods: {
@@ -154,7 +153,6 @@ export default {
     },
     getDocListByDepart() {
       if (this.all_doctor.length == 0) {
-        console.log({ departmentid: this.department_id });
         this.$http
           .post(this.API.DOCTOR_INFO_LIST, { departmentid: this.department_id })
           .then((res) => {
@@ -178,10 +176,10 @@ export default {
         this.postLock = false;
       });
     },
-    goDetail(id) {
+    goDetail(id, date) {
       this.$Router.push({
         name: "doctorDetail",
-        params: { id: id, date: this.selectDate },
+        params: { id: id, date: date },
       });
     },
     getSchemeList() {
@@ -213,21 +211,7 @@ export default {
       this.schemeList = [];
       let data = JSON.parse(JSON.stringify(this.origin_scheme));
       if (this.isOpen) {
-        for (let i = 0; i < data.length; i++) {
-          if (i == 0) {
-            let first = moment(data[i].date);
-            for (let j = 0; j < first.isoWeekday() - 1; j++) {
-              this.schemeList.push(null);
-            }
-          }
-          this.schemeList.push(data[i]);
-          if (i == data.length - 1) {
-            let end = moment(data[i].date);
-            for (let j = 0; j < 7 - end.isoWeekday(); j++) {
-              this.schemeList.push(null);
-            }
-          }
-        }
+        this.schemeList = fillWeek(data);
       } else {
         this.schemeList = data;
       }
