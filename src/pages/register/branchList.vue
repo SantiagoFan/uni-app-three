@@ -119,11 +119,9 @@
 </template>
 
 <script>
-import classifyData from "@/common/classify.data.js";
 export default {
   data() {
     return {
-      tabbar: classifyData,
       scrollTop: 0, //tab标题的滚动条位置
       current: 1, // 预设当前项的值
       menuHeight: 0, // 左边菜单的高度
@@ -141,14 +139,11 @@ export default {
     this.getHistoryList();
   },
   methods: {
-    focusPrice() {
-      console.log("11");
-    },
     // 点击详情
     handleClickDetail({ id, name }) {
       this.$Router.push({
-        path: "/pages/branchDetail/branchDetail",
-        query: { departmentid: id, departmentName: name },
+        name: "branchDetail",
+        params: { departmentid: id, departmentName: name },
       });
     },
     change(e) {
