@@ -137,7 +137,7 @@ export default {
     return {
       tabIndex: 0,
       orderPopupStatus: false,
-      model: '',
+      model: {headimg:"",name: "",position:"",professional:"",speciality:""},
       list: [],
       time: "",
       timeStatus: "",
