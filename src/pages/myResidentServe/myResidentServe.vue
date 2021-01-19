@@ -8,10 +8,10 @@
         <view class="cell">
           <view class="info">
             <view class="title">
-              <view class="name">{{info.name}}</view>
+              <view class="name">{{ info.name }}</view>
               <view class="tag">默认</view>
             </view>
-            <view class="code">住院号：{{info.live_code}}</view>
+            <view class="code">住院号：{{ info.live_code }}</view>
           </view>
           <view class="arrow">
             <text class="iconfont icon-arrowb"></text>
@@ -24,19 +24,34 @@
       <view class="wrap-serve__con">
         <view @click="addResident" class="wrap-serve__con-item">
           <view class="icon">
-            <image class="img" mode="widthFix" src="@/static/image/serve_icon1.jpg" />
+            <image
+              class="img"
+              mode="widthFix"
+              src="@/static/image/serve_icon1.jpg"
+            />
           </view>
           <view class="text">添加住院人</view>
         </view>
         <view @click="goDetail" class="wrap-serve__con-item" v-if="info">
           <view class="icon">
-            <image class="img" mode="widthFix" src="@/static/image/serve_icon2.jpg" />
+            <image
+              class="img"
+              mode="widthFix"
+              src="@/static/image/serve_icon2.jpg"
+            />
           </view>
           <view class="text">住院日清单</view>
         </view>
-        <navigator url="/pages/payRecord/payRecord?type=2" class="wrap-serve__con-item">
+        <navigator
+          url="/pages/payRecord/payRecord?type=2"
+          class="wrap-serve__con-item"
+        >
           <view class="icon">
-            <image class="img" mode="widthFix" src="@/static/image/serve_icon3.jpg" />
+            <image
+              class="img"
+              mode="widthFix"
+              src="@/static/image/serve_icon3.jpg"
+            />
           </view>
           <view class="text">押金补缴记录</view>
         </navigator>
@@ -50,29 +65,36 @@ import { mapState } from "vuex";
 export default {
   data() {
     return {
-      info: ""
-    }
+      info: "",
+    };
   },
   computed: {
     ...mapState(["patientInfo"]),
   },
-  onShow(){
+  onShow() {
     this.getDefaultPatient();
   },
-  methods:{
-    getDefaultPatient(){
-      this.$http.post(this.API.DEFAULT_LIVE_PATIENT,{patient_code:this.patientInfo.patient_code}).then(res=>{
-        this.info = res.data;
-      })
+  methods: {
+    getDefaultPatient() {
+      this.$http
+        .post(this.API.DEFAULT_LIVE_PATIENT, {
+          patient_code: this.patientInfo.patient_code,
+        })
+        .then((res) => {
+          this.info = res.data;
+        });
     },
-    addResident(){
+    addResident() {
       this.$Router.push("/pages/myResidenAdd/myResidenAdd");
     },
-    goDetail(){
-      this.$Router.push({name:"/pages/myResidentBill/myResidentBill",query:{patient_code:this.info.patient_code}});
-    }
-  }
-}
+    goDetail() {
+      this.$Router.push({
+        path: "/pages/myResidentBill/myResidentBill",
+        query: { patient_code: this.info.patient_code },
+      });
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -103,7 +125,8 @@ export default {
         padding: 0 30rpx;
         color: #ffffff;
         border-radius: 10rpx;
-        background: #0ec698 url('@/static/image/residents_item_bg.jpg') no-repeat right center;
+        background: #0ec698 url("@/static/image/residents_item_bg.jpg")
+          no-repeat right center;
         background-size: contain;
         .info {
           flex: 1;
@@ -122,8 +145,8 @@ export default {
               line-height: 32rpx;
               font-size: 20rpx;
               padding: 0 10rpx;
-              color: rgba($color: #ffffff, $alpha: .65);
-              border: 1rpx solid rgba($color: #ffffff, $alpha: .65);
+              color: rgba($color: #ffffff, $alpha: 0.65);
+              border: 1rpx solid rgba($color: #ffffff, $alpha: 0.65);
               border-radius: 8rpx;
             }
           }
