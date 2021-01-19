@@ -39,7 +39,7 @@
             :key="index"
             @click="changeScheme(item)"
           >
-            <view v-if="!isOpen" class="week">{{ item.week }}</view>
+            <view v-if="!isOpen" class="week">{{ item.date | getWeek }}</view>
             <view
               v-if="item"
               :class="['con', { active: item.date == selectDate }]"
@@ -47,19 +47,19 @@
               <view
                 class="count"
                 :style="{ color: item.is_exist == 1 ? '#0ec698' : '' }"
-                >{{ item.day }}</view
+                >{{ item.date | getDay }}</view
               >
               <view class="status">{{ item.is_exist == 1 ? "有" : "无" }}</view>
             </view>
           </view>
         </view>
-        <view class="arrow" @click="openDate()">
+        <view v-if="schemeList.length > 0" class="arrow" @click="openDate()">
           <view :class="['icon', { active: isOpen }]">
             <text class="iconfont icon-shang"></text>
           </view>
         </view>
       </view>
-      <view class="wrap_con__list">
+      <view class="wrap_con__list" v-if="tabIndex === 0">
         <view
           @click="goDetail(item.id)"
           class="cell"
@@ -86,9 +86,27 @@
             <view class="content">{{ item.speciality }}</view>
           </view>
         </view>
-        <view class="nodata" v-if="doctorList.length <= 0">
-          暂无医生
+        <empty v-if="doctorList.length === 0"></empty>
+      </view>
+      <view class="wrap_con__list" v-else>
+        <view
+          @click="goDetail(item.id)"
+          class="cell"
+          v-for="(item, index) in all_doctor"
+          :key="index"
+        >
+          <view class="cell__avatar">
+            <image class="img" mode="aspectFill" :src="item.headimg" />
+          </view>
+          <view class="cell__info">
+            <view class="title">
+              <view class="name">{{ item.name }}</view>
+            </view>
+            <view class="post">{{ item.professional }}</view>
+            <view class="content">{{ item.speciality }}</view>
+          </view>
         </view>
+        <empty v-if="all_doctor.length === 0"></empty>
       </view>
     </view>
   </view>
@@ -96,6 +114,7 @@
 
 <script>
 import moment from "moment";
+import { weekList } from "@/utils/week.js";
 export default {
   data() {
     return {
@@ -105,26 +124,47 @@ export default {
       doctorList: [],
       schemeList: [],
       selectDate: "",
-      week: ["周一", "周二", "周三", "周四", "周五", "周六", "周日"],
+      week: weekList,
       open_scheme_list: [],
       postLock: false,
+      department_id: "",
+      all_doctor: [],
     };
   },
   onLoad() {
+    console.log(this.$Route.query);
+    this.department_id = this.$Route.query.departmentid;
+    uni.setNavigationBarTitle({
+      title: this.$Route.query.departmentName,
+    });
     this.getSchemeList();
+    this.getDocListByDepart();
+  },
+  filters: {
+    getDay(val) {
+      return moment(val).format("DD");
+    },
+    getWeek(val) {
+      return weekList[moment(val).isoWeekday() - 1];
+    },
   },
   methods: {
-    change(e) {
-      console.log("e==", e);
-    },
     handleTabItem(index) {
       this.tabIndex = index;
-      this.selectDate = this.tabIndex == 0 ? this.selectDate : "";
-      this.getDoctorList();
     },
-    getDoctorList() {
+    getDocListByDepart() {
+      if (this.all_doctor.length == 0) {
+        console.log({ departmentid: this.department_id });
+        this.$http
+          .post(this.API.DOCTOR_INFO_LIST, { departmentid: this.department_id })
+          .then((res) => {
+            this.all_doctor = res.data;
+          });
+      }
+    },
+    getDoctorList(date) {
       var data = {
-        departmentid: this.$Route.query.departmentid,
+        departmentid: this.department_id,
         date: this.selectDate,
       };
 
@@ -133,34 +173,28 @@ export default {
       }
       this.postLock = true;
 
-      this.$http.post(this.API.DOCTOR_LIST, data, false).then((res) => {
+      this.$http.post(this.API.DOCTOR_LIST, data).then((res) => {
         this.doctorList = res.data;
         this.postLock = false;
       });
     },
     goDetail(id) {
       this.$Router.push({
-        path: "/pages/doctorDetail/doctorDetail",
+        name: "doctorDetail",
         query: { id: id, date: this.selectDate },
       });
     },
     getSchemeList() {
       this.$http
-        .post(
-          this.API.SCHEME_LIST,
-          {
-            departmentid: this.$Route.query.departmentid,
-          },
-          false
-        )
+        .post(this.API.SCHEME_LIST, {
+          departmentid: this.department_id,
+        })
         .then((res) => {
-          this.origin_scheme = res.data;
+          this.origin_scheme = JSON.parse(JSON.stringify(res.data));
           this.schemeList = res.data;
           if (res.data.length > 0) {
             this.selectDate = res.data[0].date;
           }
-        })
-        .then((res) => {
           this.getDoctorList();
         });
     },
@@ -181,14 +215,14 @@ export default {
       if (this.isOpen) {
         for (let i = 0; i < data.length; i++) {
           if (i == 0) {
-            let first = moment(data[i]);
+            let first = moment(data[i].date);
             for (let j = 0; j < first.isoWeekday() - 1; j++) {
               this.schemeList.push(null);
             }
           }
           this.schemeList.push(data[i]);
           if (i == data.length - 1) {
-            let end = moment(data[i]);
+            let end = moment(data[i].date);
             for (let j = 0; j < 7 - end.isoWeekday(); j++) {
               this.schemeList.push(null);
             }
