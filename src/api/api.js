@@ -34,5 +34,6 @@ export default {
 	DEPARTMENT_INFO: '/department/getDepartmentList',//科室介绍
 	DEPARTMENT_INFO_DETAIL: '/department/getDepartmentInfo',//科室介绍详情
 	DOCTOR_INFO: '/doctor/getDoctorInfo',//医生介绍-医生详情
+	DOCTOR_INFO_LIST: '/doctor/getDoctorList',//医生介绍-医生列表
 	
 }

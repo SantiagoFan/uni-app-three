@@ -41,12 +41,12 @@ export default {
   methods: {
     getList() {
       this.$http
-        .post(this.API.DOCTOR_LIST, {
+        .post(this.API.DOCTOR_INFO_LIST, {
           departmentid: this.$Route.query.departmentid,
         })
         .then((res) => {
-          this.list = res.data;
-          this.model = res.model;
+          this.list = res.data.list;
+          this.model = res.data.model;
         });
     },
     toDetail(id) {
