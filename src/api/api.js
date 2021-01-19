@@ -36,8 +36,9 @@ export default {
 	DOCTOR_INFO: '/doctor/getDoctorInfo',//医生介绍-医生详情
 	DOCTOR_INFO_LIST: '/doctor/getDoctorList',//医生列表
 	DEPARTMENT_NAME: '/doctor/getDepartmentName',//获取科室名称
-	QUESTION_LIST: '/questionnaire/getQuestionList',//调查问卷列表
+	QUESTION_LIST: '/questionnaire/getList',//调查问卷列表
 	QUESTION_DETAIL: '/questionnaire/getDetail',//调查问卷详情
+	SAVE_ANSWER: '/questionnaire/saveAnswer'
 
 	
 }

@@ -2,7 +2,7 @@
   <view class="survey">
     <view class="survey-m">
       <view class="survey-m__list">
-        <view @click="detail(item.id)" class="item" v-for="(item,index) in list" :key="index">
+        <view @click="goDetail(item.id)" class="item" v-for="(item,index) in list" :key="index">
           <view class="title">{{item.name}}</view>
           <view class="date">{{item.create_time}}</view>
           <view class="status">
@@ -30,8 +30,8 @@ export default {
         this.list = res.data;
       })
     },
-    getDetail(id){
-      this.$Router.push({name:'survey',params:{id:id}});
+    goDetail(id){
+      this.$Router.push({name:'surveyDetail',params:{id:id}});
     }
   }
 }
