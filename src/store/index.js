@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import {http} from "@/utils/http.js";
+import { http } from "@/utils/http.js";
 import api from "@/api/api.js";
 
 Vue.use(Vuex);
@@ -9,7 +9,7 @@ export default new Vuex.Store({
   state: {
     userInfo: null,
     loginPopupShow: false,
-    patientInfo: null
+    patientInfo: null,
   },
   getters: {
     getToken() {
@@ -23,36 +23,39 @@ export default new Vuex.Store({
     setPatientInfo(state, patientInfo) {
       state.patientInfo = patientInfo;
     },
-    setLoginPopupShow(state,data){
+    setLoginPopupShow(state, data) {
       state.loginPopupShow = data;
-    }
+    },
   },
   actions: {
-    login({commit,dispatch}) {
+    login({ commit, dispatch }) {
       return new Promise((resolve, reject) => {
         uni.showLoading({
-          title: '登录中'
+          title: "登录中",
         });
         uni.login({
           provider: "weixin",
           success: function(loginRes) {
             if (loginRes.errMsg == "login:ok") {
               let code = loginRes.code;
-              http.post(api.GET_TOKEN, {code}).then((res) => {
-                uni.hideLoading();
-                if(res.code===20000){
-                  uni.setStorageSync("token",res.token)
-                  commit("setUserInfo",res.data)
-                  dispatch("getDefaultPatient").then(()=>{
-                    resolve()
-                  })
-                }else{
-                  reject()
-                }
-              }).catch(res=>{
-                console.log('GET_TOKEN',res)
-                reject()
-              });
+              http
+                .post(api.GET_TOKEN, { code }, false, false)
+                .then((res) => {
+                  uni.hideLoading();
+                  if (res.code === 20000) {
+                    uni.setStorageSync("token", res.token);
+                    commit("setUserInfo", res.data);
+                    dispatch("getDefaultPatient").then(() => {
+                      resolve();
+                    });
+                  } else {
+                    reject();
+                  }
+                })
+                .catch((res) => {
+                  console.log("GET_TOKEN", res);
+                  reject();
+                });
             }
           },
           fail: function(es) {
@@ -62,22 +65,25 @@ export default new Vuex.Store({
         });
       });
     },
-    getDefaultPatient({commit}){
-      return new Promise((resolve,reject)=>{
-        http.post(api.DEFAULT_PATIENT).then(res=>{
-          commit("setPatientInfo",res.data);
-          resolve()
-        }).catch(()=>{
-          reject()
-        })
-      })
+    getDefaultPatient({ commit }) {
+      return new Promise((resolve, reject) => {
+        http
+          .post(api.DEFAULT_PATIENT)
+          .then((res) => {
+            commit("setPatientInfo", res.data);
+            resolve();
+          })
+          .catch(() => {
+            reject();
+          });
+      });
     },
-    checkAuth({state,commit}){
-      if(state.userInfo&&!state.userInfo.nickname){
-        commit('setLoginPopupShow', true);
+    checkAuth({ state, commit }) {
+      if (state.userInfo && !state.userInfo.nickname) {
+        commit("setLoginPopupShow", true);
         //打开授权弹框
-        console.log("打开授权弹框")
+        console.log("打开授权弹框");
       }
-    }
+    },
   },
 });

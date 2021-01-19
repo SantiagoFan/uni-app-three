@@ -9,44 +9,45 @@
  */
 export default class Request {
   config = {
-    baseUrl: '',
+    baseUrl: "",
     header: {
-      'content-type': 'application/json; charset=utf-8'
+      "content-type": "application/json; charset=utf-8",
       // 'content-type': 'application/json'
     },
-    method: 'GET',
-    dataType: 'json',
+    method: "GET",
+    dataType: "json",
     // #ifndef MP-ALIPAY || APP-PLUS
-    responseType: 'text',
+    responseType: "text",
     // #endif
     custom: {},
     // #ifdef MP-ALIPAY
     timeout: 30000,
     // #endif
     // #ifdef APP-PLUS
-    sslVerify: true
+    sslVerify: true,
     // #endif
+  };
+
+  static posUrl(url) {
+    /* 判断url是否为绝对路径 */
+    return /(http|https):\/\/([\w.]+\/?)\S*/.test(url);
   }
 
-  static posUrl (url) { /* 判断url是否为绝对路径 */
-    return /(http|https):\/\/([\w.]+\/?)\S*/.test(url)
-  }
-
-  static mergeUrl (url, baseUrl, params) {
-    let mergeUrl = Request.posUrl(url) ? url : `${baseUrl}${url}`
+  static mergeUrl(url, baseUrl, params) {
+    let mergeUrl = Request.posUrl(url) ? url : `${baseUrl}${url}`;
     if (Object.keys(params).length !== 0) {
-      const paramsH = Request.addQueryString(params)
-      mergeUrl += mergeUrl.includes('?') ? `&${paramsH}` : `?${paramsH}`
+      const paramsH = Request.addQueryString(params);
+      mergeUrl += mergeUrl.includes("?") ? `&${paramsH}` : `?${paramsH}`;
     }
-    return mergeUrl
+    return mergeUrl;
   }
 
-  static addQueryString (params) {
-    let paramsData = ''
-    Object.keys(params).forEach(function (key) {
-      paramsData += key + '=' + encodeURIComponent(params[key]) + '&'
-    })
-    return paramsData.substring(0, paramsData.length - 1)
+  static addQueryString(params) {
+    let paramsData = "";
+    Object.keys(params).forEach(function(key) {
+      paramsData += key + "=" + encodeURIComponent(params[key]) + "&";
+    });
+    return paramsData.substring(0, paramsData.length - 1);
   }
 
   /**
@@ -60,7 +61,7 @@ export default class Request {
      */
     request: (cb) => {
       if (cb) {
-        this.requestBeforeFun = cb
+        this.requestBeforeFun = cb;
       }
     },
     /**
@@ -69,24 +70,24 @@ export default class Request {
      */
     response: (cb, ecb) => {
       if (cb) {
-        this.requestComFun = cb
+        this.requestComFun = cb;
       }
       if (ecb) {
-        this.requestComFail = ecb
+        this.requestComFail = ecb;
       }
-    }
+    },
+  };
+
+  requestBeforeFun(config) {
+    return config;
   }
 
-  requestBeforeFun (config) {
-    return config
+  requestComFun(response) {
+    return response;
   }
 
-  requestComFun (response) {
-    return response
-  }
-
-  requestComFail (response) {
-    return response
+  requestComFail(response) {
+    return response;
   }
 
   /**
@@ -94,16 +95,16 @@ export default class Request {
    * @param { Number } statusCode - 请求响应体statusCode（只读）
    * @return { Boolean } 如果为true,则 resolve, 否则 reject
    */
-  validateStatus (statusCode) {
-    return statusCode === 200
+  validateStatus(statusCode) {
+    return statusCode === 200;
   }
 
   /**
    * @Function
    * @param {Request~setConfigCallback} f - 设置全局默认配置
    */
-  setConfig (f) {
-    this.config = f(this.config)
+  setConfig(f) {
+    this.config = f(this.config);
   }
 
   /**
@@ -117,39 +118,42 @@ export default class Request {
    * @prop {Object} [options.method = config.method] - 请求方法
    * @returns {Promise<unknown>}
    */
-  async request (options = {}) {
-    options.baseUrl = this.config.baseUrl
-    options.dataType = options.dataType || this.config.dataType
+  async request(options = {}) {
+    options.baseUrl = this.config.baseUrl;
+    options.dataType = options.dataType || this.config.dataType;
     // #ifndef MP-ALIPAY || APP-PLUS
-    options.responseType = options.responseType || this.config.responseType
+    options.responseType = options.responseType || this.config.responseType;
     // #endif
     // #ifdef MP-ALIPAY
-    options.timeout = options.timeout || this.config.timeout
+    options.timeout = options.timeout || this.config.timeout;
     // #endif
-    options.url = options.url || ''
-    options.data = options.data || {}
-    options.params = options.params || {}
-    options.header = options.header || this.config.header
-    options.method = options.method || this.config.method
-    options.custom = { ...this.config.custom, ...(options.custom || {}) }
+    options.url = options.url || "";
+    options.data = options.data || {};
+    options.params = options.params || {};
+    options.header = options.header || this.config.header;
+    options.method = options.method || this.config.method;
+    options.custom = { ...this.config.custom, ...(options.custom || {}) };
     // #ifdef APP-PLUS
-    options.sslVerify = options.sslVerify === undefined ? this.config.sslVerify : options.sslVerify
+    options.sslVerify =
+      options.sslVerify === undefined
+        ? this.config.sslVerify
+        : options.sslVerify;
     // #endif
-    options.getTask = options.getTask || this.config.getTask
+    options.getTask = options.getTask || this.config.getTask;
     return new Promise((resolve, reject) => {
-      let next = true
-      const cancel = (t = 'handle cancel', config = options) => {
+      let next = true;
+      const cancel = (t = "handle cancel", config = options) => {
         const err = {
           errMsg: t,
-          config: config
-        }
-        reject(err)
-        next = false
-      }
+          config: config,
+        };
+        reject(err);
+        next = false;
+      };
 
-      const handleRe = { ...this.requestBeforeFun(options, cancel) }
-      const _config = { ...handleRe }
-      if (!next) return
+      const handleRe = { ...this.requestBeforeFun(options, cancel) };
+      const _config = { ...handleRe };
+      if (!next) return;
       const requestTask = uni.request({
         url: Request.mergeUrl(_config.url, _config.baseUrl, _config.params),
         data: _config.data,
@@ -166,67 +170,71 @@ export default class Request {
         sslVerify: _config.sslVerify,
         // #endif
         complete: (response) => {
-          response.config = handleRe
-          if (this.validateStatus(response.statusCode)) { // 成功
-            response = this.requestComFun(response)
+          response.config = handleRe;
+          if (this.validateStatus(response.statusCode)) {
+            // 成功
+            response = this.requestComFun(response);
 
-            resolve(response)
+            resolve(response);
           } else {
-            response = this.requestComFail(response)
-            reject(response)
+            response = this.requestComFail(response);
+            reject(response);
           }
-        }
-      })
+        },
+      });
       if (handleRe.getTask) {
-        handleRe.getTask(requestTask, handleRe)
+        handleRe.getTask(requestTask, handleRe);
       }
-    })
+    });
   }
 
-  get (url, data) {
+  get(url, data) {
     return this.request({
       url,
       data,
-      method: 'GET'
-    })
+      method: "GET",
+    });
   }
 
-  post (url, data,lock=false,loading=false) {
-    let custom={}
-    if(loading){
-      custom['loading']=true
+  post(url, data, lock = false, loading = true) {
+    let custom = {};
+    if (loading) {
+      custom["loading"] = true;
     }
-    if(lock){
-      custom['lock']=true
+    if (lock) {
+      custom["lock"] = true;
     }
     return this.request({
       url,
       data,
-      method: 'POST',
-      custom:custom
-    })
+      method: "POST",
+      custom: custom,
+    });
   }
-  
-  upload (url, {
-    // #ifdef APP-PLUS
-    files,
-    // #endif
-    // #ifdef MP-ALIPAY
-    fileType,
-    // #endif
-    filePath,
-    name,
-    header,
-    formData = {},
-    custom = {},
-    params = {},
-    getTask
-  }) {
+
+  upload(
+    url,
+    {
+      // #ifdef APP-PLUS
+      files,
+      // #endif
+      // #ifdef MP-ALIPAY
+      fileType,
+      // #endif
+      filePath,
+      name,
+      header,
+      formData = {},
+      custom = {},
+      params = {},
+      getTask,
+    }
+  ) {
     return new Promise((resolve, reject) => {
-      let next = true
-      const globalHeader = { ...this.config.header }
-      delete globalHeader['content-type']
-      delete globalHeader['Content-Type']
+      let next = true;
+      const globalHeader = { ...this.config.header };
+      delete globalHeader["content-type"];
+      delete globalHeader["Content-Type"];
       const pubConfig = {
         baseUrl: this.config.baseUrl,
         url,
@@ -234,29 +242,29 @@ export default class Request {
         fileType,
         // #endif
         filePath,
-        method: 'UPLOAD',
+        method: "UPLOAD",
         name,
         header: header || globalHeader,
         formData,
         params,
         custom: { ...this.config.custom, ...custom },
-        getTask: getTask || this.config.getTask
-      }
+        getTask: getTask || this.config.getTask,
+      };
       // #ifdef APP-PLUS
       if (files) {
-        pubConfig.files = files
+        pubConfig.files = files;
       }
       // #endif
-      const cancel = (t = 'handle cancel', config = pubConfig) => {
+      const cancel = (t = "handle cancel", config = pubConfig) => {
         const err = {
           errMsg: t,
-          config: config
-        }
-        reject(err)
-        next = false
-      }
+          config: config,
+        };
+        reject(err);
+        next = false;
+      };
 
-      const handleRe = { ...this.requestBeforeFun(pubConfig, cancel) }
+      const handleRe = { ...this.requestBeforeFun(pubConfig, cancel) };
       const _config = {
         url: Request.mergeUrl(handleRe.url, handleRe.baseUrl, handleRe.params),
         // #ifdef MP-ALIPAY
@@ -267,73 +275,75 @@ export default class Request {
         header: handleRe.header,
         formData: handleRe.formData,
         complete: (response) => {
-          response.config = handleRe
-          if (typeof response.data === 'string') {
-            response.data = JSON.parse(response.data)
+          response.config = handleRe;
+          if (typeof response.data === "string") {
+            response.data = JSON.parse(response.data);
           }
-          if (this.validateStatus(response.statusCode)) { // 成功
-            response = this.requestComFun(response)
-            resolve(response)
+          if (this.validateStatus(response.statusCode)) {
+            // 成功
+            response = this.requestComFun(response);
+            resolve(response);
           } else {
-            response = this.requestComFail(response)
-            reject(response)
+            response = this.requestComFail(response);
+            reject(response);
           }
-        }
-      }
+        },
+      };
       // #ifdef APP-PLUS
       if (handleRe.files) {
-        _config.files = handleRe.files
+        _config.files = handleRe.files;
       }
       // #endif
-      if (!next) return
-      const requestTask = uni.uploadFile(_config)
+      if (!next) return;
+      const requestTask = uni.uploadFile(_config);
       if (handleRe.getTask) {
-        handleRe.getTask(requestTask, handleRe)
+        handleRe.getTask(requestTask, handleRe);
       }
-    })
+    });
   }
 
-  download (url, options = {}) {
+  download(url, options = {}) {
     return new Promise((resolve, reject) => {
-      let next = true
+      let next = true;
       const pubConfig = {
         baseUrl: this.config.baseUrl,
         url,
-        method: 'DOWNLOAD',
+        method: "DOWNLOAD",
         header: options.header || this.config.header,
         params: options.params || {},
         custom: { ...this.config.custom, ...(options.custom || {}) },
-        getTask: options.getTask || this.config.getTask
-      }
-      const cancel = (t = 'handle cancel', config = pubConfig) => {
+        getTask: options.getTask || this.config.getTask,
+      };
+      const cancel = (t = "handle cancel", config = pubConfig) => {
         const err = {
           errMsg: t,
-          config: config
-        }
-        reject(err)
-        next = false
-      }
+          config: config,
+        };
+        reject(err);
+        next = false;
+      };
 
-      const handleRe = { ...this.requestBeforeFun(pubConfig, cancel) }
-      if (!next) return
+      const handleRe = { ...this.requestBeforeFun(pubConfig, cancel) };
+      if (!next) return;
       const requestTask = uni.downloadFile({
         url: Request.mergeUrl(handleRe.url, handleRe.baseUrl, handleRe.params),
         header: handleRe.header,
         complete: (response) => {
-          response.config = handleRe
-          if (this.validateStatus(response.statusCode)) { // 成功
-            response = this.requestComFun(response)
-            resolve(response)
+          response.config = handleRe;
+          if (this.validateStatus(response.statusCode)) {
+            // 成功
+            response = this.requestComFun(response);
+            resolve(response);
           } else {
-            response = this.requestComFail(response)
-            reject(response)
+            response = this.requestComFail(response);
+            reject(response);
           }
-        }
-      })
+        },
+      });
       if (handleRe.getTask) {
-        handleRe.getTask(requestTask, handleRe)
+        handleRe.getTask(requestTask, handleRe);
       }
-    })
+    });
   }
 }
 

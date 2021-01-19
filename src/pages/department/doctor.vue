@@ -1,21 +1,27 @@
 <template>
   <view class="doctor">
-    <view class="title">{{model.departmentName}}共有<text>{{model.count}}</text>名医生</view>
+    <view class="title"
+      >{{ model.departmentName }}共有<text>{{ model.count }}</text
+      >名医生</view
+    >
     <view class="list">
-      <view class="item" @click="toDetail()" v-for="(item,index) in list" :key="index">
+      <view
+        class="item"
+        @click="toDetail()"
+        v-for="(item, index) in list"
+        :key="index"
+      >
         <view class="head">
           <image mode="aspectFill" :src="item.headimg"></image>
         </view>
         <view class="content">
-          <view class="content_name">{{item.name}}</view>
-          <view class="content_level">{{item.professional}}</view>
-          <view class="content_des"
-            >{{item.speciality}}</view
-          >
+          <view class="content_name">{{ item.name }}</view>
+          <view class="content_level">{{ item.professional }}</view>
+          <view class="content_des">{{ item.speciality }}</view>
         </view>
       </view>
     </view>
-    <view class="nodata" v-if="list.length<=0">
+    <view class="nodata" v-if="list.length <= 0">
       <image class="img" mode="widthFix" src="@/static/image/nodata.png" />
       <text class="notext">暂无更多</text>
     </view>
@@ -26,21 +32,25 @@ export default {
   data() {
     return {
       list: [],
-      model: ""
+      model: { departmentName: "", count: 0 },
     };
   },
-  onShow(){
-   this.getList();
+  onShow() {
+    this.getList();
   },
   methods: {
-    getList(){
-      this.$http.post(this.API.DOCTOR_LIST,{departmentid:this.$Route.query.departmentid}).then(res=>{
-        this.list = res.data;
-        this.model = res.model;
-      })
+    getList() {
+      this.$http
+        .post(this.API.DOCTOR_LIST, {
+          departmentid: this.$Route.query.departmentid,
+        })
+        .then((res) => {
+          this.list = res.data;
+          this.model = res.model;
+        });
     },
     toDetail() {
-      this.$Router.push({ name: "doctorInfo",query:{} });
+      this.$Router.push({ name: "doctorInfo", query: {} });
     },
   },
 };
@@ -103,10 +113,10 @@ export default {
       }
     }
   }
-  .nodata{
+  .nodata {
     min-height: 800rpx;
     text-align: center;
-    .img{
+    .img {
       display: block;
       width: 194rpx;
       height: 171rpx;
