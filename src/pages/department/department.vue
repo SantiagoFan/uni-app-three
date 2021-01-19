@@ -12,10 +12,12 @@
 export default {
   data() {
     return {
-      list: []
+      list: [],
+      isDoctor: 0
     };
   },
   onShow(){
+    this.isDoctor = this.$Route.query.isDoctor;
     this.getList();
   },
   methods: {
@@ -25,7 +27,11 @@ export default {
       })
     },
     toDetail(id) {
-      this.$Router.push({ name: "departmentDetail",query:{id:id} });
+      if(this.isDoctor){
+        this.$Router.push({ name: "doctor",query:{departmentid:id} });
+      }else{
+        this.$Router.push({ name: "departmentDetail",query:{id:id} });
+      }
     },
   },
 };

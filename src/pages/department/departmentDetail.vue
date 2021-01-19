@@ -2,8 +2,8 @@
   <view class="department">
     <view class="title">{{info.name}}</view>
     <view class="content">
-      <view class="info"><text>科室地址</text><text>{{info.address}}</text></view>
-      <view class="info"><text>科室电话</text><text>{{info.phone}}</text></view>
+      <view class="info"><text>科室地址</text><text>{{info.address?info.address:"暂无"}}</text></view>
+      <view class="info"><text>科室电话</text><text>{{info.phone?info.phone:"暂无"}}</text></view>
       <view class="detail" v-html="info.content">
         
       </view>
