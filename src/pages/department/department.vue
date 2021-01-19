@@ -1,8 +1,13 @@
 <template>
   <view class="department">
     <view class="department_list">
-      <view @click="toDetail(item.id)" v-for="(item,index) in list" :key="index" class="department_list_item">
-        <text>{{item.name}}</text>
+      <view
+        @click="toDetail(item.id)"
+        v-for="(item, index) in list"
+        :key="index"
+        class="department_list_item"
+      >
+        <text>{{ item.name }}</text>
         <text class="iconfont icon-arrowb"></text>
       </view>
     </view>
@@ -13,24 +18,24 @@ export default {
   data() {
     return {
       list: [],
-      isDoctor: 0
+      isDoctor: 0,
     };
   },
-  onShow(){
+  onShow() {
     this.isDoctor = this.$Route.query.isDoctor;
     this.getList();
   },
   methods: {
-    getList(){
-      this.$http.post(this.API.DEPARTMENT_INFO).then(res=>{
+    getList() {
+      this.$http.post(this.API.DEPARTMENT_INFO).then((res) => {
         this.list = res.data;
-      })
+      });
     },
     toDetail(id) {
-      if(this.isDoctor){
-        this.$Router.push({ name: "doctor",query:{departmentid:id} });
-      }else{
-        this.$Router.push({ name: "departmentDetail",query:{id:id} });
+      if (this.isDoctor) {
+        this.$Router.push({ name: "doctor", params: { departmentid: id } });
+      } else {
+        this.$Router.push({ name: "departmentDetail", params: { id: id } });
       }
     },
   },

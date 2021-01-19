@@ -252,7 +252,7 @@ export default {
     goDetail(id) {
       this.$Router.push({
         name: "doctorDetail",
-        query: { id: id },
+        params: { id: id },
       });
     },
   },

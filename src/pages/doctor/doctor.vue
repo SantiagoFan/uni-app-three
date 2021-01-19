@@ -56,7 +56,7 @@ export default {
         });
     },
     toDetail(id) {
-      this.$Router.push({ name: "doctorInfo", query: { id: id } });
+      this.$Router.push({ name: "doctorInfo", params: { id: id } });
     },
   },
 };

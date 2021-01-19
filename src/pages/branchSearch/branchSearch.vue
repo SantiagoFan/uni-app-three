@@ -155,7 +155,7 @@ export default {
       this.getDepartmentList();
     },
     goDetail(id) {
-      this.$Router.push({ name: "doctorDetail", query: { id: id } });
+      this.$Router.push({ name: "doctorDetail", params: { id: id } });
     },
     goScheme(departmentid) {
       this.$Router.push({
