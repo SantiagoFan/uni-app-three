@@ -117,7 +117,6 @@ export default {
       menuItemHeight: 0, // 左边菜单item的高度
       show: false,
       val: "",
-      type: "", // 0、科室信息 1、医生介绍
       cateList: [],
       list: [],
       collectOrRegisterList: [],
@@ -125,10 +124,6 @@ export default {
     };
   },
   onLoad(options = {}) {
-    // type : 0、科室信息 1、医生介绍
-    const { type } = options;
-    console.log("options", options);
-    this.type = type;
     this.getCateList();
     this.getHistoryList();
   },

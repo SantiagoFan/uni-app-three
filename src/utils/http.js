@@ -24,16 +24,9 @@ http.validateStatus = (statusCode) => {
   return statusCode === 200
 }
 
-let postLock = false
 
 http.interceptor.request((config, cancel) => {
-
-  if (config.custom.lock) {
-    if (postLock) {
-      return;
-    }
-    postLock = true
-  }
+ 
   /* 请求之前拦截器 */
   config.header = {
     ...config.header,
@@ -61,9 +54,7 @@ http.interceptor.request((config, cancel) => {
 })
 
 http.interceptor.response((response) => {
-  if (response.config.custom.lock) {
-    postLock = false
-  }
+  
   /* 请求之后拦截器 */
   // if (response.data.code !== 200) { // 服务端返回的状态码不等于200，则reject()
   //   return Promise.reject(response)

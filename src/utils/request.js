@@ -35,6 +35,7 @@ export default class Request {
 
   static mergeUrl(url, baseUrl, params) {
     let mergeUrl = Request.posUrl(url) ? url : `${baseUrl}${url}`;
+    console.log(mergeUrl)
     if (Object.keys(params).length !== 0) {
       const paramsH = Request.addQueryString(params);
       mergeUrl += mergeUrl.includes("?") ? `&${paramsH}` : `?${paramsH}`;
