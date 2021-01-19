@@ -5,30 +5,44 @@
         <image
           class="img"
           mode="aspectFill"
-          src="@/static/image/doctor_avatar.jpg"
+          :src="model.headimg"
         />
       </view>
       <view class="info">
         <view class="title">
-          <view class="name">徐春义</view>
+          <view class="name">{{model.name}}</view>
         </view>
-        <view class="subt"> 产科门诊 </view>
-        <view class="intr">副主任医师</view>
+        <view class="subt"> {{model.department_name}} </view>
+        <view class="intr">{{model.professional}}</view>
       </view>
     </view>
     <view class="wrap__con">
       <view class="wrap__con-title">擅长</view>
-      <view class="wrap__con-intr"
-        >儿童生长发育儿童生长发育儿童生长发育儿童生长发育儿童生长发育儿童生长发育儿童生长发育儿童生长发育儿童生长发育儿童生长发育儿童生长发育儿童生长发育儿童生长发育儿童生长发育儿童生长发育儿童生长发育儿童生长发育儿童生长发育儿童生长发育儿童生长发育儿童生长发育儿童生长发育儿童生长发育儿童生长发育儿童生长发育儿童生长发育儿童生长发育</view
-      >
+      <view class="wrap__con-intr" v-html="model.speciality"></view>
       <view class="wrap__con-title bordertop">详细介绍</view>
-      <view class="wrap__con-intr"
-        >儿童生长发育儿童生长发育儿童生长发育儿童生长发育儿童生长发育儿童生长发育儿童生长发育儿童生长发育儿童生长发育儿童生长发育儿童生长发育儿童生长发育儿童生长发育儿童生长发育儿童生长发育儿童生长发育儿童生长发育儿童生长发育儿童生长发育儿童生长发育儿童生长发育儿童生长发育儿童生长发育儿童生长发育儿童生长发育儿童生长发育儿童生长发育</view
-      >
+      <view class="wrap__con-intr" v-html="model.content"></view>
     </view>
   </view>
 </template>
-
+<script>
+export default {
+  data(){
+    return{
+      model: {name:"",professional:"",headimg:"",department_name:""}
+    }
+  },
+  onShow(){
+    this.getInfo();
+  },
+  methods:{
+    getInfo(){
+      this.$http.post(this.API.DOCTOR_INFO,{id:this.$Route.query.id}).then(res=>{
+        this.model = res.data;
+      })
+    }
+  }
+}
+</script>
 <style lang="scss" scoped>
 @import "@/assets/scss/mixin.scss";
 .wrap {

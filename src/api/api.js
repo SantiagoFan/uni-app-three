@@ -33,5 +33,6 @@ export default {
 	NEWS_LIST: '/news/getNewsList',//健康指导列表
 	DEPARTMENT_INFO: '/department/getDepartmentList',//科室介绍
 	DEPARTMENT_INFO_DETAIL: '/department/getDepartmentInfo',//科室介绍详情
+	DOCTOR_INFO: '/doctor/getDoctorInfo',//医生介绍-医生详情
 	
 }

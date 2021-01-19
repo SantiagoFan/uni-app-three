@@ -7,7 +7,7 @@
     <view class="list">
       <view
         class="item"
-        @click="toDetail()"
+        @click="toDetail(item.id)"
         v-for="(item, index) in list"
         :key="index"
       >
@@ -49,8 +49,8 @@ export default {
           this.model = res.model;
         });
     },
-    toDetail() {
-      this.$Router.push({ name: "doctorInfo", query: {} });
+    toDetail(id) {
+      this.$Router.push({ name: "doctorInfo", query: {id:id} });
     },
   },
 };

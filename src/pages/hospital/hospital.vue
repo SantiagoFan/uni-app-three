@@ -2,7 +2,7 @@
   <view class="hospital">
     <view class="hospital-m">
       <view class="hospital-m__pic">
-        <image class="img" mode="widthFix" :src="banner" />
+        <image class="img" mode="widthFix" :src="banner" @error="error(banner)" />
       </view>
       <view class="hospital-m__wrap">
         <view class="hospital-m__wrap-info">
@@ -88,7 +88,7 @@
 export default {
   data() {
     return {
-      info: "",
+      info: {},
       banner: "",
     };
   },
@@ -99,9 +99,12 @@ export default {
     getInfo() {
       this.$http.post(this.API.HOSPITAL_INFO).then((res) => {
         this.info = res.data.info;
-        this.banner = res.data.banner;
+        this.banner = res.data.banner+"1";
       });
     },
+    error: function(banner) {
+        this.banner = '../../static/image/noimg.jpg';//默认图片
+    }  
   },
 };
 </script>
