@@ -181,7 +181,7 @@ export default {
     goDetail(id) {
       this.$Router.push({
         name: "doctorDetail",
-        query: { id: id, date: this.selectDate },
+        params: { id: id, date: this.selectDate },
       });
     },
     getSchemeList() {
