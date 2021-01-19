@@ -43,8 +43,8 @@
               </view>
               <view class="text">科室介绍</view>
             </router-link>
-            <navigator
-              url="/pages/branchList/branchList?type=1"
+            <router-link
+              :to="{ name: 'doctor' }"
               hover-class="none"
               class="menu-item"
             >
@@ -56,7 +56,7 @@
                 />
               </view>
               <view class="text">医生介绍</view>
-            </navigator>
+            </router-link>
             <navigator
               url="/pages/branchPlace/branchPlace"
               hover-class="none"

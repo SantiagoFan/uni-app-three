@@ -379,6 +379,24 @@
         "navigationBarBackgroundColor": "#0ec698",
         "navigationBarTextStyle": "#ffffff"
 			}
+    },
+    {
+      "path": "pages/department/doctor",
+      "name":"doctor",
+      "style": {
+        "navigationBarTitleText": "医生列表",
+        "navigationBarBackgroundColor": "#0ec698",
+        "navigationBarTextStyle": "#ffffff"
+			}
+    },
+    {
+      "path": "pages/department/doctorInfo",
+      "name":"doctorInfo",
+      "style": {
+        "navigationBarTitleText": "医生主页",
+        "navigationBarBackgroundColor": "#0ec698",
+        "navigationBarTextStyle": "#ffffff"
+			}
     }
 	],
 	"globalStyle": {
