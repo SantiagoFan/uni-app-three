@@ -108,15 +108,7 @@
         "navigationBarTextStyle": "white"
 			}
     },
-    {
-      "path": "pages/doctorDetail/doctorDetail",
-      "name":"doctorDetail",
-			"style": {
-        "navigationBarTitleText": "医生主页",
-        "navigationBarBackgroundColor": "#0ec698",
-        "navigationBarTextStyle": "#ffffff"
-			}
-    },
+    
     {
       "path": "pages/myResidentDetail/myResidentDetail",
       "name":"myResidentDetail",
@@ -160,15 +152,6 @@
         "navigationBarTitleText": "我的住院人",
         "navigationBarBackgroundColor": "#0ec698",
         "navigationBarTextStyle": "white"
-			}
-    },
-    {
-      "path": "pages/doctorList/doctorList",
-      "name":"doctorList",
-			"style": {
-        "navigationBarTitleText": "医生列表",
-        "navigationBarBackgroundColor": "#0ec698",
-        "navigationBarTextStyle": "#ffffff"
 			}
     },
     {
@@ -237,7 +220,7 @@
       "path": "pages/branchDetail/branchDetail",
       "name":"branchDetail",
 			"style": {
-        "navigationBarTitleText": "五疗科",
+        "navigationBarTitleText": "",
         "navigationBarBackgroundColor": "#0ec698",
         "navigationBarTextStyle": "#ffffff"
 			}
@@ -381,7 +364,7 @@
 			}
     },
     {
-      "path": "pages/department/doctor",
+      "path": "pages/doctor/doctor",
       "name":"doctor",
       "style": {
         "navigationBarTitleText": "医生列表",
@@ -390,9 +373,18 @@
 			}
     },
     {
-      "path": "pages/department/doctorInfo",
+      "path": "pages/doctor/doctorInfo",
       "name":"doctorInfo",
       "style": {
+        "navigationBarTitleText": "医生主页",
+        "navigationBarBackgroundColor": "#0ec698",
+        "navigationBarTextStyle": "#ffffff"
+			}
+    },
+    {
+      "path": "pages/doctor/doctorDetail",
+      "name":"doctorDetail",
+			"style": {
         "navigationBarTitleText": "医生主页",
         "navigationBarBackgroundColor": "#0ec698",
         "navigationBarTextStyle": "#ffffff"

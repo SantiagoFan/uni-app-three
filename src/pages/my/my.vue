@@ -13,10 +13,11 @@
                 @click="goDetail"
                 hover-class="none"
                 class="art1_info__count"
+                v-if="patientInfo"
               >
-                <view class="text"  v-if="patientInfo">
-                  就诊卡 <text class="num">{{ count }}</text>
-                   张</view>
+                <view class="text">
+                  就诊卡 <text class="num">{{ count }}</text> 张</view
+                >
                 <view class="jt">
                   <text class="iconfont icon-arrowb"></text>
                 </view>
@@ -156,9 +157,9 @@ export default {
         query: { id: id },
       });
     },
-    addPatient(){
-      this.$Router.push("/pages/medicalCardLogin/medicalCardLogin")
-    }
+    addPatient() {
+      this.$Router.push("/pages/medicalCardLogin/medicalCardLogin");
+    },
   },
 };
 </script>

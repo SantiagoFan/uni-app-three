@@ -2,30 +2,46 @@
   <view class="wrap">
     <view class="wrap-search">
       <view class="input-box">
-        <input class="input" type="text" confirm-type="search" @confirm="search" v-model="keyword"  placeholder="请输入" />
+        <input
+          class="input"
+          type="text"
+          confirm-type="search"
+          @confirm="search"
+          v-model="keyword"
+          placeholder="请输入"
+        />
       </view>
       <view class="btn" @click="clearKeyword">取消</view>
     </view>
     <u-gap height="10" bg-color="#f3f3f3"></u-gap>
-    <view class="wrap-con" v-if="doctorList.length>0">
+    <view class="wrap-con" v-if="doctorList.length > 0">
       <view class="wrap-con__list">
-        <view class="item" v-for="(item,index) in doctorList" :key="index" @click="goDetail(item.id)">
+        <view
+          class="item"
+          v-for="(item, index) in doctorList"
+          :key="index"
+          @click="goDetail(item.id)"
+        >
           <view class="avatar">
             <image class="img" mode="aspectFill" :src="item.headimg" />
           </view>
           <view class="info">
             <view class="title">
-              <view class="name">{{item.name}}</view>
+              <view class="name">{{ item.name }}</view>
             </view>
             <view class="subt">
-              <view class="subt-zc">职称：{{item.position}}</view>
-              <view class="subt-zw">职务：{{item.professional}}</view>
+              <view class="subt-zc">职称：{{ item.position }}</view>
+              <view class="subt-zw">职务：{{ item.professional }}</view>
             </view>
-            <view class="intr">擅长：{{item.speciality}}</view>
+            <view class="intr">擅长：{{ item.speciality }}</view>
           </view>
         </view>
       </view>
-      <view class="wrap-con__more" @click="getMoreDoctor" v-if="!doctorFinished">
+      <view
+        class="wrap-con__more"
+        @click="getMoreDoctor"
+        v-if="!doctorFinished"
+      >
         <view class="text">查看更多</view>
         <view class="icon">
           <text class="iconfont icon-hao"></text>
@@ -36,17 +52,26 @@
       </view>
     </view>
     <u-gap height="20" bg-color="#f3f3f3"></u-gap>
-    <view class="wrap-branch" v-if="departmentList.length>0">
+    <view class="wrap-branch" v-if="departmentList.length > 0">
       <view class="wrap-branch__bt">科室</view>
       <view class="wrap-branch__list">
-        <view class="item" v-for="(item,index) in departmentList" :key="index" @click="goScheme(item.id)">
+        <view
+          class="item"
+          v-for="(item, index) in departmentList"
+          :key="index"
+          @click="goScheme(item.id)"
+        >
           <view class="icon">
             <text class="iconfont icon-keshi"></text>
           </view>
-          <view class="text">{{item.name}}</view>
+          <view class="text">{{ item.name }}</view>
         </view>
       </view>
-      <view class="wrap-branch__more" @click="getMoreDepartment" v-if="!departmentFinished">
+      <view
+        class="wrap-branch__more"
+        @click="getMoreDepartment"
+        v-if="!departmentFinished"
+      >
         <view class="text">查看更多</view>
         <view class="icon">
           <text class="iconfont icon-hao"></text>
@@ -61,8 +86,8 @@
 
 <script>
 export default {
-  data(){
-    return{
+  data() {
+    return {
       doctorList: [],
       departmentList: [],
       keyword: "",
@@ -71,76 +96,79 @@ export default {
       doctorPage: 1,
       doctorLimit: 3,
       doctorFinished: false,
-      departmentFinished: false
-    }
+      departmentFinished: false,
+    };
   },
-  onLoad(){
-    this.keyword = this.$Route.query.keyword
+  onLoad() {
+    this.keyword = this.$Route.query.keyword;
     this.getDoctorList();
     this.getDepartmentList();
   },
-  methods:{
-    getDoctorList(){
+  methods: {
+    getDoctorList() {
       var data = {
-        keyword:this.keyword,
-        limit:this.doctorLimit,
-        page: this.doctorPage
-      }
-      this.$http.post(this.API.DOCTOR_SEARCH,data).then(res=>{
+        keyword: this.keyword,
+        limit: this.doctorLimit,
+        page: this.doctorPage,
+      };
+      this.$http.post(this.API.DOCTOR_SEARCH, data).then((res) => {
         if (this.doctorPage == 1) {
-            this.doctorList = [];
-          }
-          this.doctorList = this.doctorList.concat(res.data.items);
-          if (this.doctorList.length >= res.data.total) {
-            this.doctorFinished = true;
-          } else {
-            this.doctorPage++;
-          }
-      })
+          this.doctorList = [];
+        }
+        this.doctorList = this.doctorList.concat(res.data.items);
+        if (this.doctorList.length >= res.data.total) {
+          this.doctorFinished = true;
+        } else {
+          this.doctorPage++;
+        }
+      });
     },
-    getDepartmentList(){
-       var data = {
-        keyword:this.keyword,
-        limit:this.departmentLimit,
-        page: this.departmentPage
-      }
-      this.$http.post(this.API.DEPARTMENT_SEARCH,data).then(res=>{
-         if (this.departmentPage == 1) {
-            this.departmentList = [];
-          }
-          this.departmentList = this.departmentList.concat(res.data.items);
-          if (this.departmentList.length >= res.data.total) {
-            this.departmentFinished = true;
-          } else {
-            this.departmentPage++;
-          }
-      })
+    getDepartmentList() {
+      var data = {
+        keyword: this.keyword,
+        limit: this.departmentLimit,
+        page: this.departmentPage,
+      };
+      this.$http.post(this.API.DEPARTMENT_SEARCH, data).then((res) => {
+        if (this.departmentPage == 1) {
+          this.departmentList = [];
+        }
+        this.departmentList = this.departmentList.concat(res.data.items);
+        if (this.departmentList.length >= res.data.total) {
+          this.departmentFinished = true;
+        } else {
+          this.departmentPage++;
+        }
+      });
     },
-    search(){
+    search() {
       this.getList();
     },
-    clearKeyword(){
+    clearKeyword() {
       this.keyword = "";
       this.getList();
     },
-    getMoreDoctor(){
+    getMoreDoctor() {
       this.getDoctorList();
     },
-    getMoreDepartment(){
+    getMoreDepartment() {
       this.getDepartmentList();
     },
-    goDetail(id){
-      this.$Router.push({path:'/pages/doctorDetail/doctorDetail',query:{id:id}})
+    goDetail(id) {
+      this.$Router.push({ name: "doctorDetail", query: { id: id } });
     },
-    goScheme(departmentid){
-      this.$Router.push({path:'/pages/branchDetail/branchDetail',query:{departmentid:departmentid}});
-    }
-  }
-}
+    goScheme(departmentid) {
+      this.$Router.push({
+        path: "/pages/branchDetail/branchDetail",
+        query: { departmentid: departmentid },
+      });
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/scss/mixin.scss';
+@import "@/assets/scss/mixin.scss";
 .wrap {
   min-height: 100rpx;
   background: #ffffff;
@@ -157,13 +185,13 @@ export default {
       padding: 0 30rpx 0 78rpx;
       flex: 1;
       &::before {
-        content: '\e660';
+        content: "\e660";
         position: absolute;
         left: 30rpx;
         top: 50%;
         color: #afafaf;
         transform: translateY(-50%);
-        font-family: 'iconfont';
+        font-family: "iconfont";
       }
       .input {
         width: 100%;
@@ -239,7 +267,7 @@ export default {
         }
       }
     }
-    .nomore{
+    .nomore {
       justify-content: center;
     }
   }
@@ -288,7 +316,7 @@ export default {
         }
       }
     }
-    .nomore{
+    .nomore {
       justify-content: center;
     }
   }

@@ -21,10 +21,7 @@
         </view>
       </view>
     </view>
-    <view class="nodata" v-if="list.length <= 0">
-      <image class="img" mode="widthFix" src="@/static/image/nodata.png" />
-      <text class="notext">暂无更多</text>
-    </view>
+    <empty v-if="list.length === 0"></empty>
   </view>
 </template>
 <script>
@@ -45,17 +42,21 @@ export default {
         .post(this.API.DOCTOR_INFO_LIST, {
           departmentid: this.$Route.query.departmentid,
         })
-        .then(res => {
+        .then((res) => {
           this.list = res.data;
         });
     },
-    getDepartmentName(){
-      this.$http.post(this.API.DEPARTMENT_NAME,{departmentid:this.$Route.query.departmentid}).then(res=>{
-        this.departmentName = res.departmentName
-      })
+    getDepartmentName() {
+      this.$http
+        .post(this.API.DEPARTMENT_NAME, {
+          departmentid: this.$Route.query.departmentid,
+        })
+        .then((res) => {
+          this.departmentName = res.data;
+        });
     },
     toDetail(id) {
-      this.$Router.push({ name: "doctorInfo", query: {id:id} });
+      this.$Router.push({ name: "doctorInfo", query: { id: id } });
     },
   },
 };
@@ -116,16 +117,6 @@ export default {
           text-overflow: ellipsis;
         }
       }
-    }
-  }
-  .nodata {
-    min-height: 800rpx;
-    text-align: center;
-    .img {
-      display: block;
-      width: 194rpx;
-      height: 171rpx;
-      margin: 100rpx auto 0 auto;
     }
   }
 }

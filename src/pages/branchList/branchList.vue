@@ -4,7 +4,14 @@
     <view class="u-search-box">
       <view class="u-search-inner">
         <u-icon name="search" color="#909399" :size="28"></u-icon>
-        <input class="u-search-text" type="text" confirm-type="search" @confirm="search" v-model="keyword" placeholder="搜索科室、医生"/>
+        <input
+          class="u-search-text"
+          type="text"
+          confirm-type="search"
+          @confirm="search"
+          v-model="keyword"
+          placeholder="搜索科室、医生"
+        />
       </view>
     </view>
     <view class="u-menu-wrap">
@@ -18,10 +25,14 @@
           class="u-tab-item"
           :class="[current == 1 ? 'u-tab-item-active' : '']"
           @tap.stop="swichMenu(1)"
-          v-if="collectOrRegisterList.length>0"
+          v-if="collectOrRegisterList.length > 0"
         >
           <view class="icon">
-            <image class="img" mode="widthFix" src="@/static/image/doctor_icon6.png" />
+            <image
+              class="img"
+              mode="widthFix"
+              src="@/static/image/doctor_icon6.png"
+            />
           </view>
           <text class="u-line-1">历史挂号</text>
         </view>
@@ -39,12 +50,16 @@
           v-for="(item, index) in cateList"
           :key="index"
           class="u-tab-item"
-          :class="[current == index+2 ? 'u-tab-item-active' : '']"
-          :data-current="index+2"
-          @tap.stop="swichMenu(index+2)"
+          :class="[current == index + 2 ? 'u-tab-item-active' : '']"
+          :data-current="index + 2"
+          @tap.stop="swichMenu(index + 2)"
         >
           <view class="icon">
-            <image class="img" mode="widthFix" src="@/static/image/doctor_icon1.png" />
+            <image
+              class="img"
+              mode="widthFix"
+              src="@/static/image/doctor_icon1.png"
+            />
           </view>
           <text class="u-line-1">{{ item.name }}</text>
         </view>
@@ -58,19 +73,17 @@
                   <view
                     @click="goDetail(obj.id)"
                     class="doctor-wrap"
-                    v-for="(obj,index) in collectOrRegisterList"
+                    v-for="(obj, index) in collectOrRegisterList"
                     :key="index"
                   >
                     <view class="doctor-wrap__avatar">
-                      <image
-                        class="img"
-                        mode="aspectFill"
-                        :src="obj.headimg"
-                      />
+                      <image class="img" mode="aspectFill" :src="obj.headimg" />
                     </view>
                     <view class="doctor-wrap__info">
-                      <view class="doctor-wrap__info-name">{{obj.name}}</view>
-                      <view class="doctor-wrap__info-subt">{{obj.speciality}}</view>
+                      <view class="doctor-wrap__info-name">{{ obj.name }}</view>
+                      <view class="doctor-wrap__info-subt">{{
+                        obj.speciality
+                      }}</view>
                     </view>
                     <view class="doctor-wrap__arrow">
                       <text class="iconfont icon-arrowb"></text>
@@ -82,7 +95,7 @@
                     class="thumb-box"
                     v-for="(item, index) in list"
                     :key="index"
-                    @click="handleClickDetail(item.id)"
+                    @click="handleClickDetail(item)"
                   >
                     <view class="item-menu-name">{{ item.name }}</view>
                     <view class="arrow">
@@ -120,7 +133,7 @@ export default {
       cateList: [],
       list: [],
       collectOrRegisterList: [],
-      keyword: ""
+      keyword: "",
     };
   },
   onLoad(options = {}) {
@@ -132,12 +145,11 @@ export default {
       console.log("11");
     },
     // 点击详情
-    handleClickDetail(departmentid) {
-      if(this.type==0){
-        this.$Router.push( '/pages/branchInfo/branchInfo' );
-      }else{
-        this.$Router.push({path:'/pages/branchDetail/branchDetail',query:{departmentid:departmentid}});
-      }
+    handleClickDetail({ id, name }) {
+      this.$Router.push({
+        path: "/pages/branchDetail/branchDetail",
+        query: { departmentid: id, departmentName: name },
+      });
     },
     change(e) {
       let inputVal = this.val;
@@ -180,9 +192,9 @@ export default {
         index * this.menuItemHeight +
         this.menuItemHeight / 2 -
         this.menuHeight / 2;
-        if(index==1){
-          this.getHistoryList();
-        }
+      if (index == 1) {
+        this.getHistoryList();
+      }
     },
     // 获取一个目标元素的高度
     getElRect(elClass, dataVal) {
@@ -203,34 +215,46 @@ export default {
           .exec();
       });
     },
-    getCateList(){
-      this.$http.post(this.API.DEPARTMENT_CATEGORY).then(res=>{
-        this.cateList = res.data;
-      }).then(response=>{
-        if(this.cateList.length>0){
-          this.$http.post(this.API.DEPARTMENT_LIST,{cateid:this.cateList[0]['id']}).then(res=>{
-            this.list = res.data;
-          })
-        }
-       
-      })
+    getCateList() {
+      this.$http
+        .post(this.API.DEPARTMENT_CATEGORY)
+        .then((res) => {
+          this.cateList = res.data;
+        })
+        .then((response) => {
+          if (this.cateList.length > 0) {
+            this.$http
+              .post(this.API.DEPARTMENT_LIST, {
+                cateid: this.cateList[0]["id"],
+              })
+              .then((res) => {
+                this.list = res.data;
+              });
+          }
+        });
     },
-    getCollectList(){
-      this.$http.post(this.API.COLLECT_DOCTOR).then(res=>{
+    getCollectList() {
+      this.$http.post(this.API.COLLECT_DOCTOR).then((res) => {
         this.collectOrRegisterList = res.data;
-      })
+      });
     },
-    getHistoryList(){
-      this.$http.post(this.API.REGISTER_HISTORY).then(res=>{
+    getHistoryList() {
+      this.$http.post(this.API.REGISTER_HISTORY).then((res) => {
         this.collectOrRegisterList = res.data;
-      })
+      });
     },
-    search(){
-      this.$Router.push({path:"/pages/branchSearch/branchSearch",query:{keyword:this.keyword}})
+    search() {
+      this.$Router.push({
+        path: "/pages/branchSearch/branchSearch",
+        query: { keyword: this.keyword },
+      });
     },
-    goDetail(id){
-      this.$Router.push({path:'/pages/doctorDetail/doctorDetail',query:{id:id}})
-    }
+    goDetail(id) {
+      this.$Router.push({
+        name: "doctorDetail",
+        query: { id: id },
+      });
+    },
   },
 };
 </script>
