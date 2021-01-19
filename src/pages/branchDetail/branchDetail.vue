@@ -1,52 +1,92 @@
 <template>
   <view class="wrap">
     <view class="wrap_top">
-      <view class="wrap_top__date" v-if="tabIndex===0">日期：{{selectDate}}</view><!-- 按日期预约显示 -->
-      <view class="wrap_top__date" v-else></view><!-- 按日期预约显示 -->
+      <view class="wrap_top__date" v-if="tabIndex === 0"
+        >日期：{{ selectDate }}</view
+      ><!-- 按日期预约显示 -->
+      <view class="wrap_top__date" v-else></view
+      ><!-- 按日期预约显示 -->
       <view class="wrap_top__tab">
-        <view :class="['wrap_top__tab-cell', {active: tabIndex === 1}]" @click="handleTabItem(0)">按日期预约</view>
-        <view :class="['wrap_top__tab-cell', {active: tabIndex === 0}]" @click="handleTabItem(1)">按医生预约</view>
+        <view
+          :class="['wrap_top__tab-cell', { active: tabIndex === 1 }]"
+          @click="handleTabItem(0)"
+          >按日期预约</view
+        >
+        <view
+          :class="['wrap_top__tab-cell', { active: tabIndex === 0 }]"
+          @click="handleTabItem(1)"
+          >按医生预约</view
+        >
       </view>
     </view>
     <view class="wrap_con">
-      <view :class="['wrap_con__date',{active:isOpen}]" v-if="tabIndex===0">
+      <view
+        :class="['wrap_con__date', { active: isOpen }]"
+        v-if="tabIndex === 0"
+      >
         <view class="week-box" v-if="isOpen">
-          <view class="week-box__item" v-for="(item,index) in week" :key="index">{{item}}</view>
+          <view
+            class="week-box__item"
+            v-for="(item, index) in week"
+            :key="index"
+            >{{ item }}</view
+          >
         </view>
-        <view :class="['list', {active: isOpen}]">
-          <view  class="item" v-for="(item, index) in schemeList" :key="index" @click="changeScheme(item)">
-            <view v-if="!isOpen" class="week">{{item.week}}</view>
-            <view v-if='item' :class="['con', {active: item.date==selectDate}]">
-              <view class="count" :style="{color: item.is_exist == 1?'#0ec698': ''}">{{item.day}}</view>
-              <view class="status">{{item.is_exist==1?'有':'无'}}</view>
+        <view :class="['list', { active: isOpen }]">
+          <view
+            class="item"
+            v-for="(item, index) in schemeList"
+            :key="index"
+            @click="changeScheme(item)"
+          >
+            <view v-if="!isOpen" class="week">{{ item.week }}</view>
+            <view
+              v-if="item"
+              :class="['con', { active: item.date == selectDate }]"
+            >
+              <view
+                class="count"
+                :style="{ color: item.is_exist == 1 ? '#0ec698' : '' }"
+                >{{ item.day }}</view
+              >
+              <view class="status">{{ item.is_exist == 1 ? "有" : "无" }}</view>
             </view>
           </view>
         </view>
         <view class="arrow" @click="openDate()">
-          <view :class="['icon', {active: isOpen}]">
+          <view :class="['icon', { active: isOpen }]">
             <text class="iconfont icon-shang"></text>
           </view>
-        </view> 
+        </view>
       </view>
       <view class="wrap_con__list">
-        <view @click="goDetail(item.id)" class="cell" v-for="(item,index) in doctorList" :key="index">
+        <view
+          @click="goDetail(item.id)"
+          class="cell"
+          v-for="(item, index) in doctorList"
+          :key="index"
+        >
           <view class="cell__avatar">
             <image class="img" mode="aspectFill" :src="item.headimg" />
           </view>
           <view class="cell__info">
             <view class="title">
-              <view class="name">{{item.name}}</view>
+              <view class="name">{{ item.name }}</view>
               <view class="right">
-                <view class="sur" v-if="item.is_exist == 1">余号:{{item.least_source}}</view>
-                 <view class="tag" v-if="item.is_exist==1">￥{{item.price}}</view>
-                <view class="tag" v-if="item.is_exist==0">满诊</view>
+                <view class="sur" v-if="item.is_exist == 1"
+                  >余号:{{ item.least_source }}</view
+                >
+                <view class="tag" v-if="item.is_exist == 1"
+                  >￥{{ item.price }}</view
+                >
+                <view class="tag" v-if="item.is_exist == 0">满诊</view>
               </view>
             </view>
-            <view class="post">职称：{{item.professional}}</view>
-            <view class="content">{{item.speciality}}</view>
+            <view class="post">职称：{{ item.professional }}</view>
+            <view class="content">{{ item.speciality }}</view>
           </view>
         </view>
-        <view class="nodata" v-if="doctorList.length<=0">
+        <view class="nodata" v-if="doctorList.length <= 0">
           暂无医生
         </view>
       </view>
@@ -55,7 +95,7 @@
 </template>
 
 <script>
-import moment from "moment"
+import moment from "moment";
 export default {
   data() {
     return {
@@ -64,97 +104,106 @@ export default {
       isOpen: false, // 是否展开日期
       doctorList: [],
       schemeList: [],
-      selectDate:"",
-      week:["周一","周二","周三","周四","周五","周六","周日"],
-      open_scheme_list:[],
-      postLock:false
-    }
+      selectDate: "",
+      week: ["周一", "周二", "周三", "周四", "周五", "周六", "周日"],
+      open_scheme_list: [],
+      postLock: false,
+    };
   },
-  onLoad(){
+  onLoad() {
     this.getSchemeList();
   },
   methods: {
-    change (e) {
-      console.log('e==', e)
+    change(e) {
+      console.log("e==", e);
     },
     handleTabItem(index) {
-      this.tabIndex = index
-      this.selectDate = this.tabIndex==0?this.selectDate:''
-      this.getDoctorList()
+      this.tabIndex = index;
+      this.selectDate = this.tabIndex == 0 ? this.selectDate : "";
+      this.getDoctorList();
     },
-    getDoctorList(){
+    getDoctorList() {
       var data = {
-        departmentid:this.$Route.query.departmentid,
-        date:this.selectDate
+        departmentid: this.$Route.query.departmentid,
+        date: this.selectDate,
       };
 
-      if(this.postLock){
+      if (this.postLock) {
         return;
       }
-      this.postLock=true;
-      uni.showLoading({
-          title: '加载中'
-      });
-      this.$http.post(this.API.DOCTOR_LIST,data).then(res=>{
+      this.postLock = true;
+
+      this.$http.post(this.API.DOCTOR_LIST, data, false).then((res) => {
         this.doctorList = res.data;
-        this.postLock=false
-        uni.hideLoading()
-      })
+        this.postLock = false;
+      });
     },
-    goDetail(id){
-      this.$Router.push({path:'/pages/doctorDetail/doctorDetail',query:{id:id,date:this.selectDate}});
+    goDetail(id) {
+      this.$Router.push({
+        path: "/pages/doctorDetail/doctorDetail",
+        query: { id: id, date: this.selectDate },
+      });
     },
-    getSchemeList(){
-      this.$http.post(this.API.SCHEME_LIST,{departmentid:this.$Route.query.departmentid}).then(res=>{
-        this.origin_scheme=res.data;
-        this.schemeList = res.data;
-        if(res.data.length>0){
-          this.selectDate=res.data[0].date;
-        }
-      }).then(res=>{
-        this.getDoctorList();
-      })
+    getSchemeList() {
+      this.$http
+        .post(
+          this.API.SCHEME_LIST,
+          {
+            departmentid: this.$Route.query.departmentid,
+          },
+          false
+        )
+        .then((res) => {
+          this.origin_scheme = res.data;
+          this.schemeList = res.data;
+          if (res.data.length > 0) {
+            this.selectDate = res.data[0].date;
+          }
+        })
+        .then((res) => {
+          this.getDoctorList();
+        });
     },
-    changeScheme(item){
-      if(!this.postLock&&item&&item.date!=this.selectDate){
+    changeScheme(item) {
+      if (!this.postLock && item && item.date != this.selectDate) {
         this.selectDate = item.date;
         this.getDoctorList();
       }
     },
-    changeList(arr){
-      var newArray = arr.filter(value => Object.keys(value).length!== 0);
+    changeList(arr) {
+      var newArray = arr.filter((value) => Object.keys(value).length !== 0);
       return newArray;
     },
-    openDate(){
-      this.isOpen=!this.isOpen
-      this.schemeList=[];
-      let data=JSON.parse(JSON.stringify(this.origin_scheme))
-      if(this.isOpen){
+    openDate() {
+      this.isOpen = !this.isOpen;
+      this.schemeList = [];
+      let data = JSON.parse(JSON.stringify(this.origin_scheme));
+      if (this.isOpen) {
         for (let i = 0; i < data.length; i++) {
-          if(i==0){
-            let first=moment(data[i])
-            for(let j=0;j<first.isoWeekday()-1;j++){
+          if (i == 0) {
+            let first = moment(data[i]);
+            for (let j = 0; j < first.isoWeekday() - 1; j++) {
               this.schemeList.push(null);
             }
           }
           this.schemeList.push(data[i]);
-          if(i==data.length-1){
-            let end=moment(data[i])
-            for(let j=0;j<7-end.isoWeekday();j++){
+          if (i == data.length - 1) {
+            let end = moment(data[i]);
+            for (let j = 0; j < 7 - end.isoWeekday(); j++) {
               this.schemeList.push(null);
             }
           }
         }
-      }else{
-        this.schemeList=data
+      } else {
+        this.schemeList = data;
       }
-    }
+    },
   },
-}
+};
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/scss/mixin.scss';
+@import "@/assets/scss/mixin.scss";
 .wrap {
   display: flex;
   flex-direction: column;
@@ -269,8 +318,8 @@ export default {
         width: 90rpx;
         height: 100%;
         border-left: 1rpx solid #e9e9e9;
-        background: rgba($color: #ffffff, $alpha: .7);
-      .icon {
+        background: rgba($color: #ffffff, $alpha: 0.7);
+        .icon {
           position: relative;
           width: 36rpx;
           height: 36rpx;
@@ -279,16 +328,16 @@ export default {
           text-align: center;
           background: #0ec698;
           border-radius: 50%;
-          transition: all .5s;
+          transition: all 0.5s;
           .iconfont {
             position: absolute;
             top: 50%;
             left: 50%;
-            transform: translate(-50%,-50%);
+            transform: translate(-50%, -50%);
             font-size: 20rpx;
           }
           &.active {
-            transform: rotate(180deg)
+            transform: rotate(180deg);
           }
         }
       }
@@ -365,7 +414,7 @@ export default {
         }
       }
     }
-    .nodata{
+    .nodata {
       text-align: center;
       padding: 20rpx;
       color: #999999;

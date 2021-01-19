@@ -196,7 +196,7 @@ export default class Request {
     });
   }
 
-  post(url, data, lock = false, loading = true) {
+  post(url, data, lock = true, loading = true) {
     let custom = {};
     if (loading) {
       custom["loading"] = true;
