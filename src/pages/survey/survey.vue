@@ -2,13 +2,13 @@
   <view class="survey">
     <view class="survey-m">
       <view class="survey-m__list">
-        <navigator url="/pages/surveyDetail/surveyDetail" class="item" v-for="item in 2" :key="item">
-          <view class="title">流行病学调查登记表</view>
-          <view class="date">2020-07-18  10:30:34</view>
+        <view @click="detail(item.id)" class="item" v-for="(item,index) in list" :key="index">
+          <view class="title">{{item.name}}</view>
+          <view class="date">{{item.create_time}}</view>
           <view class="status">
             <image class="img" mode="widthFix" src="@/static/image/tian_status1.png" />
           </view>
-        </navigator>
+        </view>
       </view>
     </view>
   </view>
@@ -16,7 +16,24 @@
 
 <script>
 export default {
-
+  data(){
+    return{
+      list:[]
+    }
+  },
+  onShow(){
+    this.getList();
+  },
+  methods:{
+    getList(){
+      this.$http.post(this.API.QUESTION_LIST).then(res=>{
+        this.list = res.data;
+      })
+    },
+    getDetail(id){
+      this.$Router.push({name:'survey',params:{id:id}});
+    }
+  }
 }
 </script>
 
