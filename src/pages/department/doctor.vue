@@ -1,7 +1,7 @@
 <template>
   <view class="doctor">
     <view class="title"
-      >{{ model.departmentName }}共有<text>{{ model.count }}</text
+      >{{ departmentName }}共有<text>{{ list.length }}</text
       >名医生</view
     >
     <view class="list">
@@ -32,11 +32,12 @@ export default {
   data() {
     return {
       list: [],
-      model: { departmentName: "", count: 0 },
+      departmentName: "",
     };
   },
   onShow() {
     this.getList();
+    this.getDepartmentName();
   },
   methods: {
     getList() {
@@ -44,10 +45,14 @@ export default {
         .post(this.API.DOCTOR_INFO_LIST, {
           departmentid: this.$Route.query.departmentid,
         })
-        .then((res) => {
-          this.list = res.data.list;
-          this.model = res.data.model;
+        .then(res => {
+          this.list = res.data;
         });
+    },
+    getDepartmentName(){
+      this.$http.post(this.API.DEPARTMENT_NAME,{departmentid:this.$Route.query.departmentid}).then(res=>{
+        this.departmentName = res.departmentName
+      })
     },
     toDetail(id) {
       this.$Router.push({ name: "doctorInfo", query: {id:id} });
