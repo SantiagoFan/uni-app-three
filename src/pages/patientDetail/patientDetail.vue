@@ -15,27 +15,35 @@
           </view>
         </view>
         <view class="info">
-          <view class="item">姓名：{{model.name}}</view>
-          <view class="item">性别：{{model.gender}}</view>
+          <view class="item">姓名：{{ model.name }}</view>
+          <view class="item">性别：{{ model.gender }}</view>
           <view class="item">居民健康卡号码：</view>
-          <view class="item">{{model.health_code}}</view>
+          <view class="item">{{ model.health_code }}</view>
         </view>
       </view>
     </view>
     <u-gap height="20" bg-color="transparent"></u-gap>
     <view class="wrap-code">
       <view class="wrap-code__tab">
-        <view :class="['item', {active: codeIndex === 0}]" @click="codeIndex = 0">电子健康卡</view>
-        <view :class="['item', {active: codeIndex === 1}]" @click="codeIndex = 1">就诊凭条</view>
+        <view
+          :class="['item', { active: codeIndex === 0 }]"
+          @click="codeIndex = 0"
+          >电子健康卡</view
+        >
+        <view
+          :class="['item', { active: codeIndex === 1 }]"
+          @click="codeIndex = 1"
+          >就诊凭条</view
+        >
       </view>
       <view class="wrap-code__con">
-        <view class="wrap-code__con-code1" v-if="codeIndex === 0">
-          <image class="img" mode="aspectFill" src="@/static/image/code1.jpg" />
+        <view class="wrap-code__con-code1" :class="{ hide: codeIndex === 1 }">
+          <canvas class="img" canvas-id="qrcode"></canvas>
+          <!-- <image class="img" mode="aspectFill" src="@/static/image/code1.jpg" /> -->
         </view>
-        <view class="wrap-code__con-code2" v-else>
-          <!-- <image class="img" mode="widthFix" src="@/static/image/code.jpg" /> -->
-          <canvas canvas-id="barcode"></canvas>
-          <view class="num">{{model.patient_code}}</view>
+        <view class="wrap-code__con-code2" :class="{ hide: codeIndex === 0 }">
+          <canvas class="img" canvas-id="barcode"></canvas>
+          <view class="num">{{ model.patient_code }}</view>
         </view>
       </view>
     </view>
@@ -50,36 +58,41 @@ export default {
   data() {
     return {
       codeIndex: 0,
-      model: {name:"",gender:"",health_code:"",patient_code:""}
+      model: { name: '', gender: '', health_code: '', patient_code: '' },
     }
   },
-  onLoad () {
-    this.getDetail();
+  onLoad() {
+    this.getDetail()
   },
-  methods:{
-    getDetail(){
-      this.$http.post(this.API.PATINET_DETAIL,{idcard:this.$Route.query.idcard}).then(res=>{
-        if(res.code==20000){
-          this.model = res.data.data[0];
-          wxbarcode.barcode('barcode', this.model.patient_code, 610, 140);
-        }
-      })
+  methods: {
+    getDetail() {
+      this.$http
+        .post(this.API.PATINET_DETAIL, { idcard: this.$Route.query.idcard })
+        .then((res) => {
+          if (res.code == 20000) {
+            this.model = res.data.data[0]
+            wxbarcode.barcode('barcode', this.model.patient_code, 610, 140)
+            wxbarcode.qrcode('qrcode', this.model.patient_code, 400, 400)
+          }
+        })
     },
-    delPatient(){
-       this.$http.post(this.API.PATIENT_DELETE,{idcard:this.$Route.query.idcard}).then(res=>{
-        if(res.code==20000){
-          uni.showToast({
-            title: res.message,
-            duration: 2000,
-            icon:'none',
-          });
-          setTimeout(()=>{
-            this.$Router.replace('/pages/patientAdd/patientAdd');
-          },1000)
-        }
-      })
-    }
-  }
+    delPatient() {
+      this.$http
+        .post(this.API.PATIENT_DELETE, { idcard: this.$Route.query.idcard })
+        .then((res) => {
+          if (res.code == 20000) {
+            uni.showToast({
+              title: res.message,
+              duration: 2000,
+              icon: 'none',
+            })
+            setTimeout(() => {
+              this.$Router.replace('/pages/patientAdd/patientAdd')
+            }, 1000)
+          }
+        })
+    },
+  },
 }
 </script>
 
@@ -174,13 +187,16 @@ export default {
       }
     }
     &__con {
+      .hide {
+        display: none;
+      }
       padding-top: 50rpx;
       &-code1 {
         .img {
-          width: 310rpx;
-          height: 310rpx;
+          width: 400rpx;
+          height: 400rpx;
           margin: 0 auto;
-          display: block;
+          // display: block;
         }
       }
       &-code2 {
@@ -188,9 +204,10 @@ export default {
         flex-direction: column;
         align-items: center;
         .img {
+          height: 140rpx;
           width: 100%;
-          height: auto;
-          display: block;
+          // height: auto;
+          // display: block;
         }
         .num {
           color: #333333;
@@ -213,5 +230,4 @@ export default {
     border-radius: 10rpx;
   }
 }
-
 </style>
