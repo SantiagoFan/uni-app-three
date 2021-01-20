@@ -67,7 +67,12 @@
           :key="index"
         >
           <view class="cell__avatar">
-            <image class="img" mode="aspectFill" :src="item.headimg" />
+            <dh-image
+              class="img"
+              mode="aspectFill"
+              :src="item.headimg"
+              errorSrc="doctor.jpg"
+            ></dh-image>
           </view>
           <view class="cell__info">
             <view class="title">
@@ -114,6 +119,7 @@
 
 <script>
 import moment from "moment";
+import dhImage from "@/components/dh-image/dh-image.vue";
 import { weekList, fillWeek } from "@/utils/week.js";
 export default {
   data() {

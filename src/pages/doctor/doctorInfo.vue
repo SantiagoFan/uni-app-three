@@ -2,18 +2,19 @@
   <view class="wrap">
     <view class="wrap__user">
       <view class="avatar">
-        <image
+        <dh-image
           class="img"
           mode="aspectFill"
           :src="model.headimg"
-        />
+          errorSrc="doctor.jpg"
+        ></dh-image>
       </view>
       <view class="info">
         <view class="title">
-          <view class="name">{{model.name}}</view>
+          <view class="name">{{ model.name }}</view>
         </view>
-        <view class="subt"> {{model.department_name}} </view>
-        <view class="intr">{{model.professional}}</view>
+        <view class="subt"> {{ model.department_name }} </view>
+        <view class="intr">{{ model.professional }}</view>
       </view>
     </view>
     <view class="wrap__con">
@@ -26,22 +27,24 @@
 </template>
 <script>
 export default {
-  data(){
-    return{
-      model: {name:"",professional:"",headimg:"",department_name:""}
-    }
+  data() {
+    return {
+      model: { name: "", professional: "", headimg: "", department_name: "" },
+    };
   },
-  onShow(){
+  onShow() {
     this.getInfo();
   },
-  methods:{
-    getInfo(){
-      this.$http.post(this.API.DOCTOR_INFO,{id:this.$Route.query.id}).then(res=>{
-        this.model = res.data;
-      })
-    }
-  }
-}
+  methods: {
+    getInfo() {
+      this.$http
+        .post(this.API.DOCTOR_INFO, { id: this.$Route.query.id })
+        .then((res) => {
+          this.model = res.data;
+        });
+    },
+  },
+};
 </script>
 <style lang="scss" scoped>
 @import "@/assets/scss/mixin.scss";
