@@ -99,7 +99,7 @@ export default {
     getInfo() {
       this.$http.post(this.API.HOSPITAL_INFO).then((res) => {
         this.info = res.data.info;
-        this.banner = res.data.banner+"1";
+        this.banner = res.data.banner;
       });
     },
     error: function(banner) {
