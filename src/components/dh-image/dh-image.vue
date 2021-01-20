@@ -3,46 +3,46 @@
 </template>
 
 <script>
-import { basepath } from "@/config/index.js";
+import { basepath } from '@/config/index.js'
 export default {
-  name: "dhImage",
+  name: 'dhImage',
   props: {
     src: {
       type: String,
-      default: "",
+      default: '',
     },
     errorSrc: {
       type: String,
-      default: "default.png",
+      default: 'defaultmin.png',
     },
     mode: {
       type: String,
-      default: "aspectFill",
+      default: 'aspectFill',
     },
   },
   watch: {
     src(val) {
-      this.imageSrc = this.src;
+      this.imageSrc = this.src
     },
   },
   data() {
     return {
-      imageSrc: "",
-    };
+      imageSrc: '',
+    }
   },
   methods: {
     error(e) {
-      this.imageSrc = basepath + "/static/wx/" + this.errorSrc;
-      this.$emit("error", e);
+      this.imageSrc = basepath + '/static/wx/' + this.errorSrc
+      this.$emit('error', e)
     },
     load(e) {
-      this.$emit("load", e);
+      this.$emit('load', e)
     },
   },
   created() {
-    this.imageSrc = this.src;
+    this.imageSrc = this.src
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>
