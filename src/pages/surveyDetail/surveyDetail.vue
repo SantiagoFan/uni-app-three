@@ -15,14 +15,20 @@
         <view class="wrap-con__item" v-for="(item,index) in list" :key="index">
           <view :class="['label',{active:item.is_answer}]">{{item.name}}</view>
           <!-- 选择 -->
-          <view class="radio-list" v-if="item.type == 2">
-            <u-radio-group v-model="item.answer" :wrap="true" :size="35" :icon-size="24">
-              <u-radio v-for="(obj,index1) in item.editredios" :key="index1" class="radio" :name="obj.name" active-color="#0ec698">{{obj.name}}</u-radio>
-            </u-radio-group>
-          </view>
-          <view class="textarea" v-else>
+           <view class="textarea" v-if="item.type==1">
             <u-input type="textarea" v-model="item.answer" name="answer" :height="60" :placeholder="'请在此输入（最多'+item.description+'字）'" />
           </view>
+          <view class="radio-list" v-else>
+            <u-radio-group v-model="item.answer" :wrap="true" :size="35" :icon-size="24" v-if="item.type==2">
+              <u-radio v-for="(obj,index1) in item.editredios" :key="index1" class="radio" :name="obj.name" active-color="#0ec698">{{obj.name}}</u-radio>
+            </u-radio-group>
+            <u-checkbox-group v-else>
+                <u-checkbox 
+                 v-for="(obj,index1) in item.editredios" :key="index1"
+                >{{item.name}}</u-checkbox>
+            </u-checkbox-group>
+          </view>
+         
         </view>
       </view>
       <button class="wrap-btn" form-type="submit">提交</button>
