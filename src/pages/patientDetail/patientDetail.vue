@@ -33,7 +33,8 @@
           <image class="img" mode="aspectFill" src="@/static/image/code1.jpg" />
         </view>
         <view class="wrap-code__con-code2" v-else>
-          <image class="img" mode="widthFix" src="@/static/image/code.jpg" />
+          <!-- <image class="img" mode="widthFix" src="@/static/image/code.jpg" /> -->
+          <canvas canvas-id="barcode"></canvas>
           <view class="num">{{model.patient_code}}</view>
         </view>
       </view>
@@ -44,11 +45,12 @@
 </template>
 
 <script>
+import wxbarcode from 'wxbarcode'
 export default {
   data() {
     return {
       codeIndex: 0,
-      model: ''
+      model: {name:"",gender:"",health_code:"",patient_code:""}
     }
   },
   onLoad () {
@@ -56,12 +58,15 @@ export default {
   },
   methods:{
     getDetail(){
-      this.$http.post(this.API.PATINET_DETAIL,{id:this.$Route.query.id}).then(res=>{
-        this.model = res.data;
+      this.$http.post(this.API.PATINET_DETAIL,{idcard:this.$Route.query.idcard}).then(res=>{
+        if(res.code==20000){
+          this.model = res.data.data[0];
+          wxbarcode.barcode('barcode', this.model.patient_code, 610, 140);
+        }
       })
     },
     delPatient(){
-       this.$http.post(this.API.PATIENT_DELETE,{id:this.$Route.query.id}).then(res=>{
+       this.$http.post(this.API.PATIENT_DELETE,{idcard:this.$Route.query.idcard}).then(res=>{
         if(res.code==20000){
           uni.showToast({
             title: res.message,

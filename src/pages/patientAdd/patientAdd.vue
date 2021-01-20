@@ -2,7 +2,7 @@
   <view class="patient">
     <view class="patient-m">
       <view class="patient-m__list">
-        <view @click="getDetail(item.id)" class="item" v-for="(item,index) in list" :key="index">
+        <view @click="getDetail(item.idcard)" class="item" v-for="(item,index) in list" :key="index">
           <view class="info">
             <view class="title">
               <view class="name">{{item.name}}</view>
@@ -61,8 +61,8 @@ export default {
         this.$Router.push('/pages/medicalCardLogin/medicalCardLogin')
       }
     },
-    getDetail(id){
-      this.$Router.push({path: '/pages/patientDetail/patientDetail',query:{id: id}})
+    getDetail(idcard){
+      this.$Router.push({path: '/pages/patientDetail/patientDetail',query:{idcard: idcard}})
     },
 
   },

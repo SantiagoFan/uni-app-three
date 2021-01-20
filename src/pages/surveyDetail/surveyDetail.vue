@@ -94,9 +94,9 @@ export default {
           let list = res.data.list
           list.forEach((item) => {
             item['answer'] = ''
-            if(item.type==3){
-              item.editredios.forEach((obj)=>{
-                obj['checked'] = false;
+            if (item.type == 3) {
+              item.editredios.forEach((obj) => {
+                obj['checked'] = false
               })
             }
           })
@@ -106,25 +106,30 @@ export default {
     },
     checkboxGroupChange(e) {
       this.list.forEach((item) => {
-        if(item.type==3){
+        if (item.type == 3) {
           item['answer'] = ''
-          item.editredios.forEach((obj)=>{
-            if(obj.checked){
-              item['answer'] = item['answer']==''?obj.name:item['answer']+','+obj.name
+          item.editredios.forEach((obj) => {
+            if (obj.checked) {
+              item['answer'] =
+                item['answer'] == ''
+                  ? obj.name
+                  : item['answer'] + ',' + obj.name
             }
           })
         }
       })
     },
     formSubmit(e) {
-      console.log(this.list);
-      var index = this.list.findIndex(item=>item.is_answer&&item.answer.trim()=='')
-      if(index!=-1){
+      console.log(this.list)
+      var index = this.list.findIndex(
+        (item) => item.is_answer && item.answer.trim() == ''
+      )
+      if (index != -1) {
         uni.showToast({
-              title: '必填项答案不能为空',
-              duration: 2000,
-              icon: 'none',
-            })
+          title: '必填项答案不能为空',
+          duration: 2000,
+          icon: 'none',
+        })
         return false
       }
       if (this.flag) {

@@ -1,6 +1,6 @@
 <template>
   <view class="department">
-    <view class="title">{{ info.name }}</view>
+    <view class="title">{{ info.department_name }}</view>
     <view class="content">
       <view class="info"
         ><text>科室地址</text
@@ -29,7 +29,9 @@ export default {
       this.$http
         .post(this.API.DEPARTMENT_INFO_DETAIL, { id: this.$Route.query.id })
         .then((res) => {
-          this.info = res.data;
+          if(res.code==20000){
+            this.info = res.data.data[0];
+          }
         });
     },
   },
