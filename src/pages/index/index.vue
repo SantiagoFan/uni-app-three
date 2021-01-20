@@ -262,7 +262,8 @@ export default {
         .post(this.API.CHANGE_DEFAULT_PATIENT, { id: id })
         .then((res) => {
           if (res.code == 20000) {
-            this.$store.dispatch("getDefaultPatient");
+            this.$store.commit("setPatientInfo",res.data);
+            // this.$store.dispatch("getDefaultPatient");
             this.show = false;
           }
         });

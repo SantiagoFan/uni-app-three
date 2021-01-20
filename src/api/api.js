@@ -38,7 +38,8 @@ export default {
 	DEPARTMENT_NAME: '/doctor/getDepartmentName',//获取科室名称
 	QUESTION_LIST: '/questionnaire/getList',//调查问卷列表
 	QUESTION_DETAIL: '/questionnaire/getDetail',//调查问卷详情
-	SAVE_ANSWER: '/questionnaire/saveAnswer'
+	SAVE_ANSWER: '/questionnaire/saveAnswer',//保存答案
+	REGISTER_RECORD_LIST: '/register/getRecordList',//挂号记录
 
 	
 }

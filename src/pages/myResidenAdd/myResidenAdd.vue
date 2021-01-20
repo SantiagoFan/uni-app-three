@@ -85,9 +85,8 @@ export default {
                   icon:'none',
                 });
                 if(res.code==20000){
-                  that.$store.dispatch("getDefaultPatient").then(()=>{
-                     that.$Router.back(1)
-                  })
+                  that.$store.commit("setPatientInfo",res.data);
+                  that.$Router.back(1)
                 }
               })
           }

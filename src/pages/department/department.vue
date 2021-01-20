@@ -30,12 +30,6 @@ export default {
       this.$http.post(this.API.DEPARTMENT_INFO).then((res) => {
         if (res.code == 20000) {
           this.list = res.data.data
-        } else {
-          uni.showToast({
-            title: res.message,
-            duration: 2000,
-            icon: 'none',
-          })
         }
       })
     },

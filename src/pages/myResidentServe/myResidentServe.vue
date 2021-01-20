@@ -1,10 +1,10 @@
 <template>
   <view class="wrap">
     <view class="wrap-user">
-      <view class="no-residen" v-if="!info">
+      <view class="no-residen" v-if="!info"  @click="addResident">
         <view class="no-residen__text">初次使用，请添加住院人</view>
       </view>
-      <view class="wrap-user__list" v-else @click="addResident">
+      <view class="wrap-user__list" v-else>
         <view class="cell">
           <view class="info">
             <view class="title">
