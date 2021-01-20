@@ -64,7 +64,7 @@
           <text class="u-line-1">{{ item.name }}</text>
         </view>
       </scroll-view>
-      <block v-for="(item, index) in cateList" :key="index">
+      <block>
         <scroll-view scroll-y class="right-box">
           <view class="page-view">
             <view class="class-item">
