@@ -23,8 +23,8 @@
       >
         <view
           class="u-tab-item"
-          :class="[current == 1 ? 'u-tab-item-active' : '']"
-          @tap.stop="swichMenu(1)"
+          :class="[current == -1 ? 'u-tab-item-active' : '']"
+          @tap.stop="swichMenu(-1)"
           v-if="collectOrRegisterList.length > 0"
         >
           <view class="icon">
@@ -50,9 +50,9 @@
           v-for="(item, index) in cateList"
           :key="index"
           class="u-tab-item"
-          :class="[current == index + 2 ? 'u-tab-item-active' : '']"
-          :data-current="index + 2"
-          @tap.stop="swichMenu(index + 2)"
+          :class="[current == index ? 'u-tab-item-active' : '']"
+          :data-current="index"
+          @tap.stop="swichMenu(index)"
         >
           <view class="icon">
             <image
@@ -69,7 +69,7 @@
           <view class="page-view">
             <view class="class-item">
               <view class="item-container">
-                <view class="doctor-s" v-if="current === 1">
+                <view class="doctor-s" v-if="current === -1">
                   <view
                     @click="goDetail(obj.id)"
                     class="doctor-wrap"
@@ -129,7 +129,7 @@ export default {
   data() {
     return {
       scrollTop: 0, //tab标题的滚动条位置
-      current: 1, // 预设当前项的值
+      current: 0, // 预设当前项的值
       menuHeight: 0, // 左边菜单的高度
       menuItemHeight: 0, // 左边菜单item的高度
       show: false,
@@ -194,7 +194,7 @@ export default {
         index * this.menuItemHeight +
         this.menuItemHeight / 2 -
         this.menuHeight / 2
-      if (index == 1) {
+      if (index == -1) {
         this.getHistoryList()
       }
     },
