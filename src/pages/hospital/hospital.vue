@@ -103,6 +103,8 @@ export default {
       banner: "",
     };
   },
+  components: { dhImage },
+
   onShow() {
     this.getInfo();
   },

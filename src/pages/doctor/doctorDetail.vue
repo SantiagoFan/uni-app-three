@@ -214,6 +214,8 @@ export default {
       postLock: false,
     };
   },
+  components: { dhImage },
+
   computed: {
     ...mapState(["patientInfo"]),
     dateStr() {

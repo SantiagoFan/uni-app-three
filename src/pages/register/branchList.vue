@@ -73,11 +73,16 @@
                   <view
                     @click="goDetail(obj.id)"
                     class="doctor-wrap"
-                    v-for="(obj, index) in collectOrRegisterList"
-                    :key="index"
+                    v-for="(obj, index1) in collectOrRegisterList"
+                    :key="index1"
                   >
                     <view class="doctor-wrap__avatar">
-                      <image class="img" mode="aspectFill" :src="obj.headimg" />
+                      <dh-image
+                        class="img"
+                        mode="aspectFill"
+                        :src="obj.headimg"
+                        errorSrc="doctor.jpg"
+                      ></dh-image>
                     </view>
                     <view class="doctor-wrap__info">
                       <view class="doctor-wrap__info-name">{{ obj.name }}</view>
@@ -119,6 +124,7 @@
 </template>
 
 <script>
+import dhImage from '@/components/dh-image/dh-image.vue'
 export default {
   data() {
     return {
@@ -127,135 +133,136 @@ export default {
       menuHeight: 0, // 左边菜单的高度
       menuItemHeight: 0, // 左边菜单item的高度
       show: false,
-      val: "",
+      val: '',
       cateList: [],
       list: [],
       collectOrRegisterList: [],
-      keyword: "",
-    };
+      keyword: '',
+    }
   },
+  components: { dhImage },
   onLoad(options = {}) {
-    this.getCateList();
-    this.getHistoryList();
+    this.getCateList()
+    this.getHistoryList()
   },
   methods: {
     // 点击详情
     handleClickDetail({ id, name }) {
       this.$Router.push({
-        name: "branchDetail",
+        name: 'branchDetail',
         params: { departmentid: id, departmentName: name },
-      });
+      })
     },
     change(e) {
-      let inputVal = this.val;
-      let lastStr = inputVal.charAt(inputVal.length - 1);
-      let isExistRadix = inputVal.indexOf(".") != -1;
+      let inputVal = this.val
+      let lastStr = inputVal.charAt(inputVal.length - 1)
+      let isExistRadix = inputVal.indexOf('.') != -1
 
       // 处理数字
-      if (isExistRadix && e == ".") {
-        this.val = inputVal;
-      } else if (inputVal == "" && e == ".") {
-        this.val = "0.";
-      } else if (inputVal.length === 1 && inputVal === "0") {
-        this.val = e !== "." ? String(e) : inputVal + e;
+      if (isExistRadix && e == '.') {
+        this.val = inputVal
+      } else if (inputVal == '' && e == '.') {
+        this.val = '0.'
+      } else if (inputVal.length === 1 && inputVal === '0') {
+        this.val = e !== '.' ? String(e) : inputVal + e
       } else if (inputVal.length < 6) {
-        let newStr = inputVal + e;
+        let newStr = inputVal + e
         let lastNewStr =
-          newStr.indexOf(".") === -1
+          newStr.indexOf('.') === -1
             ? newStr
-            : newStr.substring(0, newStr.indexOf(".") + 3);
-        this.val = lastNewStr;
+            : newStr.substring(0, newStr.indexOf('.') + 3)
+        this.val = lastNewStr
       }
     },
     backspace(e) {
-      this.val = this.val.substr(0, this.val.length - 1);
+      this.val = this.val.substr(0, this.val.length - 1)
     },
     getImg() {
-      return Math.floor(Math.random() * 35);
+      return Math.floor(Math.random() * 35)
     },
     // 点击左边的栏目切换
     async swichMenu(index) {
-      if (index == this.current) return;
-      this.current = index;
+      if (index == this.current) return
+      this.current = index
       // 如果为0，意味着尚未初始化
       if (this.menuHeight == 0 || this.menuItemHeight == 0) {
-        await this.getElRect("menu-scroll-view", "menuHeight");
-        await this.getElRect("u-tab-item", "menuItemHeight");
+        await this.getElRect('menu-scroll-view', 'menuHeight')
+        await this.getElRect('u-tab-item', 'menuItemHeight')
       }
       // 将菜单菜单活动item垂直居中
       this.scrollTop =
         index * this.menuItemHeight +
         this.menuItemHeight / 2 -
-        this.menuHeight / 2;
+        this.menuHeight / 2
       if (index == 1) {
-        this.getHistoryList();
+        this.getHistoryList()
       }
     },
     // 获取一个目标元素的高度
     getElRect(elClass, dataVal) {
       new Promise((resolve, reject) => {
-        const query = uni.createSelectorQuery().in(this);
+        const query = uni.createSelectorQuery().in(this)
         query
-          .select("." + elClass)
+          .select('.' + elClass)
           .fields({ size: true }, (res) => {
             // 如果节点尚未生成，res值为null，循环调用执行
             if (!res) {
               setTimeout(() => {
-                this.getElRect(elClass);
-              }, 10);
-              return;
+                this.getElRect(elClass)
+              }, 10)
+              return
             }
-            this[dataVal] = res.height;
+            this[dataVal] = res.height
           })
-          .exec();
-      });
+          .exec()
+      })
     },
     getCateList() {
       this.$http
         .post(this.API.DEPARTMENT_CATEGORY)
         .then((res) => {
-          this.cateList = res.data;
+          this.cateList = res.data
         })
         .then((response) => {
           if (this.cateList.length > 0) {
             this.$http
               .post(this.API.DEPARTMENT_LIST, {
-                cateid: this.cateList[0]["id"],
+                cateid: this.cateList[0]['id'],
               })
               .then((res) => {
-                this.list = res.data;
-              });
+                this.list = res.data
+              })
           }
-        });
+        })
     },
     getCollectList() {
       this.$http.post(this.API.COLLECT_DOCTOR).then((res) => {
-        this.collectOrRegisterList = res.data;
-      });
+        this.collectOrRegisterList = res.data
+      })
     },
     getHistoryList() {
       this.$http.post(this.API.REGISTER_HISTORY).then((res) => {
-        this.collectOrRegisterList = res.data;
-      });
+        this.collectOrRegisterList = res.data
+      })
     },
     search() {
       this.$Router.push({
-        path: "/pages/branchSearch/branchSearch",
+        path: '/pages/branchSearch/branchSearch',
         query: { keyword: this.keyword },
-      });
+      })
     },
     goDetail(id) {
       this.$Router.push({
-        name: "doctorDetail",
+        name: 'doctorDetail',
         params: { id: id },
-      });
+      })
     },
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>
-@import "@/assets/scss/mixin.scss";
+@import '@/assets/scss/mixin.scss';
 .u-wrap {
   height: calc(100vh);
   /* #ifdef H5 */
