@@ -79,7 +79,7 @@ export default {
         return false
       }
       this.flag = true;
-      this.$http.post(this.API.SAVE_ANSWER,{answer:this.list,questionnailid:this.$Route.query.id}).then(res=>{
+      this.$http.post(this.API.SAVE_ANSWER,{answer:this.list}).then(res=>{
           uni.showToast({
             title: res.message,
             duration: 2000,

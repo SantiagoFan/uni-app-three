@@ -2,11 +2,12 @@
   <view class="survey">
     <view class="survey-m">
       <view class="survey-m__list">
-        <view @click="goDetail(item.id)" class="item" v-for="(item,index) in list" :key="index">
+        <view @click="!item.hasAnswer && goDetail(item.id)" class="item" v-for="(item,index) in list" :key="index">
           <view class="title">{{item.name}}</view>
           <view class="date">{{item.create_time}}</view>
           <view class="status">
-            <image class="img" mode="widthFix" src="@/static/image/tian_status1.png" />
+            <image class="img" mode="widthFix" v-if="item.hasAnswer" src="@/static/image/tian_status2.png" />
+            <image class="img" mode="widthFix" v-else src="@/static/image/tian_status1.png" />
           </view>
         </view>
       </view>
