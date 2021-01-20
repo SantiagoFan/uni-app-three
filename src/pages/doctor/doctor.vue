@@ -31,6 +31,7 @@
 <script>
 import dhImage from "@/components/dh-image/dh-image.vue";
 export default {
+  components: { dhImage },
   data() {
     return {
       list: [],

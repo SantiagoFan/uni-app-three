@@ -101,7 +101,12 @@
           :key="index"
         >
           <view class="cell__avatar">
-            <image class="img" mode="aspectFill" :src="item.headimg" />
+            <dh-image
+              class="img"
+              mode="aspectFill"
+              :src="item.headimg"
+              errorSrc="doctor.jpg"
+            ></dh-image>
           </view>
           <view class="cell__info">
             <view class="title">
@@ -137,6 +142,7 @@ export default {
       all_doctor: [],
     };
   },
+  components: { dhImage },
   onLoad() {
     this.department_id = this.$Route.query.departmentid;
     uni.setNavigationBarTitle({

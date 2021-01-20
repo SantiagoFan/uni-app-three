@@ -2,11 +2,12 @@
   <view class="index-container">
     <view class="index-main">
       <view class="top_pic">
-        <image
+        <dh-image
           class="img"
           mode="widthFix"
           src="@/static/image/index_img01.jpg"
-        />
+          errorSrc="index_img01.jpg"
+        ></dh-image>
       </view>
       <view class="index-wrap">
         <view class="index-wrap__user">
@@ -189,6 +190,7 @@
 
 <script>
 import indexList from "@/common/index.data.js";
+import dhImage from "@/components/dh-image/dh-image.vue";
 import { mapState } from "vuex";
 export default {
   data() {
@@ -211,6 +213,7 @@ export default {
       patientList: [],
     };
   },
+  components: { dhImage },
   computed: {
     ...mapState(["userInfo", "patientInfo"]),
   },
