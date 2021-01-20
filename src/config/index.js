@@ -1,3 +1,5 @@
-let baseUrl = 'http://api.medical.lingjikeji.cn/api'
+const basepath = "http://api.medical.lingjikeji.cn";
 
-export { baseUrl }
+const baseUrl = basepath + "/api";
+
+export { baseUrl, basepath };

@@ -12,7 +12,11 @@
         :key="index"
       >
         <view class="head">
-          <image mode="aspectFill" :src="item.headimg"></image>
+          <dh-image
+            mode="aspectFill"
+            :src="item.headimg"
+            errorSrc="doctor.jpg"
+          ></dh-image>
         </view>
         <view class="content">
           <view class="content_name">{{ item.name }}</view>
@@ -25,6 +29,7 @@
   </view>
 </template>
 <script>
+import dhImage from "@/components/dh-image/dh-image.vue";
 export default {
   data() {
     return {

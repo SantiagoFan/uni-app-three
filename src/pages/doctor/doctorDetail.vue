@@ -2,7 +2,12 @@
   <view class="wrap">
     <view class="wrap__user">
       <view class="avatar">
-        <image class="img" mode="aspectFill" :src="model.headimg" />
+        <dh-image
+          class="img"
+          mode="aspectFill"
+          :src="model.headimg"
+          errorSrc="doctor.jpg"
+        ></dh-image>
       </view>
       <view class="info">
         <view class="title">
@@ -181,6 +186,7 @@
 <script>
 import { mapState } from "vuex";
 import moment from "moment";
+import dhImage from "@/components/dh-image/dh-image.vue";
 import { weekList, fillWeek } from "@/utils/week.js";
 
 export default {

@@ -15,17 +15,13 @@
               <view class="title">
                 <view class="name">{{ getName(patientInfo.name) }}</view>
                 <view class="tag">电子就诊卡</view>
-                <view @click="changePatient" class="check"
-                  >切换</view
-                >
+                <view @click="changePatient" class="check">切换</view>
               </view>
-              <view class="code">院内诊疗号：{{ patientInfo.patient_code }}</view>
+              <view class="code"
+                >院内诊疗号：{{ patientInfo.patient_code }}</view
+              >
             </view>
-            <view
-              @click="addPatient"
-              class="add_btn"
-              v-else
-            >
+            <view @click="addPatient" class="add_btn" v-else>
               <view class="add_btn__icon">
                 <text class="iconfont icon-add-fill"></text>
               </view>
@@ -40,24 +36,26 @@
             />
           </view>
         </view>
-        <view class="index-wrap__art1" v-if="patientInfo">
-          <navigator
-            url="/pages/registerRecord/registerRecord"
-            hover-class="none"
-            class="index-wrap__art1-item"
-            >挂号记录</navigator
-          >
-          <navigator
-            url="/pages/payRecord/payRecord"
-            hover-class="none"
-            class="index-wrap__art1-item"
-            >缴费记录</navigator
-          >
-          <view class="index-wrap__art1-item" @click="handleVisitCode"
-            >就诊码</view
-          >
-        </view>
-        <u-gap height="20" bg-color="#f6f6f6"></u-gap>
+        <template v-if="patientInfo">
+          <view class="index-wrap__art1">
+            <navigator
+              url="/pages/registerRecord/registerRecord"
+              hover-class="none"
+              class="index-wrap__art1-item"
+              >挂号记录</navigator
+            >
+            <navigator
+              url="/pages/payRecord/payRecord"
+              hover-class="none"
+              class="index-wrap__art1-item"
+              >缴费记录</navigator
+            >
+            <view class="index-wrap__art1-item" @click="handleVisitCode"
+              >就诊码</view
+            >
+          </view>
+          <u-gap height="20" bg-color="#f6f6f6"></u-gap>
+        </template>
         <view class="index-wrap__art2">
           <router-link :to="{ name: 'branchList' }">
             <view class="index-wrap__art2-item">
@@ -156,14 +154,19 @@
       </view>
     </u-popup>
     <u-popup v-model="show" mode="bottom" :border-radius="20">
-			<view class="check-wrap">
+      <view class="check-wrap">
         <view class="check-wrap__title">切换就诊人</view>
         <view class="check-wrap__con">
-          <view class="list" v-if="patientList.length>0">
-            <view :class="['item', item.is_default?'active':'']" @click="choicePatient(item.id)" v-for="(item,index) in patientList" :key="index">
+          <view class="list" v-if="patientList.length > 0">
+            <view
+              :class="['item', item.is_default ? 'active' : '']"
+              @click="choicePatient(item.id)"
+              v-for="(item, index) in patientList"
+              :key="index"
+            >
               <view class="info">
-                <view class="name">{{item.name}}</view>
-                <view class="code">就诊卡：{{item.patient_code}}</view>
+                <view class="name">{{ item.name }}</view>
+                <view class="code">就诊卡：{{ item.patient_code }}</view>
               </view>
               <view class="radio">
                 <text class="iconfont icon-duihao"></text>
@@ -179,7 +182,7 @@
           <view class="item" @click="managePatient">管理就诊人</view>
         </view>
       </view>
-		</u-popup>
+    </u-popup>
     <auth></auth>
   </view>
 </template>
@@ -209,7 +212,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["userInfo","patientInfo"]),
+    ...mapState(["userInfo", "patientInfo"]),
   },
   watch: {
     visitCodeShow(status) {
@@ -217,29 +220,28 @@ export default {
     },
   },
   onLoad() {
-    console.log("onLoad")
-    console.log(this.$store.state)
+    console.log("onLoad");
+    console.log(this.$store.state);
   },
   onShow() {
-    console.log("onShow")
+    console.log("onShow");
     const token = uni.getStorageSync("token");
     this.name = token;
     this.noBindCard = token ? true : false;
-    
   },
   methods: {
-    getName(str){
-      if(str.length>2){
-        return str.substr(-2,2);
-      }else{
+    getName(str) {
+      if (str.length > 2) {
+        return str.substr(-2, 2);
+      } else {
         return str;
       }
     },
     //就诊人
-    getPatientList(){
-      this.$http.post(this.API.PATIENT_LIST).then(res=>{
+    getPatientList() {
+      this.$http.post(this.API.PATIENT_LIST).then((res) => {
         this.patientList = res.data;
-      })
+      });
     },
     handleTypeItem(index) {
       this.typeIndex = index;
@@ -248,31 +250,36 @@ export default {
     handleVisitCode() {
       this.visitCodeShow = true;
     },
-    changePatient(){
+    changePatient() {
       this.show = true;
       this.getPatientList();
     },
-    choicePatient(id){
-      this.$http.post(this.API.CHANGE_DEFAULT_PATIENT,{id:id}).then(res=>{
-        if(res.code==20000){
-          this.$store.dispatch("getDefaultPatient");
-          this.show=false;
-        }
-      })
+    choicePatient(id) {
+      this.$http
+        .post(this.API.CHANGE_DEFAULT_PATIENT, { id: id })
+        .then((res) => {
+          if (res.code == 20000) {
+            this.$store.dispatch("getDefaultPatient");
+            this.show = false;
+          }
+        });
     },
-    addPatient(){
-      this.$Router.push('/pages/medicalCardLogin/medicalCardLogin');
+    addPatient() {
+      this.$Router.push("/pages/medicalCardLogin/medicalCardLogin");
     },
-    managePatient(){
-      this.$Router.push("/pages/patientAdd/patientAdd")
+    managePatient() {
+      this.$Router.push("/pages/patientAdd/patientAdd");
     },
-    goLivePatient(index){
-      var url = this.list2[index]['url'];
-      if(index==0){
-        url = {path:url,query:{patient_code:this.patientInfo.patient_code}};
+    goLivePatient(index) {
+      var url = this.list2[index]["url"];
+      if (index == 0) {
+        url = {
+          path: url,
+          query: { patient_code: this.patientInfo.patient_code },
+        };
       }
       this.$Router.push(url);
-    }
+    },
   },
 };
 </script>
@@ -497,7 +504,7 @@ export default {
       align-items: center;
       width: 672rpx;
       height: 535rpx;
-      background: url('~@/static/image/code_bg.jpg') no-repeat;
+      background: url("~@/static/image/code_bg.jpg") no-repeat;
       background-size: 100% 100%;
       .img {
         width: 325rpx;
@@ -507,7 +514,7 @@ export default {
     }
   }
   //切换就诊人
-    // 弹出层
+  // 弹出层
   .check-wrap {
     &__title {
       height: 84rpx;
@@ -558,7 +565,7 @@ export default {
           }
         }
       }
-      .nodata{
+      .nodata {
         padding: 20rpx;
         color: #999999;
         text-align: center;
