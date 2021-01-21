@@ -15,6 +15,7 @@
     </view>
     <u-gap height="10" bg-color="#f3f3f3"></u-gap>
     <view class="wrap-con" v-if="doctorList.length > 0">
+      <view class="wrap-con__bt">医生</view>
       <view class="wrap-con__list">
         <view
           class="item"
@@ -23,32 +24,29 @@
           @click="goDetail(item.id)"
         >
           <view class="avatar">
-            <image class="img" mode="aspectFill" :src="item.headimg" />
+            <dh-image
+              class="img"
+              mode="aspectFill"
+              :src="item.headimg"
+              errorSrc="doctor.jpg"
+            ></dh-image>
           </view>
           <view class="info">
             <view class="title">
               <view class="name">{{ item.name }}</view>
             </view>
             <view class="subt">
-              <view class="subt-zc">职称：{{ item.position }}</view>
-              <view class="subt-zw">职务：{{ item.professional }}</view>
+              <view class="subt-zc">{{ item.department_name }}</view>
             </view>
-            <view class="intr">擅长：{{ item.speciality }}</view>
+            <view class="intr">{{ item.position }}</view>
           </view>
         </view>
       </view>
-      <view
-        class="wrap-con__more"
-        @click="getMoreDoctor"
-        v-if="!doctorFinished"
-      >
+      <view class="wrap-con__more" @click="getMoreDoctor" v-if="doctorMore">
         <view class="text">查看更多</view>
         <view class="icon">
           <text class="iconfont icon-hao"></text>
         </view>
-      </view>
-      <view class="wrap-con__more nomore" v-else>
-        <view class="text">暂无更多</view>
       </view>
     </view>
     <u-gap height="20" bg-color="#f3f3f3"></u-gap>
@@ -70,105 +68,94 @@
       <view
         class="wrap-branch__more"
         @click="getMoreDepartment"
-        v-if="!departmentFinished"
+        v-if="departmentMore"
       >
         <view class="text">查看更多</view>
         <view class="icon">
           <text class="iconfont icon-hao"></text>
         </view>
       </view>
-      <view class="wrap-branch__more nomore" v-else>
-        <view class="text">暂无更多</view>
-      </view>
     </view>
   </view>
 </template>
 
 <script>
+import dhImage from '@/components/dh-image/dh-image.vue'
+
 export default {
   data() {
     return {
       doctorList: [],
+      doctorMore: false,
       departmentList: [],
-      keyword: "",
-      departmentPage: 1,
-      departmentLimit: 6,
-      doctorPage: 1,
-      doctorLimit: 3,
-      doctorFinished: false,
-      departmentFinished: false,
-    };
+      departmentMore: false,
+      keyword: '',
+    }
   },
+  components: { dhImage },
   onLoad() {
-    this.keyword = this.$Route.query.keyword;
-    this.getDoctorList();
-    this.getDepartmentList();
+    this.keyword = this.$Route.query.keyword
+    this.getList()
   },
   methods: {
+    getList() {
+      this.getDoctorList()
+      this.getDepartmentList()
+    },
     getDoctorList() {
-      var data = {
-        keyword: this.keyword,
-        limit: this.doctorLimit,
-        page: this.doctorPage,
-      };
-      this.$http.post(this.API.DOCTOR_SEARCH, data).then((res) => {
-        if (this.doctorPage == 1) {
-          this.doctorList = [];
-        }
-        this.doctorList = this.doctorList.concat(res.data.items);
-        if (this.doctorList.length >= res.data.total) {
-          this.doctorFinished = true;
-        } else {
-          this.doctorPage++;
-        }
-      });
+      this.$http
+        .post(this.API.DOCTOR_SEARCH, { keyword: this.keyword })
+        .then((res) => {
+          if (res.data.length > 3) {
+            this.doctorMore = true
+          }
+          this.doctorList = res.data.splice(3, res.data.length - 1)
+        })
     },
     getDepartmentList() {
-      var data = {
-        keyword: this.keyword,
-        limit: this.departmentLimit,
-        page: this.departmentPage,
-      };
-      this.$http.post(this.API.DEPARTMENT_SEARCH, data).then((res) => {
-        if (this.departmentPage == 1) {
-          this.departmentList = [];
-        }
-        this.departmentList = this.departmentList.concat(res.data.items);
-        if (this.departmentList.length >= res.data.total) {
-          this.departmentFinished = true;
-        } else {
-          this.departmentPage++;
-        }
-      });
+      this.$http
+        .post(this.API.DEPARTMENT_SEARCH, { keyword: this.keyword })
+        .then((res) => {
+          if (res.data.length > 5) {
+            this.departmentMore = true
+          }
+          this.departmentList = res.data.splice(5, res.data.length - 1)
+        })
     },
     search() {
-      this.getList();
+      this.getList()
     },
     clearKeyword() {
-      this.keyword = "";
-      this.getList();
+      this.keyword = ''
+      this.getList()
     },
     getMoreDoctor() {
-      this.getDoctorList();
+      this.$Router.push({
+        name: 'doctorSearch',
+        params: { keyword: this.keyword },
+      })
     },
     getMoreDepartment() {
-      this.getDepartmentList();
+      this.$Router.push({
+        name: 'departmentSearch',
+        params: { keyword: this.keyword },
+      })
     },
     goDetail(id) {
-      this.$Router.push({ name: "doctorDetail", params: { id: id } });
+      this.$Router.push({ name: 'doctorDetail', params: { id: id } })
     },
     goScheme(departmentid) {
       this.$Router.push({
-        path: "/pages/branchDetail/branchDetail",
-        query: { departmentid: departmentid },
-      });
+        name: 'branchDetail',
+        params: { departmentid: departmentid },
+      })
     },
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>
-@import "@/assets/scss/mixin.scss";
+@import '@/assets/scss/mixin.scss';
 .wrap {
   min-height: 100rpx;
   background: #ffffff;
@@ -185,13 +172,13 @@ export default {
       padding: 0 30rpx 0 78rpx;
       flex: 1;
       &::before {
-        content: "\e660";
+        content: '\e660';
         position: absolute;
         left: 30rpx;
         top: 50%;
         color: #afafaf;
         transform: translateY(-50%);
-        font-family: "iconfont";
+        font-family: 'iconfont';
       }
       .input {
         width: 100%;
@@ -207,7 +194,16 @@ export default {
     }
   }
   &-con {
+    &__bt {
+      height: 75rpx;
+      line-height: 75rpx;
+      padding: 0 30rpx;
+      color: #333333;
+      font-size: 28rpx;
+    }
     &__list {
+      border: 0 solid #d8d8d8;
+      border-width: 1px 0;
       .item {
         display: flex;
         padding: 30rpx;

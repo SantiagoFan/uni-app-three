@@ -247,8 +247,8 @@ export default {
     },
     search() {
       this.$Router.push({
-        path: '/pages/branchSearch/branchSearch',
-        query: { keyword: this.keyword },
+        name: 'branchSearch',
+        params: { keyword: this.keyword },
       })
     },
     goDetail(id) {
