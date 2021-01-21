@@ -74,7 +74,8 @@ export default {
     return{
       name: '',
       phone: '',
-      idcard: ''
+      idcard: '',
+      flag: false
     }
   },
   onShow(){
@@ -118,6 +119,10 @@ export default {
 				});
 				return false;
       }
+      if(this.flag){
+        return false
+      }
+      this.flag = true
       this.$http.post(this.API.BIND_PATIENT,data).then(res=>{
         uni.showToast({
           title: res.message,
@@ -125,10 +130,13 @@ export default {
           icon:'none',
         });
         if(res.code==20000){
+          uni.setStorageSync('patientInfo', res.data)
           setTimeout(()=>{
             this.$Router.replaceAll('/pages/index/index')
           },1000)
         }
+      }).finally(res=>{
+        this.flag = false
       })
     }
   },
