@@ -7,7 +7,7 @@
           class="item"
           v-for="(item, index) in doctorList"
           :key="index"
-          @click="goDetail(item.id)"
+          @click="goDetail(item.doctor_id)"
         >
           <view class="avatar">
             <dh-image
@@ -19,12 +19,12 @@
           </view>
           <view class="info">
             <view class="title">
-              <view class="name">{{ item.name }}</view>
+              <view class="name">{{ item.doctor_name }}</view>
             </view>
             <view class="subt">
               <view class="subt-zc">{{ item.department_name }}</view>
             </view>
-            <view class="intr">{{ item.position }}</view>
+            <view class="intr">{{ item.professional }}</view>
           </view>
         </view>
       </view>

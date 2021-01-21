@@ -12,7 +12,7 @@
 			}
     },
     {
-      "path": "pages/patientManage/patientManage",
+      "path": "pages/patient/patientManage",
       "name":"patientManage",
 			"style": {
         "navigationBarTitleText": "问卷调查",
@@ -73,7 +73,7 @@
 			}
     },
     {
-      "path": "pages/patientDetail/patientDetail",
+      "path": "pages/patient/patientDetail",
       "name":"patientDetail",
 			"style": {
         "navigationBarTitleText": "就诊人详情",
@@ -289,7 +289,7 @@
 			}
     },
     {
-      "path": "pages/patientAdd/patientAdd",
+      "path": "pages/patient/patientAdd",
       "name":"patientAdd",
 			"style": {
         "navigationBarTitleText": "添加就诊人",

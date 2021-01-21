@@ -102,7 +102,9 @@
                     :key="index1"
                     @click="handleClickDetail(obj)"
                   >
-                    <view class="item-menu-name">{{ obj.department_name }}</view>
+                    <view class="item-menu-name">{{
+                      obj.department_name
+                    }}</view>
                     <view class="arrow">
                       <text class="iconfont icon-arrowb"></text>
                     </view>
@@ -233,10 +235,12 @@ export default {
       })
     },
     search() {
-      this.$Router.push({
-        name: 'branchSearch',
-        params: { keyword: this.keyword },
-      })
+      if (this.keyword != '') {
+        this.$Router.push({
+          name: 'branchSearch',
+          params: { keyword: this.keyword },
+        })
+      }
     },
     goDetail(id) {
       this.$Router.push({

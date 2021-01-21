@@ -76,7 +76,7 @@ http.interceptor.response(
         title: response.data.message,
         icon: 'none',
       })
-      return false
+      return Promise.reject(response)
     }
 
     return response.data

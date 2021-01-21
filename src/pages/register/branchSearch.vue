@@ -6,76 +6,84 @@
           class="input"
           type="text"
           confirm-type="search"
+          @input="search"
           @confirm="search"
           v-model="keyword"
-          placeholder="请输入"
+          placeholder="搜索科室、医生"
         />
       </view>
       <view class="btn" @click="clearKeyword">取消</view>
     </view>
-    <u-gap height="10" bg-color="#f3f3f3"></u-gap>
-    <view class="wrap-con" v-if="doctorList.length > 0">
-      <view class="wrap-con__bt">医生</view>
-      <view class="wrap-con__list">
-        <view
-          class="item"
-          v-for="(item, index) in doctorList"
-          :key="index"
-          @click="goDetail(item.id)"
-        >
-          <view class="avatar">
-            <dh-image
-              class="img"
-              mode="aspectFill"
-              :src="item.headimg"
-              errorSrc="doctor.jpg"
-            ></dh-image>
-          </view>
-          <view class="info">
-            <view class="title">
-              <view class="name">{{ item.name }}</view>
+    <template v-if="doctorList.length > 0">
+      <u-gap height="10" bg-color="#f3f3f3"></u-gap>
+      <view class="wrap-con">
+        <view class="wrap-con__bt">医生</view>
+        <view class="wrap-con__list">
+          <view
+            class="item"
+            v-for="(item, index) in doctorList"
+            :key="index"
+            @click="goDetail(item.doctor_id)"
+          >
+            <view class="avatar">
+              <dh-image
+                class="img"
+                mode="aspectFill"
+                :src="item.headimg"
+                errorSrc="doctor.jpg"
+              ></dh-image>
             </view>
-            <view class="subt">
-              <view class="subt-zc">{{ item.department_name }}</view>
+            <view class="info">
+              <view class="title">
+                <view class="name">{{ item.doctor_name }}</view>
+              </view>
+              <view class="subt">
+                <view class="subt-zc">{{ item.department_name }}</view>
+              </view>
+              <view class="intr">{{ item.professional }}</view>
             </view>
-            <view class="intr">{{ item.position }}</view>
           </view>
         </view>
-      </view>
-      <view class="wrap-con__more" @click="getMoreDoctor" v-if="doctorMore">
-        <view class="text">查看更多</view>
-        <view class="icon">
-          <text class="iconfont icon-hao"></text>
-        </view>
-      </view>
-    </view>
-    <u-gap height="20" bg-color="#f3f3f3"></u-gap>
-    <view class="wrap-branch" v-if="departmentList.length > 0">
-      <view class="wrap-branch__bt">科室</view>
-      <view class="wrap-branch__list">
-        <view
-          class="item"
-          v-for="(item, index) in departmentList"
-          :key="index"
-          @click="goScheme(item.id)"
-        >
+        <view class="wrap-con__more" @click="getMoreDoctor" v-if="doctorMore">
+          <view class="text">查看更多</view>
           <view class="icon">
-            <text class="iconfont icon-keshi"></text>
+            <text class="iconfont icon-hao"></text>
           </view>
-          <view class="text">{{ item.name }}</view>
         </view>
       </view>
-      <view
-        class="wrap-branch__more"
-        @click="getMoreDepartment"
-        v-if="departmentMore"
-      >
-        <view class="text">查看更多</view>
-        <view class="icon">
-          <text class="iconfont icon-hao"></text>
-        </view>
+    </template>
+    <template v-if="departmentList.length > 0">
+      <u-gap height="20" bg-color="#f3f3f3"></u-gap>
+      <view class="wrap-branch">
+        <view class="wrap-branch__bt">科室</view>
+        <template>
+          <view class="wrap-branch__list">
+            <view
+              class="item"
+              v-for="(item, index) in departmentList"
+              :key="index"
+              @click="goScheme(item.department_id)"
+            >
+              <view class="icon">
+                <text class="iconfont icon-keshi"></text>
+              </view>
+              <view class="text">{{ item.department_name }}</view>
+            </view>
+          </view>
+          <view
+            class="wrap-branch__more"
+            @click="getMoreDepartment"
+            v-if="departmentMore"
+          >
+            <view class="text">查看更多</view>
+            <view class="icon">
+              <text class="iconfont icon-hao"></text>
+            </view>
+          </view>
+        </template>
       </view>
-    </view>
+    </template>
+    <empty v-if="doctorList.length == 0 && departmentList.length == 0"></empty>
   </view>
 </template>
 
@@ -90,6 +98,7 @@ export default {
       departmentList: [],
       departmentMore: false,
       keyword: '',
+      postLock: false,
     }
   },
   components: { dhImage },
@@ -99,35 +108,39 @@ export default {
   },
   methods: {
     getList() {
-      this.getDoctorList()
-      this.getDepartmentList()
-    },
-    getDoctorList() {
+      if (this.postLock) {
+        return
+      }
+      this.postLock = true
       this.$http
-        .post(this.API.DOCTOR_SEARCH, { keyword: this.keyword })
+        .post(this.API.SEARCH, { keyword: this.keyword })
         .then((res) => {
-          if (res.data.length > 3) {
+          this.postLock = false
+          let doctor_list = res.data.doctor
+          if (doctor_list.length > 3) {
             this.doctorMore = true
+            doctor_list.splice(3, doctor_list.length - 1)
           }
-          this.doctorList = res.data.splice(3, res.data.length - 1)
-        })
-    },
-    getDepartmentList() {
-      this.$http
-        .post(this.API.DEPARTMENT_SEARCH, { keyword: this.keyword })
-        .then((res) => {
-          if (res.data.length > 5) {
+          this.doctorList = doctor_list
+
+          let department_list = res.data.department
+          if (department_list.length > 5) {
             this.departmentMore = true
+            department_list.splice(5, department_list.length - 1)
           }
-          this.departmentList = res.data.splice(5, res.data.length - 1)
+          this.departmentList = department_list
         })
     },
     search() {
-      this.getList()
+      if (this.keyword != '') {
+        this.getList()
+      } else {
+        this.doctorList = []
+        this.departmentList = []
+      }
     },
     clearKeyword() {
-      this.keyword = ''
-      this.getList()
+      this.$Router.back(1)
     },
     getMoreDoctor() {
       this.$Router.push({
@@ -284,9 +297,12 @@ export default {
         align-items: center;
         margin-bottom: 25rpx;
         color: #666666;
-        font-size: 28rpx;
+        font-size: 32rpx;
+        line-height: 80rpx;
+        border-bottom: 2rpx solid #e3e2e2;
         &:last-child {
           margin-bottom: 0;
+          border: none;
         }
         .icon {
           color: #0ec698;
