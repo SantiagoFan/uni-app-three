@@ -47,7 +47,7 @@
           <text class="u-line-1">收藏的医生</text>
         </view> -->
         <view
-          v-for="(item, index) in cateList"
+          v-for="(item, index) in list"
           :key="index"
           class="u-tab-item"
           :class="[current == index ? 'u-tab-item-active' : '']"
@@ -64,12 +64,12 @@
           <text class="u-line-1">{{ item.name }}</text>
         </view>
       </scroll-view>
-      <block>
-        <scroll-view scroll-y class="right-box">
+      <block v-for="(item, index) in list" :key="index">
+        <scroll-view scroll-y class="right-box" v-if="current == index">
           <view class="page-view">
             <view class="class-item">
               <view class="item-container">
-                <view class="doctor-s" v-if="current === -1">
+                <view class="doctor-s" v-if="current == -1">
                   <view
                     @click="goDetail(obj.id)"
                     class="doctor-wrap"
@@ -98,11 +98,11 @@
                 <template v-else>
                   <view
                     class="thumb-box"
-                    v-for="(item, index) in list"
-                    :key="index"
-                    @click="handleClickDetail(item)"
+                    v-for="(obj, index1) in item.child"
+                    :key="index1"
+                    @click="handleClickDetail(obj)"
                   >
-                    <view class="item-menu-name">{{ item.name }}</view>
+                    <view class="item-menu-name">{{ obj.department_name }}</view>
                     <view class="arrow">
                       <text class="iconfont icon-arrowb"></text>
                     </view>
@@ -142,7 +142,7 @@ export default {
   },
   components: { dhImage },
   onLoad(options = {}) {
-    this.getCateList()
+    this.getList()
     this.getHistoryList()
   },
   methods: {
@@ -217,23 +217,10 @@ export default {
           .exec()
       })
     },
-    getCateList() {
-      this.$http
-        .post(this.API.DEPARTMENT_CATEGORY)
-        .then((res) => {
-          this.cateList = res.data
-        })
-        .then((response) => {
-          if (this.cateList.length > 0) {
-            this.$http
-              .post(this.API.DEPARTMENT_LIST, {
-                cateid: this.cateList[0]['id'],
-              })
-              .then((res) => {
-                this.list = res.data
-              })
-          }
-        })
+    getList() {
+      this.$http.post(this.API.DEPARTMENT_LIST).then((res) => {
+        this.list = res.data
+      })
     },
     getCollectList() {
       this.$http.post(this.API.COLLECT_DOCTOR).then((res) => {

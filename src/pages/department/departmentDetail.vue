@@ -4,11 +4,11 @@
     <view class="content">
       <view class="info"
         ><text>科室地址</text
-        ><text>{{ info.address ? info.address : "暂无" }}</text></view
+        ><text>{{ info.position ? info.position : "暂无" }}</text></view
       >
       <view class="info"
         ><text>科室电话</text
-        ><text>{{ info.phone ? info.phone : "暂无" }}</text></view
+        ><text>{{ info.tel ? info.tel : "暂无" }}</text></view
       >
       <view class="detail" v-html="info.content"> </view>
     </view>
@@ -30,7 +30,7 @@ export default {
         .post(this.API.DEPARTMENT_INFO_DETAIL, { id: this.$Route.query.id })
         .then((res) => {
           if(res.code==20000){
-            this.info = res.data.data[0];
+            this.info = res.data[0];
           }
         });
     },

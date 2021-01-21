@@ -49,7 +49,7 @@ export default {
     },
     getList(){
       this.$http.post(this.API.REGISTER_RECORD_LIST,{patient_code:this.patientInfo.patient_code}).then(res=>{
-        this.list = res.data.data
+        this.list = res.data
       })
     }
   },

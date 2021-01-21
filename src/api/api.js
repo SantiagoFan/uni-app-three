@@ -15,7 +15,7 @@ export default {
 	LIVE_PATIENT_DETAIL: '/live_patient/getLivePatientDetail',//住院人详情
 	LIVE_DAILY_ORDER: '/live_daily_order/getDetail',//住院日清单
 	DEPARTMENT_CATEGORY: '/department_category/getList',//科室分类列表
-	DEPARTMENT_LIST: '/department/getListByCate',//科室列表
+	DEPARTMENT_LIST: '/department/getListAndCate',//科室列表
 	COLLECT_DOCTOR: '/collect_doctor/getList',//收藏医生
 	DOCTOR_LIST: '/doctor/getListByDepartmentId',//根据科室id获取医生列表
 	DOCTOR_DETAIL: '/doctor/getDetailById',//医生详情

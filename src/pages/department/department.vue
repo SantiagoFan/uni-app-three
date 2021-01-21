@@ -2,7 +2,7 @@
   <view class="department">
     <view class="department_list">
       <view
-        @click="toDetail(item.department_id)"
+        @click="toDetail(item.department_id,item.department_name)"
         v-for="(item, index) in list"
         :key="index"
         class="department_list_item"
@@ -29,13 +29,13 @@ export default {
     getList() {
       this.$http.post(this.API.DEPARTMENT_INFO).then((res) => {
         if (res.code == 20000) {
-          this.list = res.data.data
+          this.list = res.data
         }
       })
     },
-    toDetail(id) {
+    toDetail(id,name) {
       if (this.isDoctor) {
-        this.$Router.push({ name: 'doctor', params: { departmentid: id } })
+        this.$Router.push({ name: 'doctor', params: { departmentid: id,departmentname: name} })
       } else {
         this.$Router.push({ name: 'departmentDetail', params: { id: id } })
       }

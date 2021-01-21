@@ -1,10 +1,10 @@
 <template>
-  <view class="doctor">
+  <view class="doctor" >
     <view class="title"
       >{{ departmentName }}共有<text>{{ list.length }}</text
       >名医生</view
     >
-    <view class="list">
+    <view class="list" v-if="list.length>0">
       <view
         class="item"
         @click="toDetail(item.id)"
@@ -25,7 +25,7 @@
         </view>
       </view>
     </view>
-    <empty v-if="list.length === 0"></empty>
+   <empty v-else></empty>
   </view>
 </template>
 <script>
@@ -36,29 +36,22 @@ export default {
     return {
       list: [],
       departmentName: "",
+      departmentid: ""
     };
   },
-  onShow() {
+  onLoad() {
+    this.departmentName = this.$Route.query.departmentname
+    this.departmentid = this.$Route.query.departmentid
     this.getList();
-    this.getDepartmentName();
   },
   methods: {
     getList() {
       this.$http
         .post(this.API.DOCTOR_INFO_LIST, {
-          departmentid: this.$Route.query.departmentid,
+          departmentid: this.departmentid,
         })
         .then((res) => {
           this.list = res.data;
-        });
-    },
-    getDepartmentName() {
-      this.$http
-        .post(this.API.DEPARTMENT_NAME, {
-          departmentid: this.$Route.query.departmentid,
-        })
-        .then((res) => {
-          this.departmentName = res.data;
         });
     },
     toDetail(id) {
