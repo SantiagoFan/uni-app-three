@@ -64,7 +64,7 @@
           <view class="register-list__cell">
             <view class="title" @click="isShow = !isShow">
               <view class="date">{{ dateStr }}</view>
-              <view class="text">{{ isShow ? "收起日期" : "更多日期" }}</view>
+              <view class="text">{{ isShow ? '收起日期' : '更多日期' }}</view>
               <view :class="['arrow', { active: isShow }]">
                 <text class="iconfont icon-arrowb"></text>
               </view>
@@ -98,7 +98,7 @@
                       >{{ item.day }}</view
                     >
                     <view class="status">{{
-                      item.is_exist == 1 ? "有" : "无"
+                      item.is_exist == 1 ? '有' : '无'
                     }}</view>
                   </view>
                 </view>
@@ -184,65 +184,65 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-import moment from "moment";
-import dhImage from "@/components/dh-image/dh-image.vue";
-import { weekList, fillWeek } from "@/utils/week.js";
+import { mapState } from 'vuex'
+import moment from 'moment'
+import dhImage from '@/components/dh-image/dh-image.vue'
+import { weekList, fillWeek } from '@/utils/week.js'
 
 export default {
   data() {
     return {
-      doctor_id: "",
-      department_id: "",
+      doctor_id: '',
+      department_id: '',
       tabIndex: 0,
       orderPopupStatus: false,
       model: {
-        headimg: "",
-        name: "",
-        position: "",
-        professional: "",
-        speciality: "",
+        headimg: '',
+        name: '',
+        position: '',
+        professional: '',
+        speciality: '',
       },
       list: [],
-      time: "",
-      timeStatus: "",
+      time: '',
+      timeStatus: '',
       patientList: [],
       isShow: false,
       schemeList: [],
       week: weekList(),
-      selectDate: "",
+      selectDate: '',
       postLock: false,
-    };
+    }
   },
   components: { dhImage },
 
   computed: {
-    ...mapState(["patientInfo"]),
+    ...mapState(['patientInfo']),
     dateStr() {
       return (
         this.selectDate +
-        " " +
-        weekList("星期")[moment(this.selectDate).isoWeekday() - 1]
-      );
+        ' ' +
+        weekList('星期')[moment(this.selectDate).isoWeekday() - 1]
+      )
     },
   },
   onLoad() {
-    this.doctor_id = this.$Route.query.id;
-    this.department_id = this.$Route.query.departmentid;
+    this.doctor_id = this.$Route.query.id
+    this.department_id = this.$Route.query.departmentid
     if (this.$Route.query.date) {
-      this.selectDate = this.$Route.query.date;
+      this.selectDate = this.$Route.query.date
     } else {
-      this.selectDate = moment().format("YYYY-MM-DD");
-      this.isShow = true;
+      this.selectDate = moment().format('YYYY-MM-DD')
+      this.isShow = true
     }
-    this.getDetail();
-    this.getPatientList();
-    this.getSchemeList();
+    this.getDetail()
+    this.getPatientList()
+    this.getSchemeList()
   },
   methods: {
     // 修改tab 索引
     handleSwitchItem(index) {
-      this.tabIndex = index;
+      this.tabIndex = index
     },
     getSchemeList() {
       this.$http
@@ -250,34 +250,34 @@ export default {
           departmentid: this.department_id,
         })
         .then((res) => {
-          this.schemeList = fillWeek(res.data);
-          if (this.selectDate == "") {
-            this.selectDate = res.data[0].date;
+          this.schemeList = fillWeek(res.data)
+          if (this.selectDate == '') {
+            this.selectDate = res.data[0].date
           }
-          this.getList();
-        });
+          this.getList()
+        })
     },
     getDetail() {
       this.$http
         .post(this.API.DOCTOR_INFO, { id: this.doctor_id })
         .then((res) => {
-          this.model = res.data;
-        });
+          this.model = res.data
+        })
     },
     getList() {
       if (this.postLock) {
-        return;
+        return
       }
-      this.postLock = true;
+      this.postLock = true
       this.$http
         .post(this.API.DOCTOR_DETAIL, {
           id: this.doctor_id,
           date: this.selectDate,
         })
         .then((res) => {
-          this.postLock = false;
-          this.list = res.data;
-        });
+          this.postLock = false
+          this.list = res.data
+        })
     },
     addCollect() {
       if (this.model.id) {
@@ -285,57 +285,57 @@ export default {
           .post(this.API.ADD_COLLECT, { id: this.model.id })
           .then((res) => {
             if (res.code == 20000) {
-              this.model.is_collect = !this.model.is_collect;
+              this.model.is_collect = !this.model.is_collect
               uni.showToast({
                 title: res.message,
                 duration: 2000,
-                icon: "none",
-              });
+                icon: 'none',
+              })
             }
-          });
+          })
       }
     },
     goRegister(index) {
-      this.time = this.list[index]["time"];
+      this.time = this.list[index]['time']
       this.timeStatus =
-        this.list[index]["time_status"] == "AM" ? "上午" : "下午";
-      this.orderPopupStatus = true;
+        this.list[index]['time_status'] == 'AM' ? '上午' : '下午'
+      this.orderPopupStatus = true
     },
     getPatientList() {
       this.$http.post(this.API.PATIENT_LIST).then((res) => {
-        this.patientList = res.data;
-      });
+        this.patientList = res.data
+      })
     },
     addPatient() {
-      this.$Router.push("/pages/medicalCardLogin/medicalCardLogin");
+      this.$Router.push({ name: 'medicalCardLogin' })
     },
     createOrder() {
-      this.$Router.push("/pages/payment/payment");
+      this.$Router.push('/pages/payment/payment')
     },
     getName(str) {
       if (str.length > 2) {
-        return str.substr(-2, 2);
+        return str.substr(-2, 2)
       } else {
-        return str;
+        return str
       }
     },
     changeScheme(item) {
       if (!this.postLock && item && item.date != this.selectDate) {
-        this.selectDate = item.date;
-        this.getList();
+        this.selectDate = item.date
+        this.getList()
       }
     },
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>
-@import "@/assets/scss/mixin.scss";
+@import '@/assets/scss/mixin.scss';
 .wrap {
   &__user {
     display: flex;
     padding: 30rpx;
-    background: url("@/static/image/doctor_detail_img.jpg") no-repeat center
+    background: url('@/static/image/doctor_detail_img.jpg') no-repeat center
       bottom;
     background-size: 100%;
     .avatar {
@@ -405,7 +405,7 @@ export default {
         &.active {
           color: #0ec698;
           &::after {
-            content: "";
+            content: '';
             position: absolute;
             bottom: 0;
             left: 0;
