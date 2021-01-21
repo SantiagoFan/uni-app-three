@@ -7,7 +7,7 @@
     <view class="list" v-if="list.length>0">
       <view
         class="item"
-        @click="toDetail(item.id)"
+        @click="toDetail(item.doctor_id)"
         v-for="(item, index) in list"
         :key="index"
       >
@@ -20,8 +20,8 @@
         </view>
         <view class="content">
           <view class="content_name">{{ item.doctor_name }}</view>
-          <view class="content_level">{{ item.professional }}</view>
-          <view class="content_des">{{ item.speciality }}</view>
+          <view class="content_level">{{ item.department_name }}</view>
+          <view class="content_des">{{ item.professional }}</view>
         </view>
       </view>
     </view>

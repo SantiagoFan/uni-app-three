@@ -11,17 +11,16 @@
       </view>
       <view class="info">
         <view class="title">
-          <view class="name">{{ model.name }}</view>
+          <view class="name">{{ model.doctor_name }}</view>
         </view>
         <view class="subt"> {{ model.department_name }} </view>
         <view class="intr">{{ model.professional }}</view>
       </view>
     </view>
     <view class="wrap__con">
-      <view class="wrap__con-title">擅长</view>
-      <view class="wrap__con-intr" v-html="model.speciality"></view>
       <view class="wrap__con-title bordertop">详细介绍</view>
-      <view class="wrap__con-intr" v-html="model.content"></view>
+      <view class="wrap__con-intr" v-if="model.content" v-html="model.content"></view>
+      <empty v-else></empty>
     </view>
   </view>
 </template>
@@ -40,7 +39,7 @@ export default {
       this.$http
         .post(this.API.DOCTOR_INFO, { id: this.$Route.query.id })
         .then((res) => {
-          this.model = res.data;
+          this.model = res.data[0];
         });
     },
   },

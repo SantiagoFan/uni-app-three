@@ -24,7 +24,7 @@
                   class="input"
                   type="text"
                   name="idcard"
-                  placeholder="请输身份证号"
+                  placeholder="请输入身份证号"
                   placeholder-class="placr_style"
                 >
               </view>
@@ -36,7 +36,7 @@
                   class="input"
                   type="text"
                   name="phone"
-                  placeholder="手机号码"
+                  placeholder="请输入手机号码"
                   placeholder-class="placr_style"
                 >
               </view>
@@ -73,7 +73,8 @@
   </view>
 </template>
 <script>
-import { isCardNo,isMobile } from "@/utils/common.js";
+import { isMobile } from "@/utils/common.js";
+import { isCardNo } from "@/utils/checkIdcard.js";
 export default {
   data(){
     return{
@@ -82,10 +83,7 @@ export default {
   },
   methods: {
     formSubmit(e){
-      if(this.flag){
-        return false;
-      }
-      this.flag = true;
+
       uni.removeStorageSync('patientInfo');
       var data = e.detail.value;
       if(data['name'].trim()==''){
@@ -126,6 +124,10 @@ export default {
         });
         return false;
       }
+      if(this.flag){
+        return false;
+      }
+      this.flag = true;
       this.$http.post(this.API.ADD_PATIENT,data).then(res=>{
         switch(res.code){
           case 50001:
@@ -138,8 +140,6 @@ export default {
                   if (res.confirm) {
                     this.$Router.replace('/pages/medicalCardBind/medicalCardBind');
                   } else if (res.cancel) {
-                    this.flag = false;
-                    console.log('用户点击取消');
                   }
               }
           });
@@ -151,7 +151,6 @@ export default {
               duration: 2000,
               icon:'none',
             });
-            this.flag = false;
           break;
           case 20000:
              uni.showToast({
@@ -163,6 +162,8 @@ export default {
               this.$Router.replaceAll('/pages/index/index');
             },1000)
         }
+      }).finally(res=>{
+        this.flag = false
       })
     }
     // formSubmit(e) {
