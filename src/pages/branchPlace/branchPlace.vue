@@ -27,26 +27,16 @@ export default {
     }
   },
   onShow(){
-    this.getFloorList();
+    this.getDepartment();
   },
   methods:{
-    getFloorList(){
-      this.$http.post(this.API.FLOOR_LIST).then(res=>{
-        this.floorList = res.data;
-      }).then(()=>{
-        if(this.floorList.length>0){
-          this.getDepartment();
-        }
-      })
-    },
     getDepartment(){
-      this.$http.post(this.API.DEPARTMENT_AREA,{floorid:this.floorList[this.floorIndex]['id']}).then(res=>{ 
+      this.$http.post(this.API.DEPARTMENT_AREA).then(res=>{ 
         this.list = res.data;
       })
     },
     changeFloor(index){
       this.floorIndex = index;
-      this.getDepartment();
     }
   }
 }

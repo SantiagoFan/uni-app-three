@@ -67,7 +67,8 @@
 </template>
 
 <script>
-import { isCardNo,isMobile } from "@/utils/common.js";
+import { isMobile } from "@/utils/common.js";
+import { isCardNo } from "@/utils/checkIdcard.js";
 export default {
   data(){
     return{
