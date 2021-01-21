@@ -19,7 +19,7 @@
           ></dh-image>
         </view>
         <view class="content">
-          <view class="content_name">{{ item.name }}</view>
+          <view class="content_name">{{ item.doctor_name }}</view>
           <view class="content_level">{{ item.professional }}</view>
           <view class="content_des">{{ item.speciality }}</view>
         </view>
