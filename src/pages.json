@@ -99,15 +99,7 @@
         "navigationBarTextStyle": "#ffffff"
 			}
     },
-    {
-      "path": "pages/branchSearch/branchSearch",
-      "name":"branchSearch",
-			"style": {
-        "navigationBarTitleText": "科室列表",
-        "navigationBarBackgroundColor": "#0ec698",
-        "navigationBarTextStyle": "white"
-			}
-    },
+    
     
     {
       "path": "pages/myResidentDetail/myResidentDetail",
@@ -231,6 +223,33 @@
         "navigationBarTitleText": "科室列表",
         "navigationBarBackgroundColor": "#0ec698",
         "navigationBarTextStyle": "#ffffff"
+			}
+    },
+    {
+      "path": "pages/register/branchSearch",
+      "name":"branchSearch",
+			"style": {
+        "navigationBarTitleText": "搜索",
+        "navigationBarBackgroundColor": "#0ec698",
+        "navigationBarTextStyle": "white"
+			}
+    },
+    {
+      "path": "pages/register/doctorSearch",
+      "name":"doctorSearch",
+			"style": {
+        "navigationBarTitleText": "医生搜索",
+        "navigationBarBackgroundColor": "#0ec698",
+        "navigationBarTextStyle": "white"
+			}
+    },
+    {
+      "path": "pages/register/departmentSearch",
+      "name":"departmentSearch",
+			"style": {
+        "navigationBarTitleText": "科室搜索",
+        "navigationBarBackgroundColor": "#0ec698",
+        "navigationBarTextStyle": "white"
 			}
     },
     {
