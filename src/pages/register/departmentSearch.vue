@@ -7,12 +7,12 @@
           class="item"
           v-for="(item, index) in departmentList"
           :key="index"
-          @click="goScheme(item.id)"
+          @click="goScheme(item.department_id)"
         >
           <view class="icon">
             <text class="iconfont icon-keshi"></text>
           </view>
-          <view class="text">{{ item.name }}</view>
+          <view class="text">{{ item.department_name }}</view>
         </view>
       </view>
     </view>

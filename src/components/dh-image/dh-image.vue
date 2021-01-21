@@ -40,7 +40,7 @@ export default {
     },
   },
   created() {
-    this.imageSrc = this.src
+    this.imageSrc = this.src || 'error'
   },
 }
 </script>
