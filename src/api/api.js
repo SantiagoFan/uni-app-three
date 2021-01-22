@@ -41,4 +41,5 @@ export default {
   SAVE_ANSWER: '/questionnaire/saveAnswer', //保存答案
   REGISTER_RECORD_LIST: '/register/getRecordList', //挂号记录
   SEARCH: '/search/search', //搜索
+  LIVE_PAY_RECORD: '/live_patient/getLivePayRecord',//住院缴费记录
 }

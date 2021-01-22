@@ -2,17 +2,17 @@
   <view class="record">
     <view class="record-m">
       <view class="record-m__list">
-        <view class="item" v-for="item in 2" :key="item" @click="handleItem">
+        <view class="item" v-for="(item,index) in list" :key="index" @click="handleItem">
           <view class="icon"> 
             <text class="iconfont icon-duihao"></text>
           </view>
           <view class="info">
             <view class="title">
-              <view class="status">缴费成功</view>
-              <view class="price">¥10000.00</view>
+              <view class="status">缴费{{item.pay_status==1?'成功':'失败'}}</view>
+              <view class="price">¥{{item.pay_fee}}</view>
             </view>
             <view class="subt">
-              <view class="name">贾铭</view>
+              <view class="name">{{item.patient_name}}</view>
               <view class="date">2020-07-18  10:30:00</view>
             </view>
           </view>
@@ -26,52 +26,20 @@
 export default {
   data() {
     return {
-      type: ''
+      list: []
     }
   },
-  watch: {
-    type() {
-      let title;
-      switch (this.type) {
-        case 0:
-          title = '门诊缴费记录'
-          break;
-        case 1:
-          title = '诊间支付缴费记录'
-          break;
-        case 2:
-          title = '住院缴费记录'
-        default:
-          break;
-      }
-      uni.setNavigationBarTitle({
-        title: title
-      })
-    }
-  },
-  onLoad(options = {}) {
-    // 从我的跳转过来 type: 0、门诊缴费记录 1、诊间支付缴费记录 2、住院缴费记录
-    this.type = Number(options.type)
+  onLoad() {
+    this.getList()
   },
   methods: {
+    getList(){
+      this.$http.post(this.API.LIVE_PAY_RECORD).then(res=>{
+        this.list = res.data
+      })
+    },
     handleItem() {
-      const { type } = this
-      let url
-      switch (type) {
-        case 0:
-          url = '/pages/clinicPayDetail/clinicPayDetail'
-          break;
-        case 1:
-          url = '/pages/payRecordDetail/payRecordDetail'
-          break;
-        case 2:
-          url = '/pages/paymentDetail/paymentDetail'
-          break;
-        default:
-          url = '/pages/clinicPayDetail/clinicPayDetail'
-          break;
-      }
-      this.$Router.push({name:url})
+      this.$Router.push({name:"paymentDetail"})
     }
   },
 }

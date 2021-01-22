@@ -343,6 +343,15 @@
 			}
     },
     {
+      "path": "pages/livePatient/livePatientRecord",
+      "name":"livePatientRecord",
+			"style": {
+        "navigationBarTitleText": "押金缴费记录",
+        "navigationBarBackgroundColor": "#0ec698",
+        "navigationBarTextStyle": "#ffffff"
+			}
+    },
+    {
       "path": "pages/myCollect/myCollect",
       "name":"myCollect",
 			"style": {

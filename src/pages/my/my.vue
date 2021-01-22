@@ -89,7 +89,7 @@
               <text class="iconfont icon-arrowb"></text>
             </view>
           </navigator>
-          <navigator url="/pages/payRecord/payRecord?type=2" class="item">
+          <view @click="livePatientRecord" class="item">
             <view class="item__icon">
               <image
                 class="img"
@@ -101,7 +101,7 @@
             <view class="item__jt">
               <text class="iconfont icon-arrowb"></text>
             </view>
-          </navigator>
+          </view>
           <navigator url="/pages/myCollect/myCollect" class="item">
             <view class="item__icon">
               <image
@@ -160,6 +160,9 @@ export default {
     addPatient() {
       this.$Router.push("/pages/medicalCardLogin/medicalCardLogin");
     },
+    livePatientRecord(){
+      this.$Router.push({name:"livePatientRecord"})
+    }
   },
 };
 </script>
