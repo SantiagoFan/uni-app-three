@@ -25,7 +25,7 @@
         </view>
         <view class="item">
           <view class="label">报告时间：</view>
-          <view class="text">2020-07-18  10:30:34</view>
+          <view class="text">2020-07-18 10:30:34</view>
         </view>
       </view>
       <view class="report-wrap__table">
@@ -76,9 +76,27 @@
 </template>
 
 <script>
-  export default {
-    
-  }
+export default {
+  data() {
+    return {
+      model: {},
+    }
+  },
+  onLoad() {
+    this.getDetail()
+  },
+  methods: {
+    getDetail() {
+      this.$http
+        .post(this.API.REPORT_DETAIL, {
+          report_code: this.$Route.query.report_code,
+        })
+        .then((res) => {
+          this.model = res.data
+        })
+    },
+  },
+}
 </script>
 
 <style lang="scss" scoped>

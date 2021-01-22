@@ -41,4 +41,6 @@ export default {
   SAVE_ANSWER: '/questionnaire/saveAnswer', //保存答案
   REGISTER_RECORD_LIST: '/register/getRecordList', //挂号记录
   SEARCH: '/search/search', //搜索
+  REPORT_LIST: '/report/getReportList', //检验检查报告
+  REPORT_DETAIL: '/report/getDetail', //检验检查报告详情
 }

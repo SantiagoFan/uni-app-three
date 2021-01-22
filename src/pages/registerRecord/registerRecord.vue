@@ -2,56 +2,77 @@
   <view class="register-r">
     <view class="register-r-main">
       <view class="register-r-main__list">
-        <view class="item" @click="hanldeClickDetail(item.status)" v-for="(item,index) in list" :key="index">
+        <view
+          class="item"
+          @click="hanldeClickDetail(item.status)"
+          v-for="(item, index) in list"
+          :key="index"
+        >
           <view class="icon active">
             <text class="iconfont icon-duihao"></text>
           </view>
           <view class="info">
             <view class="info_title">
-              <view class="info_title__status" v-if="item.status==1">锁号成功</view>
-              <view class="info_title__status" v-else-if="item.status==2">预约挂号成功</view>
+              <view class="info_title__status" v-if="item.status == 1"
+                >锁号成功</view
+              >
+              <view class="info_title__status" v-else-if="item.status == 2"
+                >预约挂号成功</view
+              >
               <view class="info_title__status" v-else>取消挂号成功</view>
               <view class="info_title__time-text">就诊时间</view>
             </view>
             <view class="info_subt1">
-              <view class="name">{{item.patient_name}}</view>
-              <view class="date">{{item.reg_date.substr(0,10)}}</view>
+              <view class="name">{{ item.patient_name }}</view>
+              <view class="date">{{ item.reg_date.substr(0, 10) }}</view>
             </view>
             <view class="info_subt2">
-              <view class="doctor-name">{{item.department_name}}/{{item.doctor_name}}</view>
-              <view class="time">{{item.reg_time}}</view>
+              <view class="doctor-name"
+                >{{ item.department_name }}/{{ item.doctor_name }}</view
+              >
+              <view class="time">{{ item.reg_time }}</view>
             </view>
           </view>
         </view>
+        <empty v-if="list.length == 0"> </empty>
       </view>
     </view>
   </view>
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState } from 'vuex'
+import empty from '../../components/empty/empty.vue'
 export default {
-  data(){
-    return{
-      list: []
+  components: { empty },
+  data() {
+    return {
+      list: [],
     }
   },
-  onLoad(){
+  onLoad() {
     this.getList()
   },
-   computed: {
-    ...mapState(["patientInfo"]),
+  computed: {
+    ...mapState(['patientInfo']),
   },
   methods: {
-    hanldeClickDetail (type, id=1) {
+    hanldeClickDetail(type, id = 1) {
       // 1：锁号 2：成功 3：取消
-     this.$Router.push({name:"registerRecordDetail",params:{type:type}})
-    },
-    getList(){
-      this.$http.post(this.API.REGISTER_RECORD_LIST,{patient_code:this.patientInfo.patient_code}).then(res=>{
-        this.list = res.data
+      this.$Router.push({
+        name: 'registerRecordDetail',
+        params: { type: type },
       })
-    }
+    },
+    getList() {
+      this.$http
+        .post(this.API.REGISTER_RECORD_LIST, {
+          patient_code: this.patientInfo.patient_code,
+        })
+        .then((res) => {
+          this.list = res.data
+        })
+    },
   },
 }
 </script>

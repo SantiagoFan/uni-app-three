@@ -64,6 +64,44 @@
           <text class="u-line-1">{{ item.name }}</text>
         </view>
       </scroll-view>
+      <block v-if="current == -1">
+        <scroll-view scroll-y class="right-box">
+          <view class="page-view">
+            <view class="class-item">
+              <view class="item-container">
+                <view class="doctor-s" v-if="current == -1">
+                  <view
+                    @click="goDetail(obj.id)"
+                    class="doctor-wrap"
+                    v-for="(obj, index1) in collectOrRegisterList"
+                    :key="index1"
+                  >
+                    <view class="doctor-wrap__avatar">
+                      <dh-image
+                        class="img"
+                        mode="aspectFill"
+                        src=""
+                        errorSrc="doctor.jpg"
+                      ></dh-image>
+                    </view>
+                    <view class="doctor-wrap__info">
+                      <view class="doctor-wrap__info-name">{{
+                        obj.doctor_name
+                      }}</view>
+                      <view class="doctor-wrap__info-subt">{{
+                        obj.department_name
+                      }}</view>
+                    </view>
+                    <view class="doctor-wrap__arrow">
+                      <text class="iconfont icon-arrowb"></text>
+                    </view>
+                  </view>
+                </view>
+              </view>
+            </view>
+          </view>
+        </scroll-view>
+      </block>
       <block v-for="(item, index) in list" :key="index">
         <scroll-view scroll-y class="right-box" v-if="current == index">
           <view class="page-view">
@@ -80,14 +118,16 @@
                       <dh-image
                         class="img"
                         mode="aspectFill"
-                        :src="obj.headimg"
+                        src=""
                         errorSrc="doctor.jpg"
                       ></dh-image>
                     </view>
                     <view class="doctor-wrap__info">
-                      <view class="doctor-wrap__info-name">{{ obj.name }}</view>
+                      <view class="doctor-wrap__info-name">{{
+                        obj.doctor_name
+                      }}</view>
                       <view class="doctor-wrap__info-subt">{{
-                        obj.speciality
+                        obj.department_name
                       }}</view>
                     </view>
                     <view class="doctor-wrap__arrow">
@@ -232,6 +272,9 @@ export default {
     getHistoryList() {
       this.$http.post(this.API.REGISTER_HISTORY).then((res) => {
         this.collectOrRegisterList = res.data
+        if (this.collectOrRegisterList.length > 0) {
+          this.current = -1
+        }
       })
     },
     search() {
