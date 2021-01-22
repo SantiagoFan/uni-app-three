@@ -82,8 +82,8 @@ export default {
           date: this.date,
         })
         .then((res) => {
-          this.list = res.data[0].item
-          this.today_expend = res.data[0].today_expend
+          this.list = res.data.item
+          this.today_expend = res.data.today_expend
         })
     },
     // 日期选择

@@ -47,8 +47,7 @@
               <view
                 class="count"
                 :style="{
-                  color:
-                    0 < item.num && item.num >= item.total_num ? '#0ec698' : '',
+                  color: item.time == selectDate ? '#0ec698' : '',
                 }"
                 >{{ item.time | getDay }}</view
               >
@@ -64,7 +63,7 @@
       </view>
       <view class="wrap_con__list" v-if="tabIndex === 0">
         <view
-          @click="goDetail(item.id, selectDate)"
+          @click="goDetail(item, selectDate)"
           class="cell"
           v-for="(item, index) in doctorList"
           :key="index"
@@ -81,16 +80,16 @@
             <view class="title">
               <view class="name">{{ item.doctor_name }}</view>
               <view class="right">
-                <view class="sur" v-if="item.is_exist == 1"
-                  >余号:{{ item.least_source }}</view
+                <view class="sur" v-if="item.remain_count > 0"
+                  >余号:{{ item.remain_count }}</view
                 >
-                <view class="tag" v-if="item.is_exist == 1"
+                <view class="tag" v-if="item.remain_count > 0"
                   >￥{{ item.price }}</view
                 >
-                <view class="tag" v-if="item.is_exist == 0">满诊</view>
+                <view class="tag" v-if="item.remain_count == 0">满诊</view>
               </view>
             </view>
-            <view class="post">{{ item.professional }}</view>
+            <view class="post">{{ item.doctor_professional }}</view>
             <view class="content">{{ item.department_name }}</view>
           </view>
         </view>
@@ -98,7 +97,7 @@
       </view>
       <view class="wrap_con__list" v-else>
         <view
-          @click="goDetail(item.id)"
+          @click="goDetail(item)"
           class="cell"
           v-for="(item, index) in all_doctor"
           :key="index"
@@ -202,10 +201,15 @@ export default {
         this.postLock = false
       })
     },
-    goDetail(id, date) {
+    goDetail(item, date) {
       this.$Router.push({
         name: 'doctorDetail',
-        params: { id: id, date: date },
+        params: {
+          scheme_id: item.scheme_id,
+          date: date,
+          doctor_id: item.doctor_id,
+          department_id: item.department_id,
+        },
       })
     },
     getSchemeList() {

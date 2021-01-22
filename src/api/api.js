@@ -45,4 +45,5 @@ export default {
   REPORT_LIST: '/report/getReportList', //检验检查报告
   REPORT_DETAIL: '/report/getDetail', //检验检查报告详情
   LIVE_PAY_RECORD_DETAIL: '/live_patient/getLivePayRecordDetail', //住院缴费记录详情
+  SCHEME_DETAIL: '/scheme/getDetailByScheme', //号源详情
 }

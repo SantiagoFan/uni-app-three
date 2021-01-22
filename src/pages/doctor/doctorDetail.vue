@@ -11,7 +11,7 @@
       </view>
       <view class="info">
         <view class="title">
-          <view class="name">{{ model.name }}</view>
+          <view class="name">{{ model.doctor_name }}</view>
           <view class="share">
             <view class="share_icon" @click="addCollect">
               <image
@@ -38,10 +38,10 @@
           </view>
         </view>
         <view class="subt">
-          <view class="subt-zc">职称：{{ model.professional }}</view>
-          <view class="subt-zw">职务：{{ model.position }}</view>
+          <view class="subt-zc">门诊：{{ model.department_name }}</view>
+          <!-- <view class="subt-zw">职务：{{ model.position }}</view> -->
         </view>
-        <view class="intr">擅长：{{ model.speciality }}</view>
+        <view class="intr">职称：{{ model.professional }}</view>
       </view>
     </view>
     <view class="wrap__con">
@@ -90,16 +90,14 @@
                 >
                   <view
                     v-if="item"
-                    :class="['con', { active: item.date == selectDate }]"
+                    :class="['con', { active: item.time == selectDate }]"
                   >
                     <view
                       class="count"
                       :style="{ color: item.is_exist == 1 ? '#0ec698' : '' }"
-                      >{{ item.day }}</view
+                      >{{ item.time | getDay }}</view
                     >
-                    <view class="status">{{
-                      item.is_exist == 1 ? '有' : '无'
-                    }}</view>
+                    <view class="status">{{ item | getSourceStatus }}</view>
                   </view>
                 </view>
               </view>
@@ -192,6 +190,7 @@ import { weekList, fillWeek } from '@/utils/week.js'
 export default {
   data() {
     return {
+      scheme_id: '',
       doctor_id: '',
       department_id: '',
       tabIndex: 0,
@@ -215,7 +214,25 @@ export default {
     }
   },
   components: { dhImage },
-
+  filters: {
+    getDay(val) {
+      return moment(val).format('DD')
+    },
+    getWeek(val) {
+      return weekList()[moment(val).isoWeekday() - 1]
+    },
+    getSourceStatus(item) {
+      var sourceStatus = ''
+      if (0 < item.num && item.num <= item.total_num) {
+        sourceStatus = '有'
+      } else if (item.total_num == 0) {
+        sourceStatus = '无'
+      } else {
+        sourceStatus = '满'
+      }
+      return sourceStatus
+    },
+  },
   computed: {
     ...mapState(['patientInfo']),
     dateStr() {
@@ -227,8 +244,9 @@ export default {
     },
   },
   onLoad() {
-    this.doctor_id = this.$Route.query.id
-    this.department_id = this.$Route.query.departmentid
+    this.scheme_id = this.$Route.query.scheme_id
+    this.doctor_id = this.$Route.query.doctor_id
+    this.department_id = this.$Route.query.department_id
     if (this.$Route.query.date) {
       this.selectDate = this.$Route.query.date
     } else {
@@ -248,11 +266,12 @@ export default {
       this.$http
         .post(this.API.SCHEME_LIST, {
           departmentid: this.department_id,
+          doctor_id: this.doctor_id,
         })
         .then((res) => {
           this.schemeList = fillWeek(res.data)
           if (this.selectDate == '') {
-            this.selectDate = res.data[0].date
+            this.selectDate = res.data.date
           }
           this.getList()
         })
@@ -270,9 +289,10 @@ export default {
       }
       this.postLock = true
       this.$http
-        .post(this.API.DOCTOR_DETAIL, {
-          id: this.doctor_id,
+        .post(this.API.SCHEME_DETAIL, {
+          department_id: this.department_id,
           date: this.selectDate,
+          doctor_id: this.doctor_id,
         })
         .then((res) => {
           this.postLock = false

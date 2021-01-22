@@ -70,7 +70,7 @@ export default {
         .post(this.API.PATINET_DETAIL, { idcard: this.$Route.query.idcard })
         .then((res) => {
           if (res.code == 20000) {
-            this.model = res.data[0]
+            this.model = res.data
             wxbarcode.barcode('barcode', this.model.patient_code, 610, 140)
             wxbarcode.qrcode('qrcode', this.model.patient_code, 400, 400)
           }

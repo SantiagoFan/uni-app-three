@@ -19,7 +19,11 @@
     </view>
     <view class="wrap__con">
       <view class="wrap__con-title bordertop">详细介绍</view>
-      <view class="wrap__con-intr" v-if="model.content" v-html="model.content"></view>
+      <view
+        class="wrap__con-intr"
+        v-if="model.content"
+        v-html="model.content"
+      ></view>
       <empty v-else></empty>
     </view>
   </view>
@@ -28,30 +32,30 @@
 export default {
   data() {
     return {
-      model: { name: "", professional: "", headimg: "", department_name: "" },
-    };
+      model: { name: '', professional: '', headimg: '', department_name: '' },
+    }
   },
   onShow() {
-    this.getInfo();
+    this.getInfo()
   },
   methods: {
     getInfo() {
       this.$http
         .post(this.API.DOCTOR_INFO, { id: this.$Route.query.id })
         .then((res) => {
-          this.model = res.data[0];
-        });
+          this.model = res.data
+        })
     },
   },
-};
+}
 </script>
 <style lang="scss" scoped>
-@import "@/assets/scss/mixin.scss";
+@import '@/assets/scss/mixin.scss';
 .wrap {
   &__user {
     display: flex;
     padding: 30rpx;
-    background: url("@/static/image/doctor_detail_img.jpg") no-repeat center
+    background: url('@/static/image/doctor_detail_img.jpg') no-repeat center
       bottom;
     background-size: 100%;
     .avatar {
