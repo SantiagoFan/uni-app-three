@@ -298,7 +298,7 @@
 			}
     },
     {
-      "path": "pages/medicalCardBind/medicalCardBind",
+      "path": "pages/medicalCard/medicalCardBind",
       "name":"medicalCardBind",
 			"style": {
         "navigationBarTitleText": "绑定就诊卡",
@@ -307,7 +307,7 @@
 			}
     },
     {
-      "path": "pages/medicalCardRegister/medicalCardRegister",
+      "path": "pages/medicalCard/medicalCardRegister",
       "name":"medicalCardRegister",
 			"style": {
         "navigationBarTitleText": "新建就诊卡",
@@ -316,7 +316,7 @@
 			}
     },
     {
-      "path": "pages/medicalCardLogin/medicalCardLogin",
+      "path": "pages/medicalCard/medicalCardLogin",
       "name":"medicalCardLogin",
 			"style": {
         "navigationBarTitleText": "绑定就诊卡",

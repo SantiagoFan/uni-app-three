@@ -1,21 +1,25 @@
 <template>
-  <view class="wrap" >
+  <view class="wrap">
     <picker mode="date" :value="date" @change="bindDateChange">
       <view class="wrap-date">
-        <view class="wrap-date__text">{{date}}</view>
+        <view class="wrap-date__text">{{ date }}</view>
         <view class="wrap-date__arrow">
           <text class="iconfont icon-right"></text>
         </view>
       </view>
     </picker>
-    <view v-if="model">
+    <view v-if="today_expend > 0">
       <view class="wrap-amount">
         <view class="wrap-amount__text">本日花费金额（元）</view>
-        <view class="wrap-amount__total">{{model.total_amount}}</view>
+        <view class="wrap-amount__total">{{ today_expend }}</view>
       </view>
       <view class="wrap-con">
         <view class="wrap-con__bg">
-          <image class="img" mode="widthFix" src="@/static/image/bill_border.jpg" />
+          <image
+            class="img"
+            mode="widthFix"
+            src="@/static/image/bill_border.jpg"
+          />
         </view>
         <view class="recipel">
           <view class="table-th">
@@ -25,11 +29,15 @@
             <view class="item">金额(元)</view>
           </view>
           <view class="table-con">
-            <view class="table-con__td" v-for="(item,index) in list" :key="index">
-              <view class="item">{{item.name}}</view>
-              <view class="item">{{item.price}}</view>
-              <view class="item">{{item.quantity}}</view>
-              <view class="item">{{item.amount}}</view>
+            <view
+              class="table-con__td"
+              v-for="(item, index) in list"
+              :key="index"
+            >
+              <view class="item">{{ item.item_name }}</view>
+              <view class="item">{{ item.price }}</view>
+              <view class="item">{{ item.quantity }}</view>
+              <view class="item">{{ item.amount }}</view>
             </view>
           </view>
         </view>
@@ -42,33 +50,48 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
   data() {
     return {
       list: [],
-      model: "",
-      date: ''
+      today_expend: '',
+      date: '',
     }
   },
-  onLoad(){
-    this.getDetail();
+  computed: {
+    ...mapState(['patientInfo']),
+  },
+  onLoad() {
+    this.getDetail()
   },
   methods: {
-    getDetail(){
-      var nowDate = new Date();
-      var date = nowDate.getFullYear()+'-'+nowDate.getMonth()+1+'-'+nowDate.getDate();
-      this.date = this.date==""?date:this.date;
-      this.$http.post(this.API.LIVE_DAILY_ORDER,{patient_code:this.$Route.query.patient_code,date:this.date}).then(res=>{
-        this.list = res.data;
-        this.model = res.model;
-      })
+    getDetail() {
+      var nowDate = new Date()
+      var date =
+        nowDate.getFullYear() +
+        '-' +
+        nowDate.getMonth() +
+        1 +
+        '-' +
+        nowDate.getDate()
+      this.date = this.date == '' ? date : this.date
+      this.$http
+        .post(this.API.LIVE_DAILY_ORDER, {
+          patient_code: this.patientInfo.patient_code,
+          date: this.date,
+        })
+        .then((res) => {
+          this.list = res.data[0].item
+          this.today_expend = res.data[0].today_expend
+        })
     },
     // 日期选择
-    bindDateChange (e) {
-      this.date = e.detail.value;
-      this.getDetail();
-    }
-  }
+    bindDateChange(e) {
+      this.date = e.detail.value
+      this.getDetail()
+    },
+  },
 }
 </script>
 
@@ -128,7 +151,7 @@ export default {
       background: #ffffff;
       margin-top: -15rpx;
       border-radius: 10rpx;
-      box-shadow: 0 10rpx 15rpx rgba($color: #2a2b2b, $alpha: .14);
+      box-shadow: 0 10rpx 15rpx rgba($color: #2a2b2b, $alpha: 0.14);
       .table-th {
         display: grid;
         grid-template-columns: 230rpx repeat(3, 1fr);
@@ -168,10 +191,9 @@ export default {
     }
   }
 }
-.nodata{
+.nodata {
   padding: 100rpx;
   text-align: center;
   color: #999999;
 }
-
 </style>

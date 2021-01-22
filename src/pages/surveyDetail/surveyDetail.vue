@@ -30,13 +30,12 @@
               :placeholder="'请在此输入（最多' + item.description + '字）'"
             />
           </view>
-          <view class="radio-list" v-else>
+          <view class="radio-list" v-else-if="item.type == 2">
             <u-radio-group
               v-model="item.answer"
               :wrap="true"
               :size="35"
               :icon-size="24"
-              v-if="item.type == 2"
             >
               <u-radio
                 v-for="(obj, index1) in item.editredios"
@@ -47,7 +46,9 @@
                 >{{ obj.name }}</u-radio
               >
             </u-radio-group>
-            <u-checkbox-group v-else @change="checkboxGroupChange">
+          </view>
+          <view class="radio-list" v-else>
+            <u-checkbox-group @change="checkboxGroupChange">
               <u-checkbox
                 v-model="obj.checked"
                 v-for="(obj, index1) in item.editredios"

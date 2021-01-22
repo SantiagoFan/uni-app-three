@@ -4,19 +4,28 @@
       <view class="item">
         <view class="info">
           <view class="title">
-            <view class="name">贾铭</view>
+            <view class="name">{{ patientInfo.name }}</view>
           </view>
-          <view class="code">就诊卡：0000514984444</view>
+          <view class="code">就诊卡：{{ patientInfo.patient_code }}</view>
         </view>
         <view class="switch" @click="handleCheck">切换就诊人</view>
       </view>
     </view>
     <view class="wrap-list">
-      <view class="item" v-for="item in 2" :key="item" @click="handleClickDetail">
-        <view class="title">血常规</view>
-        <view class="date">2020-07-04  14:44:14</view>
-        <view class="status">
-          <image class="img" mode="widthFix" src="@/static/image/check_report_icon.jpg" />
+      <view
+        class="item"
+        v-for="(item, index) in list"
+        :key="index"
+        @click="handleClickDetail(item.report_code)"
+      >
+        <view class="title">{{ item.report_name }}</view>
+        <view class="date">{{ item.report_time }}</view>
+        <view class="status" v-if="item.stauts == 1">
+          <image
+            class="img"
+            mode="widthFix"
+            src="@/static/image/check_report_icon.jpg"
+          />
         </view>
       </view>
     </view>
@@ -27,21 +36,43 @@
 
 <script>
 import CheckPopup from '@/components/common/CheckPopup'
+import { mapState } from 'vuex'
 export default {
+  data() {
+    return {
+      list: [],
+    }
+  },
+  onLoad() {
+    this.getList()
+  },
   methods: {
-    handleClickDetail() {
-      uni.navigateTo({
-        url: '/pages/reportDownload/reportDownload'
+    handleClickDetail(report_code) {
+      this.$Router.push({
+        name: 'reportDownload',
+        query: { report_code: report_code },
       })
     },
     // 切换就诊人
     handleCheck() {
       this.$refs.popup.handleChoose()
-    }
+    },
+    getList() {
+      this.$http
+        .post(this.API.REPORT_LIST, {
+          patient_code: this.patientInfo.patient_code,
+        })
+        .then((res) => {
+          this.list = res.data
+        })
+    },
+  },
+  computed: {
+    ...mapState(['patientInfo']),
   },
   components: {
-    CheckPopup
-  }
+    CheckPopup,
+  },
 }
 </script>
 
@@ -124,8 +155,7 @@ export default {
           display: block;
         }
       }
-    }  
+    }
   }
 }
-
 </style>

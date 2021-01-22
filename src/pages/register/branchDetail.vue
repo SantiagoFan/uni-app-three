@@ -39,17 +39,20 @@
             :key="index"
             @click="changeScheme(item)"
           >
-            <view v-if="!isOpen" class="week">{{ item.date | getWeek }}</view>
+            <view v-if="!isOpen" class="week">{{ item.time | getWeek }}</view>
             <view
               v-if="item"
-              :class="['con', { active: item.date == selectDate }]"
+              :class="['con', { active: item.time == selectDate }]"
             >
               <view
                 class="count"
-                :style="{ color: item.is_exist == 1 ? '#0ec698' : '' }"
-                >{{ item.date | getDay }}</view
+                :style="{
+                  color:
+                    0 < item.num && item.num >= item.total_num ? '#0ec698' : '',
+                }"
+                >{{ item.time | getDay }}</view
               >
-              <view class="status">{{ item.is_exist == 1 ? "有" : "无" }}</view>
+              <view class="status">{{ item | getSourceStatus }}</view>
             </view>
           </view>
         </view>
@@ -76,7 +79,7 @@
           </view>
           <view class="cell__info">
             <view class="title">
-              <view class="name">{{ item.name }}</view>
+              <view class="name">{{ item.doctor_name }}</view>
               <view class="right">
                 <view class="sur" v-if="item.is_exist == 1"
                   >余号:{{ item.least_source }}</view
@@ -88,7 +91,7 @@
               </view>
             </view>
             <view class="post">{{ item.professional }}</view>
-            <view class="content">{{ item.speciality }}</view>
+            <view class="content">{{ item.department_name }}</view>
           </view>
         </view>
         <empty v-if="doctorList.length === 0"></empty>
@@ -110,10 +113,10 @@
           </view>
           <view class="cell__info">
             <view class="title">
-              <view class="name">{{ item.name }}</view>
+              <view class="name">{{ item.doctor_name }}</view>
             </view>
             <view class="post">{{ item.professional }}</view>
-            <view class="content">{{ item.speciality }}</view>
+            <view class="content">{{ item.department_name }}</view>
           </view>
         </view>
         <empty v-if="all_doctor.length === 0"></empty>
@@ -123,9 +126,9 @@
 </template>
 
 <script>
-import moment from "moment";
-import dhImage from "@/components/dh-image/dh-image.vue";
-import { weekList, fillWeek } from "@/utils/week.js";
+import moment from 'moment'
+import dhImage from '@/components/dh-image/dh-image.vue'
+import { weekList, fillWeek } from '@/utils/week.js'
 export default {
   data() {
     return {
@@ -134,65 +137,76 @@ export default {
       isOpen: false, // 是否展开日期
       doctorList: [],
       schemeList: [],
-      selectDate: "",
+      selectDate: '',
       week: weekList(),
       open_scheme_list: [],
       postLock: false,
-      department_id: "",
+      department_id: '',
       all_doctor: [],
-    };
+    }
   },
   components: { dhImage },
   onLoad() {
-    this.department_id = this.$Route.query.departmentid;
+    this.department_id = this.$Route.query.departmentid
     uni.setNavigationBarTitle({
       title: this.$Route.query.departmentName,
-    });
-    this.getSchemeList();
-    this.getDocListByDepart();
+    })
+    this.getSchemeList()
+    this.getDocListByDepart()
   },
   filters: {
     getDay(val) {
-      return moment(val).format("DD");
+      return moment(val).format('DD')
     },
     getWeek(val) {
-      return weekList()[moment(val).isoWeekday() - 1];
+      return weekList()[moment(val).isoWeekday() - 1]
+    },
+    getSourceStatus(item) {
+      var sourceStatus = ''
+      if (0 < item.num && item.num <= item.total_num) {
+        sourceStatus = '有'
+      } else if (item.total_num == 0) {
+        sourceStatus = '无'
+      } else {
+        sourceStatus = '满'
+      }
+      return sourceStatus
     },
   },
   methods: {
     handleTabItem(index) {
-      this.tabIndex = index;
+      this.tabIndex = index
     },
     getDocListByDepart() {
       if (this.all_doctor.length == 0) {
         this.$http
           .post(this.API.DOCTOR_INFO_LIST, { departmentid: this.department_id })
           .then((res) => {
-            this.all_doctor = res.data;
-          });
+            this.all_doctor = res.data
+          })
       }
     },
     getDoctorList(date) {
       var data = {
         departmentid: this.department_id,
         date: this.selectDate,
-      };
+      }
 
       if (this.postLock) {
-        return;
+        return
       }
-      this.postLock = true;
+      this.postLock = true
 
       this.$http.post(this.API.DOCTOR_LIST, data).then((res) => {
-        this.doctorList = res.data;
-        this.postLock = false;
-      });
+        this.doctorList = res.data
+        this.postLock = false
+      })
     },
     goDetail(id, date) {
       this.$Router.push({
-        name: "doctorDetail",
+        name: 'doctorDetail',
         params: { id: id, date: date },
-      });
+      })
     },
     getSchemeList() {
       this.$http
@@ -200,40 +214,40 @@ export default {
           departmentid: this.department_id,
         })
         .then((res) => {
-          this.origin_scheme = JSON.parse(JSON.stringify(res.data));
-          this.schemeList = res.data;
+          this.origin_scheme = JSON.parse(JSON.stringify(res.data))
+          this.schemeList = res.data
           if (res.data.length > 0) {
-            this.selectDate = res.data[0].date;
+            this.selectDate = res.data[0].time
           }
-          this.getDoctorList();
-        });
+          this.getDoctorList()
+        })
     },
     changeScheme(item) {
-      if (!this.postLock && item && item.date != this.selectDate) {
-        this.selectDate = item.date;
-        this.getDoctorList();
+      if (!this.postLock && item && item.time != this.selectDate) {
+        this.selectDate = item.time
+        this.getDoctorList()
       }
     },
     changeList(arr) {
-      var newArray = arr.filter((value) => Object.keys(value).length !== 0);
-      return newArray;
+      var newArray = arr.filter((value) => Object.keys(value).length !== 0)
+      return newArray
     },
     openDate() {
-      this.isOpen = !this.isOpen;
-      this.schemeList = [];
-      let data = JSON.parse(JSON.stringify(this.origin_scheme));
+      this.isOpen = !this.isOpen
+      this.schemeList = []
+      let data = JSON.parse(JSON.stringify(this.origin_scheme))
       if (this.isOpen) {
-        this.schemeList = fillWeek(data);
+        this.schemeList = fillWeek(data)
       } else {
-        this.schemeList = data;
+        this.schemeList = data
       }
     },
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>
-@import "@/assets/scss/mixin.scss";
+@import '@/assets/scss/mixin.scss';
 .wrap {
   display: flex;
   flex-direction: column;

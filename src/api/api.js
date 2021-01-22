@@ -42,4 +42,6 @@ export default {
   REGISTER_RECORD_LIST: '/register/getRecordList', //挂号记录
   SEARCH: '/search/search', //搜索
   LIVE_PAY_RECORD: '/live_patient/getLivePayRecord',//住院缴费记录
+  REPORT_LIST: '/report/getReportList', //检验检查报告
+  REPORT_DETAIL: '/report/getDetail', //检验检查报告详情
 }

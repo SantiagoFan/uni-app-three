@@ -87,7 +87,7 @@ export default {
               icon: 'none',
             })
             setTimeout(() => {
-              this.$Router.replace('/pages/patientAdd/patientAdd')
+              this.$Router.replace({ name: 'patientAdd' })
             }, 1000)
           }
         })

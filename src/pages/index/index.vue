@@ -275,10 +275,10 @@ export default {
         })
     },
     addPatient() {
-      this.$Router.push('/pages/medicalCardLogin/medicalCardLogin')
+      this.$Router.push({ name: 'medicalCardLogin' })
     },
     managePatient() {
-      this.$Router.push('/pages/patientAdd/patientAdd')
+      this.$Router.push({ name: 'patientAdd' })
     },
   },
 }
