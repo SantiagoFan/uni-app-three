@@ -2,13 +2,18 @@
   <view class="patient">
     <view class="patient-m">
       <view class="patient-m__list">
-        <view class="item" v-for="(item,index) in list" :key="index" @click="handleClickDetail(item.id)">
+        <view
+          class="item"
+          v-for="(item, index) in list"
+          :key="index"
+          @click="handleClickDetail(item.live_code)"
+        >
           <view class="info">
             <view class="title">
-              <view class="name">{{item.name}}</view>
+              <view class="name">{{ item.name }}</view>
               <view class="tag" v-if="item.is_default">默认</view>
             </view>
-            <view class="code">住院号：{{item.live_code}}</view>
+            <view class="code">住院号：{{ item.live_code }}</view>
           </view>
           <view class="arrow">
             <text class="iconfont icon-arrowb"></text>
@@ -20,8 +25,8 @@
           <text class="iconfont icon-jiahao"></text>
         </view>
         <view class="patient-m__add-info">
-          <view class="tit" >添加住院人</view>
-          <view class="sub">还可添加{{count}}人</view>
+          <view class="tit">添加住院人</view>
+          <view class="sub">还可添加{{ count }}人</view>
         </view>
         <view class="patient-m__add-arrow">
           <text class="iconfont icon-arrowb"></text>
@@ -36,26 +41,29 @@ export default {
   data() {
     return {
       list: [],
-      count: 0
+      count: 0,
     }
   },
-  onShow(){
-    this.getList();
+  onShow() {
+    this.getList()
   },
   methods: {
-    getList(){
-      this.$http.post(this.API.LIVE_PAATIENT_LIST).then(res=>{
-        this.list = res.data;
-        this.count = res.count;
+    getList() {
+      this.$http.post(this.API.LIVE_PAATIENT_LIST).then((res) => {
+        this.list = res.data
+        this.count = res.count
       })
     },
-    
-    addLivePatient(){
-      this.$Router.push("/pages/myResidenAdd/myResidenAdd");
+
+    addLivePatient() {
+      this.$Router.push({ name: 'myResidenAdd' })
     },
-    handleClickDetail(id) {
-      this.$Router.push({path:"/pages/myResidentDetail/myResidentDetail",query:{id:id}});
-    }
+    handleClickDetail(live_code) {
+      this.$Router.push({
+        name: 'myResidentDetail',
+        params: { live_code: live_code },
+      })
+    },
   },
 }
 </script>
@@ -73,7 +81,8 @@ export default {
         margin-bottom: 20rpx;
         color: #ffffff;
         border-radius: 10rpx;
-        background: #0ec698 url('@/static/image/residents_item_bg.jpg') no-repeat right center;
+        background: #0ec698 url('@/static/image/residents_item_bg.jpg')
+          no-repeat right center;
         background-size: contain;
         &:last-child {
           margin-bottom: 0;
@@ -95,8 +104,8 @@ export default {
               line-height: 32rpx;
               font-size: 20rpx;
               padding: 0 10rpx;
-              color: rgba($color: #ffffff, $alpha: .65);
-              border: 1rpx solid rgba($color: #ffffff, $alpha: .65);
+              color: rgba($color: #ffffff, $alpha: 0.65);
+              border: 1rpx solid rgba($color: #ffffff, $alpha: 0.65);
               border-radius: 8rpx;
             }
           }

@@ -2,18 +2,25 @@
   <view class="record">
     <view class="record-m">
       <view class="record-m__list">
-        <view class="item" v-for="(item,index) in list" :key="index" @click="handleItem">
-          <view class="icon"> 
+        <view
+          class="item"
+          v-for="(item, index) in list"
+          :key="index"
+          @click="handleItem(item.innner_trade_no)"
+        >
+          <view class="icon">
             <text class="iconfont icon-duihao"></text>
           </view>
           <view class="info">
             <view class="title">
-              <view class="status">缴费{{item.pay_status==1?'成功':'失败'}}</view>
-              <view class="price">¥{{item.pay_fee}}</view>
+              <view class="status"
+                >缴费{{ item.pay_status == 1 ? '成功' : '失败' }}</view
+              >
+              <view class="price">¥{{ item.pay_fee }}</view>
             </view>
             <view class="subt">
-              <view class="name">{{item.patient_name}}</view>
-              <view class="date">2020-07-18  10:30:00</view>
+              <view class="name">{{ item.patient_name }}</view>
+              <view class="date">2020-07-18 10:30:00</view>
             </view>
           </view>
         </view>
@@ -26,21 +33,24 @@
 export default {
   data() {
     return {
-      list: []
+      list: [],
     }
   },
   onLoad() {
     this.getList()
   },
   methods: {
-    getList(){
-      this.$http.post(this.API.LIVE_PAY_RECORD).then(res=>{
+    getList() {
+      this.$http.post(this.API.LIVE_PAY_RECORD).then((res) => {
         this.list = res.data
       })
     },
-    handleItem() {
-      this.$Router.push({name:"paymentDetail"})
-    }
+    handleItem(inner_trade_no) {
+      this.$Router.push({
+        name: 'paymentDetail',
+        params: { inner_trade_no: inner_trade_no },
+      })
+    },
   },
 }
 </script>
@@ -81,7 +91,7 @@ export default {
               color: #ff7800;
             }
           }
-           .subt {
+          .subt {
             display: flex;
             align-items: center;
             justify-content: space-between;

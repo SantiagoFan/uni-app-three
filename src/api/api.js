@@ -17,7 +17,7 @@ export default {
   DEPARTMENT_CATEGORY: '/department_category/getList', //科室分类列表
   DEPARTMENT_LIST: '/department/getListAndCate', //科室列表
   COLLECT_DOCTOR: '/collect_doctor/getList', //收藏医生
-  DOCTOR_LIST: '/doctor/getListByDepartmentId', //根据科室id获取医生列表
+  DOCTOR_LIST: '/scheme/getDoctorByScheme', //根据科室获取排班的医生
   DOCTOR_DETAIL: '/doctor/getDetailById', //医生详情
   ADD_COLLECT: '/collect_doctor/addCollect', //添加收藏
   SCHEME_LIST: '/scheme/getSchemeList', //根据科室获取排班
@@ -41,7 +41,8 @@ export default {
   SAVE_ANSWER: '/questionnaire/saveAnswer', //保存答案
   REGISTER_RECORD_LIST: '/register/getRecordList', //挂号记录
   SEARCH: '/search/search', //搜索
-  LIVE_PAY_RECORD: '/live_patient/getLivePayRecord',//住院缴费记录
+  LIVE_PAY_RECORD: '/live_patient/getLivePayRecord', //住院缴费记录
   REPORT_LIST: '/report/getReportList', //检验检查报告
   REPORT_DETAIL: '/report/getDetail', //检验检查报告详情
+  LIVE_PAY_RECORD_DETAIL: '/live_patient/getLivePayRecordDetail', //住院缴费记录详情
 }

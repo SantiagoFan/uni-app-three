@@ -189,10 +189,13 @@ export default {
   },
   methods: {
     // 点击详情
-    handleClickDetail({ id, name }) {
+    handleClickDetail({ department_id, department_name }) {
       this.$Router.push({
         name: 'branchDetail',
-        params: { departmentid: id, departmentName: name },
+        params: {
+          departmentid: department_id,
+          departmentName: department_name,
+        },
       })
     },
     change(e) {

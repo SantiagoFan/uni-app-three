@@ -2,8 +2,8 @@
   <div class="wrap">
     <view class="wrap-info">
       <view class="wrap-info__user">
-        <view class="wrap-info__user-name">{{model.patient_name}}</view>
-        <view class="wrap-info__user-code">住院号：{{model.live_code}}</view>
+        <view class="wrap-info__user-name">{{ model.patient_name }}</view>
+        <view class="wrap-info__user-code">住院号：{{ model.live_code }}</view>
       </view>
       <view class="wrap-info__sec">
         <view class="art">
@@ -11,7 +11,7 @@
           <view class="art-list">
             <view class="cell">
               <view class="label">住院科室</view>
-              <view class="text">{{model.department_name}}</view>
+              <view class="text">{{ model.department_name }}</view>
             </view>
           </view>
         </view>
@@ -20,15 +20,15 @@
           <view class="art-list">
             <view class="cell">
               <view class="label">押金总金额</view>
-              <view class="text">{{model.total_amount}}</view>
+              <view class="text">{{ model.total_amount }}</view>
             </view>
             <view class="cell">
               <view class="label">住院总消费</view>
-              <view class="text">{{model.consume_amount}}</view>
+              <view class="text">{{ model.consume_amount }}</view>
             </view>
             <view class="cell">
               <view class="label">剩余押金</view>
-              <view class="text">{{model.balance}}</view>
+              <view class="text">{{ model.balance }}</view>
             </view>
           </view>
         </view>
@@ -45,40 +45,49 @@
 </template>
 
 <script>
-  export default {
-    data(){
-      return{
-        model: ""
-      }
-    },
-    onLoad(){
-      this.getDetail();
-    },
-    methods:{
-      getDetail(){
-        this.$http.post(this.API.LIVE_PATIENT_DETAIL,{id:this.$Route.query.id}).then(res=>{
-          this.model = res.data;
+export default {
+  data() {
+    return {
+      model: '',
+    }
+  },
+  onLoad() {
+    this.getDetail()
+  },
+  methods: {
+    getDetail() {
+      this.$http
+        .post(this.API.LIVE_PATIENT_DETAIL, {
+          live_code: this.$Route.query.live_code,
         })
-      },
-      goDetail(){
-        this.$Router.push({path:'/pages/myResidentBill/myResidentBill',query:{patient_code:this.model.patient_code}});
-      },
-      deleteLivePatient(){
-        this.$http.post(this.API.LIVE_PATIENT_DELETE,{live_code:this.model.live_code}).then(res=>{
+        .then((res) => {
+          this.model = res.data
+        })
+    },
+    goDetail() {
+      this.$Router.push({
+        name: 'myResidentBill',
+        params: { patient_code: this.model.patient_code },
+      })
+    },
+    deleteLivePatient() {
+      this.$http
+        .post(this.API.LIVE_PATIENT_DELETE, { live_code: this.model.live_code })
+        .then((res) => {
           uni.showToast({
-              title: res.message,
-              duration: 2000,
-              icon:'none',
-            });
-          if(res.code==20000){
-            setTimeout(()=>{
-              this.$Router.replace("/pages/myResidents/myResidents");
-            },1000)
+            title: res.message,
+            duration: 2000,
+            icon: 'none',
+          })
+          if (res.code == 20000) {
+            setTimeout(() => {
+              this.$Router.replace('/pages/myResidents/myResidents')
+            }, 1000)
           }
         })
-      }
-    }
-  }
+    },
+  },
+}
 </script>
 
 <style lang="scss" scoped>
@@ -88,7 +97,7 @@
     padding: 0 30rpx;
     background: #ffffff;
     border-radius: 10rpx;
-    box-shadow: 0 0 15rpx rgba($color: #2a2b2b, $alpha: .15);
+    box-shadow: 0 0 15rpx rgba($color: #2a2b2b, $alpha: 0.15);
     &__user {
       padding: 30rpx 0;
       border-bottom: 2rpx dashed #eaeaea;

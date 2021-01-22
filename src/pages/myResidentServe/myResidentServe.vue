@@ -1,7 +1,7 @@
 <template>
   <view class="wrap">
     <view class="wrap-user">
-      <view class="no-residen" v-if="!info"  @click="addResident">
+      <view class="no-residen" v-if="!info" @click="addResident">
         <view class="no-residen__text">初次使用，请添加住院人</view>
       </view>
       <view class="wrap-user__list" v-else>
@@ -61,18 +61,18 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState } from 'vuex'
 export default {
   data() {
     return {
-      info: "",
-    };
+      info: '',
+    }
   },
   computed: {
-    ...mapState(["patientInfo"]),
+    ...mapState(['patientInfo']),
   },
   onShow() {
-    this.getDefaultPatient();
+    this.getDefaultPatient()
   },
   methods: {
     getDefaultPatient() {
@@ -81,20 +81,20 @@ export default {
           patient_code: this.patientInfo.patient_code,
         })
         .then((res) => {
-          this.info = res.data;
-        });
+          this.info = res.data
+        })
     },
     addResident() {
-      this.$Router.push("/pages/myResidenAdd/myResidenAdd");
+      this.$Router.push({ name: 'myResidenAdd' })
     },
     goDetail() {
       this.$Router.push({
-        path: "/pages/myResidentBill/myResidentBill",
-        query: { patient_code: this.info.patient_code },
-      });
+        name: 'myResidentBill',
+        params: { patient_code: this.info.patient_code },
+      })
     },
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>
@@ -125,7 +125,7 @@ export default {
         padding: 0 30rpx;
         color: #ffffff;
         border-radius: 10rpx;
-        background: #0ec698 url("@/static/image/residents_item_bg.jpg")
+        background: #0ec698 url('@/static/image/residents_item_bg.jpg')
           no-repeat right center;
         background-size: contain;
         .info {

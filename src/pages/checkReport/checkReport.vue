@@ -50,7 +50,7 @@ export default {
     handleClickDetail(report_code) {
       this.$Router.push({
         name: 'reportDownload',
-        query: { report_code: report_code },
+        params: { report_code: report_code },
       })
     },
     // 切换就诊人

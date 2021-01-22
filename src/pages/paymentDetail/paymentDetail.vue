@@ -7,11 +7,13 @@
         </view>
         <view class="text">住院押金补缴成功</view>
       </view>
-      <view class="wrap-status__msg">您的押金补缴成功，如需要打印发票和押金条，请到住院收费窗口凭此缴费记录打印。</view>
+      <view class="wrap-status__msg"
+        >您的押金补缴成功，如需要打印发票和押金条，请到住院收费窗口凭此缴费记录打印。</view
+      >
     </view>
     <view class="wrap-info">
       <view class="wrap-info__box">
-        <view :class="['bt', {'bt-show': payDetailShow}]" @click="handleBt">
+        <view :class="['bt', { 'bt-show': payDetailShow }]" @click="handleBt">
           <view class="bt-text">缴费详情</view>
           <view class="bt-arrow">
             <text class="iconfont icon-right"></text>
@@ -52,7 +54,7 @@
           </view>
           <view class="cell">
             <view class="cell-label">支付时间</view>
-            <view class="cell-con">2020-07-04  14:44:14</view>
+            <view class="cell-con">2020-07-04 14:44:14</view>
           </view>
         </view>
       </view>
@@ -65,14 +67,24 @@ export default {
   data() {
     return {
       codeIndex: 0,
-      payDetailShow: true
+      payDetailShow: true,
     }
+  },
+  onLoad() {
+    this.getDetail()
   },
   methods: {
     // 点击缴费详情
     handleBt() {
       this.payDetailShow = !this.payDetailShow
-    }
+    },
+    getDetail() {
+      this.$http
+        .post(this.API.LIVE_PAY_RECORD_DETAIL, {
+          inner_trade_no: this.$Route.query.inner_trade_no,
+        })
+        .then((res) => {})
+    },
   },
 }
 </script>
@@ -132,7 +144,7 @@ export default {
         }
         &-arrow {
           color: #5ecb81;
-          transition: all .5s;
+          transition: all 0.5s;
         }
       }
       .list {
