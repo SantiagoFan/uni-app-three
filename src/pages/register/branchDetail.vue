@@ -162,10 +162,10 @@ export default {
     },
     getSourceStatus(item) {
       var sourceStatus = ''
-      if (0 < item.num && item.num <= item.total_num) {
-        sourceStatus = '有'
-      } else if (item.total_num == 0) {
+      if (item.total_num == 0) {
         sourceStatus = '无'
+      } else if (0 < item.num <= item.total_num) {
+        sourceStatus = '有'
       } else {
         sourceStatus = '满'
       }
@@ -185,7 +185,7 @@ export default {
           })
       }
     },
-    getDoctorList(date) {
+    getDoctorList() {
       var data = {
         departmentid: this.department_id,
         date: this.selectDate,
@@ -205,7 +205,6 @@ export default {
       this.$Router.push({
         name: 'doctorDetail',
         params: {
-          scheme_id: item.scheme_id,
           date: date,
           doctor_id: item.doctor_id,
           department_id: item.department_id,

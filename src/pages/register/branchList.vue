@@ -71,7 +71,7 @@
               <view class="item-container">
                 <view class="doctor-s" v-if="current == -1">
                   <view
-                    @click="goDetail(obj.id)"
+                    @click="goDetail(obj)"
                     class="doctor-wrap"
                     v-for="(obj, index1) in collectOrRegisterList"
                     :key="index1"
@@ -167,6 +167,7 @@
 
 <script>
 import dhImage from '@/components/dh-image/dh-image.vue'
+import { mapState } from 'vuex'
 export default {
   data() {
     return {
@@ -181,6 +182,9 @@ export default {
       collectOrRegisterList: [],
       keyword: '',
     }
+  },
+  computed: {
+    ...mapState(['patientInfo']),
   },
   components: { dhImage },
   onLoad(options = {}) {
@@ -273,12 +277,16 @@ export default {
       })
     },
     getHistoryList() {
-      this.$http.post(this.API.REGISTER_HISTORY).then((res) => {
-        this.collectOrRegisterList = res.data
-        if (this.collectOrRegisterList.length > 0) {
-          this.current = -1
-        }
-      })
+      this.$http
+        .post(this.API.REGISTER_HISTORY, {
+          patient_code: this.patientInfo.patient_code,
+        })
+        .then((res) => {
+          this.collectOrRegisterList = res.data
+          if (this.collectOrRegisterList.length > 0) {
+            this.current = -1
+          }
+        })
     },
     search() {
       if (this.keyword != '') {
@@ -288,10 +296,10 @@ export default {
         })
       }
     },
-    goDetail(id) {
+    goDetail(obj) {
       this.$Router.push({
         name: 'doctorDetail',
-        params: { id: id },
+        params: { doctor_id: obj.doctor_id, department_id: obj.department_id },
       })
     },
   },

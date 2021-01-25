@@ -28,6 +28,7 @@
           />
         </view>
       </view>
+      <empty></empty>
     </view>
     <!-- 弹出层 -->
     <check-popup ref="popup" />
@@ -37,6 +38,7 @@
 <script>
 import CheckPopup from '@/components/common/CheckPopup'
 import { mapState } from 'vuex'
+import Empty from '../../components/empty/empty.vue'
 export default {
   data() {
     return {
@@ -73,6 +75,8 @@ export default {
   components: {
     CheckPopup,
   },
+
+  Empty,
 }
 </script>
 

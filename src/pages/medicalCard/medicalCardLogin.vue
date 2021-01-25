@@ -22,14 +22,14 @@
 
 <script>
 export default {
-  methods:{
-    goAdd(){
-      this.$Router.push({name:'medicalCardRegister'})
+  methods: {
+    goAdd() {
+      this.$Router.replace({ name: 'medicalCardRegister' })
     },
-    goBind(){
-      this.$Router.push({name:'medicalCardBind'})
-    }
-  }
+    goBind() {
+      this.$Router.push({ name: 'medicalCardBind' })
+    },
+  },
 }
 </script>
 

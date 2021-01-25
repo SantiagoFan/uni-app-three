@@ -104,17 +104,17 @@
             </view>
             <view class="list">
               <view
-                :class="['item', item.has_source == 0 ? '' : 'item-active']"
+                :class="['item', getHasSource(item) ? '' : 'item-active']"
                 v-for="(item, index) in list"
                 :key="index"
                 @click="goRegister(index)"
               >
-                <view class="date">{{ item.time }}</view>
-                <view class="price" v-if="item.has_source == 0"
+                <view class="date">{{ getTime(item.time) }}</view>
+                <view class="price" v-if="getHasSource(item)"
                   >¥{{ item.price }}</view
                 >
                 <view class="price" v-else>已无号</view>
-                <view class="arrow" v-if="item.has_source == 0">
+                <view class="arrow" v-if="getHasSource(item)">
                   <text class="iconfont icon-arrowb"></text>
                 </view>
               </view>
@@ -136,12 +136,17 @@
         <view class="order-wrap__info">
           <view class="order-wrap__info-user">
             <view class="avatar">
-              <image class="img" mode="aspectFill" :src="model.headimg" />
+              <dh-image
+                class="img"
+                mode="aspectFill"
+                :src="model.headimg"
+                errorSrc="doctor.jpg"
+              ></dh-image>
             </view>
             <view class="info">
               <view class="info-cell">
                 <view class="info-cell__label">医师：</view>
-                <view class="info-cell__text">{{ model.name }}</view>
+                <view class="info-cell__text">{{ model.doctor_name }}</view>
               </view>
               <view class="info-cell">
                 <view class="info-cell__label">科室：</view>
@@ -149,12 +154,13 @@
               </view>
               <view class="info-cell">
                 <view class="info-cell__label">费用：</view>
-                <view class="info-cell__text">{{ model.price }}</view>
+                <view class="info-cell__text">{{ price }}</view>
               </view>
               <view class="info-cell">
                 <view class="info-cell__label">时段：</view>
                 <view class="info-cell__text"
-                  >{{ model.date }} {{ model.week }} {{ timeStatus }} <br />
+                  >{{ dateStr }} {{ timeStatus == 1 ? '上午' : '下午' }}
+                  <br />
                   {{ time }}</view
                 >
               </view>
@@ -164,9 +170,10 @@
             <view class="bt">请点击下方加号添加就诊人</view>
             <view class="list">
               <view
-                class="item"
+                :class="['item', { active: patient_code == item.patient_code }]"
                 v-for="(item, index) in patientList"
                 :key="index"
+                @click="changePatient(index)"
                 >{{ getName(item.name) }}</view
               >
               <view class="item-add" @click="addPatient">
@@ -190,17 +197,15 @@ import { weekList, fillWeek } from '@/utils/week.js'
 export default {
   data() {
     return {
-      scheme_id: '',
       doctor_id: '',
       department_id: '',
       tabIndex: 0,
       orderPopupStatus: false,
       model: {
         headimg: '',
-        name: '',
-        position: '',
+        doctor_name: '',
+        department_name: '',
         professional: '',
-        speciality: '',
       },
       list: [],
       time: '',
@@ -211,28 +216,17 @@ export default {
       week: weekList(),
       selectDate: '',
       postLock: false,
+      hasSource: 0,
+      price: 0,
+      patient_code: 0,
+      count: 0, //可添加的就诊人数
+      schemeIndex: 0,
+      scheme: [],
+      patient_name: '',
     }
   },
   components: { dhImage },
-  filters: {
-    getDay(val) {
-      return moment(val).format('DD')
-    },
-    getWeek(val) {
-      return weekList()[moment(val).isoWeekday() - 1]
-    },
-    getSourceStatus(item) {
-      var sourceStatus = ''
-      if (0 < item.num && item.num <= item.total_num) {
-        sourceStatus = '有'
-      } else if (item.total_num == 0) {
-        sourceStatus = '无'
-      } else {
-        sourceStatus = '满'
-      }
-      return sourceStatus
-    },
-  },
+
   computed: {
     ...mapState(['patientInfo']),
     dateStr() {
@@ -243,8 +237,12 @@ export default {
       )
     },
   },
+  onShow() {
+    this.getPatientList()
+  },
   onLoad() {
-    this.scheme_id = this.$Route.query.scheme_id
+    this.patient_code = this.patientInfo.patient_code
+    this.patient_name = this.patientInfo.name
     this.doctor_id = this.$Route.query.doctor_id
     this.department_id = this.$Route.query.department_id
     if (this.$Route.query.date) {
@@ -254,8 +252,26 @@ export default {
       this.isShow = true
     }
     this.getDetail()
-    this.getPatientList()
     this.getSchemeList()
+  },
+  filters: {
+    getDay(val) {
+      return moment(val).format('DD')
+    },
+    getWeek(val) {
+      return weekList()[moment(val).isoWeekday() - 1]
+    },
+    getSourceStatus(item) {
+      var sourceStatus = ''
+      if (item.total_num == 0) {
+        sourceStatus = '无'
+      } else if (0 < item.num <= item.total_num) {
+        sourceStatus = '有'
+      } else {
+        sourceStatus = '满'
+      }
+      return sourceStatus
+    },
   },
   methods: {
     // 修改tab 索引
@@ -265,6 +281,7 @@ export default {
     getSchemeList() {
       this.$http
         .post(this.API.SCHEME_LIST, {
+          date: this.selectDate,
           departmentid: this.department_id,
           doctor_id: this.doctor_id,
         })
@@ -297,6 +314,7 @@ export default {
         .then((res) => {
           this.postLock = false
           this.list = res.data
+          this.scheme = res.scheme
         })
     },
     addCollect() {
@@ -316,21 +334,52 @@ export default {
       }
     },
     goRegister(index) {
-      this.time = this.list[index]['time']
-      this.timeStatus =
-        this.list[index]['time_status'] == 'AM' ? '上午' : '下午'
+      var time = this.list[index]['time']
+      this.time = this.getTime(time)
+      var hour = time.split('--')[1].split(':')[0]
+      this.timeStatus = hour > 12 ? 2 : 1
+      this.price = this.list[index]['price']
       this.orderPopupStatus = true
+      this.schemeIndex = index
     },
     getPatientList() {
       this.$http.post(this.API.PATIENT_LIST).then((res) => {
         this.patientList = res.data
+        this.count = res.count
       })
     },
     addPatient() {
       this.$Router.push({ name: 'medicalCardLogin' })
     },
     createOrder() {
-      this.$Router.push('/pages/payment/payment')
+      let scheme_id_index = this.scheme.findIndex((val) => {
+        return val['qfsx'] == this.timeStatus
+      })
+      let schemeInfo = this.list[this.schemeIndex]['source']
+      let serisl_number_index = schemeInfo.findIndex((item) => {
+        return item.scheme_status == 0
+      })
+      var params = {
+        price: this.price,
+        department_name: this.model.department_name,
+        doctor_name: this.model.doctor_name,
+        selectDate: this.selectDate,
+        time: this.time,
+        patient_name: this.patient_name,
+        scheme_id: this.scheme[scheme_id_index]['scheme_id'],
+        serisl_number: schemeInfo[serisl_number_index]['serisl_number'],
+        patient_code: this.patient_code,
+        doctor_id: this.model.doctor_id,
+        department_id: this.model.department_id,
+      }
+      this.$http.post(this.API.CREATE_REGISTER, params).then((res) => {
+        if (res.code == 20000) {
+          this.$Router.push({
+            name: 'payment',
+            params: { reg_no: res.data },
+          })
+        }
+      })
     },
     getName(str) {
       if (str.length > 2) {
@@ -340,10 +389,22 @@ export default {
       }
     },
     changeScheme(item) {
-      if (!this.postLock && item && item.date != this.selectDate) {
-        this.selectDate = item.date
+      if (!this.postLock && item && item.time != this.selectDate) {
+        this.selectDate = item.time
         this.getList()
       }
+    },
+    getHasSource(obj) {
+      var list = Array.from(obj.source)
+      var isSet = list.findIndex((item) => item.scheme_status === 0)
+      return isSet == -1 ? true : false
+    },
+    getTime(time) {
+      return time.replace('--', '~')
+    },
+    changePatient(index) {
+      this.patient_code = this.patientList[index]['patient_code']
+      this.patient_name = this.patientList[index]['name']
     },
   },
 }
@@ -689,12 +750,16 @@ export default {
             height: 76rpx;
             line-height: 76rpx;
             border-radius: 50%;
-            color: #ffffff;
             font-size: 26rpx;
             text-align: center;
-            background: #0ec698;
             overflow: hidden;
+            color: #78d395;
+            border: 1rpx solid #78d395;
             // @include textOverflow(1);
+            &.active {
+              color: #ffffff;
+              background: #0ec698;
+            }
             &-add {
               display: flex;
               align-items: center;

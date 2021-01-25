@@ -46,4 +46,6 @@ export default {
   REPORT_DETAIL: '/report/getDetail', //检验检查报告详情
   LIVE_PAY_RECORD_DETAIL: '/live_patient/getLivePayRecordDetail', //住院缴费记录详情
   SCHEME_DETAIL: '/scheme/getDetailByScheme', //号源详情
+  CREATE_REGISTER: '/register/createRegister', //创建挂号订单
+  REGISTER_ORDER_DETAIL: '/register/getOrderDetail', //订单详情
 }

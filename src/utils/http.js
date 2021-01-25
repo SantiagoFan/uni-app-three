@@ -70,7 +70,6 @@ http.interceptor.response(
     if (response.config.custom.loading) {
       uni.hideLoading()
     }
-
     if (response.data.code === 50000) {
       uni.showToast({
         title: response.data.message,
