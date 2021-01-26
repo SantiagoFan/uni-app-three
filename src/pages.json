@@ -183,7 +183,7 @@
 			}
     },
     {
-      "path": "pages/registerRecordDetail/registerRecordDetail",
+      "path": "pages/register/registerRecordDetail",
       "name":"registerRecordDetail",
 			"style": {
         "navigationBarTitleText": "挂号详情",
@@ -334,7 +334,7 @@
 			}
     },
     {
-      "path": "pages/registerRecord/registerRecord",
+      "path": "pages/register/registerRecord",
       "name":"registerRecord",
 			"style": {
         "navigationBarTitleText": "挂号记录",

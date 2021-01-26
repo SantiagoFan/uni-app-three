@@ -39,18 +39,12 @@
         </view>
         <template v-if="patientInfo">
           <view class="index-wrap__art1">
-            <navigator
-              url="/pages/registerRecord/registerRecord"
-              hover-class="none"
-              class="index-wrap__art1-item"
-              >挂号记录</navigator
-            >
-            <navigator
-              url="/pages/payRecord/payRecord"
-              hover-class="none"
-              class="index-wrap__art1-item"
-              >缴费记录</navigator
-            >
+            <router-link :to="{name:'registerRecord'}" class="index-wrap__art1-item">
+              <view >挂号记录</view>
+            </router-link>
+            <router-link :to="{name:'payRecord'}" class="index-wrap__art1-item">
+              <view >缴费记录</view>
+            </router-link>
             <view class="index-wrap__art1-item" @click="handleVisitCode"
               >就诊码</view
             >
