@@ -3,25 +3,34 @@
     <view class="wrap">
       <view class="wrap__title">请选择就诊人类型</view>
       <view class="wrap__list">
-        <navigator url="/pages/medicalCardRegister/medicalCardRegister" hover-class="none" class="item">
+        <view @click="goAdd" class="item">
           <view class="text">初次使用，请实名注册</view>
           <view class="jt">
             <text class="iconfont icon-arrowb"></text>
           </view>
-        </navigator>
-        <navigator url="/pages/medicalCardBind/medicalCardBind" hover-class="none" class="item">
+        </view>
+        <view @click="goBind" class="item">
           <view class="text">已有就诊卡，请绑定您的就诊信息</view>
           <view class="jt">
             <text class="iconfont icon-arrowb"></text>
           </view>
-        </navigator>
+        </view>
       </view>
     </view>
   </view>
 </template>
 
 <script>
-export default {}
+export default {
+  methods: {
+    goAdd() {
+      this.$Router.replace({ name: 'medicalCardRegister' })
+    },
+    goBind() {
+      this.$Router.push({ name: 'medicalCardBind' })
+    },
+  },
+}
 </script>
 
 <style lang="scss" scoped>

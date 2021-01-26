@@ -2,54 +2,60 @@
   <view class="wrap">
     <view class="wrap__user">
       <view class="avatar">
-        <image
+        <dh-image
           class="img"
           mode="aspectFill"
           :src="model.headimg"
-        />
+          errorSrc="doctor.jpg"
+        ></dh-image>
       </view>
       <view class="info">
         <view class="title">
-          <view class="name">{{model.name}}</view>
+          <view class="name">{{ model.doctor_name }}</view>
         </view>
-        <view class="subt"> {{model.department_name}} </view>
-        <view class="intr">{{model.professional}}</view>
+        <view class="subt"> {{ model.department_name }} </view>
+        <view class="intr">{{ model.professional }}</view>
       </view>
     </view>
     <view class="wrap__con">
-      <view class="wrap__con-title">擅长</view>
-      <view class="wrap__con-intr" v-html="model.speciality"></view>
       <view class="wrap__con-title bordertop">详细介绍</view>
-      <view class="wrap__con-intr" v-html="model.content"></view>
+      <view
+        class="wrap__con-intr"
+        v-if="model.content"
+        v-html="model.content"
+      ></view>
+      <empty v-else></empty>
     </view>
   </view>
 </template>
 <script>
 export default {
-  data(){
-    return{
-      model: {name:"",professional:"",headimg:"",department_name:""}
+  data() {
+    return {
+      model: { name: '', professional: '', headimg: '', department_name: '' },
     }
   },
-  onShow(){
-    this.getInfo();
+  onShow() {
+    this.getInfo()
   },
-  methods:{
-    getInfo(){
-      this.$http.post(this.API.DOCTOR_INFO,{id:this.$Route.query.id}).then(res=>{
-        this.model = res.data;
-      })
-    }
-  }
+  methods: {
+    getInfo() {
+      this.$http
+        .post(this.API.DOCTOR_INFO, { id: this.$Route.query.id })
+        .then((res) => {
+          this.model = res.data
+        })
+    },
+  },
 }
 </script>
 <style lang="scss" scoped>
-@import "@/assets/scss/mixin.scss";
+@import '@/assets/scss/mixin.scss';
 .wrap {
   &__user {
     display: flex;
     padding: 30rpx;
-    background: url("@/static/image/doctor_detail_img.jpg") no-repeat center
+    background: url('@/static/image/doctor_detail_img.jpg') no-repeat center
       bottom;
     background-size: 100%;
     .avatar {

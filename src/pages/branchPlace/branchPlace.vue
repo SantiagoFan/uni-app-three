@@ -3,15 +3,17 @@
     <view class="wrap-top">
       <image class="img" mode="widthFix" src="@/static/image/branch_place_img.jpg" />
       <view class="tab">
-        <view :class="['tab-item',floorIndex==index?'active':'']" v-for="(item,index) in floorList" :key="index" @click="changeFloor(index)">{{item.name}}</view>
+        <view :class="['tab-item',floorIndex==index?'active':'']" v-for="(item,index) in list" :key="index" @click="changeFloor(index)">{{item.name}}</view>
       </view>
     </view>
     <view class="wrap-con">
-      <view class="wrap-con__art" v-for="(item,index) in list" :key="index">
-        <view class="wrap-con__art-bt">{{item.name}}</view>
-        <view class="wrap-con__art-list">
-          <view class="item" v-for="(obj,index) in item.child" :key="index">{{obj.name}}</view>
-        </view>
+      <view v-for="(item,index) in list" :key="index">
+        <view class="wrap-con__art" v-if="floorIndex==index">
+          <view class="wrap-con__art-bt">{{item.name}}</view>
+          <view class="wrap-con__art-list">
+            <view class="item" v-for="(obj,index) in item.department" :key="index">{{obj.department_name}}</view>
+          </view>
+      </view>
       </view>
     </view>
   </view>
@@ -21,32 +23,21 @@
 export default {
   data(){
     return {
-      floorList: [],
       floorIndex: 0,
       list: []
     }
   },
   onShow(){
-    this.getFloorList();
+    this.getDepartment();
   },
   methods:{
-    getFloorList(){
-      this.$http.post(this.API.FLOOR_LIST).then(res=>{
-        this.floorList = res.data;
-      }).then(()=>{
-        if(this.floorList.length>0){
-          this.getDepartment();
-        }
-      })
-    },
     getDepartment(){
-      this.$http.post(this.API.DEPARTMENT_AREA,{floorid:this.floorList[this.floorIndex]['id']}).then(res=>{ 
+      this.$http.post(this.API.DEPARTMENT_AREA).then(res=>{ 
         this.list = res.data;
       })
     },
     changeFloor(index){
       this.floorIndex = index;
-      this.getDepartment();
     }
   }
 }

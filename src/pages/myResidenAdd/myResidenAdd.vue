@@ -2,15 +2,18 @@
   <view class="patient">
     <view class="patient-m">
       <view class="patient-m__massage">通过就诊人添加</view>
-      <view class="patient-m__list" v-if="list.length>0">
-        <view class="item" v-for="(item,index) in list" :key="index" >
+      <view class="patient-m__list" v-if="list.length > 0">
+        <view class="item" v-for="(item, index) in list" :key="index">
           <view class="info">
             <view class="title">
-              <view class="name">{{item.name}}</view>
+              <view class="name">{{ item.name }}</view>
             </view>
-            <view class="code">院内诊疗号：{{item.patient_code}}</view>
+            <view class="code">院内诊疗号：{{ item.patient_code }}</view>
           </view>
-          <view :class="['icon',item.isChoice?'active':'']" @click="choicePatient(index)">
+          <view
+            :class="['icon', item.isChoice ? 'active' : '']"
+            @click="choicePatient(index)"
+          >
             <text class="iconfont icon-duihao2"></text>
           </view>
         </view>
@@ -21,7 +24,7 @@
       <view class="patient-m__add" @click="handleClickAdd">
         <view class="patient-m__add-info">
           <view class="tit">添加就诊人</view>
-          <view class="sub">还可添加{{count}}人</view>
+          <view class="sub">还可添加{{ count }}人</view>
         </view>
         <view class="patient-m__add-jt">
           <text class="iconfont icon-arrowb"></text>
@@ -34,75 +37,76 @@
 
 <script>
 export default {
-  data(){
-    return{
+  data() {
+    return {
       list: [],
-      count: 0
+      count: 0,
     }
   },
-  onShow(){
-    this.getList();
+  onShow() {
+    this.getList()
   },
   methods: {
-    getList(){
-      this.$http.post(this.API.PATIENT_LIST,{status:1}).then(res=>{
-        this.list = res.data;
-        this.count = res.count;
+    getList() {
+      this.$http.post(this.API.PATIENT_LIST, { status: 1 }).then((res) => {
+        this.list = res.data
+        this.count = res.count
       })
     },
-    choicePatient(index){
-       this.list.forEach((e) => {
+    choicePatient(index) {
+      this.list.forEach((e) => {
         if (e.isChoice == true || e.isChoice == 1) {
-          e.isChoice = false;
+          e.isChoice = false
         }
-      });
-      this.list[index]['isChoice'] = !this.list[index]['isChoice'];
+      })
+      this.list[index]['isChoice'] = !this.list[index]['isChoice']
     },
-    addLivePatient(){
-      var that = this;
-      var patient_code = "";
+    addLivePatient() {
+      var that = this
+      var patient_code = ''
       that.list.forEach((e) => {
         if (e.isChoice == true || e.isChoice == 1) {
-          patient_code = e.patient_code;
+          patient_code = e.patient_code
         }
-      });
-      if (patient_code=="") {
+      })
+      if (patient_code == '') {
         uni.showToast({
-          title: "请先选择住院人",
+          title: '请先选择住院人',
           duration: 2000,
-          icon:'none',
-        });
-        return false;
+          icon: 'none',
+        })
+        return false
       }
-       uni.showModal({
-          title: '提示',
-          content: "确定将该就诊人员添加为住院人吗？",
-          success: function (res) {
-              that.$http.post(that.API.LIVE_PATIENT_ADD,{patient_code:patient_code}).then(res=>{
-                uni.showToast({
-                  title: res.message,
-                  duration: 2000,
-                  icon:'none',
-                });
-                if(res.code==20000){
-                  that.$store.dispatch("getDefaultPatient").then(()=>{
-                     that.$Router.back(1)
-                  })
-                }
+      uni.showModal({
+        title: '提示',
+        content: '确定将该就诊人员添加为住院人吗？',
+        success: function(res) {
+          that.$http
+            .post(that.API.LIVE_PATIENT_ADD, { patient_code: patient_code })
+            .then((res) => {
+              uni.showToast({
+                title: res.message,
+                duration: 2000,
+                icon: 'none',
               })
-          }
-      });
+              if (res.code == 20000) {
+                that.$store.commit('setPatientInfo', res.data)
+                that.$Router.back(1)
+              }
+            })
+        },
+      })
     },
     handleClickAdd() {
-      if(this.count<1){
-          uni.showToast({
-            title: "您添加的人数已经达到限制",
-            duration: 2000,
-            icon:'none',
-          });
-          return false;
-      }else{
-        this.$Router.push('/pages/medicalCardLogin/medicalCardLogin')
+      if (this.count < 1) {
+        uni.showToast({
+          title: '您添加的人数已经达到限制',
+          duration: 2000,
+          icon: 'none',
+        })
+        return false
+      } else {
+        this.$Router.push({ name: 'medicalCardLogin' })
       }
     },
   },
@@ -182,7 +186,7 @@ export default {
         }
       }
     }
-    .nodata{
+    .nodata {
       padding: 20rpx;
       text-align: center;
       // color: #999999;

@@ -13,10 +13,11 @@
                 @click="goDetail"
                 hover-class="none"
                 class="art1_info__count"
+                v-if="patientInfo"
               >
-                <view class="text"  v-if="patientInfo">
-                  就诊卡 <text class="num">{{ count }}</text>
-                   张</view>
+                <view class="text">
+                  就诊卡 <text class="num">{{ count }}</text> 张</view
+                >
                 <view class="jt">
                   <text class="iconfont icon-arrowb"></text>
                 </view>
@@ -88,7 +89,7 @@
               <text class="iconfont icon-arrowb"></text>
             </view>
           </navigator>
-          <navigator url="/pages/payRecord/payRecord?type=2" class="item">
+          <view @click="livePatientRecord" class="item">
             <view class="item__icon">
               <image
                 class="img"
@@ -100,7 +101,7 @@
             <view class="item__jt">
               <text class="iconfont icon-arrowb"></text>
             </view>
-          </navigator>
+          </view>
           <navigator url="/pages/myCollect/myCollect" class="item">
             <view class="item__icon">
               <image
@@ -121,46 +122,49 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState } from 'vuex'
 export default {
   data() {
     return {
       count: 0,
-    };
+    }
   },
   onShow() {
-    this.getIndex();
+    this.getIndex()
   },
   computed: {
-    ...mapState(["userInfo", "patientInfo"]),
+    ...mapState(['userInfo', 'patientInfo']),
   },
   methods: {
     getName(str) {
       if (str.length > 2) {
-        return str.substr(-2, 2);
+        return str.substr(-2, 2)
       } else {
-        return str;
+        return str
       }
     },
     getIndex() {
       this.$http.post(this.API.MEMBER_INDEX).then((res) => {
-        this.count = res.data;
-      });
+        this.count = res.data
+      })
     },
     goDetail() {
-      this.$Router.push("/pages/patientAdd/patientAdd");
+      this.$Router.push({ name: 'patientAdd' })
     },
     goPatientDetail(id) {
       this.$Router.push({
-        path: "/pages/patientDetail/patientDetail",
-        query: { id: id },
-      });
+        name: 'patientDetail',
+        params: { id: id },
+      })
     },
-    addPatient(){
-      this.$Router.push("/pages/medicalCardLogin/medicalCardLogin")
+    addPatient() {
+      this.$Router.push({ name: 'medicalCardLogin' })
+    },
+    livePatientRecord(){
+      this.$Router.push({name:"livePatientRecord"})
     }
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>
@@ -174,7 +178,7 @@ export default {
         position: relative;
         padding: 35rpx 35rpx 40rpx 35rpx;
         &::after {
-          content: "";
+          content: '';
           position: absolute;
           width: 680rpx;
           border-top: 1rpx solid #f6f6f6;
@@ -230,7 +234,7 @@ export default {
           font-size: 24rpx;
           padding: 0 25rpx;
           margin-top: 40rpx;
-          background: url("@/static/image/my_info_bg.jpg") no-repeat;
+          background: url('@/static/image/my_info_bg.jpg') no-repeat;
           background-size: 100% 100%;
           border-radius: 20rpx;
           &_title {

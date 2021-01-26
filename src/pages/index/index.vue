@@ -2,11 +2,12 @@
   <view class="index-container">
     <view class="index-main">
       <view class="top_pic">
-        <image
+        <dh-image
           class="img"
           mode="widthFix"
           src="@/static/image/index_img01.jpg"
-        />
+          errorSrc="index_img01.jpg"
+        ></dh-image>
       </view>
       <view class="index-wrap">
         <view class="index-wrap__user">
@@ -15,17 +16,13 @@
               <view class="title">
                 <view class="name">{{ getName(patientInfo.name) }}</view>
                 <view class="tag">电子就诊卡</view>
-                <view @click="changePatient" class="check"
-                  >切换</view
-                >
+                <view @click="changePatient" class="check">切换</view>
               </view>
-              <view class="code">院内诊疗号：{{ patientInfo.patient_code }}</view>
+              <view class="code"
+                >院内诊疗号：{{ patientInfo.patient_code }}</view
+              >
             </view>
-            <view
-              @click="addPatient"
-              class="add_btn"
-              v-else
-            >
+            <view @click="addPatient" class="add_btn" v-else>
               <view class="add_btn__icon">
                 <text class="iconfont icon-add-fill"></text>
               </view>
@@ -40,24 +37,26 @@
             />
           </view>
         </view>
-        <view class="index-wrap__art1" v-if="patientInfo">
-          <navigator
-            url="/pages/registerRecord/registerRecord"
-            hover-class="none"
-            class="index-wrap__art1-item"
-            >挂号记录</navigator
-          >
-          <navigator
-            url="/pages/payRecord/payRecord"
-            hover-class="none"
-            class="index-wrap__art1-item"
-            >缴费记录</navigator
-          >
-          <view class="index-wrap__art1-item" @click="handleVisitCode"
-            >就诊码</view
-          >
-        </view>
-        <u-gap height="20" bg-color="#f6f6f6"></u-gap>
+        <template v-if="patientInfo">
+          <view class="index-wrap__art1">
+            <navigator
+              url="/pages/registerRecord/registerRecord"
+              hover-class="none"
+              class="index-wrap__art1-item"
+              >挂号记录</navigator
+            >
+            <navigator
+              url="/pages/payRecord/payRecord"
+              hover-class="none"
+              class="index-wrap__art1-item"
+              >缴费记录</navigator
+            >
+            <view class="index-wrap__art1-item" @click="handleVisitCode"
+              >就诊码</view
+            >
+          </view>
+          <u-gap height="20" bg-color="#f6f6f6"></u-gap>
+        </template>
         <view class="index-wrap__art2">
           <router-link :to="{ name: 'branchList' }">
             <view class="index-wrap__art2-item">
@@ -112,29 +111,35 @@
           </view>
           <view class="index-wrap__art3-con">
             <view class="list" v-if="typeIndex === 0">
-              <navigator
-                class="item"
+              <router-link
                 v-for="(item, index) in list1"
                 :key="index"
-                :url="item.url"
-                :open-type="item.openType"
+                :to="{ name: item.name }"
+                :navType="item.openType"
                 hover-class="none"
               >
-                <view class="icon">
-                  <image class="img" mode="widthFix" :src="item.image" />
-                </view>
-                <view class="text">{{ item.title }}</view>
-              </navigator>
-            </view>
-            <view class="list" v-if="typeIndex === 1">
-              <block v-for="(item, index) in list2" :key="index">
-                <view @click="goLivePatient(index)" class="item">
+                <view class="item">
                   <view class="icon">
                     <image class="img" mode="widthFix" :src="item.image" />
                   </view>
                   <view class="text">{{ item.title }}</view>
                 </view>
-              </block>
+              </router-link>
+            </view>
+            <view class="list" v-if="typeIndex === 1">
+              <router-link
+                :to="{ name: item.name }"
+                :navType="item.openType"
+                v-for="(item, index) in list2"
+                :key="index"
+              >
+                <view class="item">
+                  <view class="icon">
+                    <image class="img" mode="widthFix" :src="item.image" />
+                  </view>
+                  <view class="text">{{ item.title }}</view>
+                </view>
+              </router-link>
             </view>
           </view>
         </view>
@@ -156,14 +161,19 @@
       </view>
     </u-popup>
     <u-popup v-model="show" mode="bottom" :border-radius="20">
-			<view class="check-wrap">
+      <view class="check-wrap">
         <view class="check-wrap__title">切换就诊人</view>
         <view class="check-wrap__con">
-          <view class="list" v-if="patientList.length>0">
-            <view :class="['item', item.is_default?'active':'']" @click="choicePatient(item.id)" v-for="(item,index) in patientList" :key="index">
+          <view class="list" v-if="patientList.length > 0">
+            <view
+              :class="['item', item.is_default ? 'active' : '']"
+              @click="choicePatient(item.id)"
+              v-for="(item, index) in patientList"
+              :key="index"
+            >
               <view class="info">
-                <view class="name">{{item.name}}</view>
-                <view class="code">就诊卡：{{item.patient_code}}</view>
+                <view class="name">{{ item.name }}</view>
+                <view class="code">就诊卡：{{ item.patient_code }}</view>
               </view>
               <view class="radio">
                 <text class="iconfont icon-duihao"></text>
@@ -179,25 +189,26 @@
           <view class="item" @click="managePatient">管理就诊人</view>
         </view>
       </view>
-		</u-popup>
+    </u-popup>
     <auth></auth>
   </view>
 </template>
 
 <script>
-import indexList from "@/common/index.data.js";
-import { mapState } from "vuex";
+import indexList from '@/common/index.data.js'
+import dhImage from '@/components/dh-image/dh-image.vue'
+import { mapState } from 'vuex'
 export default {
   data() {
     return {
       typeIndex: 0,
-      name: "",
+      name: '',
       typeList: [
         {
-          text: "门诊",
+          text: '门诊',
         },
         {
-          text: "住院",
+          text: '住院',
         },
       ],
       noBindCard: true, // 是否绑定就诊卡 true:是 falseL 否
@@ -206,79 +217,75 @@ export default {
       visitCodeShow: false, // 就诊码
       show: false, //  切换就诊人
       patientList: [],
-    };
+    }
   },
+  components: { dhImage },
   computed: {
-    ...mapState(["userInfo","patientInfo"]),
+    ...mapState(['userInfo', 'patientInfo']),
   },
   watch: {
     visitCodeShow(status) {
-      status ? uni.hideTabBar() : uni.showTabBar();
+      status ? uni.hideTabBar() : uni.showTabBar()
     },
   },
   onLoad() {
-    console.log("onLoad")
+    console.log('onLoad')
     console.log(this.$store.state)
   },
   onShow() {
-    console.log("onShow")
-    const token = uni.getStorageSync("token");
-    this.name = token;
-    this.noBindCard = token ? true : false;
-    
+    console.log('onShow')
+    const token = uni.getStorageSync('token')
+    this.name = token
+    this.noBindCard = token ? true : false
   },
   methods: {
-    getName(str){
-      if(str.length>2){
-        return str.substr(-2,2);
-      }else{
-        return str;
+    getName(str) {
+      if (str.length > 2) {
+        return str.substr(-2, 2)
+      } else {
+        return str
       }
     },
     //就诊人
-    getPatientList(){
-      this.$http.post(this.API.PATIENT_LIST).then(res=>{
-        this.patientList = res.data;
+    getPatientList() {
+      this.$http.post(this.API.PATIENT_LIST).then((res) => {
+        this.patientList = res.data
       })
     },
     handleTypeItem(index) {
-      this.typeIndex = index;
+      this.typeIndex = index
     },
     // 就诊码
     handleVisitCode() {
-      this.visitCodeShow = true;
+      this.visitCodeShow = true
     },
-    changePatient(){
-      this.show = true;
-      this.getPatientList();
+    changePatient() {
+      this.show = true
+      this.getPatientList()
     },
-    choicePatient(id){
-      this.$http.post(this.API.CHANGE_DEFAULT_PATIENT,{id:id}).then(res=>{
-        if(res.code==20000){
-          this.$store.dispatch("getDefaultPatient");
-          this.show=false;
-        }
-      })
+    choicePatient(id) {
+      this.$http
+        .post(this.API.CHANGE_DEFAULT_PATIENT, { id: id })
+        .then((res) => {
+          if (res.code == 20000) {
+            this.$store.commit('setPatientInfo', res.data)
+            // this.$store.dispatch("getDefaultPatient");
+            this.show = false
+          }
+        })
     },
-    addPatient(){
-      this.$Router.push('/pages/medicalCardLogin/medicalCardLogin');
+    addPatient() {
+      this.$Router.push({ name: 'medicalCardLogin' })
     },
-    managePatient(){
-      this.$Router.push("/pages/patientAdd/patientAdd")
+    managePatient() {
+      this.$Router.push({ name: 'patientAdd' })
     },
-    goLivePatient(index){
-      var url = this.list2[index]['url'];
-      if(index==0){
-        url = {path:url,query:{patient_code:this.patientInfo.patient_code}};
-      }
-      this.$Router.push(url);
-    }
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>
-@import "@/assets/scss/mixin.scss";
+@import '@/assets/scss/mixin.scss';
 .index-container {
   .index-main {
     .top_pic {
@@ -305,7 +312,7 @@ export default {
         padding: 0 25rpx;
         border-radius: 20rpx;
         box-shadow: 0 10rpx 12rpx rgba($color: #61b47c, $alpha: 0.2);
-        background: #ffffff url("@/static/image/box_bg.png") no-repeat 18rpx
+        background: #ffffff url('@/static/image/box_bg.png') no-repeat 18rpx
           18rpx;
         background-size: 250rpx;
         &-info {
@@ -384,7 +391,7 @@ export default {
           color: #040404;
           font-size: 28rpx;
           &::before {
-            content: "";
+            content: '';
             width: 12rpx;
             height: 12rpx;
             border-radius: 50%;
@@ -439,7 +446,7 @@ export default {
             &.active {
               transform: scale(1.4);
               &::after {
-                content: "";
+                content: '';
                 position: absolute;
                 left: 50%;
                 bottom: -15rpx;
@@ -507,7 +514,7 @@ export default {
     }
   }
   //切换就诊人
-    // 弹出层
+  // 弹出层
   .check-wrap {
     &__title {
       height: 84rpx;
@@ -558,7 +565,7 @@ export default {
           }
         }
       }
-      .nodata{
+      .nodata {
         padding: 20rpx;
         color: #999999;
         text-align: center;

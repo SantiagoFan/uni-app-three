@@ -1,61 +1,61 @@
 <template>
-  <view class="doctor">
+  <view class="doctor" >
     <view class="title"
       >{{ departmentName }}共有<text>{{ list.length }}</text
       >名医生</view
     >
-    <view class="list">
+    <view class="list" v-if="list.length>0">
       <view
         class="item"
-        @click="toDetail(item.id)"
+        @click="toDetail(item.doctor_id)"
         v-for="(item, index) in list"
         :key="index"
       >
         <view class="head">
-          <image mode="aspectFill" :src="item.headimg"></image>
+          <dh-image
+            mode="aspectFill"
+            :src="item.headimg"
+            errorSrc="doctor.jpg"
+          ></dh-image>
         </view>
         <view class="content">
-          <view class="content_name">{{ item.name }}</view>
-          <view class="content_level">{{ item.professional }}</view>
-          <view class="content_des">{{ item.speciality }}</view>
+          <view class="content_name">{{ item.doctor_name }}</view>
+          <view class="content_level">{{ item.department_name }}</view>
+          <view class="content_des">{{ item.professional }}</view>
         </view>
       </view>
     </view>
-    <view class="nodata" v-if="list.length <= 0">
-      <image class="img" mode="widthFix" src="@/static/image/nodata.png" />
-      <text class="notext">暂无更多</text>
-    </view>
+   <empty v-else></empty>
   </view>
 </template>
 <script>
+import dhImage from "@/components/dh-image/dh-image.vue";
 export default {
+  components: { dhImage },
   data() {
     return {
       list: [],
       departmentName: "",
+      departmentid: ""
     };
   },
-  onShow() {
+  onLoad() {
+    this.departmentName = this.$Route.query.departmentname
+    this.departmentid = this.$Route.query.departmentid
     this.getList();
-    this.getDepartmentName();
   },
   methods: {
     getList() {
       this.$http
         .post(this.API.DOCTOR_INFO_LIST, {
-          departmentid: this.$Route.query.departmentid,
+          departmentid: this.departmentid,
         })
-        .then(res => {
+        .then((res) => {
           this.list = res.data;
         });
     },
-    getDepartmentName(){
-      this.$http.post(this.API.DEPARTMENT_NAME,{departmentid:this.$Route.query.departmentid}).then(res=>{
-        this.departmentName = res.departmentName
-      })
-    },
     toDetail(id) {
-      this.$Router.push({ name: "doctorInfo", query: {id:id} });
+      this.$Router.push({ name: "doctorInfo", params: { id: id } });
     },
   },
 };
@@ -116,16 +116,6 @@ export default {
           text-overflow: ellipsis;
         }
       }
-    }
-  }
-  .nodata {
-    min-height: 800rpx;
-    text-align: center;
-    .img {
-      display: block;
-      width: 194rpx;
-      height: 171rpx;
-      margin: 100rpx auto 0 auto;
     }
   }
 }

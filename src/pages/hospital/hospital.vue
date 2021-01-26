@@ -2,12 +2,22 @@
   <view class="hospital">
     <view class="hospital-m">
       <view class="hospital-m__pic">
-        <image class="img" mode="widthFix" :src="banner" @error="error(banner)" />
+        <dh-image
+          class="img"
+          mode="widthFix"
+          :src="banner"
+          errorSrc="hos_pic.jpg"
+        ></dh-image>
       </view>
       <view class="hospital-m__wrap">
         <view class="hospital-m__wrap-info">
           <view class="logo">
-            <image class="img" mode="widthFix" :src="info.image" />
+            <dh-image
+              class="img"
+              mode="widthFix"
+              :src="info.image"
+              errorSrc="hos_logo.jpg"
+            ></dh-image>
             <view class="tag">{{ info.grade }}</view>
           </view>
           <view class="menu">
@@ -30,7 +40,7 @@
           <view class="bt">功能清单</view>
           <view class="menu">
             <router-link
-              :to="{ name: 'department' ,query:{isDoctor:0}}"
+              :to="{ name: 'department', params: { isDoctor: 0 } }"
               hover-class="none"
               class="menu-item"
             >
@@ -44,7 +54,7 @@
               <view class="text">科室介绍</view>
             </router-link>
             <router-link
-              :to="{ name: 'department' ,query:{isDoctor:1}}"
+              :to="{ name: 'department', params: { isDoctor: 1 } }"
               hover-class="none"
               class="menu-item"
             >
@@ -85,28 +95,33 @@
 </template>
 
 <script>
+import dhImage from '@/components/dh-image/dh-image.vue'
 export default {
   data() {
     return {
       info: {},
-      banner: "",
-    };
+      banner: '',
+    }
   },
+  components: { dhImage },
+
   onShow() {
-    this.getInfo();
+    this.getInfo()
   },
   methods: {
     getInfo() {
       this.$http.post(this.API.HOSPITAL_INFO).then((res) => {
-        this.info = res.data.info;
-        this.banner = res.data.banner+"1";
-      });
+        this.info = res.data.info
+        this.banner = res.data.banner
+      })
     },
-    error: function(banner) {
-        this.banner = '../../static/image/noimg.jpg';//默认图片
-    }  
+    error(img) {
+      this.$set()
+      console.log(img)
+      this.banner = require('@/static/image/' + img) //默认图片
+    },
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>
@@ -134,7 +149,7 @@ export default {
           border-radius: 50%;
           margin-right: 15rpx;
           background: #0ec698;
-          content: "";
+          content: '';
         }
       }
       &-info {

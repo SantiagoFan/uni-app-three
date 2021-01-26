@@ -35,7 +35,6 @@ export default class Request {
 
   static mergeUrl(url, baseUrl, params) {
     let mergeUrl = Request.posUrl(url) ? url : `${baseUrl}${url}`;
-    console.log(mergeUrl)
     if (Object.keys(params).length !== 0) {
       const paramsH = Request.addQueryString(params);
       mergeUrl += mergeUrl.includes("?") ? `&${paramsH}` : `?${paramsH}`;
@@ -197,13 +196,10 @@ export default class Request {
     });
   }
 
-  post(url, data, lock = true, loading = true) {
+  post(url, data, loading = true) {
     let custom = {};
     if (loading) {
       custom["loading"] = true;
-    }
-    if (lock) {
-      custom["lock"] = true;
     }
     return this.request({
       url,

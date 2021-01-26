@@ -1,11 +1,16 @@
 <template>
   <view class="wrap">
     <view class="wrap-con">
-      <view class="wrap-con__item" v-for="(item, index) in list" :key="item" @click="handleClickItem(index)">
-        <view :class="['icon', {active: item.checked}]"></view>
+      <view
+        class="wrap-con__item"
+        v-for="(item, index) in list"
+        :key="item"
+        @click="handleClickItem(index)"
+      >
+        <view :class="['icon', { active: item.checked }]"></view>
         <view class="info">
           <view class="title">
-            <view class="name">{{item.title}}</view>
+            <view class="name">{{ item.title }}</view>
             <view class="tag">默认</view>
           </view>
           <view class="code">院内诊疗号：1000000182574</view>
@@ -21,36 +26,38 @@
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
-        list: [{
+export default {
+  data() {
+    return {
+      list: [
+        {
           title: '张三',
-          checked: false
-        },{
+          checked: false,
+        },
+        {
           title: '李四',
-          checked: false
-        },{
+          checked: false,
+        },
+        {
           title: '王五',
-          checked: false
-        }]
-      }
+          checked: false,
+        },
+      ],
+    }
+  },
+  methods: {
+    // 选择item
+    handleClickItem(index) {
+      this.list.map((item, ind) => {
+        item.checked = index == ind ? true : false
+      })
     },
-    methods: {
-      // 选择item
-      handleClickItem(index) {
-        this.list.map((item, ind) => {
-          item.checked = index == ind ? true : false
-        })
-      },
-      // 点击修改
-      handleCheck() {
-        uni.navigateTo({
-          url: '/pages/medicalCardRegister/medicalCardRegister'
-        })
-      }
+    // 点击修改
+    handleCheck() {
+      this.$Router.push({ name: 'medicalCardRegister' })
     },
-  }
+  },
+}
 </script>
 
 <style lang="scss" scoped>
@@ -140,7 +147,7 @@
         transform: translateY(-50%);
         width: 1px;
         height: 54rpx;
-        background: rgba($color: #ffffff, $alpha: .32);
+        background: rgba($color: #ffffff, $alpha: 0.32);
         content: '';
       }
       &:last-child {

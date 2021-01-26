@@ -1,7 +1,5 @@
 import Request from './request'
-import {
-  baseUrl
-} from '../config/index.js'
+import { baseUrl } from '../config/index.js'
 
 const http = new Request()
 
@@ -24,17 +22,15 @@ http.validateStatus = (statusCode) => {
   return statusCode === 200
 }
 
-
 http.interceptor.request((config, cancel) => {
- 
   /* 请求之前拦截器 */
   config.header = {
     ...config.header,
   }
   try {
-    const token = uni.getStorageSync('token'); //token
+    const token = uni.getStorageSync('token') //token
     if (token) {
-      config.header['token'] = decodeURIComponent(token);
+      config.header['token'] = decodeURIComponent(token)
     }
   } catch (err) {
     console.log(err)
@@ -42,7 +38,7 @@ http.interceptor.request((config, cancel) => {
 
   if (config.custom.loading) {
     uni.showLoading({
-      title: '加载中'
+      title: '加载中',
     })
   }
   /*
@@ -53,32 +49,41 @@ http.interceptor.request((config, cancel) => {
   return config
 })
 
-http.interceptor.response((response) => {
-  
-  /* 请求之后拦截器 */
-  // if (response.data.code !== 200) { // 服务端返回的状态码不等于200，则reject()
-  //   return Promise.reject(response)
-  // }
-  // if (response.config.custom.verification) { // 演示自定义参数的作用
-  //   return response.data
-  // }
-  
-  // if (response.data.code == 100) //需要登录   文西注释 ，api暂时不判断登录状态，否则会连续调用几个api，连续弹出login
-  // {
-  //   uni.navigateTo({
-  //     url: '/pages/login/login'
-  //   });
-  //   // return false;
-  // }
-  if (response.config.custom.loading) {
-    uni.hideLoading();
+http.interceptor.response(
+  (response) => {
+    /* 请求之后拦截器 */
+    // if (response.data.code !== 200) { // 服务端返回的状态码不等于200，则reject()
+    //   return Promise.reject(response)
+    // }
+    // if (response.config.custom.verification) { // 演示自定义参数的作用
+    //   return response.data
+    // }
+
+    // if (response.data.code == 100) //需要登录   文西注释 ，api暂时不判断登录状态，否则会连续调用几个api，连续弹出login
+    // {
+    //   uni.navigateTo({
+    //     url: '/pages/login/login'
+    //   });
+    //   // return false;
+    // }
+
+    if (response.config.custom.loading) {
+      uni.hideLoading()
+    }
+    if (response.data.code === 50000) {
+      uni.showToast({
+        title: response.data.message,
+        icon: 'none',
+      })
+      return Promise.reject(response)
+    }
+
+    return response.data
+  },
+  (response) => {
+    // 请求错误做点什么
+    return response
   }
+)
 
-  return response.data
-}, (response) => { // 请求错误做点什么
-  return response
-})
-
-export {
-  http
-}
+export { http }

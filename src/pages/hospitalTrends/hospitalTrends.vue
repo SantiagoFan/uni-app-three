@@ -8,7 +8,9 @@
           :key="index"
           @click="handleTabItem(index)"
         >
-          <view :class="['text', {active: index == tabIndex}]">{{item.name}}</view>
+          <view :class="['text', { active: index == tabIndex }]">{{
+            item.name
+          }}</view>
         </view>
       </view>
       <view class="wrap__con">
@@ -19,13 +21,22 @@
             :margin-top="50"
           ></u-empty>
           <template v-else>
-            <view class="cell" v-for="(item,index) in list" :key="index" @click="handleClickDetail(item.id)">
+            <view
+              class="cell"
+              v-for="(item, index) in list"
+              :key="index"
+              @click="handleClickDetail(item.id)"
+            >
               <view class="img-box">
-                <image class="img" mode="aspectFill" :src="item.image" />
-              </view>  
+                <dh-image
+                  class="img"
+                  mode="aspectFill"
+                  :src="item.image"
+                ></dh-image>
+              </view>
               <view class="info">
-                <view class="title">{{item.name}}</view>
-                <view class="date">{{item.create_time}}</view>
+                <view class="title">{{ item.name }}</view>
+                <view class="date">{{ item.create_time }}</view>
               </view>
             </view>
           </template>
@@ -36,48 +47,59 @@
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
-        tabIndex: 0,
-        cateList: [],
-        list: []
-      }
-    },
-    onShow(){
-      this.getCateList();
-    },
-    methods: {
-      getCateList(){
-        this.$http.post(this.API.NEWS_CATE).then(res=>{
+import dhImage from "@/components/dh-image/dh-image.vue";
+
+export default {
+  data() {
+    return {
+      tabIndex: 0,
+      cateList: [],
+      list: [],
+    };
+  },
+  components: { dhImage },
+
+  onShow() {
+    this.getCateList();
+  },
+  methods: {
+    getCateList() {
+      this.$http
+        .post(this.API.NEWS_CATE)
+        .then((res) => {
           this.cateList = res.data;
-        }).then(()=>{
-          if(this.cateList.length>0){
+        })
+        .then(() => {
+          if (this.cateList.length > 0) {
             this.getNewsList();
           }
+        });
+    },
+    getNewsList() {
+      this.$http
+        .post(this.API.NEWS_LIST, {
+          cateid: this.cateList[this.tabIndex]["id"],
         })
-      },
-      getNewsList(){
-        this.$http.post(this.API.NEWS_LIST,{cateid:this.cateList[this.tabIndex]['id']}).then(res=>{
+        .then((res) => {
           this.list = res.data;
-        })
-      },
-      handleTabItem(index) {
-        this.tabIndex = index
-        this.getNewsList()
-      },
-      // 跳转详情
-      handleClickDetail(id) {
-        uni.navigateTo({
-          url: `/pages/hospitalTrendsDetail/hospitalTrendsDetail?id=${id}`
-        })
-      }
-    }
-  }
+        });
+    },
+    handleTabItem(index) {
+      this.tabIndex = index;
+      this.getNewsList();
+    },
+    // 跳转详情
+    handleClickDetail(id) {
+      uni.navigateTo({
+        url: `/pages/hospitalTrendsDetail/hospitalTrendsDetail?id=${id}`,
+      });
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/scss/mixin.scss';
+@import "@/assets/scss/mixin.scss";
 .container {
   .wrap {
     display: flex;
@@ -101,7 +123,7 @@
           width: 2rpx;
           height: 40rpx;
           background: #f6f6f6;
-          content: '';
+          content: "";
         }
         .text {
           position: relative;
@@ -112,7 +134,7 @@
           &.active {
             color: #0ec698;
             &::after {
-              content: '';
+              content: "";
               position: absolute;
               bottom: 0;
               left: 50%;
@@ -175,5 +197,4 @@
     }
   }
 }
-
 </style>

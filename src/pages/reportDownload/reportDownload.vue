@@ -1,31 +1,31 @@
 <template>
   <view class="report">
     <view class="report-wrap">
-      <view class="report-wrap__title">血常规</view>
+      <view class="report-wrap__title">{{ model.report_name }}</view>
       <view class="report-wrap__info">
         <view class="item">
           <view class="label">就诊人：</view>
-          <view class="text">姓名</view>
+          <view class="text">{{ model.patient_name }}</view>
         </view>
         <view class="item">
           <view class="label">开方医生：</view>
-          <view class="text">姓名</view>
+          <view class="text">{{ model.doctor_name }}</view>
         </view>
         <view class="item">
           <view class="label">性别：</view>
-          <view class="text">男/女</view>
+          <view class="text">{{ model.gender }}</view>
         </view>
         <view class="item">
           <view class="label">年龄：</view>
-          <view class="text">0岁</view>
+          <view class="text">{{ model.age }}</view>
         </view>
         <view class="item">
           <view class="label">开方科室：</view>
-          <view class="text">心脑科</view>
+          <view class="text">{{ model.department_name }}</view>
         </view>
         <view class="item">
           <view class="label">报告时间：</view>
-          <view class="text">2020-07-18  10:30:34</view>
+          <view class="text">{{ model.report_time }}</view>
         </view>
       </view>
       <view class="report-wrap__table">
@@ -36,35 +36,15 @@
           <view class="item">参考值</view>
         </view>
         <view class="table-con">
-          <view class="table-con__td">
-            <view class="item">*包细胞</view>
-            <view class="item">7.53</view>
-            <view class="item">x10^9/L</view>
-            <view class="item">3.5-9.5</view>
-          </view>
-          <view class="table-con__td">
-            <view class="item">*血红蛋白</view>
-            <view class="item">4.11</view>
-            <view class="item">x10^12/L</view>
-            <view class="item">3.8-5.1</view>
-          </view>
-          <view class="table-con__td">
-            <view class="item">*血红蛋白</view>
-            <view class="item">127.00</view>
-            <view class="item">G/L</view>
-            <view class="item">115-150</view>
-          </view>
-          <view class="table-con__td">
-            <view class="item">红细胞压积</view>
-            <view class="item">39.10</view>
-            <view class="item">%</view>
-            <view class="item">35-45</view>
-          </view>
-          <view class="table-con__td">
-            <view class="item">红细胞压积</view>
-            <view class="item">95.10</view>
-            <view class="item">FL</view>
-            <view class="item">82-100</view>
+          <view
+            class="table-con__td"
+            v-for="(obj, index) in model.items"
+            :key="index"
+          >
+            <view class="item">{{ obj.name }}</view>
+            <view class="item">{{ obj.result }}</view>
+            <view class="item">{{ obj.unit }}</view>
+            <view class="item">{{ obj.standard }}</view>
           </view>
         </view>
       </view>
@@ -76,9 +56,27 @@
 </template>
 
 <script>
-  export default {
-    
-  }
+export default {
+  data() {
+    return {
+      model: {},
+    }
+  },
+  onLoad() {
+    this.getDetail()
+  },
+  methods: {
+    getDetail() {
+      this.$http
+        .post(this.API.REPORT_DETAIL, {
+          report_code: this.$Route.query.report_code,
+        })
+        .then((res) => {
+          this.model = res.data
+        })
+    },
+  },
+}
 </script>
 
 <style lang="scss" scoped>

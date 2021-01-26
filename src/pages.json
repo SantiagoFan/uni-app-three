@@ -12,7 +12,7 @@
 			}
     },
     {
-      "path": "pages/patientManage/patientManage",
+      "path": "pages/patient/patientManage",
       "name":"patientManage",
 			"style": {
         "navigationBarTitleText": "问卷调查",
@@ -73,7 +73,7 @@
 			}
     },
     {
-      "path": "pages/patientDetail/patientDetail",
+      "path": "pages/patient/patientDetail",
       "name":"patientDetail",
 			"style": {
         "navigationBarTitleText": "就诊人详情",
@@ -99,24 +99,8 @@
         "navigationBarTextStyle": "#ffffff"
 			}
     },
-    {
-      "path": "pages/branchSearch/branchSearch",
-      "name":"branchSearch",
-			"style": {
-        "navigationBarTitleText": "科室列表",
-        "navigationBarBackgroundColor": "#0ec698",
-        "navigationBarTextStyle": "white"
-			}
-    },
-    {
-      "path": "pages/doctorDetail/doctorDetail",
-      "name":"doctorDetail",
-			"style": {
-        "navigationBarTitleText": "医生主页",
-        "navigationBarBackgroundColor": "#0ec698",
-        "navigationBarTextStyle": "#ffffff"
-			}
-    },
+    
+    
     {
       "path": "pages/myResidentDetail/myResidentDetail",
       "name":"myResidentDetail",
@@ -160,15 +144,6 @@
         "navigationBarTitleText": "我的住院人",
         "navigationBarBackgroundColor": "#0ec698",
         "navigationBarTextStyle": "white"
-			}
-    },
-    {
-      "path": "pages/doctorList/doctorList",
-      "name":"doctorList",
-			"style": {
-        "navigationBarTitleText": "医生列表",
-        "navigationBarBackgroundColor": "#0ec698",
-        "navigationBarTextStyle": "#ffffff"
 			}
     },
     {
@@ -232,23 +207,49 @@
         "navigationBarTextStyle": "#ffffff"
 			}
     },
-    
     {
-      "path": "pages/branchDetail/branchDetail",
+      "path": "pages/register/branchDetail",
       "name":"branchDetail",
 			"style": {
-        "navigationBarTitleText": "五疗科",
+        "navigationBarTitleText": "",
         "navigationBarBackgroundColor": "#0ec698",
         "navigationBarTextStyle": "#ffffff"
 			}
     },
     {
-      "path": "pages/branchList/branchList",
+      "path": "pages/register/branchList",
       "name":"branchList",
 			"style": {
         "navigationBarTitleText": "科室列表",
         "navigationBarBackgroundColor": "#0ec698",
         "navigationBarTextStyle": "#ffffff"
+			}
+    },
+    {
+      "path": "pages/register/branchSearch",
+      "name":"branchSearch",
+			"style": {
+        "navigationBarTitleText": "搜索",
+        "navigationBarBackgroundColor": "#0ec698",
+        "navigationBarTextStyle": "white"
+			}
+    },
+    {
+      "path": "pages/register/doctorSearch",
+      "name":"doctorSearch",
+			"style": {
+        "navigationBarTitleText": "医生搜索",
+        "navigationBarBackgroundColor": "#0ec698",
+        "navigationBarTextStyle": "white"
+			}
+    },
+    {
+      "path": "pages/register/departmentSearch",
+      "name":"departmentSearch",
+			"style": {
+        "navigationBarTitleText": "科室搜索",
+        "navigationBarBackgroundColor": "#0ec698",
+        "navigationBarTextStyle": "white"
 			}
     },
     {
@@ -288,7 +289,7 @@
 			}
     },
     {
-      "path": "pages/patientAdd/patientAdd",
+      "path": "pages/patient/patientAdd",
       "name":"patientAdd",
 			"style": {
         "navigationBarTitleText": "添加就诊人",
@@ -297,7 +298,7 @@
 			}
     },
     {
-      "path": "pages/medicalCardBind/medicalCardBind",
+      "path": "pages/medicalCard/medicalCardBind",
       "name":"medicalCardBind",
 			"style": {
         "navigationBarTitleText": "绑定就诊卡",
@@ -306,7 +307,7 @@
 			}
     },
     {
-      "path": "pages/medicalCardRegister/medicalCardRegister",
+      "path": "pages/medicalCard/medicalCardRegister",
       "name":"medicalCardRegister",
 			"style": {
         "navigationBarTitleText": "新建就诊卡",
@@ -315,7 +316,7 @@
 			}
     },
     {
-      "path": "pages/medicalCardLogin/medicalCardLogin",
+      "path": "pages/medicalCard/medicalCardLogin",
       "name":"medicalCardLogin",
 			"style": {
         "navigationBarTitleText": "绑定就诊卡",
@@ -337,6 +338,15 @@
       "name":"registerRecord",
 			"style": {
         "navigationBarTitleText": "挂号记录",
+        "navigationBarBackgroundColor": "#0ec698",
+        "navigationBarTextStyle": "#ffffff"
+			}
+    },
+    {
+      "path": "pages/livePatient/livePatientRecord",
+      "name":"livePatientRecord",
+			"style": {
+        "navigationBarTitleText": "押金缴费记录",
         "navigationBarBackgroundColor": "#0ec698",
         "navigationBarTextStyle": "#ffffff"
 			}
@@ -381,7 +391,7 @@
 			}
     },
     {
-      "path": "pages/department/doctor",
+      "path": "pages/doctor/doctor",
       "name":"doctor",
       "style": {
         "navigationBarTitleText": "医生列表",
@@ -390,9 +400,18 @@
 			}
     },
     {
-      "path": "pages/department/doctorInfo",
+      "path": "pages/doctor/doctorInfo",
       "name":"doctorInfo",
       "style": {
+        "navigationBarTitleText": "医生主页",
+        "navigationBarBackgroundColor": "#0ec698",
+        "navigationBarTextStyle": "#ffffff"
+			}
+    },
+    {
+      "path": "pages/doctor/doctorDetail",
+      "name":"doctorDetail",
+			"style": {
         "navigationBarTitleText": "医生主页",
         "navigationBarBackgroundColor": "#0ec698",
         "navigationBarTextStyle": "#ffffff"

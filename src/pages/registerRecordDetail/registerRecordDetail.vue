@@ -148,10 +148,10 @@ export default {
       timestamp: 86400 // 锁号时间
     }
   },
-  onLoad(options) {
-    const { type, id } = options
-    this.type = type
-    console.log('id', id)
+  onLoad() {
+    // 1：锁号 2：成功 3：取消
+    this.type = this.$Route.query.type
+    console.log(this.type)
   },
   watch: {
     type() {

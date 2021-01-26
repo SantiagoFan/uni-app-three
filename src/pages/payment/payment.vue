@@ -14,7 +14,7 @@
     </view>
     <view class="wrap-amount">
       <view class="wrap-amount__text">支付金额(元)</view>
-      <view class="wrap-amount__price">15.00</view>
+      <view class="wrap-amount__price">{{ model.price }}</view>
     </view>
     <view class="wrap-info">
       <view class="wrap-info__cell">
@@ -23,26 +23,26 @@
       </view>
       <view class="wrap-info__cell">
         <view class="label">就诊科室</view>
-        <view class="text">针灸科</view>
+        <view class="text">{{ model.department_name }}</view>
       </view>
       <view class="wrap-info__cell">
         <view class="label">医生名称</view>
-        <view class="text">科木其勒</view>
+        <view class="text">{{ model.doctor_name }}</view>
       </view>
       <view class="wrap-info__cell">
         <view class="label">就诊日期</view>
-        <view class="text">2020-07-29  星期四</view>
+        <view class="text">{{ model.selectDate | dateStr }}</view>
       </view>
       <view class="wrap-info__cell">
         <view class="label">就诊时段</view>
-        <view class="text">上午 09:00:00~10:00:00</view>
-      </view><view class="wrap-info__cell">
+        <view class="text">{{ model.time | getTimeStatus }}</view> </view
+      ><view class="wrap-info__cell">
         <view class="label">就诊人</view>
-        <view class="text">李想</view>
+        <view class="text">{{ model.patient_name }}</view>
       </view>
       <view class="wrap-info__cell">
         <view class="label">就诊卡号</view>
-        <view class="text">100000053582</view>
+        <view class="text">{{ model.patient_code }}</view>
       </view>
     </view>
     <view class="wrap-btn">
@@ -52,16 +52,44 @@
 </template>
 
 <script>
+import moment from 'moment'
+import { weekList } from '@/utils/week.js'
 export default {
   data() {
     return {
-      timestamp: 600
+      timestamp: 600,
+      model: {},
     }
+  },
+  onLoad() {
+    this.getDetail()
+  },
+  filters: {
+    dateStr(date) {
+      return date + ' ' + weekList('星期')[moment(date).isoWeekday() - 1]
+    },
+    getTimeStatus(time) {
+      console.log(time)
+      if (time) {
+        var hour = time.split('~')[1].split(':')[0]
+        console.log(hour)
+        return (hour > 12 ? '下午' : '上午') + ' ' + time
+      }
+    },
   },
   methods: {
     hanldePay() {
       console.log('点击支付')
-    }
+    },
+    getDetail() {
+      this.$http
+        .post(this.API.REGISTER_ORDER_DETAIL, {
+          reg_no: this.$Route.query.reg_no,
+        })
+        .then((res) => {
+          this.model = res.data
+        })
+    },
   },
 }
 </script>

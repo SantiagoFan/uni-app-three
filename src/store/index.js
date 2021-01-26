@@ -45,9 +45,8 @@ export default new Vuex.Store({
                   if (res.code === 20000) {
                     uni.setStorageSync("token", res.token);
                     commit("setUserInfo", res.data);
-                    dispatch("getDefaultPatient").then(() => {
-                      resolve();
-                    });
+                    commit("setPatientInfo",res.patientInfo);
+                    resolve();
                   } else {
                     reject();
                   }
