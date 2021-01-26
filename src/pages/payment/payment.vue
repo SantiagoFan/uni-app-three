@@ -59,6 +59,7 @@ export default {
     return {
       timestamp: 600,
       model: {},
+      flag: false,
     }
   },
   onLoad() {
@@ -69,17 +70,56 @@ export default {
       return date + ' ' + weekList('星期')[moment(date).isoWeekday() - 1]
     },
     getTimeStatus(time) {
-      console.log(time)
       if (time) {
         var hour = time.split('~')[1].split(':')[0]
-        console.log(hour)
         return (hour > 12 ? '下午' : '上午') + ' ' + time
       }
     },
   },
   methods: {
     hanldePay() {
-      console.log('点击支付')
+      let that = this
+      if (that.flag) {
+        return false
+      }
+      that.flag = true
+      this.$http
+        .post(this.API.REGISTER_PAY, {
+          order_no: this.model.order_no,
+          business_type: 'RegisterOrder',
+        })
+        .then((res) => {
+          if (res.code == 20000) {
+            const config = JSON.parse(res.data)
+            uni.requestPayment({
+              provider: 'wxpay',
+              timeStamp: config.timeStamp,
+              nonceStr: config.nonceStr,
+              package: config.package,
+              signType: 'MD5',
+              paySign: config.paySign,
+              success: function(res) {
+                uni.showToast({
+                  title: '支付成功',
+                  duration: 2000,
+                  icon: 'none',
+                })
+                setTimeout(function() {
+                  that.$Route.replace({ name: 'index' })
+                }, 20000)
+              },
+              fail: function(err) {
+                console.log(err)
+                that.flag = false
+                uni.showToast({
+                  title: '支付失败',
+                  duration: 2000,
+                  icon: 'none',
+                })
+              },
+            })
+          }
+        })
     },
     getDetail() {
       this.$http
@@ -87,7 +127,7 @@ export default {
           reg_no: this.$Route.query.reg_no,
         })
         .then((res) => {
-          this.model = res.data
+          this.model = res.info
         })
     },
   },

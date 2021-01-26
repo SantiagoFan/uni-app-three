@@ -1,15 +1,15 @@
 <template>
   <view class="wrap" id="wrap">
-    <view :class="['wrap-status', { 'wrap-status__bg': type == 1}]">
+    <view :class="['wrap-status', { 'wrap-status__bg': type == 3 }]">
       <view class="wrap-status__info">
         <view class="icon">
           <!-- icon icon-dasuozi：锁号 icon-duihao：预约挂号成功 icon-jianhao：icon-jianhao -->
-          <view v-if="type == 0" class="iconfont icon-duihao"></view>
-          <view v-if="type == 1" class="iconfont icon-jianhao"></view>
+          <view v-if="type == 1" class="iconfont icon-duihao"></view>
+          <view v-if="type == 3" class="iconfont icon-jianhao"></view>
           <view v-if="type == 2" class="iconfont icon-dasuozi"></view>
         </view>
         <view class="title">预约挂号成功</view>
-        <view v-if="type == 1" class="tag">有退款</view>
+        <view v-if="type == 3" class="tag">有退款</view>
         <!-- 锁号成功显示 -->
         <view class="time" v-if="type == 2">
           <u-count-down
@@ -23,13 +23,23 @@
           />
         </view>
       </view>
-      <view class="wrap-status__msg">请在锁号的时间内完成支付，负责将取消号源。</view>
+      <view class="wrap-status__msg"
+        >请在锁号的时间内完成支付，负责将取消号源。</view
+      >
     </view>
     <u-gap height="20" bg-color="#f3f3f3"></u-gap>
     <view class="wrap-code">
       <view class="wrap-code__tab">
-        <view :class="['item', {active: codeIndex === 0}]" @click="codeIndex = 0">电子健康卡</view>
-        <view :class="['item', {active: codeIndex === 1}]" @click="codeIndex = 1">院内诊疗号</view>
+        <view
+          :class="['item', { active: codeIndex === 0 }]"
+          @click="codeIndex = 0"
+          >电子健康卡</view
+        >
+        <view
+          :class="['item', { active: codeIndex === 1 }]"
+          @click="codeIndex = 1"
+          >院内诊疗号</view
+        >
       </view>
       <view class="wrap-code__con">
         <view class="wrap-code__con-code1" v-if="codeIndex === 0">
@@ -41,7 +51,7 @@
         </view>
       </view>
     </view>
-    <view class="refund-line" v-if="type == 1">
+    <view class="refund-line" v-if="type == 3">
       <view class="refund-line__text">退款进度</view>
       <view class="refund-line__list">
         <view class="item active">
@@ -76,7 +86,9 @@
           </view>
           <view class="cell">
             <view class="cell-label">就诊时段</view>
-            <view class="cell-con">2020-07-27  星期一  下午  15:00:00<br>（请提前30分钟在候诊区等候就诊）</view>
+            <view class="cell-con"
+              >2020-07-27 星期一 下午 15:00:00<br />（请提前30分钟在候诊区等候就诊）</view
+            >
           </view>
           <view class="cell">
             <view class="cell-label">医院名称</view>
@@ -96,8 +108,8 @@
           </view>
         </view>
       </view>
-      <view class="wrap-info__box" v-if="type == 0 || type == 1">
-        <view :class="['bt', {'bt-show': payDetailShow}]" @click="handleBt">
+      <view class="wrap-info__box" v-if="type == 1 || type == 3">
+        <view :class="['bt', { 'bt-show': payDetailShow }]" @click="handleBt">
           <view class="bt-text">缴费详情</view>
           <view class="bt-arrow">
             <text class="iconfont icon-right"></text>
@@ -130,7 +142,7 @@
           </view>
           <view class="cell">
             <view class="cell-label">支付时间</view>
-            <view class="cell-con">2020-07-04  14:44:14</view>
+            <view class="cell-con">2020-07-04 14:44:14</view>
           </view>
         </view>
       </view>
@@ -145,29 +157,40 @@ export default {
       codeIndex: 0,
       payDetailShow: true,
       type: 0,
-      timestamp: 86400 // 锁号时间
+      timestamp: 86400, // 锁号时间
+      model: {},
+      reg_no: '',
     }
   },
   onLoad() {
     // 1：锁号 2：成功 3：取消
     this.type = this.$Route.query.type
-    console.log(this.type)
+    this.getDetail()
   },
   watch: {
     type() {
-      if (this.type == 1) {
+      if (this.type == 3) {
         uni.setNavigationBarColor({
           frontColor: '#ffffff',
-          backgroundColor: '#979797'
+          backgroundColor: '#979797',
         })
       }
-    }
+    },
   },
   methods: {
     // 点击缴费详情
     handleBt() {
       this.payDetailShow = !this.payDetailShow
-    }
+    },
+    getDetail() {
+      this.$http
+        .post(this.API.REGISTER_ORDER_DETAIL, {
+          reg_no: this.$Route.query.reg_no,
+        })
+        .then((res) => {
+          this.model = res.data
+        })
+    },
   },
 }
 </script>
@@ -335,7 +358,7 @@ export default {
         }
         &-arrow {
           color: #5ecb81;
-          transition: all .5s;
+          transition: all 0.5s;
         }
       }
       .list {
