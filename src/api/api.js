@@ -48,4 +48,5 @@ export default {
   SCHEME_DETAIL: '/scheme/getDetailByScheme', //号源详情
   CREATE_REGISTER: '/register/createRegister', //创建挂号订单
   REGISTER_ORDER_DETAIL: '/register/getOrderDetail', //订单详情
+  REGISTER_PAY: '/register/payOrder', //挂号支付
 }
