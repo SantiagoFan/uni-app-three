@@ -14,9 +14,10 @@
         <view class="head">
           <dh-image
             mode="aspectFill"
-            :src="item.headimg"
+            :src="img_url_convert(item.doctor_head)"
             errorSrc="doctor.jpg"
           ></dh-image>
+          {{img_url_convert(item.doctor_head)}}
         </view>
         <view class="content">
           <view class="content_name">{{ item.doctor_name }}</view>
@@ -57,6 +58,11 @@ export default {
     toDetail(id) {
       this.$Router.push({ name: "doctorInfo", params: { id: id } });
     },
+    img_url_convert(path){
+      // 过滤his 内网图片
+      return 'http://wx.mzyy.org.cn/'
+      +path.replace("/YxSource","/YxSource").replace('172.30.0.172:9999','');
+    }
   },
 };
 </script>

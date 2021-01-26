@@ -36,6 +36,7 @@ export default new Vuex.Store({
         uni.login({
           provider: "weixin",
           success: function(loginRes) {
+            console.info(2)
             if (loginRes.errMsg == "login:ok") {
               let code = loginRes.code;
               http
