@@ -33,6 +33,7 @@ export default {
   methods: {
     error(e) {
       this.imageSrc = basepath + '/static/wx/' + this.errorSrc
+      console.log('errorImage',this.imageSrc)
       this.$emit('error', e)
     },
     load(e) {

@@ -18,7 +18,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .nodata {
-  min-height: 800rpx;
+  min-height: 700rpx;
   text-align: center;
   .img {
     display: block;
