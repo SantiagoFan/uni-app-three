@@ -241,8 +241,10 @@ export default {
     this.getPatientList()
   },
   onLoad() {
-    this.patient_code = this.patientInfo.patient_code
-    this.patient_name = this.patientInfo.name
+    if(this.patientInfo){
+      this.patient_code = this.patientInfo.patient_code
+      this.patient_name = this.patientInfo.name
+    }
     this.doctor_id = this.$Route.query.doctor_id
     this.department_id = this.$Route.query.department_id
     if (this.$Route.query.date) {
