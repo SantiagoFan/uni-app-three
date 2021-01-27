@@ -385,6 +385,7 @@ export default {
         patient_code: this.patient_code,
         doctor_id: this.model.doctor_id,
         department_id: this.model.department_id,
+        doctor_professional: this.model.professional,
       }
       this.$http.post(this.API.CREATE_REGISTER, params).then((res) => {
         if (res.code == 20000) {

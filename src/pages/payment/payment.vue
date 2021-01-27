@@ -46,7 +46,11 @@
       </view>
     </view>
     <view class="wrap-btn">
-      <view class="wrap-btn__con" @click="hanldePay">微信支付</view>
+      <view
+        :class="['wrap-btn__con', { active: timestamp == 0 }]"
+        @click="timestamp > 0 && hanldePay()"
+        >微信支付</view
+      >
     </view>
   </view>
 </template>
@@ -57,13 +61,14 @@ import { weekList } from '@/utils/week.js'
 export default {
   data() {
     return {
-      timestamp: 600,
+      timestamp: 0,
       model: {},
       flag: false,
+      lock_minutes: 0,
     }
   },
   onLoad() {
-    this.getDetail()
+    this.getLockMinute()
   },
   filters: {
     dateStr(date) {
@@ -122,6 +127,13 @@ export default {
           }
         })
     },
+    //锁号分钟
+    getLockMinute() {
+      this.$http.post(this.API.LOCK_MINUTES).then((res) => {
+        this.lock_minutes = res.data
+        this.getDetail()
+      })
+    },
     getDetail() {
       this.$http
         .post(this.API.ORDER_DETAIL, {
@@ -129,6 +141,12 @@ export default {
         })
         .then((res) => {
           this.model = res.data
+          let create_time = moment(this.model.create_time)
+          let minutes = moment().diff(moment(create_time), 'minute') //当前时间距离创建时间多长时间
+          console.log(minutes)
+          if (minutes < this.lock_minutes) {
+            this.timestamp = (this.lock_minutes - minutes) * 60
+          }
         })
     },
   },
@@ -192,6 +210,9 @@ export default {
       text-align: center;
       background: #0ec698;
       border-radius: 8rpx;
+      &.active {
+        background: #cccccc;
+      }
     }
   }
 }

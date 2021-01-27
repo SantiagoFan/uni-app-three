@@ -6,7 +6,7 @@ const http = new Request()
 http.setConfig((config) => {
   /* 设置全局配置 */
   config.baseUrl = baseUrl
-
+  console.log(config)
   config.header = {
     ...config.header,
   }
