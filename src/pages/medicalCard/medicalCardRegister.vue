@@ -56,13 +56,16 @@
             <view class="wrap__con-art-item">
               <view class="label">民族</view>
               <view class="input-box">
-                <input
+                <!-- <input
                   class="input"
                   type="text"
                   name="nation"
                   placeholder="请选择民族"
                   placeholder-class="placr_style"
-                >
+                > -->
+                <picker @change="bindPickerChange" :range="nationList">
+                    <view class="uni-input">{{nationList[nation_index]}}</view>
+                </picker>
               </view>
             </view>
           </view>
@@ -75,13 +78,22 @@
 <script>
 import { isMobile } from "@/utils/common.js";
 import { isCardNo } from "@/utils/checkIdcard.js";
+import nation from "@/common/nation.js";
 export default {
   data(){
     return{
-      flag: false
+      flag: false,
+      nationList:nation.nationList,
+      nation_index:0
     }
   },
+  created(){
+  },
   methods: {
+    bindPickerChange(e){
+      this.nation_index = e.target.value
+      this.data['nation']=this.nationList[this.nation_index]
+    },
     formSubmit(e){
 
       uni.removeStorageSync('patientInfo');
