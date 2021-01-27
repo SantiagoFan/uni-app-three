@@ -277,13 +277,15 @@ export default {
       })
     },
     getHistoryList() {
-      if(!this.patientInfo)return;// 用户未包含就诊卡信息
+      if (!this.patientInfo) return // 用户未包含就诊卡信息
       this.$http
         .post(this.API.REGISTER_HISTORY, {
           patient_code: this.patientInfo.patient_code,
         })
         .then((res) => {
-          this.collectOrRegisterList = res.data
+          if (res.code == 20000) {
+            this.collectOrRegisterList = res.data
+          }
           if (this.collectOrRegisterList.length > 0) {
             this.current = -1
           }
