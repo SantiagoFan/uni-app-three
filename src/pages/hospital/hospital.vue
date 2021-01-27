@@ -41,12 +41,12 @@
               </view>
               <view class="text">医生介绍</view>
             </router-link>
-            <navigator url="/pages/branchPlace/branchPlace" hover-class="none" class="menu-item">
+            <router-link :to="{name:'branchPlace'}" hover-class="none" class="menu-item">
               <view class="icon">
                 <image class="img" mode="widthFix" src="@/static/image/hos_icon3.jpg" />
               </view>
               <view class="text">科室分布</view>
-            </navigator>
+            </router-link>
           </view>
         </view>
         <u-gap height="20" bg-color="#f3f3f3"></u-gap>
