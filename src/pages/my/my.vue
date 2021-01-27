@@ -31,9 +31,7 @@
             v-if="patientInfo"
           >
             <view class="art2_title">
-              <view class="art2_title__name">{{
-                getName(patientInfo.name)
-              }}</view>
+              <view class="art2_title__name">{{patientInfo.name}}</view>
               <view class="art2_title__tag">
                 <view class="art2_title__tag-item">默认卡</view>
                 <view class="art2_title__tag-item">电子就诊卡</view>
