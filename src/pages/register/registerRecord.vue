@@ -4,7 +4,7 @@
       <view class="register-r-main__list">
         <view
           class="item"
-          @click="hanldeClickDetail(item.status, item.reg_no)"
+          @click="hanldeClickDetail(item.reg_no)"
           v-for="(item, index) in list"
           :key="index"
         >
@@ -57,11 +57,11 @@ export default {
     ...mapState(['patientInfo']),
   },
   methods: {
-    hanldeClickDetail(type, reg_no) {
+    hanldeClickDetail(reg_no) {
       // 1：锁号 2：成功 3：取消
       this.$Router.push({
         name: 'registerRecordDetail',
-        params: { type: type, reg_no: reg_no },
+        params: { reg_no: reg_no },
       })
     },
     getList() {

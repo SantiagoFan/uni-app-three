@@ -106,7 +106,7 @@ export default {
                 })
                 that.$Router.replace({
                   name: 'registerRecordDetail',
-                  params: { type: 2, reg_no: res.reg_no },
+                  params: { reg_no: res.reg_no },
                 })
               },
               fail: function(err) {

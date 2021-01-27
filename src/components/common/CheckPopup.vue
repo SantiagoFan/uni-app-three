@@ -17,8 +17,12 @@
         </view>
       </view>
       <view class="check-wrap__btn">
-        <navigator url="/pages/patientAdd/patientAdd" class="item">添加就诊人</navigator>
-        <navigator url="/pages/patientManage/patientManage" class="item">管理就诊人</navigator>
+        <navigator url="/pages/patientAdd/patientAdd" class="item"
+          >添加就诊人</navigator
+        >
+        <navigator url="/pages/patientManage/patientManage" class="item"
+          >管理就诊人</navigator
+        >
       </view>
     </view>
   </u-popup>
@@ -28,7 +32,7 @@
 export default {
   data() {
     return {
-      show: false,  //  切换弹出层
+      show: false, //  切换弹出层
     }
   },
   beforeDestroy() {
@@ -40,7 +44,7 @@ export default {
   methods: {
     handleChoose() {
       this.show = true
-    }
+    },
   },
 }
 </script>
