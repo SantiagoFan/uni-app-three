@@ -39,18 +39,18 @@
         </view>
         <template v-if="patientInfo">
           <view class="index-wrap__art1">
-            <navigator
-              url="/pages/registerRecord/registerRecord"
-              hover-class="none"
+            <router-link
+              :to="{ name: 'registerRecord' }"
               class="index-wrap__art1-item"
-              >挂号记录</navigator
             >
-            <navigator
-              url="/pages/payRecord/payRecord"
-              hover-class="none"
+              <view>挂号记录</view>
+            </router-link>
+            <router-link
+              :to="{ name: 'payRecord' }"
               class="index-wrap__art1-item"
-              >缴费记录</navigator
             >
+              <view>缴费记录</view>
+            </router-link>
             <view class="index-wrap__art1-item" @click="handleVisitCode"
               >就诊码</view
             >
@@ -240,8 +240,8 @@ export default {
   },
   methods: {
     getName(str) {
-      if (str.length > 2) {
-        return str.substr(-2, 2)
+      if (str.length > 4) {
+        return str.substr(-2, 4)
       } else {
         return str
       }

@@ -102,19 +102,21 @@
               <text class="iconfont icon-arrowb"></text>
             </view>
           </view>
-          <navigator url="/pages/myCollect/myCollect" class="item">
-            <view class="item__icon">
-              <image
-                class="img"
-                mode="widthFix"
-                src="@/static/image/my_icon5.png"
-              />
+          <router-link :to="{name:'myCollect'}" hover-class="none" >
+            <view class="item">
+              <view class="item__icon">
+                <image
+                  class="img"
+                  mode="widthFix"
+                  src="@/static/image/my_icon5.png"
+                />
+              </view>
+              <view class="item__text">我的收藏</view>
+              <view class="item__jt">
+                <text class="iconfont icon-arrowb"></text>
+              </view>
             </view>
-            <view class="item__text">我的收藏</view>
-            <view class="item__jt">
-              <text class="iconfont icon-arrowb"></text>
-            </view>
-          </navigator>
+          </router-link>
         </view>
       </view>
     </view>

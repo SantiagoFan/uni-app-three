@@ -111,7 +111,7 @@
               >
                 <view class="date">{{ getTime(item.time) }}</view>
                 <view class="price" v-if="getHasSource(item)"
-                  >¥{{ item.price }}</view
+                  >¥{{ item.price | toFixed }}</view
                 >
                 <view class="price" v-else>已无号</view>
                 <view class="arrow" v-if="getHasSource(item)">
@@ -153,8 +153,8 @@
                 <view class="info-cell__text">{{ model.department_name }}</view>
               </view>
               <view class="info-cell">
-                <view class="info-cell__label">费用：</view>
-                <view class="info-cell__text">{{ price }}</view>
+                <view class="info-cell__label ">费用：</view>
+                <view class="info-cell__text price">{{ price | toFixed }}</view>
               </view>
               <view class="info-cell">
                 <view class="info-cell__label">时段：</view>
@@ -169,20 +169,29 @@
           <view class="order-wrap__info-con">
             <view class="bt">请点击下方加号添加就诊人</view>
             <view class="list">
-              <view
-                :class="['item', { active: patient_code == item.patient_code }]"
-                v-for="(item, index) in patientList"
-                :key="index"
-                @click="changePatient(index)"
-                >{{ getName(item.name) }}</view
-              >
+              <template v-if="patient_code">
+                <view
+                  :class="[
+                    'item',
+                    { active: patient_code == item.patient_code },
+                  ]"
+                  v-for="(item, index) in patientList"
+                  :key="index"
+                  @click="changePatient(index)"
+                  >{{ getName(item.name) }}</view
+                >
+              </template>
               <view class="item-add" @click="addPatient">
                 <text class="iconfont icon-hao"></text>
               </view>
             </view>
           </view>
         </view>
-        <view class="order-wrap__btn" @click="createOrder">确认挂号</view>
+        <view
+          :class="['order-wrap__btn', { active: patient_code }]"
+          @click="patient_code && createOrder()"
+          >确认挂号</view
+        >
       </view>
     </u-popup>
   </view>
@@ -241,7 +250,7 @@ export default {
     this.getPatientList()
   },
   onLoad() {
-    if(this.patientInfo){
+    if (this.patientInfo) {
       this.patient_code = this.patientInfo.patient_code
       this.patient_name = this.patientInfo.name
     }
@@ -273,6 +282,9 @@ export default {
         sourceStatus = '满'
       }
       return sourceStatus
+    },
+    toFixed(price) {
+      return parseFloat(price).toFixed(2)
     },
   },
   methods: {
@@ -720,6 +732,7 @@ export default {
             display: flex;
             font-size: 26rpx;
             margin-bottom: 20rpx;
+
             &:last-child {
               margin-bottom: 0;
             }
@@ -730,6 +743,9 @@ export default {
             }
             &__text {
               color: #999999;
+              &.price {
+                color: #ff8c46;
+              }
             }
           }
         }
@@ -763,6 +779,8 @@ export default {
               background: #0ec698;
             }
             &-add {
+              height: 76rpx;
+              line-height: 76rpx;
               display: flex;
               align-items: center;
               justify-content: center;
@@ -782,7 +800,10 @@ export default {
       text-align: center;
       color: #ffffff;
       font-size: 26rpx;
-      background: #0ec698;
+      background: #cccccc;
+      &.active {
+        background: #0ec698;
+      }
     }
   }
 }

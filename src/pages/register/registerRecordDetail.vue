@@ -1,17 +1,21 @@
 <template>
   <view class="wrap" id="wrap">
-    <view :class="['wrap-status', { 'wrap-status__bg': type == 3 }]">
+    <view :class="['wrap-status', { 'wrap-status__bg': data.status == 3 }]">
       <view class="wrap-status__info">
         <view class="icon">
           <!-- icon icon-dasuozi：锁号 icon-duihao：预约挂号成功 icon-jianhao：icon-jianhao -->
-          <view v-if="type == 1" class="iconfont icon-duihao"></view>
-          <view v-if="type == 3" class="iconfont icon-jianhao"></view>
-          <view v-if="type == 2" class="iconfont icon-dasuozi"></view>
+          <view v-if="data.status == 2" class="iconfont icon-duihao"></view>
+          <view v-if="data.status == 3" class="iconfont icon-jianhao"></view>
+          <view v-if="data.status == 1" class="iconfont icon-dasuozi"></view>
         </view>
-        <view class="title">预约挂号成功</view>
-        <view v-if="type == 3" class="tag">有退款</view>
+        <view class="title" v-if="data.status == 2">锁号成功</view>
+        <view class="title" v-else-if="data.status == 3">预约挂号成功</view>
+        <view class="title" v-else>预约挂号取消成功</view>
+        <view v-if="data.status == 3 && info.status == 4" class="tag"
+          >有退款</view
+        >
         <!-- 锁号成功显示 -->
-        <view class="time" v-if="type == 2">
+        <view class="time" v-if="data.status == 1">
           <u-count-down
             :timestamp="timestamp"
             :show-days="false"
@@ -23,7 +27,7 @@
           />
         </view>
       </view>
-      <view class="wrap-status__msg"
+      <view class="wrap-status__msg" v-if="data.status == 2"
         >请在锁号的时间内完成支付，负责将取消号源。</view
       >
     </view>
@@ -51,7 +55,7 @@
         </view>
       </view>
     </view>
-    <view class="refund-line" v-if="type == 3">
+    <view class="refund-line" v-if="data.status == 3 && info.status == 4">
       <view class="refund-line__text">退款进度</view>
       <view class="refund-line__list">
         <view class="item active">
@@ -74,11 +78,11 @@
         <view class="list">
           <view class="cell">
             <view class="cell-label">就诊人</view>
-            <view class="cell-con">姓名</view>
+            <view class="cell-con">{{ data.patient_name }}</view>
           </view>
           <view class="cell">
             <view class="cell-label">就诊卡号</view>
-            <view class="cell-con">10000000002435464</view>
+            <view class="cell-con">{{ data.patient_code }}</view>
           </view>
           <view class="cell">
             <view class="cell-label">科室位置</view>
@@ -87,20 +91,21 @@
           <view class="cell">
             <view class="cell-label">就诊时段</view>
             <view class="cell-con"
-              >2020-07-27 星期一 下午 15:00:00<br />（请提前30分钟在候诊区等候就诊）</view
+              >{{ info.selectDate | dateStr }} {{ info.time
+              }}<br />（请提前30分钟在候诊区等候就诊）</view
             >
           </view>
           <view class="cell">
             <view class="cell-label">医院名称</view>
-            <view class="cell-con">呼和浩特市蒙医中医医院</view>
+            <view class="cell-con">{{ hospital_name }}</view>
           </view>
           <view class="cell">
             <view class="cell-label">就诊科室</view>
-            <view class="cell-con">脾胃科室</view>
+            <view class="cell-con">{{ data.department_name }}</view>
           </view>
           <view class="cell">
             <view class="cell-label">医生姓名</view>
-            <view class="cell-con">温启宗</view>
+            <view class="cell-con">{{ data.doctor_name }}</view>
           </view>
           <view class="cell">
             <view class="cell-label">医生职称</view>
@@ -151,21 +156,34 @@
 </template>
 
 <script>
+import moment from 'moment'
+import { weekList } from '@/utils/week.js'
 export default {
   data() {
     return {
       codeIndex: 0,
       payDetailShow: true,
-      type: 0,
-      timestamp: 86400, // 锁号时间
-      model: {},
+      timestamp: 0, // 锁号时间
+      data: {},
       reg_no: '',
+      info: {},
+      lock_minutes: 0,
+      hospital_name: '',
     }
   },
   onLoad() {
-    // 1：锁号 2：成功 3：取消
-    this.type = this.$Route.query.type
-    this.getDetail()
+    //(1成功2锁号3取消)
+    this.getHisDetail()
+    this.getLockMinute()
+    this.getOrderDetail()
+    this.getHospitalName()
+  },
+  filters: {
+    dateStr(selectDate) {
+      return (
+        selectDate + ' ' + weekList('星期')[moment(selectDate).isoWeekday() - 1]
+      )
+    },
   },
   watch: {
     type() {
@@ -182,14 +200,50 @@ export default {
     handleBt() {
       this.payDetailShow = !this.payDetailShow
     },
-    getDetail() {
+    //锁号分钟
+    getLockMinute() {
+      this.$http.post(this.API.LOCK_MINUTES).then((res) => {
+        this.lock_minutes = res.data
+      })
+    },
+    //本地挂号详情
+    getOrderDetail() {
+      this.$http
+        .post(this.API.ORDER_DETAIL, {
+          reg_no: this.$Route.query.reg_no,
+        })
+        .then((res) => {
+          this.info = res.data
+          let create_time = moment(this.info.create_time)
+          let minutes = moment().diff(moment(create_time), 'minute') //当前时间距离创建时间多长时间
+          if (minutes < this.info.lock_minutes) {
+            this.timestamp = (this.info.lock_minutes - minutes) * 60
+          } else {
+            this.type = 3
+          }
+          //处理就诊时段
+          let startTime = this.info.time.split('~')
+          this.info.time =
+            startTime[0].split(':')[0] >= 12
+              ? '下午 ' + startTime[0]
+              : '上午 ' + startTime[0]
+        })
+    },
+    //his挂号详情
+    getHisDetail() {
       this.$http
         .post(this.API.REGISTER_ORDER_DETAIL, {
           reg_no: this.$Route.query.reg_no,
         })
         .then((res) => {
-          this.model = res.data
+          this.data = res.data //his详情
         })
+    },
+    //医院名称
+    getHospitalName() {
+      this.$http.post(this.API.HOSPITAL_NAME).then((res) => {
+        this.hospital_name = res.data
+      })
     },
   },
 }

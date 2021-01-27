@@ -36,12 +36,16 @@ export default new Vuex.Store({
         uni.login({
           provider: "weixin",
           success: function(loginRes) {
-            console.info(2)
+            console.info('登录结果',loginRes)
             if (loginRes.errMsg == "login:ok") {
               let code = loginRes.code;
               http
-                .post(api.GET_TOKEN, { code }, false, false)
+                .post(api.GET_TOKEN, { code }, false)
                 .then((res) => {
+                  // uni.showToast({
+                  //   title: '登录结果'+JSON.stringify(res),
+                  //   icon:'none'
+                  // });
                   uni.hideLoading();
                   if (res.code === 20000) {
                     uni.setStorageSync("token", res.token);
@@ -53,6 +57,11 @@ export default new Vuex.Store({
                   }
                 })
                 .catch((res) => {
+                  uni.showToast({
+                    title: '登录结果'+JSON.stringify(res),
+                    icon:'none',
+                    duration:10000
+                  });
                   console.log("GET_TOKEN", res);
                   reject();
                 });

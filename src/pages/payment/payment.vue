@@ -98,15 +98,16 @@ export default {
               package: config.package,
               signType: 'MD5',
               paySign: config.paySign,
-              success: function(res) {
+              success: function(response) {
                 uni.showToast({
                   title: '支付成功',
                   duration: 2000,
                   icon: 'none',
                 })
-                setTimeout(function() {
-                  that.$Route.replace({ name: 'index' })
-                }, 20000)
+                that.$Router.replace({
+                  name: 'registerRecordDetail',
+                  params: { reg_no: res.reg_no },
+                })
               },
               fail: function(err) {
                 console.log(err)
@@ -123,11 +124,11 @@ export default {
     },
     getDetail() {
       this.$http
-        .post(this.API.REGISTER_ORDER_DETAIL, {
+        .post(this.API.ORDER_DETAIL, {
           reg_no: this.$Route.query.reg_no,
         })
         .then((res) => {
-          this.model = res.info
+          this.model = res.data
         })
     },
   },

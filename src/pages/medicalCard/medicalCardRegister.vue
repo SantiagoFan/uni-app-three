@@ -1,7 +1,9 @@
 <template>
   <view class="container">
     <view class="wrap">
-      <view class="wrap__massage">温馨提示：<br>本院实行实名制就诊，<br>请如实填写就诊人信息，系统将为您办理新建卡</view>
+      <view class="wrap__massage"
+        >温馨提示：<br />本院实行实名制就诊，<br />请如实填写就诊人信息，系统将为您办理新建卡</view
+      >
       <form @submit="formSubmit">
         <view class="wrap__con">
           <view class="wrap__con-art">
@@ -14,7 +16,7 @@
                   name="name"
                   placeholder="请输入姓名"
                   placeholder-class="placr_style"
-                >
+                />
               </view>
             </view>
             <view class="wrap__con-art-item">
@@ -26,7 +28,7 @@
                   name="idcard"
                   placeholder="请输入身份证号"
                   placeholder-class="placr_style"
-                >
+                />
               </view>
             </view>
             <view class="wrap__con-art-item">
@@ -38,7 +40,7 @@
                   name="phone"
                   placeholder="请输入手机号码"
                   placeholder-class="placr_style"
-                >
+                />
               </view>
             </view>
             <view class="wrap__con-art-item">
@@ -50,19 +52,22 @@
                   name="address"
                   placeholder="请输入住址"
                   placeholder-class="placr_style"
-                >
+                />
               </view>
             </view>
             <view class="wrap__con-art-item">
               <view class="label">民族</view>
               <view class="input-box">
-                <input
+                <!-- <input
                   class="input"
                   type="text"
                   name="nation"
                   placeholder="请选择民族"
                   placeholder-class="placr_style"
-                >
+                > -->
+                <picker @change="bindPickerChange" :range="nationList">
+                  <view class="uni-input">{{ nationList[nation_index] }}</view>
+                </picker>
               </view>
             </view>
           </view>
@@ -73,99 +78,104 @@
   </view>
 </template>
 <script>
-import { isMobile } from "@/utils/common.js";
-import { isCardNo } from "@/utils/checkIdcard.js";
+import { isMobile, isNull } from '@/utils/common.js'
+import { isCardNo } from '@/utils/checkIdcard.js'
+import nation from '@/common/nation.js'
 export default {
-  data(){
-    return{
-      flag: false
+  data() {
+    return {
+      flag: false,
+      nationList: nation.nationList,
+      nation_index: 0,
     }
   },
+  created() {},
   methods: {
-    formSubmit(e){
-
-      uni.removeStorageSync('patientInfo');
-      var data = e.detail.value;
-      if(data['name'].trim()==''){
+    bindPickerChange(e) {
+      this.nation_index = e.target.value
+      this.data['nation'] = this.nationList[this.nation_index]
+    },
+    formSubmit(e) {
+      uni.removeStorageSync('patientInfo')
+      var data = e.detail.value
+      data.nation = this.nationList[this.nation_index]
+      if (isNull(data['name'])) {
         uni.showToast({
           title: '请输入姓名',
           duration: 2000,
-          icon:'none',
-        });
-        return false;
+          icon: 'none',
+        })
+        return false
       }
-      if(!isCardNo(data['idcard'])){
-				uni.showToast({
-					title: "身份证号不正确",
-					icon: "none"
-				});
-				return false;
-			}
-      if(!isMobile(data['phone'])){
-				uni.showToast({
-					title: "手机号码不正确",
-					icon: "none"
-				});
-				return false;
+      if (!isCardNo(data['idcard'])) {
+        uni.showToast({
+          title: '身份证号不正确',
+          icon: 'none',
+        })
+        return false
       }
-      if(data['address'].trim()==''){
+      if (!isMobile(data['phone'])) {
+        uni.showToast({
+          title: '手机号码不正确',
+          icon: 'none',
+        })
+        return false
+      }
+      if (isNull(data['address'])) {
         uni.showToast({
           title: '请输入住址',
           duration: 2000,
-          icon:'none',
-        });
-        return false;
+          icon: 'none',
+        })
+        return false
       }
-      if(data['nation'].trim()==''){
-        uni.showToast({
-          title: '请输入民族',
-          duration: 2000,
-          icon:'none',
-        });
-        return false;
+      if (this.flag) {
+        return false
       }
-      if(this.flag){
-        return false;
-      }
-      this.flag = true;
-      this.$http.post(this.API.ADD_PATIENT,data).then(res=>{
-        switch(res.code){
-          case 50001:
-            uni.setStorageSync('patientInfo', res.data)
-            uni.showModal({
-              title: '提示',
-              content: res.message,
-              confirmText: '去绑定',
-              success: function (res) {
+      this.flag = true
+      this.$http
+        .post(this.API.ADD_PATIENT, data)
+        .then((res) => {
+          switch (res.code) {
+            case 50001:
+              uni.setStorageSync('patientInfo', res.data)
+              uni.showModal({
+                title: '提示',
+                content: res.message,
+                confirmText: '去绑定',
+                success: function(res) {
                   if (res.confirm) {
-                    this.$Router.replace('/pages/medicalCardBind/medicalCardBind');
+                    this.$Router.replace(
+                      '/pages/medicalCardBind/medicalCardBind'
+                    )
                   } else if (res.cancel) {
                   }
-              }
-          });
-          
-          break;
-          case 50000:
-            uni.showToast({
-              title: res.message,
-              duration: 2000,
-              icon:'none',
-            });
-          break;
-          case 20000:
-             uni.showToast({
-              title: res.message,
-              duration: 2000,
-              icon:'none',
-            });
-            setTimeout(()=>{
-              this.$Router.replaceAll('/pages/index/index');
-            },1000)
-        }
-      }).finally(res=>{
-        this.flag = false
-      })
-    }
+                },
+              })
+
+              break
+            case 50000:
+              uni.showToast({
+                title: res.message,
+                duration: 2000,
+                icon: 'none',
+              })
+              break
+            case 20000:
+              uni.showToast({
+                title: res.message,
+                duration: 2000,
+                icon: 'none',
+              })
+              setTimeout(() => {
+                this.$Router.back(1)
+              }, 1000)
+          }
+        })
+        .finally((res) => {
+          this.flag = false
+        })
+    },
     // formSubmit(e) {
     //   const { value } = e.detail
     //   uni.setStorageSync('token', value.name)
@@ -182,7 +192,6 @@ export default {
     //     }
     //   })
     // },
-
   },
 }
 </script>
@@ -247,5 +256,4 @@ export default {
     }
   }
 }
-
 </style>

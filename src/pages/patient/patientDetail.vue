@@ -39,7 +39,6 @@
       <view class="wrap-code__con">
         <view class="wrap-code__con-code1" :class="{ hide: codeIndex === 1 }">
           <canvas class="img" canvas-id="qrcode"></canvas>
-          <!-- <image class="img" mode="aspectFill" src="@/static/image/code1.jpg" /> -->
         </view>
         <view class="wrap-code__con-code2" :class="{ hide: codeIndex === 0 }">
           <canvas class="img" canvas-id="barcode"></canvas>
@@ -72,7 +71,7 @@ export default {
           if (res.code == 20000) {
             this.model = res.data
             wxbarcode.barcode('barcode', this.model.patient_code, 610, 140)
-            wxbarcode.qrcode('qrcode', this.model.patient_code, 400, 400)
+            wxbarcode.qrcode('qrcode', this.model.health_code, 400, 400)
           }
         })
     },
