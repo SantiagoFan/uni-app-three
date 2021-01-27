@@ -2,22 +2,12 @@
   <view class="hospital">
     <view class="hospital-m">
       <view class="hospital-m__pic">
-        <dh-image
-          class="img"
-          mode="widthFix"
-          :src="banner"
-          errorSrc="hos_pic.jpg"
-        ></dh-image>
+        <dh-image class="img" mode="widthFix" :src="banner" errorSrc="hos_pic.jpg"></dh-image>
       </view>
       <view class="hospital-m__wrap">
         <view class="hospital-m__wrap-info">
           <view class="logo">
-            <dh-image
-              class="img"
-              mode="widthFix"
-              :src="info.image"
-              errorSrc="hos_logo.jpg"
-            ></dh-image>
+            <dh-image class="img" mode="widthFix" :src="info.image" errorSrc="hos_logo.jpg"></dh-image>
             <view class="tag">{{ info.grade }}</view>
           </view>
           <view class="menu">
@@ -39,45 +29,21 @@
         <view class="hospital-m__wrap-sta">
           <view class="bt">功能清单</view>
           <view class="menu">
-            <router-link
-              :to="{ name: 'department', params: { isDoctor: 0 } }"
-              hover-class="none"
-              class="menu-item"
-            >
+            <router-link :to="{ name: 'department', params: { isDoctor: 0 } }" hover-class="none" class="menu-item">
               <view class="icon">
-                <image
-                  class="img"
-                  mode="widthFix"
-                  src="@/static/image/hos_icon1.jpg"
-                />
+                <image class="img" mode="widthFix" src="@/static/image/hos_icon1.jpg" />
               </view>
               <view class="text">科室介绍</view>
             </router-link>
-            <router-link
-              :to="{ name: 'department', params: { isDoctor: 1 } }"
-              hover-class="none"
-              class="menu-item"
-            >
+            <router-link :to="{ name: 'department', params: { isDoctor: 1 } }" hover-class="none" class="menu-item">
               <view class="icon">
-                <image
-                  class="img"
-                  mode="widthFix"
-                  src="@/static/image/hos_icon2.jpg"
-                />
+                <image class="img" mode="widthFix" src="@/static/image/hos_icon2.jpg" />
               </view>
               <view class="text">医生介绍</view>
             </router-link>
-            <navigator
-              url="/pages/branchPlace/branchPlace"
-              hover-class="none"
-              class="menu-item"
-            >
+            <navigator url="/pages/branchPlace/branchPlace" hover-class="none" class="menu-item">
               <view class="icon">
-                <image
-                  class="img"
-                  mode="widthFix"
-                  src="@/static/image/hos_icon3.jpg"
-                />
+                <image class="img" mode="widthFix" src="@/static/image/hos_icon3.jpg" />
               </view>
               <view class="text">科室分布</view>
             </navigator>
