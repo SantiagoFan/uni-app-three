@@ -51,4 +51,5 @@ export default {
   REGISTER_PAY: '/register/payOrder', //挂号支付
   EXAMINATION: '/examination/getExamination', //门诊代缴费项目
   REGISTER_ORDER_DETAIL: '/register/getRegisterOrderDetail', //记录详情
+  GET_TEMPLATE_ID: '/message/getTemplateId', //查询通知
 }
