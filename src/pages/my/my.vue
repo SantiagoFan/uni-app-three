@@ -50,33 +50,37 @@
           </view>
         </view>
         <view class="my-wrap__list">
-          <navigator url="/pages/registerRecord/registerRecord" class="item">
-            <view class="item__icon">
-              <image
-                class="img"
-                mode="widthFix"
-                src="@/static/image/my_icon1.png"
-              />
+          <router-link :to="{name:'registerRecord'}" hover-class="none" >
+            <view class="item">
+              <view class="item__icon">
+                <image
+                  class="img"
+                  mode="widthFix"
+                  src="@/static/image/my_icon1.png"
+                />
+              </view>
+              <view class="item__text">挂号记录</view>
+              <view class="item__jt">
+                <text class="iconfont icon-arrowb"></text>
+              </view>
             </view>
-            <view class="item__text">挂号记录</view>
-            <view class="item__jt">
-              <text class="iconfont icon-arrowb"></text>
+          </router-link>
+          <router-link :to="{name:'payRecord'}" hover-class="none" >
+            <view class="item">
+              <view class="item__icon">
+                <image
+                  class="img"
+                  mode="widthFix"
+                  src="@/static/image/my_icon2.png"
+                />
+              </view>
+              <view class="item__text">门诊缴费记录</view>
+              <view class="item__jt">
+                <text class="iconfont icon-arrowb"></text>
+              </view>
             </view>
-          </navigator>
-          <navigator url="/pages/payRecord/payRecord?type=0" class="item">
-            <view class="item__icon">
-              <image
-                class="img"
-                mode="widthFix"
-                src="@/static/image/my_icon2.png"
-              />
-            </view>
-            <view class="item__text">门诊缴费记录</view>
-            <view class="item__jt">
-              <text class="iconfont icon-arrowb"></text>
-            </view>
-          </navigator>
-          <navigator url="/pages/payRecord/payRecord?type=1" class="item">
+          </router-link>
+          <!-- <navigator url="/pages/payRecord/payRecord?type=1" class="item">
             <view class="item__icon">
               <image
                 class="img"
@@ -88,20 +92,22 @@
             <view class="item__jt">
               <text class="iconfont icon-arrowb"></text>
             </view>
-          </navigator>
-          <view @click="livePatientRecord" class="item">
-            <view class="item__icon">
-              <image
-                class="img"
-                mode="widthFix"
-                src="@/static/image/my_icon4.png"
-              />
+          </navigator> -->
+          <router-link :to="{name:'livePatientRecord'}" hover-class="none" >
+            <view  class="item">
+              <view class="item__icon">
+                <image
+                  class="img"
+                  mode="widthFix"
+                  src="@/static/image/my_icon4.png"
+                />
+              </view>
+              <view class="item__text">住院缴费记录</view>
+              <view class="item__jt">
+                <text class="iconfont icon-arrowb"></text>
+              </view>
             </view>
-            <view class="item__text">住院缴费记录</view>
-            <view class="item__jt">
-              <text class="iconfont icon-arrowb"></text>
-            </view>
-          </view>
+          </router-link>
           <router-link :to="{name:'myCollect'}" hover-class="none" >
             <view class="item">
               <view class="item__icon">
@@ -161,9 +167,6 @@ export default {
     },
     addPatient() {
       this.$Router.push({ name: 'medicalCardLogin' })
-    },
-    livePatientRecord(){
-      this.$Router.push({name:"livePatientRecord"})
     }
   },
 }
@@ -288,9 +291,9 @@ export default {
           height: 80rpx;
           padding: 0 35rpx;
           margin-bottom: 20rpx;
-          &:last-child {
-            margin-bottom: 0;
-          }
+          // &:last-child {
+          //   margin-bottom: 0;
+          // }
           &__icon {
             width: 60rpx;
             margin-right: 35rpx;

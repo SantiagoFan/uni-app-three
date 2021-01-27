@@ -57,7 +57,7 @@
       }
     },
     {
-      "path": "pages/payRecordDetail/payRecordDetail",
+      "path": "pages/payRecord/payRecordDetail",
       "name": "payRecordDetail",
       "style": {
         "navigationBarTitleText": "诊间支付缴费详情",
