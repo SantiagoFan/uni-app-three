@@ -11,9 +11,9 @@
         <view class="title">预约挂号成功</view>
         <view v-if="type == 3" class="tag">有退款</view>
         <!-- 锁号成功显示 -->
-        <view class="time" v-if="type == 2">
+        <view class="time" v-if="type == 1">
           <u-count-down
-            :timestamp="timestamp"
+            :timestamp="info.lock_minutes"
             :show-days="false"
             :show-hours="false"
             bg-color="transparent"
@@ -23,7 +23,7 @@
           />
         </view>
       </view>
-      <view class="wrap-status__msg"
+      <view class="wrap-status__msg" v-if="type == 1"
         >请在锁号的时间内完成支付，负责将取消号源。</view
       >
     </view>
@@ -160,6 +160,7 @@ export default {
       timestamp: 86400, // 锁号时间
       model: {},
       reg_no: '',
+      info: {},
     }
   },
   onLoad() {
@@ -188,7 +189,8 @@ export default {
           reg_no: this.$Route.query.reg_no,
         })
         .then((res) => {
-          this.model = res.data
+          this.model = res.data //his详情
+          this.info = res.info //本地订单详情
         })
     },
   },

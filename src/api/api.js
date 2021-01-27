@@ -47,6 +47,8 @@ export default {
   LIVE_PAY_RECORD_DETAIL: '/live_patient/getLivePayRecordDetail', //住院缴费记录详情
   SCHEME_DETAIL: '/scheme/getDetailByScheme', //号源详情
   CREATE_REGISTER: '/register/createRegister', //创建挂号订单
-  REGISTER_ORDER_DETAIL: '/register/getOrderDetail', //订单详情
+  ORDER_DETAIL: '/register/getOrderDetail', //订单详情
   REGISTER_PAY: '/register/payOrder', //挂号支付
+  EXAMINATION: '/examination/getExamination', //门诊代缴费项目
+  REGISTER_ORDER_DETAIL: '/register/getRegisterOrderDetail', //记录详情
 }

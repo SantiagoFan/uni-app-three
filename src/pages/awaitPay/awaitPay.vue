@@ -1,7 +1,9 @@
 <template>
   <view class="container">
     <view class="wrap">
-      <view class="wrap__massage">温馨提示：<br>暂时不支持医保卡看病，持有医保卡的用户请到前台直接办理手续。</view>
+      <view class="wrap__massage"
+        >温馨提示：<br />暂时不支持医保卡看病，持有医保卡的用户请到前台直接办理手续。</view
+      >
       <view class="wrap__user">
         <view class="info">
           <view class="title">
@@ -19,7 +21,7 @@
           @click="handleChoose(index)"
         >
           <view class="item-sta">
-            <view :class="['item-sta__icon', {active: item.checked}]">
+            <view :class="['item-sta__icon', { active: item.checked }]">
               <text class="iconfont icon-duihao2"></text>
             </view>
             <view class="item-sta__con">
@@ -44,7 +46,7 @@
       <view class="fot-box__total">
         <text class="text">总额：</text>
         <text class="price">￥0.00</text>
-        <text>{{val}}</text>
+        <text>{{ val }}</text>
       </view>
       <navigator url="/pages/payment/payment" class="fot-box__btn active">
         <text class="text">去缴费</text>
@@ -57,18 +59,30 @@
 
 <script>
 import CheckPopup from '@/components/common/CheckPopup'
+import { mapState } from 'vuex'
 export default {
   data() {
     return {
-      show: false,  //  切换弹出层
-      list: [{
-        title: '项目名称1',
-        checked: false
-      },{
-        title: '项目名称2',
-        checked: false
-      }]
+      show: false, //  切换弹出层
+      list: [
+        {
+          title: '项目名称1',
+          checked: false,
+        },
+        {
+          title: '项目名称2',
+          checked: false,
+        },
+      ],
     }
+  },
+  onLoad() {
+    if (this.patientInfo) {
+      this.getExamination()
+    }
+  },
+  computed: {
+    ...mapState(['patientInfo']),
   },
   methods: {
     handleChoose(index) {
@@ -76,11 +90,18 @@ export default {
     },
     handleCheck() {
       this.$refs.popup.handleChoose()
-    }
+    },
+    getExamination() {
+      this.$http
+        .post(this.API.EXAMINATION, {
+          patient_code: this.patientInfo.patient_code,
+        })
+        .then((res) => {})
+    },
   },
   components: {
-    CheckPopup
-  }
+    CheckPopup,
+  },
 }
 </script>
 
@@ -139,16 +160,16 @@ export default {
         }
       }
       .switch {
-          position: absolute;
-          top: 25rpx;
-          right: 20rpx;
-          line-height: 42rpx;
-          padding: 0 15rpx;
-          color: #51d6b5;
-          font-size: 20rpx;
-          border: 1rpx solid #51d6b5;
-          border-radius: 20rpx;
-        }
+        position: absolute;
+        top: 25rpx;
+        right: 20rpx;
+        line-height: 42rpx;
+        padding: 0 15rpx;
+        color: #51d6b5;
+        font-size: 20rpx;
+        border: 1rpx solid #51d6b5;
+        border-radius: 20rpx;
+      }
     }
     &__list {
       .item {
