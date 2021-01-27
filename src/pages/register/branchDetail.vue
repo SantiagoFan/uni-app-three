@@ -47,7 +47,7 @@
               <view
                 class="count"
                 :style="{
-                  color: item.time == selectDate ? '#0ec698' : '',
+                  color: item.num > 0 ? '#0ec698' : '',
                 }"
                 >{{ item.time | getDay }}</view
               >
