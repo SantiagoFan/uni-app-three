@@ -94,7 +94,7 @@
                   >
                     <view
                       class="count"
-                      :style="{ color: item.is_exist == 1 ? '#0ec698' : '' }"
+                      :style="{ color: item.num > 0 ? '#0ec698' : '' }"
                       >{{ item.time | getDay }}</view
                     >
                     <view class="status">{{ item | getSourceStatus }}</view>
@@ -385,6 +385,7 @@ export default {
         patient_code: this.patient_code,
         doctor_id: this.model.doctor_id,
         department_id: this.model.department_id,
+        doctor_professional: this.model.professional,
       }
       this.$http.post(this.API.CREATE_REGISTER, params).then((res) => {
         if (res.code == 20000) {

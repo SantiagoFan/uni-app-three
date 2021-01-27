@@ -109,7 +109,9 @@
           </view>
           <view class="cell">
             <view class="cell-label">医生职称</view>
-            <view class="cell-con">主任医师</view>
+            <view class="cell-con">{{
+              info.doctor_professional == null ? '' : info.doctor_professional
+            }}</view>
           </view>
         </view>
       </view>
@@ -216,8 +218,8 @@ export default {
           this.info = res.data
           let create_time = moment(this.info.create_time)
           let minutes = moment().diff(moment(create_time), 'minute') //当前时间距离创建时间多长时间
-          if (minutes < this.info.lock_minutes) {
-            this.timestamp = (this.info.lock_minutes - minutes) * 60
+          if (minutes < this.lock_minutes) {
+            this.timestamp = (this.lock_minutes - minutes) * 60
           } else {
             this.type = 3
           }
