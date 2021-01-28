@@ -2,7 +2,7 @@
   <view class="wrap">
     <view class="wrap_top">
       <view class="wrap_top__date" v-if="tabIndex === 0"
-        >日期：{{ selectDate }}</view
+        >日期:{{ selectDate }}</view
       ><!-- 按日期预约显示 -->
       <view class="wrap_top__date" v-else></view
       ><!-- 按日期预约显示 -->
@@ -47,7 +47,7 @@
               <view
                 class="count"
                 :style="{
-                  color: item.time == selectDate ? '#0ec698' : '',
+                  color: item.num > 0 ? '#0ec698' : '',
                 }"
                 >{{ item.time | getDay }}</view
               >
@@ -262,7 +262,7 @@ export default {
     padding: 20rpx 30rpx;
     &__date {
       color: #666666;
-      font-size: 26rpx;
+      font-size: 30rpx;
     }
     &__tab {
       display: flex;
@@ -275,7 +275,7 @@ export default {
         height: 54rpx;
         line-height: 54rpx;
         padding: 0 20rpx;
-        font-size: 24rpx;
+        font-size: 30rpx;
         border-radius: 4rpx;
         &.active {
           color: #5ecb81;
@@ -300,8 +300,11 @@ export default {
         margin-bottom: 10rpx;
         padding-bottom: 20rpx;
         border-bottom: 2rpx solid #e4e4e4;
+        
         &__item {
           flex: 1;
+          color: #666;
+          font-size: 28rpx;
         }
       }
       .list {
@@ -321,7 +324,7 @@ export default {
           flex-basis: 110rpx;
           flex-shrink: 0;
           // height: 126rpx;
-          font-size: 22rpx;
+          font-size: 26rpx;
           white-space: nowrap;
           .week {
             color: #666666;
@@ -428,19 +431,19 @@ export default {
           justify-content: space-evenly;
           flex: 1;
           color: #a8a8a8;
-          font-size: 24rpx;
+          font-size: 30rpx;
           .title {
             display: flex;
             justify-content: space-between;
             align-items: center;
             color: #484848;
-            font-size: 28rpx;
+            font-size: 34rpx;
             .right {
               display: flex;
               align-items: center;
               .sur {
                 color: #333333;
-                font-size: 24rpx;
+                font-size: 28rpx;
                 margin-right: 25rpx;
               }
               .tag {
@@ -448,7 +451,7 @@ export default {
                 height: 40rpx;
                 line-height: 40rpx;
                 color: #ffffff;
-                font-size: 24rpx;
+                font-size: 28rpx;
                 text-align: center;
                 background: #ff8c46;
                 border-radius: 8rpx;

@@ -94,7 +94,7 @@
                   >
                     <view
                       class="count"
-                      :style="{ color: item.is_exist == 1 ? '#0ec698' : '' }"
+                      :style="{ color: item.num > 0 ? '#0ec698' : '' }"
                       >{{ item.time | getDay }}</view
                     >
                     <view class="status">{{ item | getSourceStatus }}</view>
