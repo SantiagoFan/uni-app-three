@@ -27,8 +27,8 @@
                 src="@/static/image/doctor_d_icon1-h.png"
               />
             </view>
-            <view class="share_icon">
-              <image
+            <view class="share_icon" >
+             <image
                 class="img"
                 mode="widthFix"
                 src="@/static/image/doctor_d_icon2.png"
@@ -167,7 +167,8 @@
             </view>
           </view>
           <view class="order-wrap__info-con">
-            <view class="bt">请点击下方加号添加就诊人</view>
+            <view class="bt">请选择就诊人</view>
+            <view class="info">({{patient_name}} 卡号:{{patient_code}})</view>
             <view class="list">
               <template v-if="patient_code">
                 <view
@@ -309,7 +310,7 @@ export default {
     },
     getDetail() {
       this.$http
-        .post(this.API.DOCTOR_INFO, { id: this.doctor_id })
+        .post(this.API.DOCTOR_INFO, { id: this.doctor_id },false)
         .then((res) => {
           this.model = res.data
         })
@@ -332,9 +333,9 @@ export default {
         })
     },
     addCollect() {
-      if (this.model.id) {
+      if (this.model.doctor_id) {
         this.$http
-          .post(this.API.ADD_COLLECT, { id: this.model.id })
+          .post(this.API.ADD_COLLECT, { id: this.model.doctor_id })
           .then((res) => {
             if (res.code == 20000) {
               this.model.is_collect = !this.model.is_collect
@@ -357,7 +358,7 @@ export default {
       this.schemeIndex = index
     },
     getPatientList() {
-      this.$http.post(this.API.PATIENT_LIST).then((res) => {
+      this.$http.post(this.API.PATIENT_LIST,{},false).then((res) => {
         this.patientList = res.data
         this.count = res.count
       })
@@ -421,6 +422,15 @@ export default {
       this.patient_code = this.patientList[index]['patient_code']
       this.patient_name = this.patientList[index]['name']
     },
+    onShareAppMessage(res) {
+      if (res.from === 'button') {// 来自页面内分享按钮
+        console.log(res.target)
+      }
+      return {
+        title: '自定义分享标题',
+        path: '/pages/test/test?id=123'
+      }
+    }
   },
 }
 </script>
@@ -462,7 +472,7 @@ export default {
           display: flex;
           align-items: center;
           &_icon {
-            width: 42rpx;
+            width: 62rpx;
             margin-right: 20rpx;
             &:last-child {
               margin-right: 0;
@@ -519,10 +529,10 @@ export default {
           .title {
             display: flex;
             align-items: center;
-            height: 78rpx;
+            height: 86rpx;
             border-bottom: 1rpx solid #ededed;
             color: #999999;
-            font-size: 26rpx;
+            font-size: 30rpx;
             padding: 0 30rpx;
             .date {
               flex: 1;
@@ -569,7 +579,7 @@ export default {
                 flex-basis: 110rpx;
                 flex-shrink: 0;
                 // height: 126rpx;
-                font-size: 22rpx;
+                font-size: 32rpx;
                 white-space: nowrap;
                 .week {
                   color: #666666;
@@ -580,15 +590,16 @@ export default {
                   flex-direction: column;
                   align-items: center;
                   justify-content: center;
-                  width: 65rpx;
-                  height: 65rpx;
+                  width: 80rpx;
+                  height: 80rpx;
                   border-radius: 50%;
                   .count {
                     color: #666666;
-                    font-size: 24rpx;
+                    font-size: 32rpx;
                   }
                   .status {
                     color: #bcbcbc;
+                    font-size: 26rpx;
                   }
                   &.active {
                     background: #0ec698;
@@ -667,10 +678,12 @@ export default {
               .date {
                 flex: 1;
                 color: #333333;
+                font-size: 32rpx;
               }
               .price {
                 color: #ff8c46;
                 margin-right: 5rpx;
+                font-size: 30rpx;
               }
               .arrow {
                 color: #cdcdcd;
@@ -731,7 +744,7 @@ export default {
           flex: 1;
           &-cell {
             display: flex;
-            font-size: 26rpx;
+            font-size: 30rpx;
             margin-bottom: 20rpx;
 
             &:last-child {
@@ -739,7 +752,7 @@ export default {
             }
             &__label {
               color: #333333;
-              font-size: 26rpx;
+              font-size: 30rpx;
               margin-right: 15rpx;
             }
             &__text {
@@ -759,6 +772,10 @@ export default {
           color: #333333;
           font-size: 26rpx;
         }
+        .info{
+          color:#979797;
+          line-height: 60rpx;
+        }
         .list {
           display: grid;
           grid-template-columns: repeat(6, 76rpx);
@@ -766,10 +783,11 @@ export default {
           grid-gap: 20rpx 40rpx;
           margin-top: 30rpx;
           .item {
-            height: 76rpx;
-            line-height: 76rpx;
+            width: 90rpx;
+            height: 90rpx;
+            line-height: 90rpx;
             border-radius: 50%;
-            font-size: 26rpx;
+            font-size: 30rpx;
             text-align: center;
             overflow: hidden;
             color: #78d395;
@@ -780,8 +798,9 @@ export default {
               background: #0ec698;
             }
             &-add {
-              height: 76rpx;
-              line-height: 76rpx;
+              width: 90rpx;
+              height: 90rpx;
+              line-height: 90rpx;
               display: flex;
               align-items: center;
               justify-content: center;
@@ -796,11 +815,11 @@ export default {
     }
     &__btn {
       width: 100%;
-      height: 80rpx;
-      line-height: 80rpx;
+      height: 90rpx;
+      line-height: 90rpx;
       text-align: center;
       color: #ffffff;
-      font-size: 26rpx;
+      font-size: 32rpx;
       background: #cccccc;
       &.active {
         background: #0ec698;
