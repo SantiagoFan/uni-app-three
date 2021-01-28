@@ -26,6 +26,7 @@
                   class="input"
                   type="idcard"
                   name="idcard"
+                  maxlength="18"
                   placeholder="请输入身份证号"
                   placeholder-class="placr_style"
                 />
@@ -110,14 +111,14 @@ export default {
       }
       if (!isCardNo(data['idcard'])) {
         uni.showToast({
-          title: '身份证号不正确',
+          title: '身份证号有误',
           icon: 'none',
         })
         return false
       }
       if (!isMobile(data['phone'])) {
         uni.showToast({
-          title: '手机号码不正确',
+          title: '手机号码有误',
           icon: 'none',
         })
         return false
@@ -137,32 +138,8 @@ export default {
       this.$http
         .post(this.API.ADD_PATIENT, data)
         .then((res) => {
-          switch (res.code) {
-            case 50001:
-              uni.setStorageSync('patientInfo', res.data)
-              uni.showModal({
-                title: '提示',
-                content: res.message,
-                confirmText: '去绑定',
-                success: function(res) {
-                  if (res.confirm) {
-                    this.$Router.replace(
-                      '/pages/medicalCardBind/medicalCardBind'
-                    )
-                  } else if (res.cancel) {
-                  }
-                },
-              })
-
-              break
-            case 50000:
-              uni.showToast({
-                title: res.message,
-                duration: 2000,
-                icon: 'none',
-              })
-              break
-            case 20000:
+          if(res.code===20000){
+             this.$store.commit('setPatientInfo', res.data)
               uni.showToast({
                 title: res.message,
                 duration: 2000,

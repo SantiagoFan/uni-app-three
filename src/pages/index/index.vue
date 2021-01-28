@@ -14,7 +14,7 @@
           <view class="index-wrap__user-info">
             <view v-if="patientInfo">
               <view class="title">
-                <view class="name">{{ getName(patientInfo.name) }}</view>
+                <view class="name">{{ patientInfo.name }}</view>
                 <view class="tag">电子就诊卡</view>
                 <view @click="changePatient" class="check">切换</view>
               </view>
