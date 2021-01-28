@@ -16,19 +16,30 @@
         class="item"
         v-for="(item, index) in list"
         :key="index"
-        @click="handleClickDetail(item.report_code)"
+        @click="
+          item.report_code &&
+            item.status == 1 &&
+            handleClickDetail(item.report_code)
+        "
       >
         <view class="title">{{ item.report_name }}</view>
         <view class="date">{{ item.report_time }}</view>
-        <view class="status" v-if="item.stauts == 1">
+        <view class="status">
           <image
+            v-if="item.status == 1"
             class="img"
             mode="widthFix"
             src="@/static/image/check_report_icon.jpg"
           />
+          <image
+            v-else
+            class="img"
+            mode="widthFix"
+            src="@/static/image/check_report_icon2.jpg"
+          />
         </view>
       </view>
-      <empty></empty>
+      <empty v-if="list.length == 0"></empty>
     </view>
     <!-- 弹出层 -->
     <check-popup ref="popup" />

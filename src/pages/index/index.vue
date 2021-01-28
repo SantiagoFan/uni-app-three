@@ -217,6 +217,88 @@ export default {
       margin-top: -80rpx;
       padding-top: 80rpx;
       border-radius: 35rpx 35rpx 0 0;
+<<<<<<< HEAD
+=======
+      &__user {
+        display: flex;
+        align-items: center;
+        position: absolute;
+        top: -80rpx;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 680rpx;
+        height: 160rpx;
+        padding: 0 25rpx;
+        border-radius: 20rpx;
+        box-shadow: 0 10rpx 12rpx rgba($color: #61b47c, $alpha: 0.2);
+        background: #ffffff url('@/static/image/box_bg.png') no-repeat 18rpx
+          18rpx;
+        background-size: 250rpx;
+        &-info {
+          color: #0ec698;
+          font-size: 24rpx;
+          .add_btn {
+            display: inline-flex;
+            align-items: center;
+            height: 82rpx;
+            padding: 0 30rpx;
+            color: #0ec698;
+            border: 1rpx solid #0ec698;
+            border-radius: 20rpx;
+            &__icon {
+              margin-right: 20rpx;
+              .iconfont {
+                font-size: 45rpx;
+              }
+            }
+            &__text {
+              font-size: 32rpx;
+            }
+          }
+          .title {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20rpx;
+            .name {
+              max-width: 144rpx;
+              font-size: 36rpx;
+              font-weight: bold;
+              word-wrap: break-word;
+              @include textOverflow(1);
+            }
+            .tag {
+              height: 32rpx;
+              line-height: 32rpx;
+              font-size: 20rpx;
+              margin: 0 10rpx;
+              padding: 0 10rpx;
+              border: 1rpx solid #0ec698;
+              border-radius: 10rpx;
+            }
+            .check {
+              width: 92rpx;
+              height: 40rpx;
+              line-height: 40rpx;
+              text-align: center;
+              color: #ffffff;
+              background: #0fd1a1;
+              border-radius: 20rpx;
+            }
+          }
+        }
+        &-pic {
+          position: absolute;
+          bottom: 0;
+          right: 0;
+          width: 280rpx;
+          .img {
+            width: 100%;
+            height: auto;
+            display: block;
+          }
+        }
+      }
+>>>>>>> 2946cea7d35bbcdcf0196a6320f9c10f9f268435
       &__art1 {
         display: flex;
         align-items: center;

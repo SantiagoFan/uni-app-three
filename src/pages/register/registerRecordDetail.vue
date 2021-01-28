@@ -15,7 +15,7 @@
           >有退款</view
         >
         <!-- 锁号成功显示 -->
-        <view class="time" v-if="data.status == 2">
+        <view class="time" v-if="data.status == 2 && timeStamp > 0">
           <u-count-down
             :timestamp="timestamp"
             :show-days="false"
@@ -32,7 +32,8 @@
       >
     </view>
     <u-gap height="20" bg-color="#f3f3f3"></u-gap>
-    <view class="wrap-code">
+    <my-code :patient_code="patientInfo.patient_code" :health_code="patientInfo.ehealth_code"></my-code>
+    <!-- <view class="wrap-code">
       <view class="wrap-code__tab">
         <view
           :class="['item', { active: codeIndex === 0 }]"
@@ -46,15 +47,22 @@
         >
       </view>
       <view class="wrap-code__con">
-        <view class="wrap-code__con-code1" v-if="codeIndex === 0">
-          <image class="img" mode="aspectFill" src="@/static/image/code1.jpg" />
+        <view class="wrap-code__con-code1" :class="{ hide: codeIndex === 1 }">
+          <canvas
+            v-if="model.health_code && finished"
+            class="img"
+            canvas-id="qrcode"
+          ></canvas>
+          <view class="wrap-code__con-code1_refresh" @click="refresh()"
+            >点击刷新健康卡</view
+          >
         </view>
-        <view class="wrap-code__con-code2" v-else>
-          <image class="img" mode="widthFix" src="@/static/image/code.jpg" />
-          <view class="num">100005149844</view>
+        <view class="wrap-code__con-code2" :class="{ hide: codeIndex === 0 }">
+          <canvas class="img" canvas-id="barcode"></canvas>
+          <view class="num">{{ info.patient_code }}</view>
         </view>
       </view>
-    </view>
+    </view> -->
     <view class="refund-line" v-if="data.status == 3 && info.status == 4">
       <view class="refund-line__text">退款进度</view>
       <view class="refund-line__list">
@@ -91,7 +99,7 @@
           <view class="cell">
             <view class="cell-label">就诊时段</view>
             <view class="cell-con"
-              >{{ info.selectDate | dateStr }} {{ info.time
+              >{{ info.selectDate }} {{ info.time
               }}<br />（请提前30分钟在候诊区等候就诊）</view
             >
           </view>
@@ -145,7 +153,7 @@
           </view>
           <view class="cell">
             <view class="cell-label">支付状态</view>
-            <view class="cell-con">{{ getStatusName(info.status) }}</view>
+            <view class="cell-con">{{ info.status }}</view>
           </view>
           <view class="cell">
             <view class="cell-label">支付时间</view>
@@ -153,6 +161,13 @@
           </view>
         </view>
       </view>
+      <view class="wrap-info-btn" v-if="isCancel">取消挂号</view>
+      <view
+        class="wrap-info-btn active"
+        v-if="data.status == 2 && timeStamp > 0"
+        @click="timestamp > 0 && hanldePay()"
+        >继续支付</view
+      >
     </view>
   </view>
 </template>
@@ -160,6 +175,10 @@
 <script>
 import moment from 'moment'
 import { weekList } from '@/utils/week.js'
+import { mapState } from 'vuex'
+import MyCode from '@/components/common/MyCode'
+
+
 export default {
   data() {
     return {
@@ -172,22 +191,20 @@ export default {
       lock_minutes: 0,
       hospital_name: '',
       departmentInfo: {},
+      isCancel: false,
     }
   },
+  components:{MyCode},
+  computed: {
+    ...mapState(['patientInfo']),
+  },
   onLoad() {
+    console.log(this.patientInfo)
     //(1成功2锁号3取消)
     this.getHisDetail()
     this.getLockMinute()
-    this.getOrderDetail()
     this.getHospitalName()
     this.getDepartmentDetail()
-  },
-  filters: {
-    dateStr(selectDate) {
-      return (
-        selectDate + ' ' + weekList('星期')[moment(selectDate).isoWeekday() - 1]
-      )
-    },
   },
   watch: {
     data() {
@@ -200,16 +217,6 @@ export default {
     },
   },
   methods: {
-    getStatusName(status) {
-      switch (status) {
-        case 1:
-          return '未支付'
-        case 2:
-          return '已支付'
-        case 3:
-          return '已退款'
-      }
-    },
     // 点击缴费详情
     handleBt() {
       this.payDetailShow = !this.payDetailShow
@@ -218,6 +225,7 @@ export default {
     getLockMinute() {
       this.$http.post(this.API.LOCK_MINUTES).then((res) => {
         this.lock_minutes = res.data
+        this.getOrderDetail()
       })
     },
     //本地挂号详情
@@ -229,9 +237,10 @@ export default {
         .then((res) => {
           this.info = res.data
           let create_time = moment(this.info.create_time)
-          let minutes = moment().diff(moment(create_time), 'minute') //当前时间距离创建时间多长时间
-          if (minutes < this.lock_minutes) {
-            this.timestamp = (this.lock_minutes - minutes) * 60
+          let minutes = moment().diff(moment(create_time), 'seconds') //当前时间距离创建时间多长时间
+          let lock_minutes = this.lock_minutes * 60
+          if (minutes < lock_minutes) {
+            this.timestamp = lock_minutes - minutes
           } else {
             this.type = 3
           }
@@ -241,6 +250,36 @@ export default {
             startTime[0].split(':')[0] >= 12
               ? '下午 ' + startTime[0]
               : '上午 ' + startTime[0]
+          //就诊日期
+          let selectDate = this.info.selectDate
+          this.info.selectDate =
+            selectDate +
+            ' ' +
+            weekList('星期')[moment(selectDate).isoWeekday() - 1]
+          let date = moment(selectDate + 'T' + startTime[0])
+          if (this.info.status == 2 && date.isValid()) {
+            console.log(moment().isBefore(date.subtract(1, 'hours')))
+            if (moment().isBefore(date.subtract(1, 'hours'))) {
+              this.isCancel = true
+            } else {
+              this.isCancel = false
+            }
+          }
+          //支付状态
+          let statusName = ''
+          switch (this.info.status) {
+            case 1:
+              statusName = '未支付'
+              break
+            case 2:
+              statusName = '已支付'
+              break
+            case 3:
+              statusName = '已退款'
+              break
+          }
+          this.info.status = statusName
+          // let nowDate = moment().format('YYYY-MM-DD')
         })
     },
     //his挂号详情
@@ -341,6 +380,9 @@ export default {
       }
     }
     &__con {
+      .hide {
+        display: none;
+      }
       padding-top: 50rpx;
       &-code1 {
         .img {
@@ -461,6 +503,21 @@ export default {
             }
           }
         }
+      }
+    }
+    &-btn {
+      width: 90%;
+      height: 80rpx;
+      line-height: 80rpx;
+      text-align: center;
+      color: #333333;
+      font-size: 32rpx;
+      margin: 0 auto;
+      background: #ffffff;
+      border-radius: 10rpx;
+      &.active {
+        background: #3fcdb5;
+        color: #fff;
       }
     }
   }

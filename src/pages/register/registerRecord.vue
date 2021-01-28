@@ -8,8 +8,14 @@
           v-for="(item, index) in list"
           :key="index"
         >
-          <view class="icon active">
+          <view class="icon active" v-if="item.status == 2">
+            <text class="iconfont icon-dasuozi"></text>
+          </view>
+          <view class="icon active" v-else-if="item.status == 1">
             <text class="iconfont icon-duihao"></text>
+          </view>
+          <view class="icon" v-else>
+            <text class="iconfont icon-jianhao"></text>
           </view>
           <view class="info">
             <view class="info_title">
