@@ -318,7 +318,7 @@ export default {
   /* #endif */
   display: flex;
   flex-direction: column;
-  font-size: 26rpx;
+  font-size: 30rpx;
 }
 .u-search-box {
   position: relative;
@@ -341,7 +341,7 @@ export default {
   border-radius: 10rpx;
 }
 .u-search-text {
-  font-size: 26rpx;
+  font-size: 30rpx;
   color: #666666;
   margin-left: 10rpx;
 }
@@ -355,7 +355,7 @@ export default {
   box-sizing: border-box;
   display: flex;
   align-items: center;
-  font-size: 26rpx;
+  font-size: 30rpx;
   padding: 0 30rpx;
   color: #666666;
   font-weight: 400;
@@ -421,7 +421,7 @@ export default {
       }
       &-subt {
         color: #989898;
-        font-size: 26rpx;
+        font-size: 30rpx;
         margin-top: 20rpx;
         @include textOverflow(1);
       }
