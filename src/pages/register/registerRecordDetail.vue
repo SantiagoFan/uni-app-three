@@ -32,7 +32,8 @@
       >
     </view>
     <u-gap height="20" bg-color="#f3f3f3"></u-gap>
-    <view class="wrap-code">
+    <my-code :patient_code="patientInfo.patient_code" :health_code="patientInfo.ehealth_code"></my-code>
+    <!-- <view class="wrap-code">
       <view class="wrap-code__tab">
         <view
           :class="['item', { active: codeIndex === 0 }]"
@@ -61,7 +62,7 @@
           <view class="num">{{ info.patient_code }}</view>
         </view>
       </view>
-    </view>
+    </view> -->
     <view class="refund-line" v-if="data.status == 3 && info.status == 4">
       <view class="refund-line__text">退款进度</view>
       <view class="refund-line__list">
@@ -174,7 +175,9 @@
 <script>
 import moment from 'moment'
 import { weekList } from '@/utils/week.js'
-import wxbarcode from 'wxbarcode'
+import { mapState } from 'vuex'
+import MyCode from '@/components/common/MyCode'
+
 
 export default {
   data() {
@@ -190,6 +193,10 @@ export default {
       departmentInfo: {},
       isCancel: false,
     }
+  },
+  components:{MyCode},
+  computed: {
+    ...mapState(['patientInfo']),
   },
   onLoad() {
     //(1成功2锁号3取消)
