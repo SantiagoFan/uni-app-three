@@ -4,9 +4,9 @@
       <view class="wrap-status__info">
         <view class="icon">
           <!-- icon icon-dasuozi：锁号 icon-duihao：预约挂号成功 icon-jianhao：icon-jianhao -->
-          <view v-if="data.status == 2" class="iconfont icon-duihao"></view>
+          <view v-if="data.status == 1" class="iconfont icon-duihao"></view>
           <view v-if="data.status == 3" class="iconfont icon-jianhao"></view>
-          <view v-if="data.status == 1" class="iconfont icon-dasuozi"></view>
+          <view v-if="data.status == 2" class="iconfont icon-dasuozi"></view>
         </view>
         <view class="title" v-if="data.status == 2">锁号成功</view>
         <view class="title" v-else-if="data.status == 1">预约挂号成功</view>
