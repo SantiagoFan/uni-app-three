@@ -178,7 +178,6 @@ export default {
     //(1成功2锁号3取消)
     this.getHisDetail()
     this.getLockMinute()
-    this.getOrderDetail()
     this.getHospitalName()
     this.getDepartmentDetail()
   },
@@ -218,6 +217,7 @@ export default {
     getLockMinute() {
       this.$http.post(this.API.LOCK_MINUTES).then((res) => {
         this.lock_minutes = res.data
+        this.getOrderDetail()
       })
     },
     //本地挂号详情
@@ -229,9 +229,12 @@ export default {
         .then((res) => {
           this.info = res.data
           let create_time = moment(this.info.create_time)
-          let minutes = moment().diff(moment(create_time), 'minute') //当前时间距离创建时间多长时间
-          if (minutes < this.lock_minutes) {
-            this.timestamp = (this.lock_minutes - minutes) * 60
+          console.log(moment())
+          console.log('123', moment(create_time))
+          let minutes = moment().diff(moment(create_time), 'seconds') //当前时间距离创建时间多长时间
+          let lock_minutes = this.lock_minutes * 60
+          if (minutes < lock_minutes) {
+            this.timestamp = lock_minutes - minutes
           } else {
             this.type = 3
           }

@@ -27,8 +27,8 @@
                 src="@/static/image/doctor_d_icon1-h.png"
               />
             </view>
-            <view class="share_icon" >
-             <image
+            <view class="share_icon">
+              <image
                 class="img"
                 mode="widthFix"
                 src="@/static/image/doctor_d_icon2.png"
@@ -111,9 +111,12 @@
               >
                 <view class="date">{{ getTime(item.time) }}</view>
                 <view class="rest_source">余号：{{ item.source.length }}</view>
-                <view class="price" v-if="item.source.length > 0"
-                  >¥{{ item.price | toFixed }}</view
-                >
+                <view class="price" v-if="item.source.length > 0">{{
+                  item.price > 0 ? '¥' + (item.price | toFixed) : '免费'
+                }}</view>
+                <view class="price" v-if="item.source.length > 0">{{
+                  item.price == 0 ? '' : ''
+                }}</view>
                 <view class="price" v-else>已无号</view>
                 <view class="arrow" v-if="item.source.length > 0">
                   <text class="iconfont icon-arrowb"></text>
@@ -172,7 +175,9 @@
           </view>
           <view class="order-wrap__info-con">
             <view class="bt">请选择就诊人</view>
-            <view class="info">({{patient_name}} 卡号:{{patient_code}})</view>
+            <view class="info"
+              >({{ patient_name }} 卡号:{{ patient_code }})</view
+            >
             <view class="list">
               <template v-if="patient_code">
                 <view
@@ -314,7 +319,7 @@ export default {
     },
     getDetail() {
       this.$http
-        .post(this.API.DOCTOR_INFO, { id: this.doctor_id },false)
+        .post(this.API.DOCTOR_INFO, { id: this.doctor_id }, false)
         .then((res) => {
           this.model = res.data
         })
@@ -362,7 +367,7 @@ export default {
       this.schemeIndex = index
     },
     getPatientList() {
-      this.$http.post(this.API.PATIENT_LIST,{},false).then((res) => {
+      this.$http.post(this.API.PATIENT_LIST, {}, false).then((res) => {
         this.patientList = res.data
         this.count = res.count
       })
@@ -427,14 +432,15 @@ export default {
       this.patient_name = this.patientList[index]['name']
     },
     onShareAppMessage(res) {
-      if (res.from === 'button') {// 来自页面内分享按钮
+      if (res.from === 'button') {
+        // 来自页面内分享按钮
         console.log(res.target)
       }
       return {
         title: '自定义分享标题',
-        path: '/pages/test/test?id=123'
+        path: '/pages/test/test?id=123',
       }
-    }
+    },
   },
 }
 </script>
@@ -776,8 +782,8 @@ export default {
           color: #333333;
           font-size: 26rpx;
         }
-        .info{
-          color:#979797;
+        .info {
+          color: #979797;
           line-height: 60rpx;
         }
         .list {
