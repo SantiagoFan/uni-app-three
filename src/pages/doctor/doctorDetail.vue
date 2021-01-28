@@ -175,13 +175,7 @@
           </view>
           <view class="order-wrap__info-con">
             <view class="bt">请选择就诊人</view>
-<<<<<<< HEAD
             <view class="info" v-if='patient_name'>({{patient_name}} 卡号:{{patient_code}})</view>
-=======
-            <view class="info"
-              >({{ patient_name }} 卡号:{{ patient_code }})</view
-            >
->>>>>>> 1ef148177a6db7dbbdd2658ed3938f637185da16
             <view class="list">
               <template v-if="patient_code">
                 <view
