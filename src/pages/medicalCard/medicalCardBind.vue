@@ -23,8 +23,9 @@
               <view class="input-box">
                 <input
                   class="input"
-                  type="text"
+                  type="idcard"
                   name="idcard"
+                  maxlength="18"
                   v-model="idcard"
                   placeholder="请输身份证号"
                   placeholder-class="placr_style"
@@ -50,8 +51,9 @@
               <view class="input-box">
                 <input
                   class="input"
-                  type="text"
+                  type="number"
                   name="phone"
+                  maxlength="11"
                   v-model="phone"
                   placeholder="请输入手机号"
                   placeholder-class="placr_style"

@@ -24,7 +24,7 @@
               <view class="input-box">
                 <input
                   class="input"
-                  type="text"
+                  type="idcard"
                   name="idcard"
                   placeholder="请输入身份证号"
                   placeholder-class="placr_style"
@@ -36,8 +36,9 @@
               <view class="input-box">
                 <input
                   class="input"
-                  type="text"
+                  type="number"
                   name="phone"
+                  maxlength="11"
                   placeholder="请输入手机号码"
                   placeholder-class="placr_style"
                 />

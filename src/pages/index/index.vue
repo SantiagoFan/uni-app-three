@@ -341,7 +341,7 @@ export default {
             align-items: center;
             margin-bottom: 20rpx;
             .name {
-              max-width: 110rpx;
+              max-width: 144rpx;
               font-size: 36rpx;
               font-weight: bold;
               word-wrap: break-word;
@@ -351,7 +351,7 @@ export default {
               height: 32rpx;
               line-height: 32rpx;
               font-size: 20rpx;
-              margin: 0 25rpx;
+              margin: 0 10rpx;
               padding: 0 10rpx;
               border: 1rpx solid #0ec698;
               border-radius: 10rpx;
