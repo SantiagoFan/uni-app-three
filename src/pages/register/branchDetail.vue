@@ -179,7 +179,7 @@ export default {
     getDocListByDepart() {
       if (this.all_doctor.length == 0) {
         this.$http
-          .post(this.API.DOCTOR_INFO_LIST, { departmentid: this.department_id })
+          .post(this.API.DOCTOR_INFO_LIST, { departmentid: this.department_id },false)
           .then((res) => {
             this.all_doctor = res.data
           })
@@ -292,7 +292,7 @@ export default {
       position: relative;
       margin-bottom: 20rpx;
       background: #ffffff;
-      padding: 20rpx 0;
+      padding-top: 10rpx;
       border-top: 2rpx solid #e4e4e4;
       .week-box {
         display: flex;
@@ -304,7 +304,7 @@ export default {
         &__item {
           flex: 1;
           color: #666;
-          font-size: 28rpx;
+          font-size: 30rpx;
         }
       }
       .list {
@@ -324,7 +324,7 @@ export default {
           flex-basis: 110rpx;
           flex-shrink: 0;
           // height: 126rpx;
-          font-size: 26rpx;
+          font-size: 28rpx;
           white-space: nowrap;
           .week {
             color: #666666;
@@ -335,15 +335,16 @@ export default {
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            width: 65rpx;
-            height: 65rpx;
+            width: 80rpx;
+            height: 80rpx;
             border-radius: 50%;
             .count {
               color: #666666;
-              font-size: 24rpx;
+              font-size: 32rpx;
             }
             .status {
               color: #bcbcbc;
+              font-size: 26rpx;
             }
             &.active {
               background: #0ec698;
