@@ -13,10 +13,10 @@
           </view>
           <view class="info">
             <view class="info_title">
-              <view class="info_title__status" v-if="item.status == 1"
+              <view class="info_title__status" v-if="item.status == 2"
                 >锁号成功</view
               >
-              <view class="info_title__status" v-else-if="item.status == 2"
+              <view class="info_title__status" v-else-if="item.status == 1"
                 >预约挂号成功</view
               >
               <view class="info_title__status" v-else>取消挂号成功</view>

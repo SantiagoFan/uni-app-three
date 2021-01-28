@@ -202,11 +202,11 @@ export default {
   methods: {
     getStatusName(status) {
       switch (status) {
-        case 0:
-          return '未支付'
         case 1:
-          return '已支付'
+          return '未支付'
         case 2:
+          return '已支付'
+        case 3:
           return '已退款'
       }
     },

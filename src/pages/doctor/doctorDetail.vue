@@ -104,17 +104,18 @@
             </view>
             <view class="list">
               <view
-                :class="['item', getHasSource(item) ? '' : 'item-active']"
+                :class="['item', item.source.length > 0 ? '' : 'item-active']"
                 v-for="(item, index) in list"
                 :key="index"
                 @click="goRegister(index)"
               >
                 <view class="date">{{ getTime(item.time) }}</view>
-                <view class="price" v-if="getHasSource(item)"
+                <view class="rest_source">余号：{{ item.source.length }}</view>
+                <view class="price" v-if="item.source.length > 0"
                   >¥{{ item.price | toFixed }}</view
                 >
                 <view class="price" v-else>已无号</view>
-                <view class="arrow" v-if="getHasSource(item)">
+                <view class="arrow" v-if="item.source.length > 0">
                   <text class="iconfont icon-arrowb"></text>
                 </view>
               </view>
@@ -123,12 +124,15 @@
           </view>
         </view>
       </view>
-      <view
-        class="wrap__con-intr"
-        v-show="tabIndex == 1"
-        v-html="model.content"
-      >
-      </view>
+      <template v-if="tabIndex == 1">
+        <view
+          class="wrap__con-intr"
+          v-if="model.content"
+          v-html="model.content"
+        >
+        </view>
+        <empty v-else></empty>
+      </template>
     </view>
     <!-- 下单 -->
     <u-popup v-model="orderPopupStatus" mode="bottom" :closeable="true">
@@ -409,11 +413,11 @@ export default {
         this.getList()
       }
     },
-    getHasSource(obj) {
-      var list = Array.from(obj.source)
-      var isSet = list.findIndex((item) => item.scheme_status === 0)
-      return isSet == -1 ? true : false
-    },
+    // getHasSource(obj) {
+    //   var list = Array.from(obj.source)
+    //   var isSet = list.findIndex((item) => item.scheme_status === 0)
+    //   return isSet == -1 ? true : false
+    // },
     getTime(time) {
       return time.replace('--', '~')
     },
