@@ -9,13 +9,13 @@
           <view v-if="data.status == 1" class="iconfont icon-dasuozi"></view>
         </view>
         <view class="title" v-if="data.status == 2">锁号成功</view>
-        <view class="title" v-else-if="data.status == 3">预约挂号成功</view>
+        <view class="title" v-else-if="data.status == 1">预约挂号成功</view>
         <view class="title" v-else>预约挂号取消成功</view>
         <view v-if="data.status == 3 && info.status == 4" class="tag"
           >有退款</view
         >
         <!-- 锁号成功显示 -->
-        <view class="time" v-if="data.status == 1">
+        <view class="time" v-if="data.status == 2">
           <u-count-down
             :timestamp="timestamp"
             :show-days="false"
@@ -86,7 +86,7 @@
           </view>
           <view class="cell">
             <view class="cell-label">科室位置</view>
-            <view class="cell-con">二楼中厅</view>
+            <view class="cell-con">{{ departmentInfo.position }}</view>
           </view>
           <view class="cell">
             <view class="cell-label">就诊时段</view>
@@ -115,7 +115,7 @@
           </view>
         </view>
       </view>
-      <view class="wrap-info__box" v-if="type == 1 || type == 3">
+      <view class="wrap-info__box" v-if="data.status == 1 || data.status == 3">
         <view :class="['bt', { 'bt-show': payDetailShow }]" @click="handleBt">
           <view class="bt-text">缴费详情</view>
           <view class="bt-arrow">
@@ -125,31 +125,31 @@
         <view class="list" v-show="payDetailShow">
           <view class="cell">
             <view class="cell-label">交易金额</view>
-            <view class="cell-con price">¥244.44</view>
+            <view class="cell-con price">¥{{ info.price }}</view>
           </view>
           <view class="cell">
             <view class="cell-label">医院名称</view>
-            <view class="cell-con">呼和浩特市蒙医中医医院</view>
+            <view class="cell-con">{{ hospital_name }}</view>
           </view>
           <view class="cell">
             <view class="cell-label">医院单号</view>
-            <view class="cell-con">B4582644,B5464954,B2544645,B4242142</view>
+            <view class="cell-con">{{ data.reg_no }}</view>
           </view>
           <view class="cell">
             <view class="cell-label">平台单号</view>
-            <view class="cell-con">544465465465161211</view>
+            <view class="cell-con">{{ info.order_no }}</view>
           </view>
           <view class="cell">
             <view class="cell-label">支付流水号</view>
-            <view class="cell-con">444242042011565465441215456441</view>
+            <view class="cell-con">{{ info.transaction_no }}</view>
           </view>
           <view class="cell">
             <view class="cell-label">支付状态</view>
-            <view class="cell-con">已支付</view>
+            <view class="cell-con">{{ getStatusName(info.status) }}</view>
           </view>
           <view class="cell">
             <view class="cell-label">支付时间</view>
-            <view class="cell-con">2020-07-04 14:44:14</view>
+            <view class="cell-con">{{ info.pay_time }}</view>
           </view>
         </view>
       </view>
@@ -171,6 +171,7 @@ export default {
       info: {},
       lock_minutes: 0,
       hospital_name: '',
+      departmentInfo: {},
     }
   },
   onLoad() {
@@ -179,6 +180,7 @@ export default {
     this.getLockMinute()
     this.getOrderDetail()
     this.getHospitalName()
+    this.getDepartmentDetail()
   },
   filters: {
     dateStr(selectDate) {
@@ -188,8 +190,8 @@ export default {
     },
   },
   watch: {
-    type() {
-      if (this.type == 3) {
+    data() {
+      if (this.data.status == 3) {
         uni.setNavigationBarColor({
           frontColor: '#ffffff',
           backgroundColor: '#979797',
@@ -198,6 +200,16 @@ export default {
     },
   },
   methods: {
+    getStatusName(status) {
+      switch (status) {
+        case 0:
+          return '未支付'
+        case 1:
+          return '已支付'
+        case 2:
+          return '已退款'
+      }
+    },
     // 点击缴费详情
     handleBt() {
       this.payDetailShow = !this.payDetailShow
@@ -246,6 +258,16 @@ export default {
       this.$http.post(this.API.HOSPITAL_NAME).then((res) => {
         this.hospital_name = res.data
       })
+    },
+    //科室位置
+    getDepartmentDetail() {
+      this.$http
+        .post(this.API.DEPARTMENT_INFO_DETAIL, { id: this.$Route.query.id })
+        .then((res) => {
+          if (res.code == 20000) {
+            this.departmentInfo = res.data
+          }
+        })
     },
   },
 }
