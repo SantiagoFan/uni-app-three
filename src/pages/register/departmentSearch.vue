@@ -32,7 +32,9 @@ export default {
   methods: {
     getDepartmentList() {
       this.$http
-        .post(this.API.DEPARTMENT_SEARCH, { keyword: this.keyword })
+        .post(this.API.DEPARTMENT_SEARCH, {
+          keyword: this.$Route.query.keyword,
+        })
         .then((res) => {
           this.departmentList = res.data
         })

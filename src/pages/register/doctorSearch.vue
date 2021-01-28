@@ -49,13 +49,13 @@ export default {
   methods: {
     getDoctorList() {
       this.$http
-        .post(this.API.DOCTOR_SEARCH, { keyword: this.keyword })
+        .post(this.API.DOCTOR_SEARCH, { keyword: this.$Route.query.keyword })
         .then((res) => {
           this.doctorList = res.data
         })
     },
     goDetail(id) {
-      this.$Router.push({ name: 'doctorDetail', params: { id: id } })
+      this.$Router.push({ name: 'doctorDetail', params: { doctor_id: id } })
     },
   },
 }
