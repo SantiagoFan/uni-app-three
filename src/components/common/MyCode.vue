@@ -12,19 +12,36 @@
         >就诊凭条</view
       >
     </view>
-    <view class="wrap-code__con">
-      <view class="wrap-code__con-code1" :class="{ hide: codeIndex === 1 }">
-        <canvas class="img" canvas-id="qrcode"></canvas>
+    <view class="wrap-code__con" >
+      <view class="wrap-code__con-code1" v-if='codeIndex===0'>
+        <tki-qrcode v-if='inner_health_code'
+          ref="qrcode"
+          onval
+          :val="inner_health_code"
+          :size="400"
+          :icon='icon'
+          :loadMake="true"
+          :show-loading="false"
+        />
+        <view class="nohealth" @click="refresh" v-if='!inner_health_code'>点击刷新健康卡号</view>
       </view>
-      <view class="wrap-code__con-code2" :class="{ hide: codeIndex === 0 }">
-        <canvas class="img" canvas-id="barcode"></canvas>
+      <view class="wrap-code__con-code2" v-if='codeIndex===1'>
+        <tki-barcode 
+          ref="barcode"
+          :onval="true"
+          :show="true"
+          :val="patient_code"
+          :loadMake="true"
+          :opations="barOpations"
+        />
         <view class="num">{{ patient_code }}</view>
       </view>
     </view>
   </view>
 </template>
 <script>
-import wxbarcode from 'wxbarcode'
+import tkiBarcode from '@/components/tki-code/tki-barcode/tki-barcode'
+import tkiQrcode from '@/components/tki-code/tki-qrcode/tki-qrcode'
 export default {
   props: {
     patient_code: {
@@ -36,22 +53,36 @@ export default {
   },
   watch: {
     patient_code(val) {
-      if (val) {
-        console.log('patient_code', val)
-        wxbarcode.barcode('barcode', val, 610, 140)
-      }
+      console.log(val)
     },
-    health_code(val) {
-      if (val) {
-        console.log('health_code', val)
-        wxbarcode.qrcode('qrcode', val, 400, 400)
+    health_code(val){
+      if(val){
+        this.inner_health_code=val
       }
-    },
+    }
   },
+  created() {
+  },
+  components: { tkiBarcode, tkiQrcode },
   data() {
     return {
       codeIndex: 0,
+      icon:require("@/static/image/logo.png"),
+      inner_health_code:"",
+      barOpations: {
+        height: 120,
+        displayValue: false,
+      },
     }
+  },
+  methods: {
+    refresh(){
+      this.$http.post(this.API.UPDATE_HEALTH_CODE,{patient_code:this.patient_code}).then(res=>{
+        if(res.code===20000){
+          this.inner_health_code=res.data
+        }
+      })
+    },
   },
 }
 </script>
@@ -86,26 +117,39 @@ export default {
       }
       padding-top: 50rpx;
       &-code1 {
-        .img {
-          width: 400rpx;
-          height: 400rpx;
-          margin: 0 auto;
-          // display: block;
+        text-align: center;
+        // height: 500rpx;
+        // .img {
+        //   width: 400rpx;
+        //   height: 400rpx;
+        //   margin: 0 auto;
+        //   // display: block;
+        // }
+        .nohealth{
+          min-height: 300rpx;
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
       }
       &-code2 {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        .img {
-          height: 140rpx;
-          width: 100%;
-          // height: auto;
-          // display: block;
-        }
+        // display: flex;
+        // flex-direction: column;
+        // align-items: center;
+        // height: 200rpx;
+        // /deep/ canvas{
+        //   width: 100%;
+        // }
+        // .img {
+        //   height: 200rpx;
+        //   width: 100%;
+        //   // height: auto;
+        //   // display: block;
+        // }
         .num {
+          text-align: center;
           color: #333333;
-          font-size: 24rpx;
+          font-size: 28rpx;
           margin-top: 15rpx;
           letter-spacing: 1rpx;
         }
