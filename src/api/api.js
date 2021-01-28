@@ -54,4 +54,5 @@ export default {
   GET_TEMPLATE_ID: '/message/getTemplateId', //查询通知
   LOCK_MINUTES: '/register/getSettings', //锁号时间
   HOSPITAL_NAME: '/register/getHospital', //医院名称
+  UPDATE_HEALTH_CODE: '/patient/updateHealthCode', //刷新健康卡
 }

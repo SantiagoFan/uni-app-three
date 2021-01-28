@@ -23,10 +23,11 @@
               <view class="input-box">
                 <input
                   class="input"
-                  type="text"
+                  type="idcard"
                   name="idcard"
+                  maxlength="18"
                   v-model="idcard"
-                  placeholder="请输身份证号"
+                  placeholder="请输入身份证号"
                   placeholder-class="placr_style"
                 >
               </view>
@@ -34,13 +35,13 @@
           </view>
           <view class="wrap__con-art">
             <view class="wrap__con-art-item">
-              <view class="label">院内卡号</view>
+              <view class="label">就诊卡号</view>
               <view class="input-box">
                 <input
                   class="input"
                   type="text"
                   name="patient_code"
-                  placeholder="请输入就诊卡号或13位院内卡号"
+                  placeholder="请输入就诊卡号"
                   placeholder-class="placr_style"
                 >
               </view>
@@ -50,8 +51,9 @@
               <view class="input-box">
                 <input
                   class="input"
-                  type="text"
+                  type="number"
                   name="phone"
+                  maxlength="11"
                   v-model="phone"
                   placeholder="请输入手机号"
                   placeholder-class="placr_style"
@@ -99,7 +101,7 @@ export default {
       }
       if(!isCardNo(data['idcard'])){
 				uni.showToast({
-					title: "身份证号不正确",
+					title: "身份证号有误",
 					icon: "none"
 				});
 				return false;
@@ -114,7 +116,7 @@ export default {
       }
       if(!isMobile(data['phone'])){
 				uni.showToast({
-					title: "手机号码不正确",
+					title: "手机号码有误",
 					icon: "none"
 				});
 				return false;
@@ -130,7 +132,8 @@ export default {
           icon:'none',
         });
         if(res.code==20000){
-          uni.setStorageSync('patientInfo', res.data)
+          // uni.setStorageSync('patientInfo', res.data)
+          this.$store.commit('setPatientInfo', res.data)
           setTimeout(()=>{
             this.$Router.replaceAll('/pages/index/index')
           },1000)

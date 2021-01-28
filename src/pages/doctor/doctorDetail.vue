@@ -175,9 +175,7 @@
           </view>
           <view class="order-wrap__info-con">
             <view class="bt">请选择就诊人</view>
-            <view class="info"
-              >({{ patient_name }} 卡号:{{ patient_code }})</view
-            >
+            <view class="info" v-if='patient_name'>({{patient_name}} 卡号:{{patient_code}})</view>
             <view class="list">
               <template v-if="patient_code">
                 <view
@@ -303,6 +301,9 @@ export default {
       this.tabIndex = index
     },
     getSchemeList() {
+
+     
+
       this.$http
         .post(this.API.SCHEME_LIST, {
           date: this.selectDate,
@@ -310,6 +311,7 @@ export default {
           doctor_id: this.doctor_id,
         })
         .then((res) => {
+         
           this.schemeList = fillWeek(res.data)
           if (this.selectDate == '') {
             this.selectDate = res.data.date
@@ -329,13 +331,19 @@ export default {
         return
       }
       this.postLock = true
+
+      uni.showLoading({
+          title: "获取医生排班中...",
+      });
+
       this.$http
         .post(this.API.SCHEME_DETAIL, {
           department_id: this.department_id,
           date: this.selectDate,
           doctor_id: this.doctor_id,
-        })
+        },false)
         .then((res) => {
+          uni.hideLoading();
           this.postLock = false
           this.list = res.data
           this.scheme = res.scheme
@@ -515,7 +523,7 @@ export default {
         height: 80rpx;
         line-height: 80rpx;
         color: #333333;
-        font-size: 26rpx;
+        font-size: 30rpx;
         padding: 0 10rpx;
 
         &.active {
@@ -678,7 +686,7 @@ export default {
             .item {
               display: flex;
               align-items: center;
-              height: 78rpx;
+              height: 90rpx;
               margin-bottom: 10rpx;
               padding: 0 30rpx;
               border-bottom: 2rpx solid #e9e9e9;
@@ -688,12 +696,16 @@ export default {
               .date {
                 flex: 1;
                 color: #333333;
-                font-size: 32rpx;
+                font-size: 34rpx;
+              }
+              .rest_source{
+                margin-right: 20rpx;
+                font-size: 28rpx;
               }
               .price {
                 color: #ff8c46;
                 margin-right: 5rpx;
-                font-size: 30rpx;
+                font-size: 32rpx;
               }
               .arrow {
                 color: #cdcdcd;
@@ -726,7 +738,7 @@ export default {
     }
     &-intr {
       color: #333333;
-      font-size: 26rpx;
+      font-size: 28rpx;
       padding: 30rpx;
       background: #fff;
       line-height: 50rpx;
@@ -780,7 +792,7 @@ export default {
         border-top: 1rpx solid #c8c8c8;
         .bt {
           color: #333333;
-          font-size: 26rpx;
+          font-size: 30rpx;
         }
         .info {
           color: #979797;

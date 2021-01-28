@@ -17,8 +17,8 @@
         <view class="info">
           <view class="item">姓名：{{ model.name }}</view>
           <view class="item">性别：{{ model.gender }}</view>
-          <view class="item">居民健康卡号码：</view>
-          <view class="item">{{ model.health_code }}</view>
+          <!-- <view class="item">居民健康卡号码：</view>
+          <view class="item">{{ model.health_code }}</view> -->
         </view>
       </view>
     </view>
@@ -38,7 +38,8 @@
       </view>
       <view class="wrap-code__con">
         <view class="wrap-code__con-code1" :class="{ hide: codeIndex === 1 }">
-          <canvas class="img" canvas-id="qrcode"></canvas>
+          <canvas v-if='model.health_code&&finished' class="img" canvas-id="qrcode"></canvas>
+          <view class="wrap-code__con-code1_refresh" @click="refresh()">点击刷新健康卡</view>
         </view>
         <view class="wrap-code__con-code2" :class="{ hide: codeIndex === 0 }">
           <canvas class="img" canvas-id="barcode"></canvas>
@@ -57,6 +58,7 @@ export default {
   data() {
     return {
       codeIndex: 0,
+      finished:false,
       model: { name: '', gender: '', health_code: '', patient_code: '' },
     }
   },
@@ -64,14 +66,24 @@ export default {
     this.getDetail()
   },
   methods: {
+    refresh(){
+      this.$http.post(this.API.UPDATE_HEALTH_CODE,{patient_code:this.model.patient_code}).then(res=>{
+        if(res.code===20000){
+          this.getDetail()
+        }
+      })
+    },
     getDetail() {
       this.$http
         .post(this.API.PATINET_DETAIL, { idcard: this.$Route.query.idcard })
         .then((res) => {
           if (res.code == 20000) {
+            this.finished=true
             this.model = res.data
+            if(this.model.health_code){
+               wxbarcode.qrcode('qrcode', this.model.health_code, 400, 400)
+            }
             wxbarcode.barcode('barcode', this.model.patient_code, 610, 140)
-            wxbarcode.qrcode('qrcode', this.model.health_code, 400, 400)
           }
         })
     },
@@ -152,7 +164,7 @@ export default {
       }
       .info {
         color: #333333;
-        font-size: 26rpx;
+        font-size: 30rpx;
         .item {
           margin-bottom: 10rpx;
           &:last-child {
@@ -197,6 +209,12 @@ export default {
           margin: 0 auto;
           // display: block;
         }
+        &_refresh{
+          height: 200rpx;
+          line-height: 200rpx;
+          color:red;
+          text-align: center;
+        }
       }
       &-code2 {
         display: flex;
@@ -219,11 +237,11 @@ export default {
   }
   &-btn {
     width: 590rpx;
-    height: 70rpx;
-    line-height: 70rpx;
+    height: 80rpx;
+    line-height: 80rpx;
     text-align: center;
     color: #333333;
-    font-size: 26rpx;
+    font-size: 32rpx;
     margin: 0 auto;
     background: #ffffff;
     border-radius: 10rpx;

@@ -46,12 +46,13 @@
         >
       </view>
       <view class="wrap-code__con">
-        <view class="wrap-code__con-code1" v-if="codeIndex === 0">
-          <image class="img" mode="aspectFill" src="@/static/image/code1.jpg" />
+        <view class="wrap-code__con-code1" :class="{ hide: codeIndex === 1 }">
+          <canvas v-if='model.health_code&&finished' class="img" canvas-id="qrcode"></canvas>
+          <view class="wrap-code__con-code1_refresh" @click="refresh()">点击刷新健康卡</view>
         </view>
-        <view class="wrap-code__con-code2" v-else>
-          <image class="img" mode="widthFix" src="@/static/image/code.jpg" />
-          <view class="num">100005149844</view>
+        <view class="wrap-code__con-code2" :class="{ hide: codeIndex === 0 }">
+          <canvas class="img" canvas-id="barcode"></canvas>
+          <view class="num">{{info.patient_code}}</view>
         </view>
       </view>
     </view>
@@ -153,6 +154,8 @@
           </view>
         </view>
       </view>
+      <view class="wrap-info-btn" >取消挂号</view>
+      <view class="wrap-info-btn active" >继续支付</view>
     </view>
   </view>
 </template>
@@ -160,6 +163,8 @@
 <script>
 import moment from 'moment'
 import { weekList } from '@/utils/week.js'
+import wxbarcode from 'wxbarcode'
+
 export default {
   data() {
     return {
@@ -344,6 +349,9 @@ export default {
       }
     }
     &__con {
+      .hide {
+        display: none;
+      }
       padding-top: 50rpx;
       &-code1 {
         .img {
@@ -466,6 +474,22 @@ export default {
         }
       }
     }
+    &-btn{
+      width: 90%;
+      height: 80rpx;
+      line-height: 80rpx;
+      text-align: center;
+      color: #333333;
+      font-size: 32rpx;
+      margin: 0 auto;
+      background: #ffffff;
+      border-radius: 10rpx;
+      &.active{
+        background: #3FCDB5;
+        color: #fff;
+      }
+    }
   }
+
 }
 </style>
