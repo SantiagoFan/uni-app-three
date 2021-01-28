@@ -199,6 +199,7 @@ export default {
     ...mapState(['patientInfo']),
   },
   onLoad() {
+    console.log(this.patientInfo)
     //(1成功2锁号3取消)
     this.getHisDetail()
     this.getLockMinute()
