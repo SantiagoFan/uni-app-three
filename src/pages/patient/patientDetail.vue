@@ -41,7 +41,10 @@ export default {
   components:{MyCode},
   filters:{
     hideIdCard(val){
-      return val
+      if(val){
+        return val.replace(/^(.{4})(?:\d+)(.{4})$/,"$1******$2")
+      }
+      return ''
     }
   },
   onLoad() {

@@ -1,18 +1,7 @@
 <template>
   <view class="container">
+    <PatientCard :need-patient="true"></PatientCard>
     <view class="wrap">
-      <view class="wrap__massage"
-        >温馨提示：<br />暂时不支持医保卡看病，持有医保卡的用户请到前台直接办理手续。</view
-      >
-      <view class="wrap__user">
-        <view class="info">
-          <view class="title">
-            <view class="name">姓名</view>
-          </view>
-          <view class="code">院内诊疗号：1000000182574</view>
-        </view>
-        <view class="switch" @click="handleCheck">切换就诊人</view>
-      </view>
       <view class="wrap__list">
         <view
           class="item"
@@ -114,63 +103,6 @@ export default {
     flex: 1;
     padding: 20rpx;
     overflow-y: auto;
-    &__massage {
-      color: #0ec698;
-      font-size: 26rpx;
-      padding: 0 10rpx;
-      letter-spacing: 1rpx;
-    }
-    &__user {
-      position: relative;
-      display: flex;
-      align-items: center;
-      height: 156rpx;
-      padding: 0 30rpx;
-      margin: 30rpx 0 20rpx 0;
-      background: #ffffff url('@/static/image/box_bg.png') no-repeat 70rpx -50rpx;
-      background-size: 260rpx;
-      border-radius: 10rpx;
-      .info {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        .title {
-          display: flex;
-          align-items: center;
-          border-radius: 10rpx;
-          .name {
-            color: #333333;
-            font-size: 36rpx;
-            margin-right: 15rpx;
-          }
-          .tag {
-            height: 32rpx;
-            line-height: 32rpx;
-            color: #898989;
-            font-size: 20rpx;
-            padding: 0 10rpx;
-            border: 1rpx solid #a6a9a8;
-            border-radius: 8rpx;
-          }
-        }
-        .code {
-          color: #898989;
-          font-size: 24rpx;
-          margin-top: 20rpx;
-        }
-      }
-      .switch {
-        position: absolute;
-        top: 25rpx;
-        right: 20rpx;
-        line-height: 42rpx;
-        padding: 0 15rpx;
-        color: #51d6b5;
-        font-size: 20rpx;
-        border: 1rpx solid #51d6b5;
-        border-radius: 20rpx;
-      }
-    }
     &__list {
       .item {
         color: #a8a8a8;

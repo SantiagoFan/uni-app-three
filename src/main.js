@@ -9,12 +9,14 @@ import api from "@/api/api";
 import { http } from "@/utils/http";
 import auth from "./components/auth/auth.vue";
 import empty from "./components/empty/empty.vue";
+import PatientCard from "./components/patient_card/index.vue"
 
 import router from "./router";
 import routerLink from "../node_modules/uni-simple-router/component/router-link.vue";
 Vue.component("router-link", routerLink);
 Vue.component("auth", auth);
 Vue.component("empty", empty);
+Vue.component("patient-card", PatientCard);
 Vue.prototype.$bus = new Vue(); // event Bus 用于兄弟组件的通信。
 
 App.mpType = "app";

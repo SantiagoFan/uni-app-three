@@ -107,35 +107,8 @@
           <view class="page-view">
             <view class="class-item">
               <view class="item-container">
-                <view class="doctor-s" v-if="current == -1">
-                  <view
-                    @click="goDetail(obj.id)"
-                    class="doctor-wrap"
-                    v-for="(obj, index1) in collectOrRegisterList"
-                    :key="index1"
-                  >
-                    <view class="doctor-wrap__avatar">
-                      <dh-image
-                        class="img"
-                        mode="aspectFill"
-                        src=""
-                        errorSrc="doctor.jpg"
-                      ></dh-image>
-                    </view>
-                    <view class="doctor-wrap__info">
-                      <view class="doctor-wrap__info-name">{{
-                        obj.doctor_name
-                      }}</view>
-                      <view class="doctor-wrap__info-subt">{{
-                        obj.department_name
-                      }}</view>
-                    </view>
-                    <view class="doctor-wrap__arrow">
-                      <text class="iconfont icon-arrowb"></text>
-                    </view>
-                  </view>
-                </view>
-                <template v-else>
+               
+                <template >
                   <view
                     class="thumb-box"
                     v-for="(obj, index1) in item.child"
@@ -243,9 +216,9 @@ export default {
         index * this.menuItemHeight +
         this.menuItemHeight / 2 -
         this.menuHeight / 2
-      if (index == -1) {
-        this.getHistoryList()
-      }
+      // if (index == -1) {
+      //   this.getHistoryList()
+      // }
     },
     // 获取一个目标元素的高度
     getElRect(elClass, dataVal) {
@@ -286,9 +259,9 @@ export default {
           if (res.code == 20000) {
             this.collectOrRegisterList = res.data
           }
-          if (this.collectOrRegisterList.length > 0) {
-            this.current = -1
-          }
+          // if (this.collectOrRegisterList.length > 0) {
+          //   this.current = -1
+          // }
         })
     },
     search() {
@@ -394,7 +367,7 @@ export default {
   border-bottom: 1rpx solid #f3f3f3;
 }
 .doctor-s {
-  padding-top: 80rpx;
+  padding-top: 20rpx;
   .doctor-wrap {
     display: flex;
     align-items: center;

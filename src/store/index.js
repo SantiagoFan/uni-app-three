@@ -10,6 +10,8 @@ export default new Vuex.Store({
     userInfo: null,
     loginPopupShow: false,
     patientInfo: null,
+    patientList:[],
+    patientListLoad:false //是否已完成加载
   },
   getters: {
     getToken() {
@@ -26,6 +28,10 @@ export default new Vuex.Store({
     setLoginPopupShow(state, data) {
       state.loginPopupShow = data;
     },
+    setPatientList(state, data){
+      state.patientList = data;
+      state.patientListLoad = true
+    }
   },
   actions: {
     login({ commit, dispatch }) {
@@ -94,5 +100,12 @@ export default new Vuex.Store({
         console.log("打开授权弹框");
       }
     },
+    loadPatientList({ state, commit },isUpdate){
+      //加载完不重新加载 isUpdate 强制更新标识
+      if(state.patientListLoad && !isUpdate){ return } 
+      http.post(api.PATIENT_LIST).then((res) => {
+        commit("setPatientList", res.data);
+      })
+    }
   },
 });
