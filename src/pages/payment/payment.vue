@@ -95,35 +95,42 @@ export default {
         })
         .then((res) => {
           if (res.code == 20000) {
-            const config = JSON.parse(res.data)
-            uni.requestPayment({
-              provider: 'wxpay',
-              timeStamp: config.timeStamp,
-              nonceStr: config.nonceStr,
-              package: config.package,
-              signType: 'MD5',
-              paySign: config.paySign,
-              success: function(response) {
-                uni.showToast({
-                  title: '支付成功',
-                  duration: 2000,
-                  icon: 'none',
-                })
-                that.$Router.replace({
-                  name: 'registerRecordDetail',
-                  params: { reg_no: res.reg_no },
-                })
-              },
-              fail: function(err) {
-                console.log(err)
-                that.flag = false
-                uni.showToast({
-                  title: '支付失败',
-                  duration: 2000,
-                  icon: 'none',
-                })
-              },
-            })
+            if (res.need_pay) {
+              const config = JSON.parse(res.data)
+              uni.requestPayment({
+                provider: 'wxpay',
+                timeStamp: config.timeStamp,
+                nonceStr: config.nonceStr,
+                package: config.package,
+                signType: 'MD5',
+                paySign: config.paySign,
+                success: function(response) {
+                  uni.showToast({
+                    title: '支付成功',
+                    duration: 2000,
+                    icon: 'none',
+                  })
+                  that.$Router.replace({
+                    name: 'registerRecordDetail',
+                    params: { reg_no: res.reg_no },
+                  })
+                },
+                fail: function(err) {
+                  console.log(err)
+                  that.flag = false
+                  uni.showToast({
+                    title: '支付失败',
+                    duration: 2000,
+                    icon: 'none',
+                  })
+                },
+              })
+            } else {
+              that.$Router.replace({
+                name: 'registerRecordDetail',
+                params: { reg_no: res.reg_no },
+              })
+            }
           }
         })
     },

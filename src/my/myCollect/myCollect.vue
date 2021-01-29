@@ -2,7 +2,12 @@
   <view class="collect">
     <view class="collect-main">
       <view class="collect-list">
-        <view class="collect-item" v-for="(item,index) in collectList" :key="index" @click="handleClickDetail(item)">
+        <view
+          class="collect-item"
+          v-for="(item, index) in collectList"
+          :key="index"
+          @click="handleClickDetail(item)"
+        >
           <view class="collect-item__avatar">
             <!-- <image class="img" mode="aspectFill" :src="item.headimg" /> -->
             <dh-image class="img" mode="aspectFill" :src="item.headimg" errorSrc="doctor.jpg"></dh-image>
@@ -23,9 +28,9 @@
 import dhImage from '@/components/dh-image/dh-image.vue'
 
 export default {
-  data(){
-    return{
-      collectList: []
+  data() {
+    return {
+      collectList: [],
     }
   },
   components: { dhImage },
@@ -33,19 +38,20 @@ export default {
     this.getCollectList();
   },
   methods: {
-    getCollectList(){
-      this.$http.post(this.API.COLLECT_DOCTOR).then(res=>{
-        this.collectList = res.data;
+    getCollectList() {
+      this.$http.post(this.API.COLLECT_DOCTOR).then((res) => {
+        this.collectList = res.data
       })
     },
     handleClickDetail(item) {
       this.$Router.push({
         name: 'doctorDetail',
         params: {
-          doctor_id: item.doctor_id
+          doctor_id: item.doctor_id,
+          department_id: item.department_id,
         },
       })
-    }
+    },
   },
 }
 </script>
@@ -62,7 +68,7 @@ export default {
         background: #ffffff;
         border-radius: 10rpx;
         &:last-child {
-          margin-bottom: 0
+          margin-bottom: 0;
         }
         &__avatar {
           width: 120rpx;
