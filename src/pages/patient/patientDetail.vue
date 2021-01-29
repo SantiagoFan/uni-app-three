@@ -77,6 +77,7 @@ export default {
         .post(this.API.PATIENT_DELETE, { idcard: this.$Route.query.idcard })
         .then((res) => {
           if (res.code == 20000) {
+            this.$store.commit('setPatientInfo', res.data)
             uni.showToast({
               title: res.message,
               duration: 2000,

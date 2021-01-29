@@ -129,7 +129,7 @@
           v-html="model.content"
         >
         </view>
-        <empty v-else></empty>
+        <empty v-else title='暂无介绍'></empty>
       </template>
     </view>
     <!-- 下单 -->

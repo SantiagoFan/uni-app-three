@@ -180,7 +180,7 @@ export default {
     padding: 30rpx;
     &__massage {
       color: #0ec698;
-      font-size: 26rpx;
+      font-size: 28rpx;
       letter-spacing: 2rpx;
     }
     &__con {
@@ -202,12 +202,13 @@ export default {
             border-bottom: none;
           }
           .label {
-            width: 140rpx;
+            width: 150rpx;
             color: #333333;
-            font-size: 28rpx;
+            font-size: 32rpx;
           }
           .input-box {
             flex: 1;
+            font-size: 30rpx;
             .input {
               padding: 10rpx 0;
               &::v-deep .placr_style {
@@ -219,10 +220,10 @@ export default {
       }
     }
     &__btn {
-      height: 80rpx;
-      line-height: 80rpx;
+      height: 90rpx;
+      line-height: 90rpx;
       color: #ffffff;
-      font-size: 30rpx;
+      font-size: 34rpx;
       margin-top: 25rpx;
       letter-spacing: 2rpx;
       text-align: center;

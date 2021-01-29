@@ -51,7 +51,7 @@ export default {
       .item {
         display: flex;
         align-items: center;
-        height: 108rpx;
+        height: 118rpx;
         border-bottom: 1rpx solid #f0f0f0;
         border-radius: 10rpx;
         &:last-child {
@@ -60,7 +60,7 @@ export default {
         .text {
           flex: 1;
           color: #0ec698;
-          font-size: 28rpx;
+          font-size: 32rpx;
         }
         .jt {
           color: #e0e0e0;
