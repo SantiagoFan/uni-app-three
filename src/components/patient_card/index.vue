@@ -25,17 +25,17 @@
         </view>
       </view>
       <!-- 图形样式 -->
-      <view v-else class="index-wrap__user">
+      <view v-else class="index-wrap__user" @click="showPatient()">
         <view class="index-wrap__user-info">
           <view v-if="patientInfo">
             <view class="title">
               <view class="name">{{ getName(patientInfo) }}</view>
               <view class="tag">电子就诊卡</view>
-              <view @click="handleChoose" class="check">切换</view>
+              <view @click.stop="handleChoose" class="check">切换</view>
             </view>
-            <view class="code">院内诊疗号：{{ patientInfo.patient_code }}</view>
+            <view class="code">诊疗号：{{ patientInfo.patient_code }}</view>
           </view>
-          <view @click="addPatient" class="add_btn" v-else>
+          <view @click.stop="addPatient" class="add_btn" v-else>
             <view class="add_btn__icon">
               <text class="iconfont icon-add-fill"></text>
             </view>
@@ -80,7 +80,14 @@
       </view>
     </u-popup>
     <!-- 强制检查就诊人 -->
-    <u-modal v-model="showModal" title="提示" content="未添加就诊人,请添加后重试"></u-modal>
+    <u-modal
+      v-model="showModal"
+      title="提示"
+      :show-cancel-button="true"
+      @confirm="patientAdd"
+      @cancel="goBack"
+      content="未添加就诊人,请添加后重试"
+    ></u-modal>
   </view>
 </template>
 <script>
@@ -92,9 +99,9 @@ export default {
   },
   props: {
     // 强制检查 必须存在就诊卡
-    needPatient:{
-      type:Boolean,
-      default:false
+    needPatient: {
+      type: Boolean,
+      default: false,
     },
     showMessage: {
       type: Boolean,
@@ -108,18 +115,16 @@ export default {
   data() {
     return {
       show: false,
-      showModal:false,
+      showModal: false,
     };
   },
   mounted() {
-    this.checkPatient()
+    this.checkPatient();
   },
   methods: {
-    checkPatient(){
-      console.info('xxxxxxxxxxxxxxxxxx')
-      console.info(this.needPatient)
-      if(this.needPatient){
-        this.showModal = true
+    checkPatient() {
+      if (this.needPatient) {
+        this.showModal = true;
       }
     },
     getName(item) {
@@ -153,6 +158,16 @@ export default {
           }
         });
     },
+    showPatient() {
+      console.info("showPatient");
+      this.$Router.push({
+        name: "patientDetail",
+        params: { idcard: this.patientInfo.idcard },
+      });
+    },
+    goBack(){
+      this.$Router.back(1);
+    }
   },
 };
 </script>
@@ -162,12 +177,12 @@ export default {
   flex-direction: column;
   .wrap {
     flex: 1;
-    padding: 20rpx;
+    padding: 0rpx 20rpx;
     overflow-y: auto;
     &__massage {
       color: #0ec698;
       font-size: 26rpx;
-      padding: 0 10rpx;
+      padding: 20rpx;
       letter-spacing: 1rpx;
     }
     &__user {
