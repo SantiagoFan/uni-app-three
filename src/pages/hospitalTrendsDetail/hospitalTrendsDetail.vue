@@ -2,21 +2,38 @@
   <view class="container">
     <view class="wrap">
       <view class="wrap__bt">
-        <view class="wrap__bt-title">固定专家出诊表</view>
-        <view class="wrap__bt-date">2020-07-18  09:00:00</view>
+        <view class="wrap__bt-title">{{ model.name }}</view>
+        <view class="wrap__bt-date">{{ model.create_time }}</view>
       </view>
       <view class="wrap__con">
-        <view class="wrap__con-centent">富文本</view>
+        <view class="wrap__con-centent" v-html="model.content"></view>
+        <empty v-if="!model.content"></empty>
       </view>
     </view>
   </view>
 </template>
 
 <script>
+import empty from '../../components/empty/empty.vue'
 export default {
-  onLoad(options) {
-    console.log('options', options)
-  }
+  components: { empty },
+  data() {
+    return {
+      model: {},
+    }
+  },
+  onLoad() {
+    this.getDetail()
+  },
+  methods: {
+    getDetail() {
+      this.$http
+        .post(this.API.NEWS_DETAIL, { detailid: this.$Route.query.detailid })
+        .then((res) => {
+          this.model = res.data
+        })
+    },
+  },
 }
 </script>
 
