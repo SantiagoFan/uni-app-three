@@ -52,7 +52,7 @@
       </view>
     </view>
     <!-- 弹出窗 -->
-    <u-popup v-model="show" mode="bottom" :border-radius="20">
+    <u-popup v-model="show" mode="bottom" :border-radius="20" @close="handleChooseClose">
       <view class="check-wrap">
         <view class="check-wrap__title">切换就诊人</view>
         <view class="check-wrap__con">
@@ -140,7 +140,11 @@ export default {
     },
     handleChoose() {
       this.show = true;
+      uni.hideTabBar();
       this.$store.dispatch("loadPatientList", false);
+    },
+    handleChooseClose() {
+      uni.showTabBar();
     },
     addPatient() {
       this.$Router.push({ name: "medicalCardLogin" });
@@ -294,8 +298,8 @@ export default {
           align-items: center;
           margin-bottom: 20rpx;
           .name {
-            max-width: 110rpx;
-            font-size: 36rpx;
+            max-width: 128rpx;
+            font-size: 33rpx;
             font-weight: bold;
             word-wrap: break-word;
             display: -webkit-box;
