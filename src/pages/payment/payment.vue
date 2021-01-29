@@ -91,7 +91,6 @@ export default {
       this.$http
         .post(this.API.REGISTER_PAY, {
           order_no: this.model.order_no,
-          business_type: 'RegisterOrder',
         })
         .then((res) => {
           if (res.code == 20000) {
