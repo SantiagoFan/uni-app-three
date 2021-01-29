@@ -355,7 +355,12 @@ export default {
     addCollect() {
       if (this.model.doctor_id) {
         this.$http
-          .post(this.API.ADD_COLLECT, { doctor_id: this.model.doctor_id,doctor_name:this.model.doctor_name,headimg:this.model.headimg,professional:this.model.professional })
+          .post(this.API.ADD_COLLECT, { 
+            doctor_id: this.model.doctor_id,
+            doctor_name:this.model.doctor_name,
+            headimg:this.model.headimg,
+            professional:this.model.professional
+           })
           .then((res) => {
             if (res.code == 20000) {
               this.is_collect = !this.is_collect
