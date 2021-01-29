@@ -71,9 +71,12 @@ export default {
         align-items: center;
         margin-bottom: 25rpx;
         color: #666666;
-        font-size: 28rpx;
+        font-size: 32rpx;
+        line-height: 80rpx;
+        border-bottom: 1rpx solid #d8d8d8;
         &:last-child {
           margin-bottom: 0;
+          border:none;
         }
         .icon {
           color: #0ec698;

@@ -215,7 +215,7 @@ export default {
       line-height: 75rpx;
       padding: 0 30rpx;
       color: #333333;
-      font-size: 28rpx;
+      font-size: 32rpx;
     }
     &__list {
       border: 0 solid #d8d8d8;
@@ -271,7 +271,7 @@ export default {
       height: 88rpx;
       padding: 0 30rpx;
       color: #666666;
-      font-size: 28rpx;
+      font-size: 30rpx;
       .icon {
         color: #666666;
         .iconfont {
@@ -289,7 +289,7 @@ export default {
       line-height: 75rpx;
       padding: 0 30rpx;
       color: #333333;
-      font-size: 28rpx;
+      font-size: 32rpx;
     }
     &__list {
       border: 0 solid #d8d8d8;
@@ -323,7 +323,7 @@ export default {
       height: 88rpx;
       padding: 0 30rpx;
       color: #666666;
-      font-size: 28rpx;
+      font-size: 30rpx;
       .icon {
         color: #666666;
         .iconfont {
