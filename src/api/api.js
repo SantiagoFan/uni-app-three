@@ -56,4 +56,5 @@ export default {
   LOCK_MINUTES: '/register/getSettings', //锁号时间
   HOSPITAL_NAME: '/register/getHospital', //医院名称
   UPDATE_HEALTH_CODE: '/patient/updateHealthCode', //刷新健康卡
+  IS_COLLECT: '/collect_doctor/isCollect', //是否收藏
 }

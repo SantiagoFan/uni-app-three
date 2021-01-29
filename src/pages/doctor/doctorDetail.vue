@@ -16,24 +16,19 @@
             <view class="share_icon" @click="addCollect">
               <image
                 class="img"
-                v-if="!model.is_collect"
+                v-if="!is_collect"
                 mode="widthFix"
                 src="@/static/image/doctor_d_icon1.png"
               />
               <image
                 class="img"
-                v-if="model.is_collect"
+                v-if="is_collect"
                 mode="widthFix"
                 src="@/static/image/doctor_d_icon1-h.png"
               />
             </view>
-            <view class="share_icon">
-              <image
-                class="img"
-                mode="widthFix"
-                src="@/static/image/doctor_d_icon2.png"
-              />
-              <!-- <image class="img" mode="widthFix" src="@/static/image/doctor_d_icon2-h.png" /> -->
+            <view class="share_icon share_btn">
+              <button class="btn" open-type="share"></button>
             </view>
           </view>
         </view>
@@ -210,6 +205,7 @@ import { mapState } from 'vuex'
 import moment from 'moment'
 import dhImage from '@/components/dh-image/dh-image.vue'
 import { weekList, fillWeek } from '@/utils/week.js'
+import { basepath } from '@/config/index.js'
 
 export default {
   data() {
@@ -240,6 +236,7 @@ export default {
       schemeIndex: 0,
       scheme: [],
       patient_name: '',
+      is_collect:false
     }
   },
   components: { dhImage },
@@ -272,6 +269,7 @@ export default {
     }
     this.getDetail()
     this.getSchemeList()
+    this.isCollect()
   },
   filters: {
     getDay(val) {
@@ -301,9 +299,6 @@ export default {
       this.tabIndex = index
     },
     getSchemeList() {
-
-     
-
       this.$http
         .post(this.API.SCHEME_LIST, {
           date: this.selectDate,
@@ -349,13 +344,21 @@ export default {
           this.scheme = res.scheme
         })
     },
+    isCollect(){
+      this.$http.post(this.API.IS_COLLECT, {
+          doctor_id: this.doctor_id
+        })
+        .then((res) => {
+           this.is_collect=res.data
+        })
+    },
     addCollect() {
       if (this.model.doctor_id) {
         this.$http
-          .post(this.API.ADD_COLLECT, { id: this.model.doctor_id })
+          .post(this.API.ADD_COLLECT, { doctor_id: this.model.doctor_id,doctor_name:this.model.doctor_name,headimg:this.model.headimg,professional:this.model.professional })
           .then((res) => {
             if (res.code == 20000) {
-              this.model.is_collect = !this.model.is_collect
+              this.is_collect = !this.is_collect
               uni.showToast({
                 title: res.message,
                 duration: 2000,
@@ -440,13 +443,15 @@ export default {
       this.patient_name = this.patientList[index]['name']
     },
     onShareAppMessage(res) {
+      console.log(res)
       if (res.from === 'button') {
         // 来自页面内分享按钮
         console.log(res.target)
       }
       return {
-        title: '自定义分享标题',
-        path: '/pages/test/test?id=123',
+        title: this.model.doctor_name,
+        path: '/pages/doctor/doctorDetail?doctor_id='+this.model.doctor_id,
+        imageUrl:this.model.headimg||(basepath + '/static/wx/doctor.jpg')
       }
     },
   },
@@ -491,6 +496,7 @@ export default {
           align-items: center;
           &_icon {
             width: 62rpx;
+            height: 62rpx;
             margin-right: 20rpx;
             &:last-child {
               margin-right: 0;
@@ -499,6 +505,20 @@ export default {
               width: 100%;
               height: 100%;
               display: block;
+            }
+            &.share_btn {
+              background: url('~@/static/image/doctor_d_icon2.png') no-repeat;
+              background-size: cover;
+              .btn {
+                height: 100%;
+                background-color: transparent;
+                margin: 0;
+                padding: 0;
+                color: transparent;
+                &::after {
+                  border: none;
+                }
+            }
             }
           }
         }
