@@ -337,7 +337,7 @@
       }
     },
     {
-      "path": "pages/branchPlace/branchPlace",
+      "path": "pages/department/branchPlace",
       "name": "branchPlace",
       "style": {
         "navigationBarTitleText": "科室分布",

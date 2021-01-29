@@ -148,7 +148,7 @@ export default {
           font-size: 28rpx;
           .item {
             padding: 0 10rpx;
-            @include textOverflow(1);
+            // @include textOverflow(1);
             &:first-child {
               text-align: left;
             }

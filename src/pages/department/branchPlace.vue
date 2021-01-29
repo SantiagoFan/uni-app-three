@@ -11,7 +11,7 @@
         <view class="wrap-con__art" v-if="floorIndex==index">
           <view class="wrap-con__art-bt">{{item.name}}</view>
           <view class="wrap-con__art-list">
-            <view class="item" v-for="(obj,index) in item.department" :key="index">{{obj.department_name}}</view>
+            <view class="item" v-for="(obj,index1) in item.department" @click="toDepartment(obj.department_id)" :key="index1">{{obj.department_name}}{{obj.department_id}}</view>
           </view>
       </view>
       </view>
@@ -38,6 +38,9 @@ export default {
     },
     changeFloor(index){
       this.floorIndex = index;
+    },
+    toDepartment(id){
+       this.$Router.push({ name: 'departmentDetail',params: { id: id } })
     }
   }
 }
@@ -94,7 +97,7 @@ export default {
         border: none;
       }
       &-bt {
-        font-size: 30rpx;
+        font-size: 34rpx;
         margin-bottom: 30rpx;
         font-weight: bold;
       }
@@ -103,7 +106,7 @@ export default {
         flex-wrap: wrap;
         margin: -20rpx 0 0 -60rpx;
         .item {
-          font-size: 26rpx;
+          font-size: 28rpx;
           padding: 10rpx;
           margin: 20rpx 0 0 60rpx;
         }
