@@ -170,7 +170,9 @@
           </view>
           <view class="order-wrap__info-con">
             <view class="bt">请选择就诊人</view>
-            <view class="info" v-if='patient_name'>({{patient_name}} 卡号:{{patient_code}})</view>
+            <view class="info" v-if="patient_name"
+              >({{ patient_name }} 卡号:{{ patient_code }})</view
+            >
             <view class="list">
               <template v-if="patient_code">
                 <view
@@ -236,7 +238,7 @@ export default {
       schemeIndex: 0,
       scheme: [],
       patient_name: '',
-      is_collect:false
+      is_collect: false,
     }
   },
   components: { dhImage },
@@ -306,7 +308,6 @@ export default {
           doctor_id: this.doctor_id,
         })
         .then((res) => {
-         
           this.schemeList = fillWeek(res.data)
           if (this.selectDate == '') {
             this.selectDate = res.data.date
@@ -328,34 +329,46 @@ export default {
       this.postLock = true
 
       uni.showLoading({
-          title: "获取医生排班中...",
-      });
+        title: '获取医生排班中...',
+      })
 
       this.$http
-        .post(this.API.SCHEME_DETAIL, {
-          department_id: this.department_id,
-          date: this.selectDate,
-          doctor_id: this.doctor_id,
-        },false)
+        .post(
+          this.API.SCHEME_DETAIL,
+          {
+            department_id: this.department_id,
+            date: this.selectDate,
+            doctor_id: this.doctor_id,
+          },
+          false
+        )
         .then((res) => {
-          uni.hideLoading();
+          uni.hideLoading()
           this.postLock = false
           this.list = res.data
           this.scheme = res.scheme
         })
     },
-    isCollect(){
-      this.$http.post(this.API.IS_COLLECT, {
-          doctor_id: this.doctor_id
+    isCollect() {
+      this.$http
+        .post(this.API.IS_COLLECT, {
+          doctor_id: this.doctor_id,
         })
         .then((res) => {
-           this.is_collect=res.data
+          this.is_collect = res.data
         })
     },
     addCollect() {
       if (this.model.doctor_id) {
         this.$http
-          .post(this.API.ADD_COLLECT, { doctor_id: this.model.doctor_id,doctor_name:this.model.doctor_name,headimg:this.model.headimg,professional:this.model.professional })
+          .post(this.API.ADD_COLLECT, {
+            doctor_id: this.model.doctor_id,
+            doctor_name: this.model.doctor_name,
+            headimg: this.model.headimg,
+            professional: this.model.professional,
+            department_id: this.model.department_id,
+            department_name: this.model.department_name,
+          })
           .then((res) => {
             if (res.code == 20000) {
               this.is_collect = !this.is_collect
@@ -450,7 +463,11 @@ export default {
       }
       return {
         title: this.model.doctor_name,
-        path: '/pages/doctor/doctorDetail?doctor_id='+this.model.doctor_id,
+        path:
+          '/pages/doctor/doctorDetail?doctor_id=' +
+          this.model.doctor_id +
+          '&department_id=' +
+          this.model.department_id,
         // imageUrl:this.model.headimg||(basepath + '/static/wx/doctor.jpg')
       }
     },
@@ -518,7 +535,7 @@ export default {
                 &::after {
                   border: none;
                 }
-            }
+              }
             }
           }
         }
@@ -718,7 +735,7 @@ export default {
                 color: #333333;
                 font-size: 34rpx;
               }
-              .rest_source{
+              .rest_source {
                 margin-right: 20rpx;
                 font-size: 28rpx;
               }
