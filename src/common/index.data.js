@@ -60,6 +60,12 @@ export default {
       name: 'awaitPay',
       openType: 'push',
     },
+    {
+      title: '核酸检测',
+      image: require('@/static/image/indx-sta14.jpg'),
+      name: 'awaitPay',
+      openType: 'push',
+    },
   ],
   list2: [
     {
