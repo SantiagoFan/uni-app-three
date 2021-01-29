@@ -366,6 +366,7 @@
         },
         {
           "path": "myResidenAdd/myResidenAdd",
+          "name": "myResidenAdd",
           "style": {
             "navigationBarTitleText": "添加住院人",
             "navigationBarBackgroundColor": "#0ec698",

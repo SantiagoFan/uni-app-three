@@ -25,13 +25,13 @@
             </view>
           </view>
           <view
-            @click="goPatientDetail(patientInfo.id)"
+            @click="goPatientDetail(patientInfo.idcard)"
             hover-class="none"
             class="art2"
             v-if="patientInfo"
           >
             <view class="art2_title">
-              <view class="art2_title__name">{{patientInfo.name}}</view>
+              <view class="art2_title__name">{{ patientInfo.name }}</view>
               <view class="art2_title__tag">
                 <view class="art2_title__tag-item">默认卡</view>
                 <view class="art2_title__tag-item">电子就诊卡</view>
@@ -48,7 +48,7 @@
           </view>
         </view>
         <view class="my-wrap__list">
-          <router-link :to="{name:'registerRecord'}" hover-class="none" >
+          <router-link :to="{ name: 'registerRecord' }" hover-class="none">
             <view class="item">
               <view class="item__icon">
                 <image
@@ -63,7 +63,7 @@
               </view>
             </view>
           </router-link>
-          <router-link :to="{name:'payRecord'}" hover-class="none" >
+          <router-link :to="{ name: 'payRecord' }" hover-class="none">
             <view class="item">
               <view class="item__icon">
                 <image
@@ -91,8 +91,8 @@
               <text class="iconfont icon-arrowb"></text>
             </view>
           </navigator> -->
-          <router-link :to="{name:'livePatientRecord'}" hover-class="none" >
-            <view  class="item">
+          <router-link :to="{ name: 'livePatientRecord' }" hover-class="none">
+            <view class="item">
               <view class="item__icon">
                 <image
                   class="img"
@@ -106,7 +106,7 @@
               </view>
             </view>
           </router-link>
-          <router-link :to="{name:'myCollect'}" hover-class="none" >
+          <router-link :to="{ name: 'myCollect' }" hover-class="none">
             <view class="item">
               <view class="item__icon">
                 <image
@@ -157,15 +157,15 @@ export default {
     goDetail() {
       this.$Router.push({ name: 'patientAdd' })
     },
-    goPatientDetail(id) {
+    goPatientDetail(idcard) {
       this.$Router.push({
         name: 'patientDetail',
-        params: { id: id },
+        params: { idcard: idcard },
       })
     },
     addPatient() {
       this.$Router.push({ name: 'medicalCardLogin' })
-    }
+    },
   },
 }
 </script>
