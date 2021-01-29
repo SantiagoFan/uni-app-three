@@ -131,7 +131,7 @@ export default {
           height: 88rpx;
           line-height: 88rpx;
           color: #333333;
-          font-size: 28rpx;
+          font-size: 30rpx;
           &.active {
             color: #0ec698;
             &::after {
@@ -184,12 +184,12 @@ export default {
             flex: 1;
             .title {
               color: #484848;
-              font-size: 28rpx;
+              font-size: 30rpx;
               @include textOverflow(1);
             }
             .date {
               color: #a8a8a8;
-              font-size: 26rpx;
+              font-size: 28rpx;
               margin-top: 20rpx;
             }
           }

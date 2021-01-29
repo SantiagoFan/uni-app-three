@@ -48,17 +48,17 @@ export default {
       border-bottom: 1rpx solid #ebebeb;
       &-title {
         color: #484848;
-        font-size: 28rpx;
+        font-size: 32rpx;
       }
       &-date {
         color: #a8a8a8;
-        font-size: 26rpx;
+        font-size: 28rpx;
         margin-top: 20rpx;
       }
     }
     &__con {
       color: #484848;
-      font-size: 26rpx;
+      font-size: 28rpx;
       margin-top: 30rpx;
       &-centent {
         min-height: 500rpx;
