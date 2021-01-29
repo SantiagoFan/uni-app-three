@@ -166,7 +166,10 @@ export default {
     goScheme(departmentid) {
       this.$Router.push({
         name: 'branchDetail',
-        params: { departmentid: departmentid },
+        params: { 
+          departmentid: departmentid,
+          departmentName: department_name
+        },
       })
     },
   },
