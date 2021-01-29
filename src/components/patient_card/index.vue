@@ -116,26 +116,15 @@ export default {
     return {
       show: false,
       showModal: false,
-<<<<<<< HEAD
     }
-=======
-    };
->>>>>>> 38c24137bc93f1091e5b686ed87865f0a52903ec
   },
   mounted() {
-    this.checkPatient();
+    this.checkPatient()
   },
   methods: {
     checkPatient() {
-<<<<<<< HEAD
-      console.info('xxxxxxxxxxxxxxxxxx')
-      console.info(this.needPatient)
-      if (this.needPatient) {
+      if (this.needPatient && this.patientInfo == null) {
         this.showModal = true
-=======
-      if (this.needPatient && this.patientInfo==null) {
-        this.showModal = true;
->>>>>>> 38c24137bc93f1091e5b686ed87865f0a52903ec
       }
     },
     getName(item) {
@@ -170,15 +159,15 @@ export default {
         })
     },
     showPatient() {
-      console.info("showPatient");
+      console.info('showPatient')
       this.$Router.push({
-        name: "patientDetail",
+        name: 'patientDetail',
         params: { idcard: this.patientInfo.idcard },
-      });
+      })
     },
-    goBack(){
-      this.$Router.back(1);
-    }
+    goBack() {
+      this.$Router.back(1)
+    },
   },
 }
 </script>
