@@ -15,7 +15,7 @@
           >有退款</view
         >
         <!-- 锁号成功显示 -->
-        <view class="time" v-if="data.status == 2 && timeStamp > 0">
+        <view class="time" v-if="data.status == 2 && timestamp > 0">
           <u-count-down
             :timestamp="timestamp"
             :show-days="false"
@@ -172,7 +172,7 @@
       <view class="wrap-info-btn" v-if="isCancel">取消挂号</view>
       <view
         class="wrap-info-btn active"
-        v-if="data.status == 2 && timeStamp > 0"
+        v-if="data.status == 2 && timestamp > 0"
         @click="timestamp > 0 && hanldePay()"
         >继续支付</view
       >
@@ -248,8 +248,6 @@ export default {
           let lock_minutes = this.lock_minutes * 60
           if (minutes < lock_minutes) {
             this.timestamp = lock_minutes - minutes
-          } else {
-            this.type = 3
           }
           //处理就诊时段
           let startTime = this.info.time.split('~')
@@ -262,7 +260,6 @@ export default {
 
           let date = moment(selectDate + 'T' + startTime[0])
           if (this.info.status == 2 && date.isValid()) {
-            console.log(moment().isBefore(date.subtract(1, 'hours')))
             if (moment().isBefore(date.subtract(1, 'hours'))) {
               this.isCancel = true
             } else {
@@ -317,11 +314,17 @@ export default {
           }
         })
     },
-    updateHealth(val){
-      let obj=JSON.parse(JSON.stringify(this.patientInfo));
-      obj.ehealth_code=val;
-      this.$store.commit('setPatientInfo',obj)
-    }
+    updateHealth(val) {
+      let obj = JSON.parse(JSON.stringify(this.patientInfo))
+      obj.ehealth_code = val
+      this.$store.commit('setPatientInfo', obj)
+    },
+    hanldePay() {
+      this.$Router.push({
+        name: 'payment',
+        params: { reg_no: this.info.register_no },
+      })
+    },
   },
 }
 </script>
