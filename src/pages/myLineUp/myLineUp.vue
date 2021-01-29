@@ -47,13 +47,15 @@ export default {
       tabIndex: 0,
     }
   },
+  onLoad() {
+    this.getDetail()
+  },
   methods: {
     handleTabItem(index) {
       this.tabIndex = index
     },
-    // 切换就诊人
-    handleCheck() {
-      this.$refs.popup.handleChoose()
+    getDetail() {
+      this.$http.post(this.API.WAIT_DETAIL).then((res) => {})
     },
   },
 }

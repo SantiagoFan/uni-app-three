@@ -57,4 +57,6 @@ export default {
   HOSPITAL_NAME: '/register/getHospital', //医院名称
   UPDATE_HEALTH_CODE: '/patient/updateHealthCode', //刷新健康卡
   IS_COLLECT: '/collect_doctor/isCollect', //是否收藏
+  CANCEL_REGISTER: '/register/refundOrder', //取消挂号
+  WAIT_DETAIL: '/wait_detail/getDetail', //排队候诊
 }
