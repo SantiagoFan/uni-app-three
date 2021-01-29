@@ -33,7 +33,10 @@
     </view>
     <u-gap height="20" bg-color="#f3f3f3"></u-gap>
     <view class="my-code">
-      <my-code :patient_code="patientInfo.patient_code" :ehealth_code.sync="patientInfo.ehealth_code"></my-code>
+      <my-code
+        :patient_code="patientInfo.patient_code"
+        :ehealth_code.sync="patientInfo.ehealth_code"
+      ></my-code>
     </view>
     <!-- <view class="wrap-code">
       <view class="wrap-code__tab">
@@ -101,7 +104,7 @@
           <view class="cell">
             <view class="cell-label">就诊时段</view>
             <view class="cell-con"
-              >{{ info.selectDate }} {{ info.time
+              >{{ getWeek(info.selectDate) }} {{ info.time
               }}<br />（请提前30分钟在候诊区等候就诊）</view
             >
           </view>
@@ -180,7 +183,6 @@ import { weekList } from '@/utils/week.js'
 import { mapState } from 'vuex'
 import MyCode from '@/components/common/MyCode'
 
-
 export default {
   data() {
     return {
@@ -196,7 +198,7 @@ export default {
       isCancel: false,
     }
   },
-  components:{MyCode},
+  components: { MyCode },
   computed: {
     ...mapState(['patientInfo']),
   },
@@ -254,10 +256,7 @@ export default {
               : '上午 ' + startTime[0]
           //就诊日期
           let selectDate = this.info.selectDate
-          this.info.selectDate =
-            selectDate +
-            ' ' +
-            weekList('星期')[moment(selectDate).isoWeekday() - 1]
+
           let date = moment(selectDate + 'T' + startTime[0])
           if (this.info.status == 2 && date.isValid()) {
             console.log(moment().isBefore(date.subtract(1, 'hours')))
@@ -283,6 +282,11 @@ export default {
           this.info.status = statusName
           // let nowDate = moment().format('YYYY-MM-DD')
         })
+    },
+    getWeek(selectDate) {
+      return (
+        selectDate + ' ' + weekList('星期')[moment(selectDate).isoWeekday() - 1]
+      )
     },
     //his挂号详情
     getHisDetail() {
@@ -359,8 +363,8 @@ export default {
       }
     }
   }
-  .my-code{
-    padding:0 20rpx;
+  .my-code {
+    padding: 0 20rpx;
   }
   &-code {
     padding: 30rpx;
