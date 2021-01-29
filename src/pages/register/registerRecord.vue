@@ -36,7 +36,7 @@
               <view class="doctor-name"
                 >{{ item.department_name }}/{{ item.doctor_name }}</view
               >
-              <view class="time">{{ item.reg_time }}</view>
+              <view class="time">{{ item.reg_time | getRegTime }}</view>
             </view>
           </view>
         </view>
@@ -61,6 +61,11 @@ export default {
   },
   computed: {
     ...mapState(['patientInfo']),
+  },
+  filters: {
+    getRegTime(time) {
+      return time.length > 0 ? time.split('--')[0] : ''
+    },
   },
   methods: {
     hanldeClickDetail(reg_no) {

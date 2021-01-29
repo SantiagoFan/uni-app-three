@@ -43,7 +43,8 @@ export default {
   SEARCH: '/search/search', //搜索
   LIVE_PAY_RECORD: '/live_patient/getLivePayRecord', //住院缴费记录
   REPORT_LIST: '/report/getReportList', //检验检查报告
-  REPORT_DETAIL: '/report/getDetail', //检验检查报告详情
+  JY_REPORT_DETAIL: '/report/getJyDetail', //检验报告详情
+  JC_REPORT_DETAIL: '/report/getJcDetail', //检验报告详情
   LIVE_PAY_RECORD_DETAIL: '/live_patient/getLivePayRecordDetail', //住院缴费记录详情
   SCHEME_DETAIL: '/scheme/getDetailByScheme', //号源详情
   CREATE_REGISTER: '/register/createRegister', //创建挂号订单
@@ -55,4 +56,7 @@ export default {
   LOCK_MINUTES: '/register/getSettings', //锁号时间
   HOSPITAL_NAME: '/register/getHospital', //医院名称
   UPDATE_HEALTH_CODE: '/patient/updateHealthCode', //刷新健康卡
+  IS_COLLECT: '/collect_doctor/isCollect', //是否收藏
+  CANCEL_REGISTER: '/register/refundOrder', //取消挂号
+  WAIT_DETAIL: '/wait_detail/getDetail', //排队候诊
 }

@@ -28,7 +28,11 @@ export default {
       type: String,
     },
   },
-
+  watch:{
+    ehealth_code(val){
+      console.log('ehealth',val)
+    }
+  },
   created() {
   },
   components: { tkiBarcode, tkiQrcode },
@@ -46,7 +50,15 @@ export default {
     refresh(){
       this.$http.post(this.API.UPDATE_HEALTH_CODE,{patient_code:this.patient_code}).then(res=>{
         if(res.code===20000){
-          this.$emit("update:ehealth_code",res.data)
+          if(res.data){
+            console.log(11)
+            this.$emit("refresh",res.data)
+          }else{
+            uni.showToast({
+              title: "生成失败，请联系管理员",
+              icon: "none",
+            });
+          }
         }
       })
     },

@@ -1,7 +1,7 @@
 <template>
   <view class="report">
     <view class="report-wrap">
-      <view class="report-wrap__title">{{ model.report_name }}</view>
+      <view class="report-wrap__title">{{ model.items.name }}</view>
       <view class="report-wrap__info">
         <view class="item">
           <view class="label">就诊人：</view>
@@ -29,22 +29,22 @@
         </view>
       </view>
       <view class="report-wrap__table">
-        <view class="table-th">
+        <!-- <view class="table-th">
           <view class="item">检查项目</view>
           <view class="item">结果</view>
           <view class="item">单位</view>
           <view class="item">参考值</view>
-        </view>
+        </view> -->
         <view class="table-con">
-          <view
-            class="table-con__td"
-            v-for="(obj, index) in model.items"
-            :key="index"
-          >
-            <view class="item">{{ obj.name }}</view>
-            <view class="item">{{ obj.result }}</view>
-            <view class="item">{{ obj.unit }}</view>
-            <view class="item">{{ obj.standard }}</view>
+          <view class="table-con__td" v-if='model.items'>
+            <view class="item" >
+              <view class="label">结果：</view>
+              <view class="text">{{ model.items.result }} </view>
+            </view>
+            <view class="item">
+              <view class="label">参考值：</view>
+              <view class="text">{{ model.items.unit }}</view>
+            </view>
           </view>
         </view>
       </view>
@@ -68,7 +68,7 @@ export default {
   methods: {
     getDetail() {
       this.$http
-        .post(this.API.JY_REPORT_DETAIL, {
+        .post(this.API.JC_REPORT_DETAIL, {
           report_code: this.$Route.query.report_code,
         })
         .then((res) => {
@@ -137,20 +137,20 @@ export default {
         }
       }
       .table-con {
-        display: grid;
-        grid-row-gap: 20rpx;
         margin-top: 30rpx;
         &__td {
-          display: grid;
-          grid-template-columns: 230rpx repeat(3, 1fr);
           color: #1e1e1e;
-          text-align: center;
-          font-size: 28rpx;
+          font-size: 30rpx;
+          line-height: 50rpx;
           .item {
             padding: 0 10rpx;
-            // @include textOverflow(1);
+            margin-bottom: 20rpx;
             &:first-child {
               text-align: left;
+            }
+            .label {
+              font-size: 32rpx;
+              color: #a2a2a2;
             }
           }
         }

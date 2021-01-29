@@ -128,13 +128,16 @@
       :border-radius="30"
     >
       <view class="visit-wrap">
-        <view class="visit-wrap__name">姓名</view>
+        <view class="visit-wrap__name">{{patientInfo.name}}</view>
         <view class="visit-wrap__code">
-          <image class="img" mode="aspectFill" src="@/static/image/code1.jpg" />
+          <tki-qrcode v-if="patientInfo.ehealth_code" ref="qrcode" onval :val="patientInfo.ehealth_code" :size="300" :icon="icon" :loadMake="true" :show-loading="false" />
+          <!-- <view class="nohealth" @click="refresh" v-if="!patientInfo.ehealth_code">点击刷新健康卡号</view> -->
+          <!-- <image class="img" mode="aspectFill" src="@/static/image/code1.jpg" /> -->
         </view>
       </view>
     </u-popup>
     <auth></auth>
+    <u-modal v-model="showConfirm" content="当前用户未生成健康卡号" :show-confirm-button="true" :show-cancel-button='true' confirm-text='重新获取' cancel-text="关闭" @confirm='refresh()'></u-modal>
   </view>
 </template>
 
@@ -142,6 +145,8 @@
 import indexList from '@/common/index.data.js'
 import dhImage from '@/components/dh-image/dh-image.vue'
 import { mapState } from 'vuex'
+import tkiQrcode from '@/components/tki-code/tki-qrcode/tki-qrcode'
+
 export default {
   data() {
     return {
@@ -155,14 +160,15 @@ export default {
           text: '住院',
         },
       ],
-      noBindCard: true, // 是否绑定就诊卡 true:是 falseL 否
       list1: indexList.list1,
       list2: indexList.list2,
       visitCodeShow: false, // 就诊码
+      showConfirm:false,
       patientList: [],
+      icon:require("@/static/image/logo.png"),
     }
   },
-  components: { dhImage },
+  components: { dhImage,tkiQrcode },
   computed: {
     ...mapState(['userInfo', 'patientInfo']),
   },
@@ -177,9 +183,6 @@ export default {
   },
   onShow() {
     console.log('onShow')
-    const token = uni.getStorageSync('token')
-    this.name = token
-    this.noBindCard = token ? true : false
   },
   methods: {
     getName(str) {
@@ -195,7 +198,30 @@ export default {
     },
     // 就诊码
     handleVisitCode() {
-      this.visitCodeShow = true
+      console.log(this.patientInfo.ehealth_code)
+      if(this.patientInfo.ehealth_code){
+        this.visitCodeShow = true
+      }else{
+        this.showConfirm=true
+        console.log('暂无健康卡')
+      }
+    },
+    refresh(){
+      this.$http.post(this.API.UPDATE_HEALTH_CODE,{patient_code:this.patientInfo.patient_code}).then(res=>{
+        if(res.code===20000){
+          if(res.data){
+            let obj=JSON.parse(JSON.stringify(this.patientInfo));
+            obj.ehealth_code=res.data;
+            this.$store.commit('setPatientInfo',obj)
+            this.handleVisitCode()
+          }else{
+            uni.showToast({
+              title: "生成失败，请联系管理员",
+              icon: "none",
+            });
+          }
+        }
+      })
     },
   },
 }

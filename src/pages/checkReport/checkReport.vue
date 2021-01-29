@@ -1,26 +1,12 @@
 <template>
   <view class="wrap">
-    <view class="wrap-user">
-      <view class="item">
-        <view class="info">
-          <view class="title">
-            <view class="name">{{ patientInfo.name }}</view>
-          </view>
-          <view class="code">就诊卡：{{ patientInfo.patient_code }}</view>
-        </view>
-        <view class="switch" @click="handleCheck">切换就诊人</view>
-      </view>
-    </view>
+    <PatientCard :show-message="false" :need-patient="true"></PatientCard>
     <view class="wrap-list">
       <view
         class="item"
         v-for="(item, index) in list"
         :key="index"
-        @click="
-          item.report_code &&
-            item.status == 1 &&
-            handleClickDetail(item.report_code)
-        "
+        @click="item.report_code && item.status == 1 && handleClickDetail(item)"
       >
         <view class="title">{{ item.report_name }}</view>
         <view class="date">{{ item.report_time }}</view>
@@ -41,13 +27,10 @@
       </view>
       <empty v-if="list.length == 0"></empty>
     </view>
-    <!-- 弹出层 -->
-    <check-popup ref="popup" />
   </view>
 </template>
 
 <script>
-import CheckPopup from '@/components/common/CheckPopup'
 import { mapState } from 'vuex'
 import Empty from '../../components/empty/empty.vue'
 export default {
@@ -60,11 +43,20 @@ export default {
     this.getList()
   },
   methods: {
-    handleClickDetail(report_code) {
-      this.$Router.push({
-        name: 'reportDownload',
-        params: { report_code: report_code },
-      })
+    handleClickDetail(item) {
+      if (item.BGLX == 1) {
+        //检验报告
+        this.$Router.push({
+          name: 'reportDownload',
+          params: { report_code: item.report_code },
+        })
+      } else {
+        //检查报告
+        this.$Router.push({
+          name: 'jcReportDownload',
+          params: { report_code: item.report_code },
+        })
+      }
     },
     // 切换就诊人
     handleCheck() {
@@ -82,9 +74,6 @@ export default {
   },
   computed: {
     ...mapState(['patientInfo']),
-  },
-  components: {
-    CheckPopup,
   },
 
   Empty,

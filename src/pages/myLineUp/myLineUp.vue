@@ -1,21 +1,17 @@
 <template>
   <view class="wrap">
-    <view class="wrap__user">
-      <view class="wrap__user-box">
-        <view class="info">
-          <view class="title">
-            <view class="name">姓名</view>
-          </view>
-          <view class="code">院内诊疗号：1000000182574</view>
-        </view>
-        <view class="switch" @click="handleCheck">切换就诊人</view>
-      </view>
-    </view>
+    <PatientCard :show-message="false" :need-patient="true"></PatientCard>
     <view class="wrap__tab">
-      <view :class="['wrap__tab-item', { active: tabIndex === 0 }]" @click="handleTabItem(0)">
+      <view
+        :class="['wrap__tab-item', { active: tabIndex === 0 }]"
+        @click="handleTabItem(0)"
+      >
         <view class="text">候诊排队</view>
       </view>
-      <view :class="['wrap__tab-item', { active: tabIndex === 1 }]" @click="handleTabItem(1)">
+      <view
+        :class="['wrap__tab-item', { active: tabIndex === 1 }]"
+        @click="handleTabItem(1)"
+      >
         <view class="text">检查排队</view>
       </view>
     </view>
@@ -23,7 +19,9 @@
       <view class="art">
         <view class="title">排队号</view>
         <view class="num">15</view>
-        <view class="massage">您前面还有<text class="count">9</text>人，请耐心等待！</view>
+        <view class="massage"
+          >您前面还有<text class="count">9</text>人，请耐心等待！</view
+        >
         <view class="gap">
           <image class="img" mode="widthFix" src="@/static/image/gap_img.jpg" />
         </view>
@@ -39,31 +37,27 @@
         </view>
       </view>
     </view>
-    <!-- 弹出层 -->
-    <check-popup ref="popup" />
   </view>
 </template>
 
 <script>
-import CheckPopup from '@/components/common/CheckPopup'
 export default {
   data() {
     return {
-      tabIndex: 0
+      tabIndex: 0,
     }
+  },
+  onLoad() {
+    this.getDetail()
   },
   methods: {
     handleTabItem(index) {
       this.tabIndex = index
     },
-    // 切换就诊人
-    handleCheck() {
-      this.$refs.popup.handleChoose()
-    }
+    getDetail() {
+      this.$http.post(this.API.WAIT_DETAIL).then((res) => {})
+    },
   },
-  components: {
-    CheckPopup
-  }
 }
 </script>
 

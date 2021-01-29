@@ -16,20 +16,20 @@
               class="img"
               mode="widthFix"
               :src="info.image"
-              errorSrc="hos_logo.jpg"
+              errorSrc="hos_logo.jpg?v=0.1"
             ></dh-image>
             <view class="tag">{{ info.grade }}</view>
           </view>
           <view class="menu">
-            <view class="menu-item">
+            <view class="menu-item" @click="call()">
               <view class="menu-item__icon">
                 <text class="iconfont icon-dianhua"></text>
               </view>
-              <view @click="call()" class="menu-item__text">{{
+              <view class="menu-item__text">{{
                 info.phone
               }}</view>
             </view>
-            <view class="menu-item">
+            <view class="menu-item" @click="location()">
               <view class="menu-item__icon">
                 <text class="iconfont icon-weizhi"></text>
               </view>
@@ -123,6 +123,15 @@ export default {
         })
       }
     },
+    location(){
+      uni.openLocation({
+        latitude: 40.790314,
+        longitude: 111.726590,
+        success () {
+          console.log('success');
+        }
+      });
+    }
   },
 }
 </script>
@@ -143,7 +152,8 @@ export default {
         display: flex;
         align-items: center;
         color: #040404;
-        font-size: 28rpx;
+        font-size: 32rpx;
+        font-weight: bold;
         padding-left: 20rpx;
         &::before {
           display: block;
@@ -161,20 +171,20 @@ export default {
         border-radius: 34rpx 34rpx 0 0;
         .logo {
           position: relative;
-          width: 385rpx;
+          width: 560rpx;
           margin-left: 20rpx;
           .img {
             width: 100%;
-            height: auto;
+            height: 110rpx;
             display: block;
           }
           .tag {
             position: absolute;
             color: #0ec698;
-            font-size: 22rpx;
-            left: 84rpx;
-            bottom: -15rpx;
-            line-height: 34rpx;
+            font-size: 26rpx;
+            left: 95rpx;
+            bottom: -28rpx;
+            line-height: 38rpx;
             padding: 0 10rpx;
             border: 1rpx solid #0ec698;
             border-radius: 6rpx;
@@ -186,9 +196,10 @@ export default {
             display: flex;
             align-items: center;
             color: #333333;
-            font-size: 26rpx;
+            font-size: 30rpx;
             margin-bottom: 25rpx;
             padding-left: 30rpx;
+            line-height: 60rpx;
             &:last-child {
               margin-bottom: 0;
             }
@@ -236,7 +247,7 @@ export default {
         background: #ffffff;
         .centent {
           color: #333333;
-          font-size: 24rpx;
+          font-size: 28rpx;
           margin-top: 30rpx;
           p {
             text-indent: 2em;

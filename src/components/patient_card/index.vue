@@ -91,11 +91,11 @@
   </view>
 </template>
 <script>
-import { mapState } from "vuex";
+import { mapState } from 'vuex'
 export default {
-  name: "PatientCard",
+  name: 'PatientCard',
   computed: {
-    ...mapState(["patientList", "patientInfo"]),
+    ...mapState(['patientList', 'patientInfo']),
   },
   props: {
     // 强制检查 必须存在就诊卡
@@ -109,33 +109,33 @@ export default {
     },
     theme: {
       type: String,
-      default: "normal",
+      default: 'normal',
     },
   },
   data() {
     return {
       show: false,
       showModal: false,
-    };
+    }
   },
   mounted() {
-    this.checkPatient();
+    this.checkPatient()
   },
   methods: {
     checkPatient() {
-      if (this.needPatient && this.patientInfo==null) {
-        this.showModal = true;
+      if (this.needPatient && this.patientInfo == null) {
+        this.showModal = true
       }
     },
     getName(item) {
       if (item && item.name) {
         if (item.name.length > 4) {
-          return item.name.substr(-2, 4);
+          return item.name.substr(-2, 4)
         } else {
-          return item.name;
+          return item.name
         }
       } else {
-        return "";
+        return ''
       }
     },
     handleChoose() {
@@ -147,33 +147,33 @@ export default {
       uni.showTabBar();
     },
     addPatient() {
-      this.$Router.push({ name: "medicalCardLogin" });
+      this.$Router.push({ name: 'medicalCardLogin' })
     },
     managePatient() {
-      this.$Router.push({ name: "patientAdd" });
+      this.$Router.push({ name: 'patientAdd' })
     },
     choicePatient(id) {
       this.$http
         .post(this.API.CHANGE_DEFAULT_PATIENT, { id: id })
         .then((res) => {
           if (res.code == 20000) {
-            this.$store.commit("setPatientInfo", res.data);
-            this.show = false;
+            this.$store.commit('setPatientInfo', res.data)
+            this.show = false
           }
-        });
+        })
     },
     showPatient() {
-      console.info("showPatient");
+      console.info('showPatient')
       this.$Router.push({
-        name: "patientDetail",
+        name: 'patientDetail',
         params: { idcard: this.patientInfo.idcard },
-      });
+      })
     },
-    goBack(){
-      this.$Router.back(1);
-    }
+    goBack() {
+      this.$Router.back(1)
+    },
   },
-};
+}
 </script>
 <style lang="scss" scoped>
 .container {
@@ -196,7 +196,7 @@ export default {
       height: 156rpx;
       padding: 0 30rpx;
       margin: 30rpx 0 20rpx 0;
-      background: #ffffff url("@/static/image/box_bg.png") no-repeat 70rpx -50rpx;
+      background: #ffffff url('@/static/image/box_bg.png') no-repeat 70rpx -50rpx;
       background-size: 260rpx;
       border-radius: 10rpx;
       .info {
@@ -270,7 +270,7 @@ export default {
       padding: 0 25rpx;
       border-radius: 20rpx;
       box-shadow: 0 10rpx 12rpx rgba($color: #61b47c, $alpha: 0.2);
-      background: #ffffff url("@/static/image/box_bg.png") no-repeat 18rpx 18rpx;
+      background: #ffffff url('@/static/image/box_bg.png') no-repeat 18rpx 18rpx;
       background-size: 250rpx;
       &-info {
         color: #0ec698;

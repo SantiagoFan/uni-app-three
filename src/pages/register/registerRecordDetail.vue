@@ -15,7 +15,7 @@
           >有退款</view
         >
         <!-- 锁号成功显示 -->
-        <view class="time" v-if="data.status == 2 && timeStamp > 0">
+        <view class="time" v-if="data.status == 2 && timestamp > 0">
           <u-count-down
             :timestamp="timestamp"
             :show-days="false"
@@ -35,7 +35,8 @@
     <view class="my-code">
       <my-code
         :patient_code="patientInfo.patient_code"
-        :ehealth_code.sync="patientInfo.ehealth_code"
+        :ehealth_code="patientInfo.ehealth_code"
+        @refresh="updateHealth"
       ></my-code>
     </view>
     <!-- <view class="wrap-code">
@@ -103,8 +104,8 @@
           </view>
           <view class="cell">
             <view class="cell-label">就诊时段</view>
-            <view class="cell-con"
-              >{{ getWeek(info.selectDate) }} {{ info.time
+            <view class="cell-con" v-if="info.selectDate"
+              >{{ info.selectDate | getWeek }} {{ info.time
               }}<br />（请提前30分钟在候诊区等候就诊）</view
             >
           </view>
@@ -138,7 +139,9 @@
         <view class="list" v-show="payDetailShow">
           <view class="cell">
             <view class="cell-label">交易金额</view>
-            <view class="cell-con price">¥{{ info.price }}</view>
+            <view class="cell-con price">{{
+              info.price == 0.0 ? '免费' : '¥' + info.price
+            }}</view>
           </view>
           <view class="cell">
             <view class="cell-label">医院名称</view>
@@ -166,14 +169,23 @@
           </view>
         </view>
       </view>
-      <view class="wrap-info-btn" v-if="isCancel">取消挂号</view>
+      <view class="wrap-info-btn" v-if="isCancel" @click="showModal == true"
+        >取消挂号</view
+      >
       <view
         class="wrap-info-btn active"
-        v-if="data.status == 2 && timeStamp > 0"
+        v-if="data.status == 2 && timestamp > 0"
         @click="timestamp > 0 && hanldePay()"
         >继续支付</view
       >
     </view>
+    <u-modal
+      v-model="showModal"
+      @confirm="confirm"
+      title="提示"
+      content="确认取消"
+      show-cancel-button="true"
+    ></u-modal>
   </view>
 </template>
 
@@ -196,6 +208,7 @@ export default {
       hospital_name: '',
       departmentInfo: {},
       isCancel: false,
+      showModal: false,
     }
   },
   components: { MyCode },
@@ -218,6 +231,19 @@ export default {
           backgroundColor: '#979797',
         })
       }
+    },
+  },
+  filters: {
+    getWeek(selectDate) {
+      console.log(selectDate)
+      if (selectDate) {
+        return (
+          selectDate +
+          ' ' +
+          weekList('星期')[moment(selectDate).isoWeekday() - 1]
+        )
+      }
+      return ''
     },
   },
   methods: {
@@ -245,8 +271,6 @@ export default {
           let lock_minutes = this.lock_minutes * 60
           if (minutes < lock_minutes) {
             this.timestamp = lock_minutes - minutes
-          } else {
-            this.type = 3
           }
           //处理就诊时段
           let startTime = this.info.time.split('~')
@@ -259,7 +283,6 @@ export default {
 
           let date = moment(selectDate + 'T' + startTime[0])
           if (this.info.status == 2 && date.isValid()) {
-            console.log(moment().isBefore(date.subtract(1, 'hours')))
             if (moment().isBefore(date.subtract(1, 'hours'))) {
               this.isCancel = true
             } else {
@@ -283,11 +306,7 @@ export default {
           // let nowDate = moment().format('YYYY-MM-DD')
         })
     },
-    getWeek(selectDate) {
-      return (
-        selectDate + ' ' + weekList('星期')[moment(selectDate).isoWeekday() - 1]
-      )
-    },
+
     //his挂号详情
     getHisDetail() {
       this.$http
@@ -311,6 +330,30 @@ export default {
         .then((res) => {
           if (res.code == 20000) {
             this.departmentInfo = res.data
+          }
+        })
+    },
+    updateHealth(val) {
+      let obj = JSON.parse(JSON.stringify(this.patientInfo))
+      obj.ehealth_code = val
+      this.$store.commit('setPatientInfo', obj)
+    },
+    hanldePay() {
+      this.$Router.push({
+        name: 'payment',
+        params: { reg_no: this.info.register_no },
+      })
+    },
+    confirm() {
+      this.$http
+        .post(this.API.CANCEL_REGISTER, { order_no: this.info.order_no })
+        .then((res) => {
+          if (res.code == 20000) {
+            uni.showToast({
+              title: res.message,
+              duration: 2000,
+              icon: 'none',
+            })
           }
         })
     },

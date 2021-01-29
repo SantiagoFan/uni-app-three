@@ -198,6 +198,15 @@
       }
     },
     {
+      "path": "pages/reportDownload/jcReportDownload",
+      "name": "jcReportDownload",
+      "style": {
+        "navigationBarTitleText": "检查报告下载",
+        "navigationBarBackgroundColor": "#0ec698",
+        "navigationBarTextStyle": "#ffffff"
+      }
+    },
+    {
       "path": "pages/hospitalTrendsDetail/hospitalTrendsDetail",
       "name": "hospitalTrendsDetail",
       "style": {
@@ -328,7 +337,7 @@
       }
     },
     {
-      "path": "pages/branchPlace/branchPlace",
+      "path": "pages/department/branchPlace",
       "name": "branchPlace",
       "style": {
         "navigationBarTitleText": "科室分布",

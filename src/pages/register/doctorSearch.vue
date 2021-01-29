@@ -7,7 +7,7 @@
           class="item"
           v-for="(item, index) in doctorList"
           :key="index"
-          @click="goDetail(item.doctor_id)"
+          @click="goDetail(item)"
         >
           <view class="avatar">
             <dh-image
@@ -54,8 +54,11 @@ export default {
           this.doctorList = res.data
         })
     },
-    goDetail(id) {
-      this.$Router.push({ name: 'doctorDetail', params: { doctor_id: id } })
+    goDetail(item) {
+      this.$Router.push({
+        name: 'doctorDetail',
+        params: { doctor_id: item.id, department_id: item.department_id },
+      })
     },
   },
 }
