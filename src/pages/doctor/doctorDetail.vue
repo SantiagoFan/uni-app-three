@@ -451,7 +451,7 @@ export default {
       return {
         title: this.model.doctor_name,
         path: '/pages/doctor/doctorDetail?doctor_id='+this.model.doctor_id,
-        imageUrl:this.model.headimg||(basepath + '/static/wx/doctor.jpg')
+        // imageUrl:this.model.headimg||(basepath + '/static/wx/doctor.jpg')
       }
     },
   },

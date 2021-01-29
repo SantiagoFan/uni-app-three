@@ -12,6 +12,7 @@
             <!-- <view class="post">职务：{{item.position}}</view> -->
           </view>
         </view>
+        <empty v-if="collectList.length === 0"></empty>
       </view>
     </view>
   </view>

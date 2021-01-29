@@ -25,7 +25,8 @@
     <u-gap height="20" bg-color="transparent"></u-gap>
     <my-code
       :patient_code="model.patient_code"
-      :health_code="model.ehealth_code"
+      :ehealth_code="model.ehealth_code"
+      @refresh="updateHealth"
     ></my-code>
     <u-gap height="20" bg-color="transparent"></u-gap>
     <view class="wrap-btn" @click="delPatient">删除就诊人</view>
@@ -90,6 +91,9 @@ export default {
     delPatient() {
       this.showModal = true
     },
+    updateHealth(val){
+      this.model.ehealth_code = val
+    }
   },
 }
 </script>

@@ -35,7 +35,8 @@
     <view class="my-code">
       <my-code
         :patient_code="patientInfo.patient_code"
-        :ehealth_code.sync="patientInfo.ehealth_code"
+        :ehealth_code="patientInfo.ehealth_code"
+        @refresh="updateHealth"
       ></my-code>
     </view>
     <!-- <view class="wrap-code">
@@ -316,6 +317,11 @@ export default {
           }
         })
     },
+    updateHealth(val){
+      let obj=JSON.parse(JSON.stringify(this.patientInfo));
+      obj.ehealth_code=val;
+      this.$store.commit('setPatientInfo',obj)
+    }
   },
 }
 </script>
