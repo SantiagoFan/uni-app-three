@@ -11,7 +11,7 @@
         <view class="title" v-if="data.status == 2">锁号成功</view>
         <view class="title" v-else-if="data.status == 1">预约挂号成功</view>
         <view class="title" v-else>预约挂号取消成功</view>
-        <view v-if="data.status == 3 && info.status == 4" class="tag"
+        <view v-if="data.status == 3 && info.pay_state == 4" class="tag"
           >有退款</view
         >
         <!-- 锁号成功显示 -->
@@ -69,7 +69,7 @@
         </view>
       </view>
     </view> -->
-    <view class="refund-line" v-if="data.status == 3 && info.status == 4">
+    <view class="refund-line" v-if="data.status == 3 && info.pay_state == 4">
       <view class="refund-line__text">退款进度</view>
       <view class="refund-line__list">
         <view class="item active">
@@ -161,7 +161,7 @@
           </view>
           <view class="cell">
             <view class="cell-label">支付状态</view>
-            <view class="cell-con">{{ info.status }}</view>
+            <view class="cell-con">{{ info.pay_state }}</view>
           </view>
           <view class="cell">
             <view class="cell-label">支付时间</view>
@@ -282,7 +282,7 @@ export default {
           let selectDate = this.info.selectDate
 
           let date = moment(selectDate + 'T' + startTime[0])
-          if (this.info.status == 2 && date.isValid()) {
+          if (this.info.pay_state == 2 && date.isValid()) {
             if (moment().isBefore(date.subtract(1, 'hours'))) {
               this.isCancel = true
             } else {
@@ -291,7 +291,7 @@ export default {
           }
           //支付状态
           let statusName = ''
-          switch (this.info.status) {
+          switch (this.info.pay_state) {
             case 1:
               statusName = '未支付'
               break
@@ -299,10 +299,13 @@ export default {
               statusName = '已支付'
               break
             case 3:
+              statusName = '已取消'
+              break
+            case 4:
               statusName = '已退款'
               break
           }
-          this.info.status = statusName
+          this.info.pay_state = statusName
           // let nowDate = moment().format('YYYY-MM-DD')
         })
     },

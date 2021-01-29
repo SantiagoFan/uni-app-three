@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import dhImage from "@/components/dh-image/dh-image.vue";
+import dhImage from '@/components/dh-image/dh-image.vue'
 
 export default {
   data() {
@@ -55,51 +55,52 @@ export default {
       tabIndex: 0,
       cateList: [],
       list: [],
-    };
+    }
   },
   components: { dhImage },
 
   onShow() {
-    this.getCateList();
+    this.getCateList()
   },
   methods: {
     getCateList() {
       this.$http
         .post(this.API.NEWS_CATE)
         .then((res) => {
-          this.cateList = res.data;
+          this.cateList = res.data
         })
         .then(() => {
           if (this.cateList.length > 0) {
-            this.getNewsList();
+            this.getNewsList()
           }
-        });
+        })
     },
     getNewsList() {
       this.$http
         .post(this.API.NEWS_LIST, {
-          cateid: this.cateList[this.tabIndex]["id"],
+          cateid: this.cateList[this.tabIndex]['id'],
         })
         .then((res) => {
-          this.list = res.data;
-        });
+          this.list = res.data
+        })
     },
     handleTabItem(index) {
-      this.tabIndex = index;
-      this.getNewsList();
+      this.tabIndex = index
+      this.getNewsList()
     },
     // 跳转详情
     handleClickDetail(id) {
-      uni.navigateTo({
-        url: `/pages/hospitalTrendsDetail/hospitalTrendsDetail?id=${id}`,
-      });
+      this.$Router.push({
+        name: 'hospitalTrendsDetail',
+        params: { detailid: id },
+      })
     },
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>
-@import "@/assets/scss/mixin.scss";
+@import '@/assets/scss/mixin.scss';
 .container {
   .wrap {
     display: flex;
@@ -123,7 +124,7 @@ export default {
           width: 2rpx;
           height: 40rpx;
           background: #f6f6f6;
-          content: "";
+          content: '';
         }
         .text {
           position: relative;
@@ -134,7 +135,7 @@ export default {
           &.active {
             color: #0ec698;
             &::after {
-              content: "";
+              content: '';
               position: absolute;
               bottom: 0;
               left: 50%;
