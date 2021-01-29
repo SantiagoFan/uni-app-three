@@ -43,7 +43,8 @@ export default {
   SEARCH: '/search/search', //搜索
   LIVE_PAY_RECORD: '/live_patient/getLivePayRecord', //住院缴费记录
   REPORT_LIST: '/report/getReportList', //检验检查报告
-  REPORT_DETAIL: '/report/getDetail', //检验检查报告详情
+  JY_REPORT_DETAIL: '/report/getJyDetail', //检验报告详情
+  JC_REPORT_DETAIL: '/report/getJcDetail', //检验报告详情
   LIVE_PAY_RECORD_DETAIL: '/live_patient/getLivePayRecordDetail', //住院缴费记录详情
   SCHEME_DETAIL: '/scheme/getDetailByScheme', //号源详情
   CREATE_REGISTER: '/register/createRegister', //创建挂号订单

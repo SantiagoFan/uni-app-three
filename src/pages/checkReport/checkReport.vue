@@ -16,11 +16,7 @@
         class="item"
         v-for="(item, index) in list"
         :key="index"
-        @click="
-          item.report_code &&
-            item.status == 1 &&
-            handleClickDetail(item.report_code)
-        "
+        @click="item.report_code && item.status == 1 && handleClickDetail(item)"
       >
         <view class="title">{{ item.report_name }}</view>
         <view class="date">{{ item.report_time }}</view>
@@ -60,11 +56,20 @@ export default {
     this.getList()
   },
   methods: {
-    handleClickDetail(report_code) {
-      this.$Router.push({
-        name: 'reportDownload',
-        params: { report_code: report_code },
-      })
+    handleClickDetail(item) {
+      if (item.BGLX == 1) {
+        //检验报告
+        this.$Router.push({
+          name: 'reportDownload',
+          params: { report_code: item.report_code },
+        })
+      } else {
+        //检查报告
+        this.$Router.push({
+          name: 'jcReportDownload',
+          params: { report_code: item.report_code },
+        })
+      }
     },
     // 切换就诊人
     handleCheck() {
