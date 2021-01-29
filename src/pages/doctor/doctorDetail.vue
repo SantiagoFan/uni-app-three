@@ -261,6 +261,7 @@ export default {
       this.patient_code = this.patientInfo.patient_code
       this.patient_name = this.patientInfo.name
     }
+    console.log(this.$Route.query)
     this.doctor_id = this.$Route.query.doctor_id
     this.department_id = this.$Route.query.department_id
     if (this.$Route.query.date) {
