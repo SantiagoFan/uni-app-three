@@ -84,7 +84,7 @@
       v-model="showModal"
       title="提示"
       :show-cancel-button="true"
-      @confirm="patientAdd"
+      @confirm="addPatient"
       @cancel="goBack"
       content="未添加就诊人,请添加后重试"
     ></u-modal>
@@ -123,7 +123,7 @@ export default {
   },
   methods: {
     checkPatient() {
-      if (this.needPatient) {
+      if (this.needPatient && this.patientInfo==null) {
         this.showModal = true;
       }
     },
