@@ -88,10 +88,10 @@ export default {
           justify-content: space-between;
           flex: 1;
           color: #a8a8a8;
-          font-size: 24rpx;
+          font-size: 28rpx;
           .name {
             color: #484848;
-            font-size: 28rpx;
+            font-size: 32rpx;
           }
         }
       }
