@@ -454,9 +454,19 @@ export default {
     changePatient(index) {
       this.patient_code = this.patientList[index]['patient_code']
       this.patient_name = this.patientList[index]['name']
+      this.choicePatient(this.patientList[index]['id'])
+    },
+    choicePatient(id) {
+      this.$http
+        .post(this.API.CHANGE_DEFAULT_PATIENT, { id: id })
+        .then((res) => {
+          if (res.code == 20000) {
+            this.$store.commit('setPatientInfo', res.data)
+            this.show = false
+          }
+        })
     },
     onShareAppMessage(res) {
-      console.log(res)
       if (res.from === 'button') {
         // 来自页面内分享按钮
         console.log(res.target)
