@@ -149,11 +149,11 @@ export default {
         margin: 0 20rpx;
         .tit {
           color: #333333;
-          font-size: 28rpx;
+          font-size: 32rpx;
         }
         .sub {
           color: #898989;
-          font-size: 24rpx;
+          font-size: 28rpx;
           margin-top: 10rpx;
         }
       }

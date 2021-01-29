@@ -143,7 +143,8 @@ export default {
         display: flex;
         align-items: center;
         color: #040404;
-        font-size: 28rpx;
+        font-size: 32rpx;
+        font-weight: bold;
         padding-left: 20rpx;
         &::before {
           display: block;
@@ -171,10 +172,10 @@ export default {
           .tag {
             position: absolute;
             color: #0ec698;
-            font-size: 22rpx;
+            font-size: 26rpx;
             left: 84rpx;
             bottom: -15rpx;
-            line-height: 34rpx;
+            line-height: 38rpx;
             padding: 0 10rpx;
             border: 1rpx solid #0ec698;
             border-radius: 6rpx;
@@ -186,9 +187,10 @@ export default {
             display: flex;
             align-items: center;
             color: #333333;
-            font-size: 26rpx;
+            font-size: 30rpx;
             margin-bottom: 25rpx;
             padding-left: 30rpx;
+            line-height: 60rpx;
             &:last-child {
               margin-bottom: 0;
             }
@@ -236,7 +238,7 @@ export default {
         background: #ffffff;
         .centent {
           color: #333333;
-          font-size: 24rpx;
+          font-size: 28rpx;
           margin-top: 30rpx;
           p {
             text-indent: 2em;
