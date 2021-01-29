@@ -138,7 +138,9 @@
         <view class="list" v-show="payDetailShow">
           <view class="cell">
             <view class="cell-label">交易金额</view>
-            <view class="cell-con price">¥{{ info.price }}</view>
+            <view class="cell-con price">{{
+              info.price == 0.0 ? '免费' : '¥' + info.price
+            }}</view>
           </view>
           <view class="cell">
             <view class="cell-label">医院名称</view>

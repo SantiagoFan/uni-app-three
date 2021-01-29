@@ -1,16 +1,6 @@
 <template>
   <view class="wrap">
-    <view class="wrap-user">
-      <view class="item">
-        <view class="info">
-          <view class="title">
-            <view class="name">{{ patientInfo.name }}</view>
-          </view>
-          <view class="code">就诊卡：{{ patientInfo.patient_code }}</view>
-        </view>
-        <view class="switch" @click="handleCheck">切换就诊人</view>
-      </view>
-    </view>
+    <PatientCard :show-message="false" :need-patient="true"></PatientCard>
     <view class="wrap-list">
       <view
         class="item"
@@ -37,13 +27,10 @@
       </view>
       <empty v-if="list.length == 0"></empty>
     </view>
-    <!-- 弹出层 -->
-    <check-popup ref="popup" />
   </view>
 </template>
 
 <script>
-import CheckPopup from '@/components/common/CheckPopup'
 import { mapState } from 'vuex'
 import Empty from '../../components/empty/empty.vue'
 export default {
@@ -87,9 +74,6 @@ export default {
   },
   computed: {
     ...mapState(['patientInfo']),
-  },
-  components: {
-    CheckPopup,
   },
 
   Empty,
