@@ -4,9 +4,9 @@
       <view class="wrap-status__info">
         <view class="icon">
           <!-- icon icon-dasuozi：锁号 icon-duihao：预约挂号成功 icon-jianhao：icon-jianhao -->
-          <view v-if="data.status == 2" class="iconfont icon-duihao"></view>
+          <view v-if="data.status == 1" class="iconfont icon-duihao"></view>
           <view v-if="data.status == 3" class="iconfont icon-jianhao"></view>
-          <view v-if="data.status == 1" class="iconfont icon-dasuozi"></view>
+          <view v-if="data.status == 2" class="iconfont icon-dasuozi"></view>
         </view>
         <view class="title" v-if="data.status == 2">锁号成功</view>
         <view class="title" v-else-if="data.status == 1">预约挂号成功</view>
@@ -32,7 +32,9 @@
       >
     </view>
     <u-gap height="20" bg-color="#f3f3f3"></u-gap>
-    <my-code :patient_code="patientInfo.patient_code" :health_code="patientInfo.ehealth_code"></my-code>
+    <view class="my-code">
+      <my-code :patient_code="patientInfo.patient_code" :ehealth_code.sync="patientInfo.ehealth_code"></my-code>
+    </view>
     <!-- <view class="wrap-code">
       <view class="wrap-code__tab">
         <view
@@ -356,6 +358,9 @@ export default {
         color: #979797;
       }
     }
+  }
+  .my-code{
+    padding:0 20rpx;
   }
   &-code {
     padding: 30rpx;

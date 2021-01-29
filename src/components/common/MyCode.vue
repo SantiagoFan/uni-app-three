@@ -1,39 +1,16 @@
 <template>
   <view class="wrap-code">
     <view class="wrap-code__tab">
-      <view
-        :class="['item', { active: codeIndex === 0 }]"
-        @click="codeIndex = 0"
-        >电子健康卡</view
-      >
-      <view
-        :class="['item', { active: codeIndex === 1 }]"
-        @click="codeIndex = 1"
-        >就诊凭条</view
-      >
+      <view :class="['item', { active: codeIndex === 0 }]" @click="codeIndex = 0">电子健康卡</view>
+      <view :class="['item', { active: codeIndex === 1 }]" @click="codeIndex = 1">就诊凭条</view>
     </view>
-    <view class="wrap-code__con" >
-      <view class="wrap-code__con-code1" v-if='codeIndex===0'>
-        <tki-qrcode v-if='inner_health_code'
-          ref="qrcode"
-          onval
-          :val="inner_health_code"
-          :size="400"
-          :icon='icon'
-          :loadMake="true"
-          :show-loading="false"
-        />
-        <view class="nohealth" @click="refresh" v-if='!inner_health_code'>点击刷新健康卡号</view>
+    <view class="wrap-code__con">
+      <view class="wrap-code__con-code1" v-if="codeIndex === 0">
+        <tki-qrcode v-if="ehealth_code" ref="qrcode" onval :val="ehealth_code" :size="400" :icon="icon" :loadMake="true" :show-loading="false" />
+        <view class="nohealth" @click="refresh" v-if="!ehealth_code">点击刷新健康卡号</view>
       </view>
-      <view class="wrap-code__con-code2" v-if='codeIndex===1'>
-        <tki-barcode 
-          ref="barcode"
-          :onval="true"
-          :show="true"
-          :val="patient_code"
-          :loadMake="true"
-          :opations="barOpations"
-        />
+      <view class="wrap-code__con-code2" v-if="codeIndex === 1">
+        <tki-barcode ref="barcode" :onval="true" :show="true" :val="patient_code" :loadMake="true" :opations="barOpations" />
         <view class="num">{{ patient_code }}</view>
       </view>
     </view>
@@ -47,20 +24,11 @@ export default {
     patient_code: {
       type: String,
     },
-    health_code: {
+    ehealth_code: {
       type: String,
     },
   },
-  watch: {
-    patient_code(val) {
-      console.log(val)
-    },
-    health_code(val){
-      if(val){
-        this.inner_health_code=val
-      }
-    }
-  },
+
   created() {
   },
   components: { tkiBarcode, tkiQrcode },
@@ -68,7 +36,6 @@ export default {
     return {
       codeIndex: 0,
       icon:require("@/static/image/logo.png"),
-      inner_health_code:"",
       barOpations: {
         height: 120,
         displayValue: false,
@@ -79,7 +46,7 @@ export default {
     refresh(){
       this.$http.post(this.API.UPDATE_HEALTH_CODE,{patient_code:this.patient_code}).then(res=>{
         if(res.code===20000){
-          this.inner_health_code=res.data
+          this.$emit("update:ehealth_code",res.data)
         }
       })
     },
@@ -125,8 +92,8 @@ export default {
         //   margin: 0 auto;
         //   // display: block;
         // }
-        .nohealth{
-          min-height: 300rpx;
+        .nohealth {
+          min-height: 200rpx;
           display: flex;
           align-items: center;
           justify-content: center;
