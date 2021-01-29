@@ -80,21 +80,25 @@
       </view>
     </u-popup>
     <!-- 强制检查就诊人 -->
-    <u-modal v-model="showModal" title="提示" content="未添加就诊人,请添加后重试"></u-modal>
+    <u-modal
+      v-model="showModal"
+      title="提示"
+      content="未添加就诊人,请添加后重试"
+    ></u-modal>
   </view>
 </template>
 <script>
-import { mapState } from "vuex";
+import { mapState } from 'vuex'
 export default {
-  name: "PatientCard",
+  name: 'PatientCard',
   computed: {
-    ...mapState(["patientList", "patientInfo"]),
+    ...mapState(['patientList', 'patientInfo']),
   },
   props: {
     // 强制检查 必须存在就诊卡
-    needPatient:{
-      type:Boolean,
-      default:false
+    needPatient: {
+      type: Boolean,
+      default: false,
     },
     showMessage: {
       type: Boolean,
@@ -102,59 +106,59 @@ export default {
     },
     theme: {
       type: String,
-      default: "normal",
+      default: 'normal',
     },
   },
   data() {
     return {
       show: false,
-      showModal:false,
-    };
+      showModal: false,
+    }
   },
   mounted() {
     this.checkPatient()
   },
   methods: {
-    checkPatient(){
+    checkPatient() {
       console.info('xxxxxxxxxxxxxxxxxx')
       console.info(this.needPatient)
-      if(this.needPatient){
+      if (this.needPatient) {
         this.showModal = true
       }
     },
     getName(item) {
       if (item && item.name) {
         if (item.name.length > 4) {
-          return item.name.substr(-2, 4);
+          return item.name.substr(-2, 4)
         } else {
-          return item.name;
+          return item.name
         }
       } else {
-        return "";
+        return ''
       }
     },
     handleChoose() {
-      this.show = true;
-      this.$store.dispatch("loadPatientList", false);
+      this.show = true
+      this.$store.dispatch('loadPatientList', false)
     },
     addPatient() {
-      this.$Router.push({ name: "medicalCardLogin" });
+      this.$Router.push({ name: 'medicalCardLogin' })
     },
     managePatient() {
-      this.$Router.push({ name: "patientAdd" });
+      this.$Router.push({ name: 'patientAdd' })
     },
     choicePatient(id) {
       this.$http
         .post(this.API.CHANGE_DEFAULT_PATIENT, { id: id })
         .then((res) => {
           if (res.code == 20000) {
-            this.$store.commit("setPatientInfo", res.data);
-            this.show = false;
+            this.$store.commit('setPatientInfo', res.data)
+            this.show = false
           }
-        });
+        })
     },
   },
-};
+}
 </script>
 <style lang="scss" scoped>
 .container {
@@ -177,7 +181,7 @@ export default {
       height: 156rpx;
       padding: 0 30rpx;
       margin: 30rpx 0 20rpx 0;
-      background: #ffffff url("@/static/image/box_bg.png") no-repeat 70rpx -50rpx;
+      background: #ffffff url('@/static/image/box_bg.png') no-repeat 70rpx -50rpx;
       background-size: 260rpx;
       border-radius: 10rpx;
       .info {
@@ -251,7 +255,7 @@ export default {
       padding: 0 25rpx;
       border-radius: 20rpx;
       box-shadow: 0 10rpx 12rpx rgba($color: #61b47c, $alpha: 0.2);
-      background: #ffffff url("@/static/image/box_bg.png") no-repeat 18rpx 18rpx;
+      background: #ffffff url('@/static/image/box_bg.png') no-repeat 18rpx 18rpx;
       background-size: 250rpx;
       &-info {
         color: #0ec698;

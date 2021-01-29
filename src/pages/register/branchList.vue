@@ -107,8 +107,7 @@
           <view class="page-view">
             <view class="class-item">
               <view class="item-container">
-               
-                <template >
+                <template>
                   <view
                     class="thumb-box"
                     v-for="(obj, index1) in item.child"
@@ -160,7 +159,7 @@ export default {
     ...mapState(['patientInfo']),
   },
   components: { dhImage },
-  onLoad(options = {}) {
+  onLoad() {
     this.getList()
     this.getHistoryList()
   },
@@ -244,11 +243,11 @@ export default {
         this.list = res.data
       })
     },
-    getCollectList() {
-      this.$http.post(this.API.COLLECT_DOCTOR).then((res) => {
-        this.collectOrRegisterList = res.data
-      })
-    },
+    // getCollectList() {
+    //   this.$http.post(this.API.COLLECT_DOCTOR).then((res) => {
+    //     this.collectOrRegisterList = res.data
+    //   })
+    // },
     getHistoryList() {
       if (!this.patientInfo) return // 用户未包含就诊卡信息
       this.$http
@@ -259,9 +258,9 @@ export default {
           if (res.code == 20000) {
             this.collectOrRegisterList = res.data
           }
-          // if (this.collectOrRegisterList.length > 0) {
-          //   this.current = -1
-          // }
+          if (this.collectOrRegisterList.length > 0) {
+            this.current = -1
+          }
         })
     },
     search() {

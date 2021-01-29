@@ -18,14 +18,24 @@
           <view class="item">姓名：{{ model.name }}</view>
           <view class="item">性别：{{ model.gender }}</view>
           <view class="item">居民健康卡号码：</view>
-          <view class="item">{{ model.idcard|hideIdCard }}</view>
+          <view class="item">{{ model.idcard | hideIdCard }}</view>
         </view>
       </view>
     </view>
     <u-gap height="20" bg-color="transparent"></u-gap>
-    <my-code :patient_code="model.patient_code" :health_code="model.ehealth_code"></my-code>
+    <my-code
+      :patient_code="model.patient_code"
+      :health_code="model.ehealth_code"
+    ></my-code>
     <u-gap height="20" bg-color="transparent"></u-gap>
     <view class="wrap-btn" @click="delPatient">删除就诊人</view>
+    <u-modal
+      v-model="showModal"
+      @confirm="confirm"
+      title="提示"
+      content="确认删除"
+      show-cancel-button="true"
+    ></u-modal>
   </view>
 </template>
 
@@ -36,22 +46,22 @@ export default {
     return {
       codeIndex: 0,
       model: { name: '', gender: '', ehealth_code: '', patient_code: '' },
+      showModal: false,
     }
   },
-  components:{MyCode},
-  filters:{
-    hideIdCard(val){
-      if(val){
-        return val.replace(/^(.{4})(?:\d+)(.{4})$/,"$1******$2")
+  components: { MyCode },
+  filters: {
+    hideIdCard(val) {
+      if (val) {
+        return val.replace(/^(.{4})(?:\d+)(.{4})$/, '$1******$2')
       }
       return ''
-    }
+    },
   },
   onLoad() {
     this.getDetail()
   },
   methods: {
-    
     getDetail() {
       this.$http
         .post(this.API.PATINET_DETAIL, { idcard: this.$Route.query.idcard })
@@ -61,7 +71,7 @@ export default {
           }
         })
     },
-    delPatient() {
+    confirm() {
       this.$http
         .post(this.API.PATIENT_DELETE, { idcard: this.$Route.query.idcard })
         .then((res) => {
@@ -76,6 +86,9 @@ export default {
             }, 1000)
           }
         })
+    },
+    delPatient() {
+      this.showModal = true
     },
   },
 }
@@ -183,10 +196,10 @@ export default {
           margin: 0 auto;
           // display: block;
         }
-        &_refresh{
+        &_refresh {
           height: 200rpx;
           line-height: 200rpx;
-          color:red;
+          color: red;
           text-align: center;
         }
       }
