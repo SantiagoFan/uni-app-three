@@ -157,7 +157,10 @@ export default {
     goDetail(item) {
       this.$Router.push({
         name: 'doctorDetail',
-        params: { doctor_id: item.id, department_id: item.department_id },
+        params: {
+          doctor_id: item.doctor_id,
+          department_id: item.department_id,
+        },
       })
     },
     goScheme(departmentid) {

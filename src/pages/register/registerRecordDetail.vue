@@ -169,7 +169,7 @@
           </view>
         </view>
       </view>
-      <view class="wrap-info-btn" v-if="isCancel" @click="showModal == true"
+      <view class="wrap-info-btn" v-if="isCancel" @click="showModal = true"
         >取消挂号</view
       >
       <view
