@@ -1,5 +1,5 @@
 <template>
-  <view class="wrap" id="wrap">
+  <view class="wrap u-skeleton " id="wrap">
     <view :class="['wrap-status', { 'wrap-status__bg': data.status == 3 }]">
       <view class="wrap-status__info">
         <view class="icon">
@@ -28,7 +28,7 @@
         </view>
       </view>
       <view class="wrap-status__msg" v-if="data.status == 2"
-        >请在锁号的时间内完成支付，负责将取消号源。</view
+        >请在锁号的时间内完成支付，否则将取消号源。</view
       >
     </view>
     <u-gap height="20" bg-color="#f3f3f3"></u-gap>
@@ -90,38 +90,38 @@
       <view class="wrap-info__box">
         <view class="bt">就诊信息</view>
         <view class="list">
-          <view class="cell">
+          <view class="cell u-skeleton-rect">
             <view class="cell-label">就诊人</view>
             <view class="cell-con">{{ data.patient_name }}</view>
           </view>
-          <view class="cell">
+          <view class="cell u-skeleton-rect">
             <view class="cell-label">就诊卡号</view>
             <view class="cell-con">{{ data.patient_code }}</view>
           </view>
-          <view class="cell">
+          <view class="cell u-skeleton-rect">
             <view class="cell-label">科室位置</view>
             <view class="cell-con">{{ departmentInfo.position }}</view>
           </view>
-          <view class="cell">
+          <view class="cell u-skeleton-rect">
             <view class="cell-label">就诊时段</view>
             <view class="cell-con" v-if="info.selectDate"
               >{{ info.selectDate | getWeek }} {{ info.time
               }}<br />（请提前30分钟在候诊区等候就诊）</view
             >
           </view>
-          <view class="cell">
+          <view class="cell u-skeleton-rect">
             <view class="cell-label">医院名称</view>
             <view class="cell-con">{{ hospital_name }}</view>
           </view>
-          <view class="cell">
+          <view class="cell u-skeleton-rect">
             <view class="cell-label">就诊科室</view>
             <view class="cell-con">{{ data.department_name }}</view>
           </view>
-          <view class="cell">
+          <view class="cell u-skeleton-rect">
             <view class="cell-label">医生姓名</view>
             <view class="cell-con">{{ data.doctor_name }}</view>
           </view>
-          <view class="cell">
+          <view class="cell u-skeleton-rect">
             <view class="cell-label">医生职称</view>
             <view class="cell-con">{{
               info.doctor_professional == null ? '' : info.doctor_professional
@@ -186,6 +186,7 @@
       content="确认取消"
       show-cancel-button="true"
     ></u-modal>
+    <u-skeleton :loading="loading" bg-color="#fff"></u-skeleton>
   </view>
 </template>
 
@@ -209,6 +210,7 @@ export default {
       departmentInfo: {},
       isCancel: false,
       showModal: false,
+      loading: true
     }
   },
   components: { MyCode },
@@ -306,6 +308,7 @@ export default {
               break
           }
           this.info.pay_state = statusName
+          this.loading = false
           // let nowDate = moment().format('YYYY-MM-DD')
         })
     },

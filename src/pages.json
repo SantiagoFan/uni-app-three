@@ -344,6 +344,15 @@
         "navigationBarBackgroundColor": "#0ec698",
         "navigationBarTextStyle": "white"
       }
+    },
+    {
+      "path": "pages/test/test",
+      "name": "test",
+      "style": {
+        "navigationBarTitleText": "测试",
+        "navigationBarBackgroundColor": "#0ec698",
+        "navigationBarTextStyle": "white"
+      }
     }
   ],
   "subPackages": [
