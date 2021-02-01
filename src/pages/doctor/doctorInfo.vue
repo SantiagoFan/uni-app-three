@@ -32,7 +32,12 @@
 export default {
   data() {
     return {
-      model: { name: '', professional: '', headimg: '', department_name: '' },
+      model: {
+        name: '',
+        professional: '',
+        Doctor_head: '',
+        department_name: '',
+      },
     }
   },
   onShow() {
@@ -46,10 +51,13 @@ export default {
           this.model = res.data
         })
     },
-    img_url_convert(path){
+    img_url_convert(path) {
       // 过滤his 内网图片
-      return 'http://wx.mzyy.org.cn/'+path.replace("/YxSource","/YxSource").replace('','');
-    }
+      return (
+        'http://wx.mzyy.org.cn/' +
+        path.replace('/YxSource', '/YxSource').replace('', '')
+      )
+    },
   },
 }
 </script>

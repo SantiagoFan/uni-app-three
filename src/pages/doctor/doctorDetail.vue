@@ -5,7 +5,7 @@
         <dh-image
           class="img"
           mode="aspectFill"
-          :src="model.headimg"
+          :src="model.Doctor_head"
           errorSrc="doctor.jpg"
         ></dh-image>
       </view>
@@ -129,7 +129,7 @@
           v-html="model.content"
         >
         </view>
-        <empty v-else title='暂无介绍'></empty>
+        <empty v-else title="暂无介绍"></empty>
       </template>
     </view>
     <!-- 下单 -->
@@ -141,7 +141,7 @@
               <dh-image
                 class="img"
                 mode="aspectFill"
-                :src="model.headimg"
+                :src="model.Doctor_head"
                 errorSrc="doctor.jpg"
               ></dh-image>
             </view>
@@ -217,7 +217,7 @@ export default {
       tabIndex: 0,
       orderPopupStatus: false,
       model: {
-        headimg: '',
+        Doctor_head: '',
         doctor_name: '',
         department_name: '',
         professional: '',
@@ -365,7 +365,7 @@ export default {
           .post(this.API.ADD_COLLECT, {
             doctor_id: this.model.doctor_id,
             doctor_name: this.model.doctor_name,
-            headimg: this.model.headimg,
+            headimg: this.model.Doctor_head,
             professional: this.model.professional,
             department_id: this.model.department_id,
             department_name: this.model.department_name,
@@ -479,7 +479,7 @@ export default {
           this.model.doctor_id +
           '&department_id=' +
           this.model.department_id,
-        // imageUrl:this.model.headimg||(basepath + '/static/wx/doctor.jpg')
+        // imageUrl:this.model.Doctor_head||(basepath + '/static/wx/doctor.jpg')
       }
     },
   },

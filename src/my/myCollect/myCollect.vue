@@ -9,13 +9,18 @@
           @click="handleClickDetail(item)"
         >
           <view class="collect-item__avatar">
-            <!-- <image class="img" mode="aspectFill" :src="item.headimg" /> -->
-            <dh-image class="img" mode="aspectFill" :src="item.headimg" errorSrc="doctor.jpg"></dh-image>
+            <!-- <image class="img" mode="aspectFill" :src="item.Doctor_head" /> -->
+            <dh-image
+              class="img"
+              mode="aspectFill"
+              :src="item.Doctor_head"
+              errorSrc="doctor.jpg"
+            ></dh-image>
           </view>
           <view class="collect-item__info">
-            <view class="name">{{item.doctor_name}}</view>
-            <view class="title">科室：{{item.department_name}}</view>
-            <view class="post">职务：{{item.professional}}</view>
+            <view class="name">{{ item.doctor_name }}</view>
+            <view class="title">科室：{{ item.department_name }}</view>
+            <view class="post">职务：{{ item.professional }}</view>
           </view>
         </view>
         <empty v-if="collectList.length === 0"></empty>
@@ -34,8 +39,8 @@ export default {
     }
   },
   components: { dhImage },
-  onShow(){
-    this.getCollectList();
+  onShow() {
+    this.getCollectList()
   },
   methods: {
     getCollectList() {
