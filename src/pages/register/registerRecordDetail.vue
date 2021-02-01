@@ -11,9 +11,7 @@
         <view class="title" v-if="data.status == 2">锁号成功</view>
         <view class="title" v-else-if="data.status == 1">预约挂号成功</view>
         <view class="title" v-else>预约挂号取消成功</view>
-        <view v-if="data.status == 3 && info.pay_state == 4" class="tag"
-          >有退款</view
-        >
+        <view v-if="data.status == 3" class="tag">有退款</view>
         <!-- 锁号成功显示 -->
         <view class="time" v-if="data.status == 2 && timestamp > 0">
           <u-count-down
@@ -82,11 +80,25 @@
           <view class="item-dot"></view>
           <view class="item-text">发起退款</view>
         </view>
-        <view class="item active">
+        <view
+          :class="[
+            'item',
+            {
+              active:
+                (info.refund_state == 2 || info.refund_state == 3) &&
+                info.pay_state == 4,
+            },
+          ]"
+        >
           <view class="item-dot"></view>
           <view class="item-text">已退款（预计1到7个工作日）</view>
         </view>
-        <view class="item">
+        <view
+          :class="[
+            'item',
+            { active: info.refund_state == 3 && info.pay_state == 4 },
+          ]"
+        >
           <view class="item-dot"></view>
           <view class="item-text">已到账</view>
         </view>
@@ -168,7 +180,7 @@
           <template v-if="info.pay_state == 2 || info.pay_state == 4">
             <view class="cell">
               <view class="cell-label">支付状态</view>
-              <view class="cell-con">{{ info.pay_state }}</view>
+              <view class="cell-con">已支付</view>
             </view>
             <view class="cell">
               <view class="cell-label">支付时间</view>
@@ -326,22 +338,22 @@ export default {
             }
           }
           //支付状态
-          let statusName = ''
-          switch (this.info.pay_state) {
-            case 1:
-              statusName = '未支付'
-              break
-            case 2:
-              statusName = '已支付'
-              break
-            case 3:
-              statusName = '已取消'
-              break
-            case 4:
-              statusName = '已退款'
-              break
-          }
-          this.info.pay_state = statusName
+          // let statusName = ''
+          // switch (this.info.pay_state) {
+          //   case 1:
+          //     statusName = '未支付'
+          //     break
+          //   case 2:
+          //     statusName = '已支付'
+          //     break
+          //   case 3:
+          //     statusName = '已取消'
+          //     break
+          //   case 4:
+          //     statusName = '已退款'
+          //     break
+          // }
+          // this.info.pay_state = statusName
 
           // let nowDate = moment().format('YYYY-MM-DD')
         })
