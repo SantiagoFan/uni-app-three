@@ -27,8 +27,12 @@
           />
         </view>
       </view>
-      <view class="wrap-status__msg" v-if="data.status == 2"
-        >请在锁号的时间内完成支付，否则将取消号源。</view
+      <view class="wrap-status__msg" 
+        >
+        <text v-if="data.status == 1">预约挂号可提前一天在"挂号记录"中取消，挂号成功后不用取号，凭公众号推送的"挂号单"可直接就诊</text>
+        <text v-if="data.status == 2">请在锁号的时间内完成支付，否则将取消号源。</text>
+        <text v-if="data.status == 3">预约挂号已取消，如需就诊请重新挂号</text>
+      </view
       >
     </view>
     <u-gap height="20" bg-color="#f3f3f3"></u-gap>
@@ -92,7 +96,7 @@
         <view class="list">
           <view class="cell u-skeleton-rect">
             <view class="cell-label">就诊人</view>
-            <view class="cell-con">{{ data.patient_name }}</view>
+            <view class="cell-con ">{{ data.patient_name }}</view>
           </view>
           <view class="cell u-skeleton-rect">
             <view class="cell-label">就诊卡号</view>
@@ -159,19 +163,32 @@
             <view class="cell-label">支付流水号</view>
             <view class="cell-con">{{ info.transaction_no }}</view>
           </view>
-          <view class="cell">
-            <view class="cell-label">支付状态</view>
-            <view class="cell-con">{{ info.pay_state }}</view>
-          </view>
-          <view class="cell">
-            <view class="cell-label">支付时间</view>
-            <view class="cell-con">{{ info.pay_time }}</view>
-          </view>
+          <template v-if='info.pay_state==2||info.pay_state==4'>
+            <view class="cell">
+              <view class="cell-label">支付状态</view>
+              <view class="cell-con">{{ info.pay_state }}</view>
+            </view>
+            <view class="cell">
+              <view class="cell-label">支付时间</view>
+              <view class="cell-con">{{ info.pay_time }}</view>
+            </view>
+          </template>
+          <template v-if='info.pay_state==3||info.pay_state==4'>
+            <view class="cell">
+              <view class="cell-label">取消时间</view>
+              <view class="cell-con">{{ info.cancel_time }}</view>
+            </view>
+            <view class="cell">
+              <view class="cell-label">取消原因</view>
+              <view class="cell-con">{{ info.cancel_reason }}</view>
+            </view>
+          </template>
         </view>
       </view>
       <view class="wrap-info-btn" v-if="isCancel" @click="showModal = true"
-        >取消挂号</view
-      >
+        >取消挂号</view>
+      <view class="wrap-info-btn refund" v-if="info.refund_status==2" @click="confirm()"
+        >申请退款</view>
       <view
         class="wrap-info-btn active"
         v-if="data.status == 2 && timestamp > 0"
@@ -186,7 +203,7 @@
       content="确认取消"
       show-cancel-button="true"
     ></u-modal>
-    <u-skeleton :loading="loading" bg-color="#fff"></u-skeleton>
+    <u-skeleton :loading="loading" :animation="true" bg-color="#fff"></u-skeleton>
   </view>
 </template>
 
@@ -247,6 +264,7 @@ export default {
       }
       return ''
     },
+    
   },
   methods: {
     // 点击缴费详情
@@ -255,7 +273,7 @@ export default {
     },
     //锁号分钟
     getLockMinute() {
-      this.$http.post(this.API.LOCK_MINUTES).then((res) => {
+      this.$http.post(this.API.LOCK_MINUTES,{},false).then((res) => {
         this.lock_minutes = res.data
         this.getOrderDetail()
       })
@@ -265,7 +283,7 @@ export default {
       this.$http
         .post(this.API.ORDER_DETAIL, {
           reg_no: this.$Route.query.reg_no,
-        })
+        },false)
         .then((res) => {
           this.info = res.data
           let create_time = moment(this.info.create_time)
@@ -308,7 +326,7 @@ export default {
               break
           }
           this.info.pay_state = statusName
-          this.loading = false
+          
           // let nowDate = moment().format('YYYY-MM-DD')
         })
     },
@@ -321,18 +339,19 @@ export default {
         })
         .then((res) => {
           this.data = res.data //his详情
+          this.loading = false
         })
     },
     //医院名称
     getHospitalName() {
-      this.$http.post(this.API.HOSPITAL_NAME).then((res) => {
+      this.$http.post(this.API.HOSPITAL_NAME,{},false).then((res) => {
         this.hospital_name = res.data
       })
     },
     //科室位置
     getDepartmentDetail() {
       this.$http
-        .post(this.API.DEPARTMENT_INFO_DETAIL, { id: this.$Route.query.id })
+        .post(this.API.DEPARTMENT_INFO_DETAIL, { id: this.$Route.query.id },false)
         .then((res) => {
           if (res.code == 20000) {
             this.departmentInfo = res.data
@@ -362,7 +381,7 @@ export default {
             })
           }
         })
-    },
+    }
   },
 }
 </script>
@@ -387,7 +406,7 @@ export default {
         border-radius: 50%;
       }
       .title {
-        font-size: 34rpx;
+        font-size: 38rpx;
       }
       .tag {
         line-height: 40rpx;
@@ -402,8 +421,11 @@ export default {
       }
     }
     &__msg {
-      font-size: 26rpx;
+      font-size: 30rpx;
       margin-top: 30rpx;
+      text{
+        line-height: 50rpx;
+      }
     }
     &__bg {
       background: #979797;
@@ -528,7 +550,7 @@ export default {
         justify-content: space-between;
         align-items: center;
         color: #484848;
-        font-size: 28rpx;
+        font-size: 32rpx;
         &-show {
           .bt-arrow {
             transform: rotate(180deg);
@@ -545,7 +567,7 @@ export default {
           display: flex;
           align-items: center;
           justify-content: space-between;
-          font-size: 26rpx;
+          font-size: 30rpx;
           margin-bottom: 20rpx;
           padding: 15rpx 0;
           &:last-child {
@@ -573,8 +595,13 @@ export default {
       margin: 0 auto;
       background: #ffffff;
       border-radius: 10rpx;
+      margin-bottom: 10rpx;
       &.active {
         background: #3fcdb5;
+        color: #fff;
+      }
+      &.refund{
+        background: #989898;
         color: #fff;
       }
     }

@@ -119,7 +119,7 @@ export default {
           flex: 1;
           margin-left: 30rpx;
           color: #a8a8a8;
-          font-size: 26rpx;
+          font-size: 30rpx;
           &_title,
           &_subt1,
           &_subt2 {
@@ -129,7 +129,7 @@ export default {
           }
           &_title {
             color: #484848;
-            font-size: 28rpx;
+            font-size: 34rpx;
           }
           &_subt1 {
             margin: 20rpx 0 10rpx 0;
