@@ -96,7 +96,7 @@
         <view class="list">
           <view class="cell u-skeleton-rect">
             <view class="cell-label">就诊人</view>
-            <view class="cell-con">{{ data.patient_name }}</view>
+            <view class="cell-con ">{{ data.patient_name }}</view>
           </view>
           <view class="cell u-skeleton-rect">
             <view class="cell-label">就诊卡号</view>
@@ -203,7 +203,7 @@
       content="确认取消"
       show-cancel-button="true"
     ></u-modal>
-    <u-skeleton :loading="loading" bg-color="#fff"></u-skeleton>
+    <u-skeleton :loading="loading" :animation="true" bg-color="#fff"></u-skeleton>
   </view>
 </template>
 
@@ -273,7 +273,7 @@ export default {
     },
     //锁号分钟
     getLockMinute() {
-      this.$http.post(this.API.LOCK_MINUTES).then((res) => {
+      this.$http.post(this.API.LOCK_MINUTES,{},false).then((res) => {
         this.lock_minutes = res.data
         this.getOrderDetail()
       })
@@ -283,7 +283,7 @@ export default {
       this.$http
         .post(this.API.ORDER_DETAIL, {
           reg_no: this.$Route.query.reg_no,
-        })
+        },false)
         .then((res) => {
           this.info = res.data
           let create_time = moment(this.info.create_time)
@@ -326,7 +326,7 @@ export default {
               break
           }
           this.info.pay_state = statusName
-          this.loading = false
+          
           // let nowDate = moment().format('YYYY-MM-DD')
         })
     },
@@ -339,18 +339,19 @@ export default {
         })
         .then((res) => {
           this.data = res.data //his详情
+          this.loading = false
         })
     },
     //医院名称
     getHospitalName() {
-      this.$http.post(this.API.HOSPITAL_NAME).then((res) => {
+      this.$http.post(this.API.HOSPITAL_NAME,{},false).then((res) => {
         this.hospital_name = res.data
       })
     },
     //科室位置
     getDepartmentDetail() {
       this.$http
-        .post(this.API.DEPARTMENT_INFO_DETAIL, { id: this.$Route.query.id })
+        .post(this.API.DEPARTMENT_INFO_DETAIL, { id: this.$Route.query.id },false)
         .then((res) => {
           if (res.code == 20000) {
             this.departmentInfo = res.data
@@ -405,7 +406,7 @@ export default {
         border-radius: 50%;
       }
       .title {
-        font-size: 34rpx;
+        font-size: 38rpx;
       }
       .tag {
         line-height: 40rpx;
@@ -420,7 +421,7 @@ export default {
       }
     }
     &__msg {
-      font-size: 26rpx;
+      font-size: 30rpx;
       margin-top: 30rpx;
       text{
         line-height: 50rpx;
@@ -549,7 +550,7 @@ export default {
         justify-content: space-between;
         align-items: center;
         color: #484848;
-        font-size: 28rpx;
+        font-size: 32rpx;
         &-show {
           .bt-arrow {
             transform: rotate(180deg);
@@ -566,7 +567,7 @@ export default {
           display: flex;
           align-items: center;
           justify-content: space-between;
-          font-size: 26rpx;
+          font-size: 30rpx;
           margin-bottom: 20rpx;
           padding: 15rpx 0;
           &:last-child {
