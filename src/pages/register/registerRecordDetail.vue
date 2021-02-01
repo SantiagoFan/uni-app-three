@@ -27,8 +27,12 @@
           />
         </view>
       </view>
-      <view class="wrap-status__msg" v-if="data.status == 2"
-        >请在锁号的时间内完成支付，否则将取消号源。</view
+      <view class="wrap-status__msg" 
+        >
+        <text v-if="data.status == 1">预约挂号可提前一天在"挂号记录"中取消，挂号成功后不用取号，凭公众号推送的"挂号单"可直接就诊</text>
+        <text v-if="data.status == 2">请在锁号的时间内完成支付，否则将取消号源。</text>
+        <text v-if="data.status == 3">预约挂号已取消，如需就诊请重新挂号</text>
+      </view
       >
     </view>
     <u-gap height="20" bg-color="#f3f3f3"></u-gap>
@@ -159,19 +163,32 @@
             <view class="cell-label">支付流水号</view>
             <view class="cell-con">{{ info.transaction_no }}</view>
           </view>
-          <view class="cell">
-            <view class="cell-label">支付状态</view>
-            <view class="cell-con">{{ info.pay_state }}</view>
-          </view>
-          <view class="cell">
-            <view class="cell-label">支付时间</view>
-            <view class="cell-con">{{ info.pay_time }}</view>
-          </view>
+          <template v-if='info.pay_state==2||info.pay_state==4'>
+            <view class="cell">
+              <view class="cell-label">支付状态</view>
+              <view class="cell-con">{{ info.pay_state }}</view>
+            </view>
+            <view class="cell">
+              <view class="cell-label">支付时间</view>
+              <view class="cell-con">{{ info.pay_time }}</view>
+            </view>
+          </template>
+          <template v-if='info.pay_state==3||info.pay_state==4'>
+            <view class="cell">
+              <view class="cell-label">取消时间</view>
+              <view class="cell-con">{{ info.cancel_time }}</view>
+            </view>
+            <view class="cell">
+              <view class="cell-label">取消原因</view>
+              <view class="cell-con">{{ info.cancel_reason }}</view>
+            </view>
+          </template>
         </view>
       </view>
       <view class="wrap-info-btn" v-if="isCancel" @click="showModal = true"
-        >取消挂号</view
-      >
+        >取消挂号</view>
+      <view class="wrap-info-btn refund" v-if="info.refund_status==2" @click="confirm()"
+        >申请退款</view>
       <view
         class="wrap-info-btn active"
         v-if="data.status == 2 && timestamp > 0"
@@ -247,6 +264,7 @@ export default {
       }
       return ''
     },
+    
   },
   methods: {
     // 点击缴费详情
@@ -362,7 +380,7 @@ export default {
             })
           }
         })
-    },
+    }
   },
 }
 </script>
@@ -404,6 +422,9 @@ export default {
     &__msg {
       font-size: 26rpx;
       margin-top: 30rpx;
+      text{
+        line-height: 50rpx;
+      }
     }
     &__bg {
       background: #979797;
@@ -573,8 +594,13 @@ export default {
       margin: 0 auto;
       background: #ffffff;
       border-radius: 10rpx;
+      margin-bottom: 10rpx;
       &.active {
         background: #3fcdb5;
+        color: #fff;
+      }
+      &.refund{
+        background: #989898;
         color: #fff;
       }
     }
