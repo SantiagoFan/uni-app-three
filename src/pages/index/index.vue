@@ -130,7 +130,7 @@
       <view class="visit-wrap">
         <view class="visit-wrap__name">{{patientInfo.name}}</view>
         <view class="visit-wrap__code">
-          <tki-qrcode v-if="patientInfo.ehealth_code" ref="qrcode" onval :val="patientInfo.ehealth_code" :size="300" :icon="icon" :loadMake="true" :show-loading="false" />
+          <tki-qrcode ref="qrcode" onval :val="ehealth_code" :size="300" :icon="icon" :loadMake="true" :show-loading="false" />
           <!-- <view class="nohealth" @click="refresh" v-if="!patientInfo.ehealth_code">点击刷新健康卡号</view> -->
           <!-- <image class="img" mode="aspectFill" src="@/static/image/code1.jpg" /> -->
         </view>
@@ -164,6 +164,7 @@ export default {
       list2: indexList.list2,
       visitCodeShow: false, // 就诊码
       showConfirm:false,
+      ehealth_code:"",
       patientList: [],
       icon:require("@/static/image/logo.png"),
     }
@@ -201,6 +202,9 @@ export default {
       console.log(this.patientInfo.ehealth_code)
       if(this.patientInfo.ehealth_code){
         this.visitCodeShow = true
+        this.$nextTick(() => {
+           this.ehealth_code=this.patientInfo.ehealth_code
+        })
       }else{
         this.showConfirm=true
         console.log('暂无健康卡')
