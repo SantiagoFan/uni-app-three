@@ -29,7 +29,7 @@
               <dh-image
                 class="img"
                 mode="aspectFill"
-                :src="item.headimg"
+                :src="item.Doctor_head"
                 errorSrc="doctor.jpg"
               ></dh-image>
             </view>
@@ -166,9 +166,9 @@ export default {
     goScheme(departmentid) {
       this.$Router.push({
         name: 'branchDetail',
-        params: { 
+        params: {
           departmentid: departmentid,
-          departmentName: department_name
+          departmentName: department_name,
         },
       })
     },
