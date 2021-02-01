@@ -5,7 +5,8 @@
         <dh-image
           class="img"
           mode="aspectFill"
-          :src="model.Doctor_head"
+          :src="model.doctor_head"
+          :inHis='true'
           errorSrc="doctor.jpg"
         ></dh-image>
       </view>
@@ -142,7 +143,8 @@
               <dh-image
                 class="img"
                 mode="aspectFill"
-                :src="model.Doctor_head"
+                :src="model.doctor_head"
+                :inHis='true'
                 errorSrc="doctor.jpg"
               ></dh-image>
             </view>
@@ -217,7 +219,7 @@ export default {
       tabIndex: 0,
       orderPopupStatus: false,
       model: {
-        Doctor_head: '',
+        doctor_head: '',
         doctor_name: '',
         department_name: '',
         professional: '',
@@ -367,7 +369,7 @@ export default {
           .post(this.API.ADD_COLLECT, {
             doctor_id: this.model.doctor_id,
             doctor_name: this.model.doctor_name,
-            headimg: this.model.Doctor_head,
+            headimg: this.model.doctor_head,
             professional: this.model.professional,
             department_id: this.model.department_id,
             department_name: this.model.department_name,

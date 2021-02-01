@@ -19,10 +19,18 @@ export default {
       type: String,
       default: 'aspectFill',
     },
+    inHis: {
+      type: Boolean,
+      default: false,
+    },
   },
   watch: {
     src(val) {
-      this.imageSrc = this.src
+      if (this.inHis) {
+        this.imageSrc = basepath + '/his' + this.src
+      } else {
+        this.imageSrc = this.src
+      }
     },
   },
   data() {
@@ -33,7 +41,7 @@ export default {
   methods: {
     error(e) {
       this.imageSrc = basepath + '/static/wx/' + this.errorSrc
-      console.log('errorImage',this.imageSrc)
+      console.log('errorImage', this.imageSrc)
       this.$emit('error', e)
     },
     load(e) {
@@ -41,7 +49,11 @@ export default {
     },
   },
   created() {
-    this.imageSrc = this.src || 'error'
+    let src = this.src
+    if (this.inHis && src) {
+      src = basepath + '/his' + this.src
+    }
+    this.imageSrc = src || 'error'
   },
 }
 </script>
