@@ -27,13 +27,15 @@
           />
         </view>
       </view>
-      <view class="wrap-status__msg" 
+      <view class="wrap-status__msg">
+        <text v-if="data.status == 1"
+          >预约挂号可提前一天在"挂号记录"中取消，挂号成功后不用取号，凭公众号推送的"挂号单"可直接就诊</text
         >
-        <text v-if="data.status == 1">预约挂号可提前一天在"挂号记录"中取消，挂号成功后不用取号，凭公众号推送的"挂号单"可直接就诊</text>
-        <text v-if="data.status == 2">请在锁号的时间内完成支付，否则将取消号源。</text>
+        <text v-if="data.status == 2"
+          >请在锁号的时间内完成支付，否则将取消号源。</text
+        >
         <text v-if="data.status == 3">预约挂号已取消，如需就诊请重新挂号</text>
-      </view
-      >
+      </view>
     </view>
     <u-gap height="20" bg-color="#f3f3f3"></u-gap>
     <view class="my-code">
@@ -163,7 +165,7 @@
             <view class="cell-label">支付流水号</view>
             <view class="cell-con">{{ info.transaction_no }}</view>
           </view>
-          <template v-if='info.pay_state==2||info.pay_state==4'>
+          <template v-if="info.pay_state == 2 || info.pay_state == 4">
             <view class="cell">
               <view class="cell-label">支付状态</view>
               <view class="cell-con">{{ info.pay_state }}</view>
@@ -173,7 +175,7 @@
               <view class="cell-con">{{ info.pay_time }}</view>
             </view>
           </template>
-          <template v-if='info.pay_state==3||info.pay_state==4'>
+          <template v-if="info.pay_state == 3 || info.pay_state == 4">
             <view class="cell">
               <view class="cell-label">取消时间</view>
               <view class="cell-con">{{ info.cancel_time }}</view>
@@ -186,9 +188,14 @@
         </view>
       </view>
       <view class="wrap-info-btn" v-if="isCancel" @click="showModal = true"
-        >取消挂号</view>
-      <view class="wrap-info-btn refund" v-if="info.refund_status==2" @click="confirm()"
-        >申请退款</view>
+        >取消挂号</view
+      >
+      <view
+        class="wrap-info-btn refund"
+        v-if="info.refund_status == 2"
+        @click="confirm()"
+        >申请退款</view
+      >
       <view
         class="wrap-info-btn active"
         v-if="data.status == 2 && timestamp > 0"
@@ -203,7 +210,11 @@
       content="确认取消"
       show-cancel-button="true"
     ></u-modal>
-    <u-skeleton :loading="loading" :animation="true" bg-color="#fff"></u-skeleton>
+    <u-skeleton
+      :loading="loading"
+      :animation="true"
+      bg-color="#fff"
+    ></u-skeleton>
   </view>
 </template>
 
@@ -227,7 +238,7 @@ export default {
       departmentInfo: {},
       isCancel: false,
       showModal: false,
-      loading: true
+      loading: true,
     }
   },
   components: { MyCode },
@@ -264,7 +275,6 @@ export default {
       }
       return ''
     },
-    
   },
   methods: {
     // 点击缴费详情
@@ -273,7 +283,7 @@ export default {
     },
     //锁号分钟
     getLockMinute() {
-      this.$http.post(this.API.LOCK_MINUTES,{},false).then((res) => {
+      this.$http.post(this.API.LOCK_MINUTES, {}, false).then((res) => {
         this.lock_minutes = res.data
         this.getOrderDetail()
       })
@@ -281,9 +291,13 @@ export default {
     //本地挂号详情
     getOrderDetail() {
       this.$http
-        .post(this.API.ORDER_DETAIL, {
-          reg_no: this.$Route.query.reg_no,
-        },false)
+        .post(
+          this.API.ORDER_DETAIL,
+          {
+            reg_no: this.$Route.query.reg_no,
+          },
+          false
+        )
         .then((res) => {
           this.info = res.data
           let create_time = moment(this.info.create_time)
@@ -302,8 +316,10 @@ export default {
           let selectDate = this.info.selectDate
 
           let date = moment(selectDate + 'T' + startTime[0])
+          console.log('123123', date.endOf('day'))
           if (this.info.pay_state == 2 && date.isValid()) {
-            if (moment().isBefore(date.subtract(1, 'hours'))) {
+            // if (moment().isBefore(date.subtract(1, 'hours'))) {
+            if (moment().isBefore(date.endOf('day'))) {
               this.isCancel = true
             } else {
               this.isCancel = false
@@ -326,7 +342,7 @@ export default {
               break
           }
           this.info.pay_state = statusName
-          
+
           // let nowDate = moment().format('YYYY-MM-DD')
         })
     },
@@ -344,14 +360,18 @@ export default {
     },
     //医院名称
     getHospitalName() {
-      this.$http.post(this.API.HOSPITAL_NAME,{},false).then((res) => {
+      this.$http.post(this.API.HOSPITAL_NAME, {}, false).then((res) => {
         this.hospital_name = res.data
       })
     },
     //科室位置
     getDepartmentDetail() {
       this.$http
-        .post(this.API.DEPARTMENT_INFO_DETAIL, { id: this.$Route.query.id },false)
+        .post(
+          this.API.DEPARTMENT_INFO_DETAIL,
+          { id: this.$Route.query.id },
+          false
+        )
         .then((res) => {
           if (res.code == 20000) {
             this.departmentInfo = res.data
@@ -381,7 +401,7 @@ export default {
             })
           }
         })
-    }
+    },
   },
 }
 </script>
@@ -423,7 +443,7 @@ export default {
     &__msg {
       font-size: 30rpx;
       margin-top: 30rpx;
-      text{
+      text {
         line-height: 50rpx;
       }
     }
@@ -600,7 +620,7 @@ export default {
         background: #3fcdb5;
         color: #fff;
       }
-      &.refund{
+      &.refund {
         background: #989898;
         color: #fff;
       }
