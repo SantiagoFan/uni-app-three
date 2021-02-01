@@ -56,7 +56,8 @@
       </u-sticky>
       <view class="register" v-show="tabIndex == 0">
         <view class="register-list">
-          <view class="register-list__cell">
+          <empty v-if="schemeList.length === 0" :title="'暂无医生排班'"></empty>
+          <view class="register-list__cell" v-if="schemeList.length > 0">
             <view class="title" @click="isShow = !isShow">
               <view class="date">{{ dateStr }}</view>
               <view class="text">{{ isShow ? '收起日期' : '更多日期' }}</view>
@@ -207,7 +208,6 @@ import { mapState } from 'vuex'
 import moment from 'moment'
 import dhImage from '@/components/dh-image/dh-image.vue'
 import { weekList, fillWeek } from '@/utils/week.js'
-import { basepath } from '@/config/index.js'
 
 export default {
   data() {
@@ -313,7 +313,9 @@ export default {
           if (this.selectDate == '') {
             this.selectDate = res.data.date
           }
-          this.getList()
+          if (this.schemeList.length > 0) {
+            this.getList()
+          }
         })
     },
     getDetail() {

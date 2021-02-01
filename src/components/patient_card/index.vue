@@ -25,15 +25,19 @@
         </view>
       </view>
       <!-- 图形样式 -->
-      <view v-else class="index-wrap__user" @click="showPatient()">
+      <view v-else class="index-wrap__user">
         <view class="index-wrap__user-info">
           <view v-if="patientInfo">
             <view class="title">
-              <view class="name">{{ getName(patientInfo) }}</view>
-              <view class="tag">电子就诊卡</view>
+              <view class="name" @click="showPatient()">{{
+                getName(patientInfo)
+              }}</view>
+              <view class="tag" @click="showPatient()">电子就诊卡</view>
               <view @click.stop="handleChoose" class="check">切换</view>
             </view>
-            <view class="code">诊疗号：{{ patientInfo.patient_code }}</view>
+            <view class="code" @click="showPatient()"
+              >诊疗号：{{ patientInfo.patient_code }}</view
+            >
           </view>
           <view @click.stop="addPatient" class="add_btn" v-else>
             <view class="add_btn__icon">
@@ -52,13 +56,18 @@
       </view>
     </view>
     <!-- 弹出窗 -->
-    <u-popup v-model="show" mode="bottom" :border-radius="20" @close="handleChooseClose">
+    <u-popup
+      v-model="show"
+      mode="bottom"
+      :border-radius="20"
+      @close="handleChooseClose"
+    >
       <view class="check-wrap">
         <view class="check-wrap__title">切换就诊人</view>
         <view class="check-wrap__con">
           <view class="list">
             <view
-              :class="['item', item.is_default ? 'active' : '']"
+              :class="['item', item.id == patientInfo.id ? 'active' : '']"
               @click="choicePatient(item.id)"
               v-for="(item, index) in patientList"
               :key="index"
@@ -139,12 +148,12 @@ export default {
       }
     },
     handleChoose() {
-      this.show = true;
-      uni.hideTabBar();
-      this.$store.dispatch("loadPatientList", false);
+      this.show = true
+      uni.hideTabBar()
+      this.$store.dispatch('loadPatientList', false)
     },
     handleChooseClose() {
-      uni.showTabBar();
+      uni.showTabBar()
     },
     addPatient() {
       this.$Router.push({ name: 'medicalCardLogin' })
