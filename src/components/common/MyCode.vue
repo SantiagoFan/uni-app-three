@@ -6,7 +6,7 @@
     </view>
     <view class="wrap-code__con">
       <view class="wrap-code__con-code1" v-if="codeIndex === 0">
-        <tki-qrcode v-if="ehealth_code" ref="qrcode" onval :val="ehealth_code" :size="400" :icon="icon" :loadMake="true" :show-loading="false" />
+        <tki-qrcode v-if="ehealth_code" ref="qrcode" onval :val="ehealth_code" :size="400" icon="/static/image/logo.jpg" :loadMake="true" :show-loading="false" />
         <view class="nohealth" @click="refresh" v-if="!ehealth_code">点击刷新健康卡号</view>
       </view>
       <view class="wrap-code__con-code2" v-if="codeIndex === 1">
@@ -39,7 +39,6 @@ export default {
   data() {
     return {
       codeIndex: 0,
-      icon:require("@/static/image/logo.png"),
       barOpations: {
         height: 120,
         displayValue: false,
