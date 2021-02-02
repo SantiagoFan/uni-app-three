@@ -77,7 +77,7 @@ export default {
     {
       title: '住院缴费',
       image: require('@/static/image/indx-sta12.jpg'),
-      name: 'awaitPayPatient',
+      name: 'depositPay',
       openType: 'push',
     },
     {
