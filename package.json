@@ -5,6 +5,7 @@
   "scripts": {
     "serve": "npm run dev:h5",
     "build": "npm run build:h5",
+    "ci":"node wxci",
     "build:app-plus": "cross-env NODE_ENV=production UNI_PLATFORM=app-plus vue-cli-service uni-build",
     "build:custom": "cross-env NODE_ENV=production uniapp-cli custom",
     "build:h5": "cross-env NODE_ENV=production UNI_PLATFORM=h5 vue-cli-service uni-build",
@@ -58,6 +59,7 @@
     "@vue/shared": "^3.0.5",
     "core-js": "^3.8.3",
     "flyio": "^0.6.2",
+    "miniprogram-ci": "^1.0.94",
     "moment": "^2.29.1",
     "regenerator-runtime": "^0.12.1",
     "uni-read-pages": "^1.0.5",
