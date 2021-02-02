@@ -11,7 +11,7 @@
         <view class="wrap-con__art" v-if="floorIndex==index">
           <view class="wrap-con__art-bt">{{item.name}}</view>
           <view class="wrap-con__art-list">
-            <view class="item" v-for="(obj,index1) in item.department" @click="toDepartment(obj.department_id)" :key="index1">{{obj.department_name}}{{obj.department_id}}</view>
+            <view class="item" v-for="(obj,index1) in item.department" @click="toDepartment(obj.department_id)" :key="index1">{{obj.department_name}}</view>
           </view>
       </view>
       </view>

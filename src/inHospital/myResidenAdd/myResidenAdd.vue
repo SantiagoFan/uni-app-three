@@ -90,7 +90,7 @@ export default {
                 icon: 'none',
               })
               if (res.code == 20000) {
-                that.$store.commit('setPatientInfo', res.data)
+                // that.$store.commit('setPatientInfo', res.data)
                 that.$Router.back(1)
               }
             })

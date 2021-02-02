@@ -17,6 +17,7 @@ export default new Vuex.Store({
     getToken() {
       return uni.getStorageSync("token");
     },
+
   },
   mutations: {
     setUserInfo(state, userInfo) {
@@ -26,6 +27,11 @@ export default new Vuex.Store({
       state.patientInfo = patientInfo;
     },
     setLoginPopupShow(state, data) {
+      if(data){
+        uni.hideTabBar()
+      }else{
+        uni.showTabBar()
+      }
       state.loginPopupShow = data;
     },
     setPatientList(state, data){

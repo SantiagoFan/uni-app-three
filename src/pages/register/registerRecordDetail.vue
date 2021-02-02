@@ -4,13 +4,17 @@
       <view class="wrap-status__info">
         <view class="icon">
           <!-- icon icon-dasuozi：锁号 icon-duihao：预约挂号成功 icon-jianhao：icon-jianhao -->
-          <view v-if="data.status == 1" class="iconfont icon-duihao"></view>
+          <view
+            v-if="data.status == 1 || data.status == 4"
+            class="iconfont icon-duihao"
+          ></view>
           <view v-if="data.status == 3" class="iconfont icon-jianhao"></view>
           <view v-if="data.status == 2" class="iconfont icon-dasuozi"></view>
         </view>
         <view class="title" v-if="data.status == 2">锁号成功</view>
         <view class="title" v-else-if="data.status == 1">预约挂号成功</view>
-        <view class="title" v-else>预约挂号取消成功</view>
+        <view class="title" v-else-if="data.status == 3">预约挂号取消成功</view>
+        <view class="title" v-else>已就诊</view>
         <view v-if="data.status == 3" class="tag">有退款</view>
         <!-- 锁号成功显示 -->
         <view class="time" v-if="data.status == 2 && timestamp > 0">
@@ -129,7 +133,7 @@
           </view>
           <view class="cell u-skeleton-rect">
             <view class="cell-label">医院名称</view>
-            <view class="cell-con">{{ hospital_name }}</view>
+            <view class="cell-con">{{ $config('name') }}</view>
           </view>
           <view class="cell u-skeleton-rect">
             <view class="cell-label">就诊科室</view>
@@ -163,7 +167,7 @@
           </view>
           <view class="cell">
             <view class="cell-label">医院名称</view>
-            <view class="cell-con">{{ hospital_name }}</view>
+            <view class="cell-con">{{ $config('name') }}</view>
           </view>
           <view class="cell">
             <view class="cell-label">医院单号</view>
@@ -199,7 +203,10 @@
           </template>
         </view>
       </view>
-      <view class="wrap-info-btn" v-if="isCancel" @click="showModal = true"
+      <view
+        class="wrap-info-btn"
+        v-if="isCancel && data.status != 4"
+        @click="goCancel()"
         >取消挂号</view
       >
       <view
@@ -246,7 +253,6 @@ export default {
       reg_no: '',
       info: {},
       lock_minutes: 0,
-      hospital_name: '',
       departmentInfo: {},
       isCancel: false,
       showModal: false,
@@ -262,7 +268,7 @@ export default {
     //(1成功2锁号3取消)
     this.getHisDetail()
     this.getLockMinute()
-    this.getHospitalName()
+    // this.getHospitalName()
     this.getDepartmentDetail()
   },
   watch: {
@@ -371,11 +377,11 @@ export default {
         })
     },
     //医院名称
-    getHospitalName() {
-      this.$http.post(this.API.HOSPITAL_NAME, {}, false).then((res) => {
-        this.hospital_name = res.data
-      })
-    },
+    // getHospitalName() {
+    //   this.$http.post(this.API.HOSPITAL_NAME, {}, false).then((res) => {
+    //     this.hospital_name = res.data
+    //   })
+    // },
     //科室位置
     getDepartmentDetail() {
       this.$http
@@ -402,6 +408,14 @@ export default {
       })
     },
     confirm() {
+      if (data.status == 4) {
+        uni.showToast({
+          title: '该号源已就诊,无法取消',
+          duration: 2000,
+          icon: 'none',
+        })
+        return false
+      }
       this.$http
         .post(this.API.CANCEL_REGISTER, { order_no: this.info.order_no })
         .then((res) => {

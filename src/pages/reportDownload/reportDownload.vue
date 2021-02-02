@@ -29,22 +29,46 @@
         </view>
       </view>
       <view class="report-wrap__table">
-        <view class="table-th">
-          <view class="item">检查项目</view>
-          <view class="item">结果</view>
-          <view class="item">单位</view>
-          <view class="item">参考值</view>
-        </view>
         <view class="table-con">
           <view
             class="table-con__td"
             v-for="(obj, index) in model.items"
             :key="index"
           >
-            <view class="item">{{ obj.name }}</view>
-            <view class="item">{{ obj.result }}</view>
-            <view class="item">{{ obj.unit }}</view>
-            <view class="item">{{ obj.standard }}</view>
+            <view class="table-th">
+              <view class="item">
+                <view class="label">检查项目：</view>
+                <view class="item">{{ obj.name }}</view>
+              </view>
+              <view class="item">
+                <view class="label">结果：</view>
+                <view class="item">{{ obj.result }}</view>
+              </view>
+              <view class="item">
+                <view class="label">单位：</view>
+                <view class="item">{{ obj.unit }}</view>
+              </view>
+              <view class="item">
+                <view class="label">参考值：</view>
+                <view class="item">{{ obj.standard }}</view>
+              </view>
+              <!-- <view class="item"
+                >检查项目
+                <view>{{ obj.result }}</view>
+              </view>
+              <view class="item"
+                >结果
+                <view>{{ obj.result }}</view>
+              </view>
+              <view class="item"
+                >单位
+                <view>{{ obj.unit }}</view>
+              </view>
+              <view class="item"
+                >参考值
+                <view>{{ obj.standard }}</view>
+              </view> -->
+            </view>
           </view>
         </view>
       </view>
@@ -119,40 +143,57 @@ export default {
       }
     }
     &__table {
-      .table-th {
-        display: grid;
-        grid-template-columns: 230rpx repeat(3, 1fr);
-        height: 84rpx;
-        line-height: 84rpx;
-        color: #a2a2a2;
-        text-align: center;
-        font-size: 30rpx;
-        border-bottom: 1rpx solid #e4e4e4;
-        .item {
-          padding: 0 10rpx;
-          @include textOverflow(1);
-          &:first-child {
-            text-align: left;
-          }
-        }
-      }
+      // .table-th {
+      //   // display: grid;
+      //   // grid-template-columns: 230rpx repeat(3, 1fr);
+      //   // height: 84rpx;
+      //   // line-height: 84rpx;
+      //   color: #a2a2a2;
+      //   // text-align: center;
+      //   font-size: 30rpx;
+      // border-bottom: 1rpx solid #e4e4e4;
+      //   .item {
+      //     padding: 0 10rpx;
+      //     @include textOverflow(1);
+      //     &:first-child {
+      //       text-align: left;
+      //     }
+      //   }
+      // }
       .table-con {
-        display: grid;
+        // display: grid;
         grid-row-gap: 20rpx;
-        margin-top: 30rpx;
+        // margin-top: 30rpx;
         &__td {
-          display: grid;
-          grid-template-columns: 230rpx repeat(3, 1fr);
-          color: #1e1e1e;
-          text-align: center;
+          // display: grid;
+          // grid-template-columns: 230rpx repeat(3, 1fr);
+          // color: #1e1e1e;
+          // text-align: center;
           font-size: 28rpx;
-          .item {
-            padding: 0 10rpx;
-            // @include textOverflow(1);
-            &:first-child {
-              text-align: left;
+          .table-th {
+            border-bottom: 1rpx solid #e4e4e4;
+            padding: 30rpx 0;
+            .item {
+              line-height: 60rpx;
+              display: flex;
+              color: #1e1e1e;
+              .label {
+                color: #a2a2a2;
+                width: 140rpx;
+              }
+              .item {
+                flex: 1;
+              }
             }
           }
+          // .item {
+          //   display: flex;
+          //   // padding: 0 10rpx;
+          //   // @include textOverflow(1);
+          //   // &:first-child {
+          //   //   text-align: left;
+          //   // }
+          // }
         }
       }
     }
