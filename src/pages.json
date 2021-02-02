@@ -377,7 +377,7 @@
           "path": "livePatient/livePatientRecord",
           "name": "livePatientRecord",
           "style": {
-            "navigationBarTitleText": "押金缴费记录",
+            "navigationBarTitleText": "住院押金缴费记录",
             "navigationBarBackgroundColor": "#0ec698",
             "navigationBarTextStyle": "#ffffff"
           }

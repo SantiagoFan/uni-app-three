@@ -50,35 +50,27 @@
 </template>
 
 <script>
+import moment from 'moment'
 import { mapState } from 'vuex'
 export default {
   data() {
     return {
       list: [],
       today_expend: '',
-      date: '',
+      date: moment().format('YYYY-MM-DD'),
     }
   },
   computed: {
-    ...mapState(['patientInfo']),
+    ...mapState(['patientInfo', 'livePatientInfo']),
   },
   onLoad() {
     this.getDetail()
   },
   methods: {
     getDetail() {
-      var nowDate = new Date()
-      var date =
-        nowDate.getFullYear() +
-        '-' +
-        nowDate.getMonth() +
-        1 +
-        '-' +
-        nowDate.getDate()
-      this.date = this.date == '' ? date : this.date
       this.$http
         .post(this.API.LIVE_DAILY_ORDER, {
-          patient_code: this.patientInfo.patient_code,
+          live_code: this.livePatientInfo.live_code,
           date: this.date,
         })
         .then((res) => {
