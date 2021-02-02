@@ -258,9 +258,9 @@ export default {
           if (res.code == 20000) {
             this.collectOrRegisterList = res.data
           }
-          if (this.collectOrRegisterList.length > 0) {
-            this.current = -1
-          }
+          // if (this.collectOrRegisterList.length > 0) {
+          //   this.current = -1
+          // }
         })
     },
     search() {
