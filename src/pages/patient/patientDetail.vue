@@ -35,14 +35,12 @@
 import MyCode from '@/components/common/MyCode'
 import tkiQrcode from '@/components/tki-code/tki-qrcode/tki-qrcode'
 
-import { hospitalName } from "@/config"
 export default {
   data() {
     return {
       codeIndex: 0,
       model: { name: '', gender: '', ehealth_code: '', patient_code: '' },
       showModal: false,
-      hospitalName:hospitalName
     }
   },
   components: { MyCode,tkiQrcode },
