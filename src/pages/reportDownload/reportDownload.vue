@@ -29,22 +29,30 @@
         </view>
       </view>
       <view class="report-wrap__table">
-        <view class="table-th">
-          <view class="item">检查项目</view>
-          <view class="item">结果</view>
-          <view class="item">单位</view>
-          <view class="item">参考值</view>
-        </view>
         <view class="table-con">
           <view
             class="table-con__td"
             v-for="(obj, index) in model.items"
             :key="index"
           >
-            <view class="item">{{ obj.name }}</view>
-            <view class="item">{{ obj.result }}</view>
-            <view class="item">{{ obj.unit }}</view>
-            <view class="item">{{ obj.standard }}</view>
+            <view class="table-th">
+              <view class="item"
+                >检查项目
+                <view class="item">{{ obj.result }}</view>
+              </view>
+              <view class="item"
+                >结果
+                <view class="item">{{ obj.result }}</view>
+              </view>
+              <view class="item"
+                >单位
+                <view class="item">{{ obj.unit }}</view>
+              </view>
+              <view class="item"
+                >参考值
+                <view class="item">{{ obj.standard }}</view>
+              </view>
+            </view>
           </view>
         </view>
       </view>
