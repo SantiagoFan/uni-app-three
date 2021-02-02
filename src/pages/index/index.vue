@@ -130,7 +130,7 @@
       <view class="visit-wrap">
         <view class="visit-wrap__name">{{patientInfo.name}}</view>
         <view class="visit-wrap__code">
-          <tki-qrcode ref="qrcode" onval :val="ehealth_code" :size="300" :icon="icon" :loadMake="true" :show-loading="false" />
+          <tki-qrcode ref="qrcode" onval :val="ehealth_code" :size="390"  icon="/static/image/logo.png"  :loadMake="true" :show-loading="false" />
           <!-- <view class="nohealth" @click="refresh" v-if="!patientInfo.ehealth_code">点击刷新健康卡号</view> -->
           <!-- <image class="img" mode="aspectFill" src="@/static/image/code1.jpg" /> -->
         </view>
@@ -166,7 +166,6 @@ export default {
       showConfirm:false,
       ehealth_code:"",
       patientList: [],
-      icon:require("@/static/image/logo.png"),
     }
   },
   components: { dhImage,tkiQrcode },
@@ -257,7 +256,7 @@ export default {
           justify-content: center;
           align-items: center;
           color: #040404;
-          font-size: 28rpx;
+          font-size: 30rpx;
           &::before {
             content: '';
             width: 12rpx;
@@ -372,7 +371,7 @@ export default {
       align-items: center;
       width: 672rpx;
       height: 535rpx;
-      background: url('~@/static/image/code_bg.jpg') no-repeat;
+      background: url('~@/static/image/code_bg.png') no-repeat;
       background-size: 100% 100%;
       .img {
         width: 325rpx;

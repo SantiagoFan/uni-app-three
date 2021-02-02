@@ -5,7 +5,7 @@
         <view class="logo">
           <image class="img" mode="widthFix" src="@/static/image/logo.png" />
         </view>
-        <view class="text">呼和浩特市蒙医中医医院</view>
+        <view class="text">{{$config('name')}}</view>
       </view>
       <view class="wrap-info__con">
         <view class="info">
@@ -42,12 +42,14 @@
 
 <script>
 import MyCode from '@/components/common/MyCode'
+import { hospitalName } from "@/config"
 export default {
   data() {
     return {
       codeIndex: 0,
       model: { name: '', gender: '', ehealth_code: '', patient_code: '' },
       showModal: false,
+      hospitalName:hospitalName
     }
   },
   components: { MyCode },
