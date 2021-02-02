@@ -25,13 +25,15 @@
               <view class="info_title__status" v-if="item.status == 2"
                 >锁号成功</view
               >
-              <view class="info_title__status" v-else-if="item.status == 1"
+              <view class="info_title__status" v-if="item.status == 1"
                 >预约挂号成功</view
               >
-              <view class="info_title__status" v-else-if="item.status == 4"
+              <view class="info_title__status" v-if="item.status == 4"
                 >已就诊</view
               >
-              <view class="info_title__status" v-else>取消挂号成功</view>
+              <view class="info_title__status" v-if="item.status == 3"
+                >取消挂号成功</view
+              >
               <view class="info_title__time-text">就诊时间</view>
             </view>
             <view class="info_subt1">
