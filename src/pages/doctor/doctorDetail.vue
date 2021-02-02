@@ -258,14 +258,26 @@ export default {
   onShow() {
     this.getPatientList()
   },
-  onLoad() {
+  onLoad(options) {
     if (this.patientInfo) {
       this.patient_code = this.patientInfo.patient_code
       this.patient_name = this.patientInfo.name
     }
-    console.log(this.$Route.query)
-    this.doctor_id = this.$Route.query.doctor_id
-    this.department_id = this.$Route.query.department_id
+    if(options){//从分享进来
+      this.doctor_id=options.doctor_id
+      this.department_id=options.department_id
+    }else if(this.$Route.query){
+      this.doctor_id = this.$Route.query.doctor_id
+      this.department_id = this.$Route.query.department_id
+    }else{
+      uni.showToast({
+        title: "暂无医生信息",
+        duration: 2000,
+        icon: 'none',
+      })
+      return;
+    }
+
     if (this.$Route.query.date) {
       this.selectDate = this.$Route.query.date
     } else {
