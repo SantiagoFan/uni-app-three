@@ -4,13 +4,17 @@
       <view class="wrap-status__info">
         <view class="icon">
           <!-- icon icon-dasuozi：锁号 icon-duihao：预约挂号成功 icon-jianhao：icon-jianhao -->
-          <view v-if="data.status == 1" class="iconfont icon-duihao"></view>
+          <view
+            v-if="data.status == 1 || data.status == 4"
+            class="iconfont icon-duihao"
+          ></view>
           <view v-if="data.status == 3" class="iconfont icon-jianhao"></view>
           <view v-if="data.status == 2" class="iconfont icon-dasuozi"></view>
         </view>
         <view class="title" v-if="data.status == 2">锁号成功</view>
         <view class="title" v-else-if="data.status == 1">预约挂号成功</view>
-        <view class="title" v-else>预约挂号取消成功</view>
+        <view class="title" v-else-if="data.status == 3">预约挂号取消成功</view>
+        <view class="title">已就诊</view>
         <view v-if="data.status == 3" class="tag">有退款</view>
         <!-- 锁号成功显示 -->
         <view class="time" v-if="data.status == 2 && timestamp > 0">
@@ -199,7 +203,10 @@
           </template>
         </view>
       </view>
-      <view class="wrap-info-btn" v-if="isCancel" @click="showModal = true"
+      <view
+        class="wrap-info-btn"
+        v-if="isCancel && data.status != 4"
+        @click="goCancel()"
         >取消挂号</view
       >
       <view

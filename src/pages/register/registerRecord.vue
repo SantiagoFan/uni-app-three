@@ -11,7 +11,10 @@
           <view class="icon active" v-if="item.status == 2">
             <text class="iconfont icon-dasuozi"></text>
           </view>
-          <view class="icon active" v-else-if="item.status == 1">
+          <view
+            class="icon active"
+            v-else-if="item.status == 1 || item.status == 4"
+          >
             <text class="iconfont icon-duihao"></text>
           </view>
           <view class="icon" v-else>
@@ -24,6 +27,9 @@
               >
               <view class="info_title__status" v-else-if="item.status == 1"
                 >预约挂号成功</view
+              >
+              <view class="info_title__status" v-else-if="item.status == 4"
+                >已就诊</view
               >
               <view class="info_title__status" v-else>取消挂号成功</view>
               <view class="info_title__time-text">就诊时间</view>
