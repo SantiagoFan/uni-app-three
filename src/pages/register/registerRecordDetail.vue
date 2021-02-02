@@ -334,7 +334,6 @@ export default {
           let selectDate = this.info.selectDate
 
           let date = moment(selectDate + 'T' + startTime[0])
-          console.log('123123', date.endOf('day'))
           if (this.info.pay_state == 2 && date.isValid()) {
             // if (moment().isBefore(date.subtract(1, 'hours'))) {
             if (moment().isBefore(date.endOf('day'))) {

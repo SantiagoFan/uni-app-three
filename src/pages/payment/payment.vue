@@ -150,10 +150,10 @@ export default {
         .then((res) => {
           this.model = res.data
           let create_time = moment(this.model.create_time)
-          let minutes = moment().diff(moment(create_time), 'minute') //当前时间距离创建时间多长时间
-          console.log(minutes)
-          if (minutes < this.lock_minutes) {
-            this.timestamp = (this.lock_minutes - minutes) * 60
+          let minutes = moment().diff(moment(create_time), 'seconds') //当前时间距离创建时间多长时间
+          let lock_minutes = this.lock_minutes * 60
+          if (minutes < lock_minutes) {
+            this.timestamp = lock_minutes - minutes
           }
         })
     },

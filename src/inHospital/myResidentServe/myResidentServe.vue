@@ -46,10 +46,7 @@
           </view>
           <view class="text">住院日清单</view>
         </view>
-        <navigator
-          url="/pages/payRecord/payRecord?type=2"
-          class="wrap-serve__con-item"
-        >
+        <view class="wrap-serve__con-item" @click="goRecord()">
           <view class="icon">
             <image
               class="img"
@@ -58,7 +55,7 @@
             />
           </view>
           <view class="text">押金补缴记录</view>
-        </navigator>
+        </view>
       </view>
     </view>
   </view>
@@ -82,6 +79,9 @@ export default {
       this.$Router.push({
         name: 'myResidentBill',
       })
+    },
+    goRecord() {
+      this.$Router.push({ name: 'livePatientRecord' })
     },
   },
 }
