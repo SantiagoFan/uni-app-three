@@ -100,7 +100,7 @@
                   src="@/static/image/my_icon4.png"
                 />
               </view>
-              <view class="item__text">住院缴费记录</view>
+              <view class="item__text">住院押金缴费记录</view>
               <view class="item__jt">
                 <text class="iconfont icon-arrowb"></text>
               </view>

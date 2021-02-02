@@ -1,17 +1,17 @@
 <template>
   <view class="wrap">
     <view class="wrap-user">
-      <view class="no-residen" v-if="!info" @click="addResident">
+      <view class="no-residen" v-if="!livePatientInfo" @click="addResident">
         <view class="no-residen__text">初次使用，请添加住院人</view>
       </view>
       <view class="wrap-user__list" v-else>
         <view class="cell">
           <view class="info">
             <view class="title">
-              <view class="name">{{ info.name }}</view>
+              <view class="name">{{ livePatientInfo.name }}</view>
               <view class="tag">默认</view>
             </view>
-            <view class="code">住院号：{{ info.live_code }}</view>
+            <view class="code">住院号：{{ livePatientInfo.live_code }}</view>
           </view>
           <view class="arrow">
             <text class="iconfont icon-arrowb"></text>
@@ -32,7 +32,11 @@
           </view>
           <view class="text">添加住院人</view>
         </view>
-        <view @click="goDetail" class="wrap-serve__con-item" v-if="info">
+        <view
+          @click="goDetail"
+          class="wrap-serve__con-item"
+          v-if="livePatientInfo"
+        >
           <view class="icon">
             <image
               class="img"
@@ -64,33 +68,19 @@
 import { mapState } from 'vuex'
 export default {
   data() {
-    return {
-      info: '',
-    }
+    return {}
   },
   computed: {
-    ...mapState(['patientInfo']),
+    ...mapState(['patientInfo', 'livePatientInfo']),
   },
-  onShow() {
-    this.getDefaultPatient()
-  },
+  onLoad() {},
   methods: {
-    getDefaultPatient() {
-      this.$http
-        .post(this.API.DEFAULT_LIVE_PATIENT, {
-          patient_code: this.patientInfo.patient_code,
-        })
-        .then((res) => {
-          this.info = res.data
-        })
-    },
     addResident() {
       this.$Router.push({ name: 'myResidenAdd' })
     },
     goDetail() {
       this.$Router.push({
         name: 'myResidentBill',
-        params: { patient_code: this.info.patient_code },
       })
     },
   },

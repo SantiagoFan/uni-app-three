@@ -101,17 +101,40 @@
               </router-link>
             </view>
             <view class="list" v-if="typeIndex === 1">
-              <router-link
-                :to="{ name: item.name }"
-                :navType="item.openType"
-                v-for="(item, index) in list2"
-                :key="index"
-              >
+              <view @click="goLiveDaily()">
                 <view class="item">
                   <view class="icon">
-                    <image class="img" mode="widthFix" :src="item.image" />
+                    <image
+                      class="img"
+                      mode="widthFix"
+                      src="@/static/image/indx-sta11.jpg"
+                    />
                   </view>
-                  <view class="text">{{ item.title }}</view>
+                  <view class="text">住院日清单</view>
+                </view>
+              </view>
+              <router-link :to="{ name: 'depositPay' }">
+                <view class="item">
+                  <view class="icon">
+                    <image
+                      class="img"
+                      mode="widthFix"
+                      src="@/static/image/indx-sta12.jpg"
+                    />
+                  </view>
+                  <view class="text">住院缴费</view>
+                </view>
+              </router-link>
+              <router-link :to="{ name: 'myResidents' }">
+                <view class="item">
+                  <view class="icon">
+                    <image
+                      class="img"
+                      mode="widthFix"
+                      src="@/static/image/indx-sta13.jpg"
+                    />
+                  </view>
+                  <view class="text">住院人信息</view>
                 </view>
               </router-link>
             </view>
@@ -128,16 +151,32 @@
       :border-radius="30"
     >
       <view class="visit-wrap">
-        <view class="visit-wrap__name">{{patientInfo.name}}</view>
+        <view class="visit-wrap__name">{{ patientInfo.name }}</view>
         <view class="visit-wrap__code">
-          <tki-qrcode ref="qrcode" onval :val="ehealth_code" :size="390"  icon="/static/image/logo.png"  :loadMake="true" :show-loading="false" />
+          <tki-qrcode
+            ref="qrcode"
+            onval
+            :val="ehealth_code"
+            :size="390"
+            icon="/static/image/logo.png"
+            :loadMake="true"
+            :show-loading="false"
+          />
           <!-- <view class="nohealth" @click="refresh" v-if="!patientInfo.ehealth_code">点击刷新健康卡号</view> -->
           <!-- <image class="img" mode="aspectFill" src="@/static/image/code1.jpg" /> -->
         </view>
       </view>
     </u-popup>
     <auth></auth>
-    <u-modal v-model="showConfirm" content="当前用户未生成健康卡号" :show-confirm-button="true" :show-cancel-button='true' confirm-text='重新获取' cancel-text="关闭" @confirm='refresh()'></u-modal>
+    <u-modal
+      v-model="showConfirm"
+      content="当前用户未生成健康卡号"
+      :show-confirm-button="true"
+      :show-cancel-button="true"
+      confirm-text="重新获取"
+      cancel-text="关闭"
+      @confirm="refresh()"
+    ></u-modal>
   </view>
 </template>
 
@@ -163,14 +202,14 @@ export default {
       list1: indexList.list1,
       list2: indexList.list2,
       visitCodeShow: false, // 就诊码
-      showConfirm:false,
-      ehealth_code:"",
+      showConfirm: false,
+      ehealth_code: '',
       patientList: [],
     }
   },
-  components: { dhImage,tkiQrcode },
+  components: { dhImage, tkiQrcode },
   computed: {
-    ...mapState(['userInfo', 'patientInfo']),
+    ...mapState(['userInfo', 'patientInfo', 'livePatientInfo']),
   },
   watch: {
     visitCodeShow(status) {
@@ -199,32 +238,43 @@ export default {
     // 就诊码
     handleVisitCode() {
       console.log(this.patientInfo.ehealth_code)
-      if(this.patientInfo.ehealth_code){
+      if (this.patientInfo.ehealth_code) {
         this.visitCodeShow = true
         this.$nextTick(() => {
-           this.ehealth_code=this.patientInfo.ehealth_code
+          this.ehealth_code = this.patientInfo.ehealth_code
         })
-      }else{
-        this.showConfirm=true
+      } else {
+        this.showConfirm = true
         console.log('暂无健康卡')
       }
     },
-    refresh(){
-      this.$http.post(this.API.UPDATE_HEALTH_CODE,{patient_code:this.patientInfo.patient_code}).then(res=>{
-        if(res.code===20000){
-          if(res.data){
-            let obj=JSON.parse(JSON.stringify(this.patientInfo));
-            obj.ehealth_code=res.data;
-            this.$store.commit('setPatientInfo',obj)
-            this.handleVisitCode()
-          }else{
-            uni.showToast({
-              title: "生成失败，请联系管理员",
-              icon: "none",
-            });
+    refresh() {
+      this.$http
+        .post(this.API.UPDATE_HEALTH_CODE, {
+          patient_code: this.patientInfo.patient_code,
+        })
+        .then((res) => {
+          if (res.code === 20000) {
+            if (res.data) {
+              let obj = JSON.parse(JSON.stringify(this.patientInfo))
+              obj.ehealth_code = res.data
+              this.$store.commit('setPatientInfo', obj)
+              this.handleVisitCode()
+            } else {
+              uni.showToast({
+                title: '生成失败，请联系管理员',
+                icon: 'none',
+              })
+            }
           }
-        }
-      })
+        })
+    },
+    goLiveDaily() {
+      if (this.livePatientInfo) {
+        this.$Router.push({ name: 'myResidentBill' })
+      } else {
+        this.$Router.push({ name: 'myResidents' })
+      }
     },
   },
 }
