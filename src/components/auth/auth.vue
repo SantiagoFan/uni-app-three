@@ -31,7 +31,7 @@ export default {
   data() {
     return {
       base: {
-        logoUrl:require("@/static/image/logo.jpg"),
+        logoUrl:require("@/static/image/logo.png"),
         platformName:'申请获得您的公开信息（头像，昵称等）',
         description:'',
 
