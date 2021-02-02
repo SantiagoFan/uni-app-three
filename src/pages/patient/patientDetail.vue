@@ -8,17 +8,17 @@
         <view class="text">呼和浩特市蒙医中医医院</view>
       </view>
       <view class="wrap-info__con">
+        <view class="info">
+          <view class="item">{{ model.name }}</view>
+          <!-- <view class="item">性别：{{ model.gender }}</view> -->
+          <!-- <view class="item">居民健康卡号码：</view> -->
+          <view class="item">{{ model.idcard | hideIdCard }}</view>
+        </view>
         <view class="avatar">
           <view class="text">
             <text>照</text>
             <text>片</text>
           </view>
-        </view>
-        <view class="info">
-          <view class="item">姓名：{{ model.name }}</view>
-          <view class="item">性别：{{ model.gender }}</view>
-          <view class="item">居民健康卡号码：</view>
-          <view class="item">{{ model.idcard | hideIdCard }}</view>
         </view>
       </view>
     </view>
@@ -92,9 +92,9 @@ export default {
     delPatient() {
       this.showModal = true
     },
-    updateHealth(val){
+    updateHealth(val) {
       this.model.ehealth_code = val
-    }
+    },
   },
 }
 </script>
@@ -105,16 +105,17 @@ export default {
   &-info {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    // align-items: center;
     height: 360rpx;
-    padding-top: 30rpx;
+    // padding-top: 30rpx;
+    padding: 30rpx;
     background: #dbe79c url('@/static/image/patient_d_bg.jpg') top center;
     background-size: 100%;
     border-radius: 10rpx;
     &__logo {
       display: flex;
-      align-items: center;
-      justify-content: center;
+      // align-items: center;
+      // justify-content: center;
       .logo {
         width: 50rpx;
         margin-right: 20rpx;

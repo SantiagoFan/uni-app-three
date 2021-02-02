@@ -63,7 +63,7 @@
       </view>
       <view class="wrap_con__list" v-if="tabIndex === 0">
         <view
-          @click="goDetail(item, selectDate)"
+          @click="item.remain_count > 0 && goDetail(item, selectDate)"
           class="cell"
           v-for="(item, index) in doctorList"
           :key="index"
@@ -73,7 +73,7 @@
               class="img"
               mode="aspectFill"
               :src="item.doctor_head"
-              :inHis='true'
+              :inHis="true"
               errorSrc="doctor.jpg"
             ></dh-image>
           </view>
@@ -108,7 +108,7 @@
               class="img"
               mode="aspectFill"
               :src="item.doctor_head"
-              :inHis='true'
+              :inHis="true"
               errorSrc="doctor.jpg"
             ></dh-image>
           </view>
@@ -167,9 +167,13 @@ export default {
     },
     getSourceStatus(item) {
       var sourceStatus = ''
+      console.log(item)
       if (item.total_num == 0) {
         sourceStatus = '无'
-      } else if (0 < item.num <= item.total_num) {
+      } else if (
+        0 < parseInt(item.num) &&
+        parseInt(item.num) <= parseInt(item.total_num)
+      ) {
         sourceStatus = '有'
       } else {
         sourceStatus = '满'
