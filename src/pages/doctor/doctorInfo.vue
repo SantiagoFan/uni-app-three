@@ -5,7 +5,8 @@
         <dh-image
           class="img"
           mode="aspectFill"
-          :src="img_url_convert(model.doctor_head)"
+          :src="model.doctor_head"
+          :inHis='true'
           errorSrc="doctor.jpg"
         ></dh-image>
       </view>
@@ -35,7 +36,7 @@ export default {
       model: {
         name: '',
         professional: '',
-        Doctor_head: '',
+        doctor_head: '',
         department_name: '',
       },
     }
@@ -51,13 +52,7 @@ export default {
           this.model = res.data
         })
     },
-    img_url_convert(path) {
-      // 过滤his 内网图片
-      return (
-        'http://wx.mzyy.org.cn/' +
-        path.replace('/YxSource', '/YxSource').replace('', '')
-      )
-    },
+    
   },
 }
 </script>

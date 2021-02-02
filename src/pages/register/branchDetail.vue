@@ -72,7 +72,8 @@
             <dh-image
               class="img"
               mode="aspectFill"
-              :src="item.Doctor_head"
+              :src="item.doctor_head"
+              :inHis='true'
               errorSrc="doctor.jpg"
             ></dh-image>
           </view>
@@ -106,7 +107,8 @@
             <dh-image
               class="img"
               mode="aspectFill"
-              :src="item.Doctor_head"
+              :src="item.doctor_head"
+              :inHis='true'
               errorSrc="doctor.jpg"
             ></dh-image>
           </view>
