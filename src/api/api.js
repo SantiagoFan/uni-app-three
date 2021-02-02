@@ -60,4 +60,5 @@ export default {
   CANCEL_REGISTER: '/register/refundOrder', //取消挂号
   WAIT_DETAIL: '/wait_detail/getDetail', //排队候诊
   NEWS_DETAIL: '/news/getNewsDetail', //新闻详情
+  EXAMINATION_RECORD: '/examination/getExaminationRecord', //门诊缴费记录
 }

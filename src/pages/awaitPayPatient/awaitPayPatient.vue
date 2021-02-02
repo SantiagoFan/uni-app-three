@@ -4,44 +4,23 @@
       <view class="icon">
         <image class="img" mode="widthFix" src="@/static/image/icon.jpg" />
       </view>
-      <view class="text">暂时不支持医保卡看病，持有医保卡的用户请到前台直接办理手续。</view>
+      <view class="text"
+        >暂时不支持医保卡看病，持有医保卡的用户请到前台直接办理手续。</view
+      >
     </view>
     <view class="wrap-con">
       <view class="wrap-con__cell">
-        <view class="title">
-          <view class="name">李想</view>
-          <view class="check" @click="show = true">切换就诊人</view>
-        </view>
-        <view class="code">就诊卡：10000000183507</view>
+        <PatientCard
+          style="margin:0;"
+          :need-patient="true"
+          :show-message="false"
+        ></PatientCard>
       </view>
     </view>
     <view class="wrap-fot">
       <view class="wrap-fot__total">总额：¥160.00</view>
       <view class="wrap-fot__btn">去缴费</view>
     </view>
-    <!-- 弹出层 -->
-    <u-popup v-model="show" mode="bottom" :border-radius="20">
-			<view class="check-wrap">
-        <view class="check-wrap__title">切换就诊人</view>
-        <view class="check-wrap__con">
-          <view class="list">
-            <view class="item active">
-              <view class="info">
-                <view class="name">李想</view>
-                <view class="code">就诊卡：100000254151</view>
-              </view>
-              <view class="radio">
-                <text class="iconfont icon-duihao"></text>
-              </view>
-            </view>
-          </view>
-        </view>
-        <view class="check-wrap__btn">
-          <view class="item">添加就诊人</view>
-          <view class="item">管理就诊人</view>
-        </view>
-      </view>
-		</u-popup>
   </view>
 </template>
 
@@ -49,9 +28,9 @@
 export default {
   data() {
     return {
-      show: false //  切换弹出层
+      show: false, //  切换弹出层
     }
-  }
+  },
 }
 </script>
 
@@ -79,7 +58,7 @@ export default {
   }
   &-con {
     &__cell {
-      padding: 20rpx;
+      // padding: 20rpx;
       border-top: 1rpx solid #dbdbdb;
       .title {
         display: flex;

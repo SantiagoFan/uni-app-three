@@ -3,7 +3,7 @@
     <view class="record-m">
       <view class="record-m__list">
         <view class="item" v-for="item in 2" :key="item" @click="handleItem">
-          <view class="icon"> 
+          <view class="icon">
             <text class="iconfont icon-duihao"></text>
           </view>
           <view class="info">
@@ -13,7 +13,7 @@
             </view>
             <view class="subt">
               <view class="name">贾铭</view>
-              <view class="date">2020-07-18  10:30:00</view>
+              <view class="date">2020-07-18 10:30:00</view>
             </view>
           </view>
         </view>
@@ -23,35 +23,40 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
   data() {
     return {
-      type: ''
+      type: '',
     }
   },
   watch: {
     type() {
-      let title;
+      let title
       switch (this.type) {
         case 0:
           title = '门诊缴费记录'
-          break;
+          break
         case 1:
           title = '诊间支付缴费记录'
-          break;
+          break
         case 2:
           title = '住院缴费记录'
         default:
-          break;
+          break
       }
       uni.setNavigationBarTitle({
-        title: title
+        title: title,
       })
-    }
+    },
   },
-  onLoad(options = {}) {
+  computed: {
+    ...mapState(['patientInfo']),
+  },
+  onLoad() {
     // 从我的跳转过来 type: 0、门诊缴费记录 1、诊间支付缴费记录 2、住院缴费记录
-    this.type = Number(options.type)
+    this.type = this.$Route.query.type
+    this.getList()
   },
   methods: {
     handleItem() {
@@ -60,19 +65,26 @@ export default {
       switch (type) {
         case 0:
           url = '/pages/clinicPayDetail/clinicPayDetail'
-          break;
+          break
         case 1:
           url = '/pages/payRecordDetail/payRecordDetail'
-          break;
+          break
         case 2:
           url = '/pages/paymentDetail/paymentDetail'
-          break;
+          break
         default:
           url = '/pages/clinicPayDetail/clinicPayDetail'
-          break;
+          break
       }
-      this.$Router.push({name:url})
-    }
+      this.$Router.push({ name: url })
+    },
+    getList() {
+      this.$http
+        .post(this.API.EXAMINATION_RECORD, {
+          patient_code: this.patientInfo.patient_code,
+        })
+        .then((res) => {})
+    },
   },
 }
 </script>
@@ -113,7 +125,7 @@ export default {
               color: #ff7800;
             }
           }
-           .subt {
+          .subt {
             display: flex;
             align-items: center;
             justify-content: space-between;
