@@ -358,7 +358,7 @@ export default {
       this.$http
         .post(this.API.IS_COLLECT, {
           doctor_id: this.doctor_id,
-        })
+        },false)
         .then((res) => {
           this.is_collect = res.data
         })

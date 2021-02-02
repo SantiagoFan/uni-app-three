@@ -9,7 +9,7 @@
         color="#ffffff"
         separator-color="#ffffff"
         :separator-size="26"
-        :font-size="26"
+        :font-size="28"
       />
     </view>
     <view class="wrap-amount">
@@ -72,7 +72,10 @@ export default {
   },
   filters: {
     dateStr(date) {
-      return date + ' ' + weekList('星期')[moment(date).isoWeekday() - 1]
+      if(date){
+        return date + ' ' + weekList('星期')[moment(date).isoWeekday() - 1]
+      }
+      return "";
     },
     getTimeStatus(time) {
       if (time) {
@@ -183,7 +186,7 @@ export default {
     background: #ffffff;
     &__text {
       color: #666666;
-      font-size: 26rpx;
+      font-size: 30rpx;
     }
     &__price {
       color: #ff8c46;
@@ -201,7 +204,7 @@ export default {
       justify-content: space-between;
       align-items: center;
       color: #999999;
-      font-size: 26rpx;
+      font-size: 30rpx;
       margin-bottom: 30rpx;
       &:last-child {
         margin-bottom: 0;
@@ -211,10 +214,10 @@ export default {
   &-btn {
     padding: 30rpx 45rpx;
     &__con {
-      height: 72rpx;
-      line-height: 72rpx;
+      height: 90rpx;
+      line-height: 90rpx;
       color: #ffffff;
-      font-size: 26rpx;
+      font-size: 34rpx;
       text-align: center;
       background: #0ec698;
       border-radius: 8rpx;
