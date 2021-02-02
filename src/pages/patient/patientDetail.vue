@@ -1,12 +1,6 @@
 <template>
   <view class="wrap">
     <view class="wrap-info">
-      <view class="wrap-info__logo">
-        <view class="logo">
-          <image class="img" mode="widthFix" src="@/static/image/logo.png" />
-        </view>
-        <view class="text">{{$config('name')}}</view>
-      </view>
       <view class="wrap-info__con">
         <view class="info">
           <view class="item">{{ model.name }}</view>
@@ -14,11 +8,8 @@
           <!-- <view class="item">居民健康卡号码：</view> -->
           <view class="item">{{ model.idcard | hideIdCard }}</view>
         </view>
-        <view class="avatar">
-          <view class="text">
-            <text>照</text>
-            <text>片</text>
-          </view>
+        <view class="qrcode" v-if='model.ehealth_code' >
+           <tki-qrcode ref="qrcode" style="margin-top:10rpx" onval :val="model.ehealth_code" :size="150"  icon="/static/image/logo.png" :iconSize='20'  :loadMake="true" :show-loading="false" />
         </view>
       </view>
     </view>
@@ -42,17 +33,17 @@
 
 <script>
 import MyCode from '@/components/common/MyCode'
-import { hospitalName } from "@/config"
+import tkiQrcode from '@/components/tki-code/tki-qrcode/tki-qrcode'
+
 export default {
   data() {
     return {
       codeIndex: 0,
       model: { name: '', gender: '', ehealth_code: '', patient_code: '' },
       showModal: false,
-      hospitalName:hospitalName
     }
   },
-  components: { MyCode },
+  components: { MyCode,tkiQrcode },
   filters: {
     hideIdCard(val) {
       if (val) {
@@ -107,11 +98,13 @@ export default {
   &-info {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     // align-items: center;
-    height: 360rpx;
+    height: 390rpx;
     // padding-top: 30rpx;
-    padding: 30rpx;
-    background: #dbe79c url('@/static/image/patient_d_bg.jpg') top center;
+    padding: 0 30rpx 0 50rpx;
+    background: #dbe79c url('https://wx.mzyy.org.cn/static/wx/patient_d_bg.jpg?v=0.1') top center;
+    background-repeat: no-repeat;
     background-size: 100%;
     border-radius: 10rpx;
     &__logo {
@@ -134,8 +127,10 @@ export default {
     }
     &__con {
       display: flex;
-      align-items: center;
-      margin-top: 20rpx;
+      align-items: flex-end;
+      justify-content: space-between;
+      width: 100%;
+      // margin-top: 20rpx;
       .avatar {
         display: flex;
         align-items: center;
@@ -166,6 +161,14 @@ export default {
             margin-bottom: 0;
           }
         }
+      }
+      .qrcode{
+        width:160rpx;
+        height: 160rpx;
+        background: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
     }
   }
