@@ -263,7 +263,7 @@ export default {
       this.patient_code = this.patientInfo.patient_code
       this.patient_name = this.patientInfo.name
     }
-    if(options){//从分享进来
+    if(options.doctor_id){//从分享进来
       this.doctor_id=options.doctor_id
       this.department_id=options.department_id
     }else if(this.$Route.query){

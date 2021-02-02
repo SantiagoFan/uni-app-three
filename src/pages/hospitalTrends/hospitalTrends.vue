@@ -58,8 +58,7 @@ export default {
     }
   },
   components: { dhImage },
-
-  onShow() {
+  onLoad() {
     this.getCateList()
   },
   methods: {

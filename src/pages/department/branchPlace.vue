@@ -27,7 +27,7 @@ export default {
       list: []
     }
   },
-  onShow(){
+  onLoad(){
     this.getDepartment();
   },
   methods:{
