@@ -256,7 +256,7 @@ export default {
           justify-content: center;
           align-items: center;
           color: #040404;
-          font-size: 28rpx;
+          font-size: 30rpx;
           &::before {
             content: '';
             width: 12rpx;
