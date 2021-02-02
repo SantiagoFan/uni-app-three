@@ -2,8 +2,10 @@
   <div class="wrap">
     <view class="wrap-info">
       <view class="wrap-info__user">
-        <view class="wrap-info__user-name">{{ model.patient_name }}</view>
-        <view class="wrap-info__user-code">住院号：{{ model.live_code }}</view>
+        <view class="wrap-info__user-name">{{ model.name }}</view>
+        <view class="wrap-info__user-code"
+          >住院号：{{ model.inpatient_code }}</view
+        >
       </view>
       <view class="wrap-info__sec">
         <view class="art">
@@ -20,15 +22,15 @@
           <view class="art-list">
             <view class="cell">
               <view class="label">押金总金额</view>
-              <view class="text">{{ model.total_amount }}</view>
+              <view class="text">{{ model.deposit_total }}</view>
             </view>
             <view class="cell">
               <view class="label">住院总消费</view>
-              <view class="text">{{ model.consume_amount }}</view>
+              <view class="text">{{ model.inpatient_total }}</view>
             </view>
             <view class="cell">
               <view class="label">剩余押金</view>
-              <view class="text">{{ model.balance }}</view>
+              <view class="text">{{ model.remain_total }}</view>
             </view>
           </view>
         </view>
@@ -45,11 +47,15 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
   data() {
     return {
       model: '',
     }
+  },
+  computed: {
+    ...mapState(['livePatientInfo']),
   },
   onLoad() {
     this.getDetail()
@@ -58,7 +64,7 @@ export default {
     getDetail() {
       this.$http
         .post(this.API.LIVE_PATIENT_DETAIL, {
-          live_code: this.$Route.query.live_code,
+          patient_code: this.$Route.query.patient_code,
         })
         .then((res) => {
           this.model = res.data
@@ -72,7 +78,9 @@ export default {
     },
     deleteLivePatient() {
       this.$http
-        .post(this.API.LIVE_PATIENT_DELETE, { live_code: this.model.live_code })
+        .post(this.API.LIVE_PATIENT_DELETE, {
+          live_code: this.model.inpatient_code,
+        })
         .then((res) => {
           uni.showToast({
             title: res.message,

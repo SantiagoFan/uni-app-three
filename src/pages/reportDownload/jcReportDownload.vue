@@ -36,8 +36,8 @@
           <view class="item">参考值</view>
         </view> -->
         <view class="table-con">
-          <view class="table-con__td" v-if='model.items'>
-            <view class="item" >
+          <view class="table-con__td" v-if="model.items">
+            <view class="item">
               <view class="label">结果：</view>
               <view class="text">{{ model.items.result }} </view>
             </view>
@@ -88,7 +88,7 @@ export default {
     background: #ffffff;
     border-radius: 10rpx;
     &__title {
-      height: 100rpx;
+      // height: 100rpx;
       line-height: 100rpx;
       color: #333333;
       font-size: 34rpx;

@@ -6,7 +6,7 @@
           class="item"
           v-for="(item, index) in list"
           :key="index"
-          @click="handleItem(item.innner_trade_no)"
+          @click="handleItem(item)"
         >
           <view class="icon">
             <text class="iconfont icon-duihao"></text>
@@ -20,7 +20,7 @@
             </view>
             <view class="subt">
               <view class="name">{{ item.patient_name }}</view>
-              <view class="date">2020-07-18 10:30:00</view>
+              <view class="date">{{ item.jfrq }}</view>
             </view>
           </view>
         </view>
@@ -30,25 +30,33 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
   data() {
     return {
       list: [],
     }
   },
+  computed: {
+    ...mapState(['livePatientInfo']),
+  },
   onLoad() {
     this.getList()
   },
   methods: {
     getList() {
-      this.$http.post(this.API.LIVE_PAY_RECORD).then((res) => {
-        this.list = res.data
-      })
+      this.$http
+        .post(this.API.LIVE_PAY_RECORD, {
+          live_code: this.livePatientInfo.live_code,
+        })
+        .then((res) => {
+          this.list = res.data
+        })
     },
-    handleItem(inner_trade_no) {
+    handleItem(item) {
       this.$Router.push({
         name: 'paymentDetail',
-        params: { inner_trade_no: inner_trade_no },
+        params: { livePatientRecordInfo: item },
       })
     },
   },

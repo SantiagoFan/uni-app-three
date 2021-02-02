@@ -6,7 +6,7 @@
           class="img"
           mode="aspectFill"
           :src="model.doctor_head"
-          :inHis='true'
+          :inHis="true"
           errorSrc="doctor.jpg"
         ></dh-image>
       </view>
@@ -144,7 +144,7 @@
                 class="img"
                 mode="aspectFill"
                 :src="model.doctor_head"
-                :inHis='true'
+                :inHis="true"
                 errorSrc="doctor.jpg"
               ></dh-image>
             </view>
@@ -299,7 +299,10 @@ export default {
       var sourceStatus = ''
       if (item.total_num == 0) {
         sourceStatus = '无'
-      } else if (0 < item.num <= item.total_num) {
+      } else if (
+        0 < parseInt(item.num) &&
+        parseInt(item.num) <= parseInt(item.total_num)
+      ) {
         sourceStatus = '有'
       } else {
         sourceStatus = '满'
@@ -368,9 +371,13 @@ export default {
     },
     isCollect() {
       this.$http
-        .post(this.API.IS_COLLECT, {
-          doctor_id: this.doctor_id,
-        },false)
+        .post(
+          this.API.IS_COLLECT,
+          {
+            doctor_id: this.doctor_id,
+          },
+          false
+        )
         .then((res) => {
           this.is_collect = res.data
         })

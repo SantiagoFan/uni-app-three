@@ -6,7 +6,7 @@
           class="item"
           v-for="(item, index) in list"
           :key="index"
-          @click="handleClickDetail(item.live_code)"
+          @click="handleClickDetail(item.patient_code)"
         >
           <view class="info">
             <view class="title">
@@ -58,10 +58,10 @@ export default {
     addLivePatient() {
       this.$Router.push({ name: 'myResidenAdd' })
     },
-    handleClickDetail(live_code) {
+    handleClickDetail(patient_code) {
       this.$Router.push({
         name: 'myResidentDetail',
-        params: { live_code: live_code },
+        params: { patient_code: patient_code },
       })
     },
   },

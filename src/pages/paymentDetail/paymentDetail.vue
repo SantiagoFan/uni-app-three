@@ -5,10 +5,10 @@
         <view class="icon">
           <view class="iconfont icon-duihao"></view>
         </view>
-        <view class="text">住院押金补缴成功</view>
+        <view class="text">住院押金</view>
       </view>
       <view class="wrap-status__msg"
-        >您的押金补缴成功，如需要打印发票和押金条，请到住院收费窗口凭此缴费记录打印。</view
+        >您的押金缴纳成功，如需要打印发票和押金条，请到住院收费窗口凭此缴费记录打印。</view
       >
     </view>
     <view class="wrap-info">
@@ -22,39 +22,39 @@
         <view class="list" v-show="payDetailShow">
           <view class="cell">
             <view class="cell-label">补缴金额</view>
-            <view class="cell-con price">¥244.44</view>
+            <view class="cell-con price">¥{{ info.pay_fee }}</view>
           </view>
           <view class="cell">
             <view class="cell-label">医院名称</view>
-            <view class="cell-con">呼和浩特市蒙医中医医院</view>
+            <view class="cell-con">{{ $config('name') }}</view>
           </view>
           <view class="cell">
             <view class="cell-label">住院人</view>
-            <view class="cell-con">李想</view>
+            <view class="cell-con">{{ info.patient_name }}</view>
           </view>
           <view class="cell">
             <view class="cell-label">住院号</view>
-            <view class="cell-con">0000005149852001</view>
+            <view class="cell-con">没写</view>
           </view>
           <view class="cell">
             <view class="cell-label">就诊卡号</view>
-            <view class="cell-con">1000000176287</view>
+            <view class="cell-con">没写</view>
           </view>
           <view class="cell">
             <view class="cell-label">医院单号</view>
-            <view class="cell-con">12188854</view>
+            <view class="cell-con">{{ info.innner_trade_no }}</view>
           </view>
           <view class="cell">
             <view class="cell-label">平台单号</view>
-            <view class="cell-con">30258521147211152452</view>
+            <view class="cell-con">没写</view>
           </view>
           <view class="cell">
             <view class="cell-label">支付流水号</view>
-            <view class="cell-con">444242042011565465441215456441</view>
+            <view class="cell-con">没写</view>
           </view>
           <view class="cell">
             <view class="cell-label">支付时间</view>
-            <view class="cell-con">2020-07-04 14:44:14</view>
+            <view class="cell-con">{{ info.jfrq }}</view>
           </view>
         </view>
       </view>
@@ -68,22 +68,16 @@ export default {
     return {
       codeIndex: 0,
       payDetailShow: true,
+      info: {},
     }
   },
   onLoad() {
-    this.getDetail()
+    this.info = this.$Route.query.livePatientRecordInfo
   },
   methods: {
     // 点击缴费详情
     handleBt() {
       this.payDetailShow = !this.payDetailShow
-    },
-    getDetail() {
-      this.$http
-        .post(this.API.LIVE_PAY_RECORD_DETAIL, {
-          inner_trade_no: this.$Route.query.inner_trade_no,
-        })
-        .then((res) => {})
     },
   },
 }
