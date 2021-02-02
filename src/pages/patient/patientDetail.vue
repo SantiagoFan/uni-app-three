@@ -3,13 +3,14 @@
     <view class="wrap-info">
       <view class="wrap-info__con">
         <view class="info">
+          <!-- <image src='@/static/image/card_logo.png'></image> -->
           <view class="item">{{ model.name }}</view>
           <!-- <view class="item">性别：{{ model.gender }}</view> -->
           <!-- <view class="item">居民健康卡号码：</view> -->
           <view class="item">{{ model.idcard | hideIdCard }}</view>
         </view>
         <view class="qrcode" v-if='model.ehealth_code' >
-           <tki-qrcode ref="qrcode" style="margin-top:10rpx" onval :val="model.ehealth_code" :size="150"  icon="/static/image/logo.png" :iconSize='20'  :loadMake="true" :show-loading="false" />
+           <tki-qrcode ref="qrcode" style="margin-top:10rpx" onval :val="model.ehealth_code" :size="200"  icon="/static/image/logo.png" :iconSize='20'  :loadMake="true" :show-loading="true" />
         </view>
       </view>
     </view>
@@ -98,15 +99,16 @@ export default {
   &-info {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    // align-items: center;
+    justify-content: flex-end;
+    align-items: center;
     height: 390rpx;
     // padding-top: 30rpx;
-    padding: 0 30rpx 0 50rpx;
-    background: #dbe79c url('https://wx.mzyy.org.cn/static/wx/patient_d_bg.jpg?v=0.1') top center;
+    padding: 0 30rpx 0 30rpx;
+    background: #dbe79c url('https://wx.mzyy.org.cn/static/wx/patient_d_bg.jpg?v=0.3') top center;
     background-repeat: no-repeat;
     background-size: 100%;
     border-radius: 10rpx;
+   
     &__logo {
       display: flex;
       // align-items: center;
@@ -127,9 +129,10 @@ export default {
     }
     &__con {
       display: flex;
-      align-items: flex-end;
+      align-items: center;
       justify-content: space-between;
       width: 100%;
+      margin-bottom: 30rpx;
       // margin-top: 20rpx;
       .avatar {
         display: flex;
@@ -154,17 +157,21 @@ export default {
       }
       .info {
         color: #333333;
-        font-size: 30rpx;
+        font-size: 34rpx;
+        image{
+          width: 304rpx;
+          height: 98rpx;
+        }
         .item {
-          margin-bottom: 10rpx;
+          margin-bottom: 20rpx;
           &:last-child {
             margin-bottom: 0;
           }
         }
       }
       .qrcode{
-        width:160rpx;
-        height: 160rpx;
+        width:210rpx;
+        height: 210rpx;
         background: #fff;
         display: flex;
         align-items: center;
