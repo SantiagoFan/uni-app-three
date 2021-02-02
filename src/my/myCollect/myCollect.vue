@@ -20,8 +20,8 @@
           </view>
           <view class="collect-item__info">
             <view class="name">{{ item.doctor_name }}</view>
-            <view class="title">科室：{{ item.department_name }}</view>
-            <view class="post">职务：{{ item.professional }}</view>
+            <view class="title">{{ item.department_name }}</view>
+            <view class="post">{{ item.professional }}</view>
           </view>
         </view>
         <empty v-if="collectList.length === 0"></empty>
@@ -78,7 +78,7 @@ export default {
         }
         &__avatar {
           width: 120rpx;
-          height: 120rpx;
+          height: 160rpx;
           border-radius: 6rpx;
           margin-right: 30rpx;
           overflow: hidden;
@@ -94,10 +94,10 @@ export default {
           justify-content: space-between;
           flex: 1;
           color: #a8a8a8;
-          font-size: 28rpx;
+          font-size: 32rpx;
           .name {
             color: #484848;
-            font-size: 32rpx;
+            font-size: 34rpx;
           }
         }
       }
