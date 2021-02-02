@@ -7,6 +7,7 @@ import mixin from "@/utils/mixin";
 import api from "@/api/api";
 
 import { http } from "@/utils/http";
+import { getConfig } from "@/config";
 import auth from "./components/auth/auth.vue";
 import empty from "./components/empty/empty.vue";
 import PatientCard from "./components/patient_card/index.vue"
@@ -20,6 +21,8 @@ Vue.component("patient-card", PatientCard);
 Vue.prototype.$bus = new Vue(); // event Bus 用于兄弟组件的通信。
 
 App.mpType = "app";
+
+Vue.prototype.$config=getConfig;
 
 Vue.prototype.$http = http;
 Vue.prototype.API = api;

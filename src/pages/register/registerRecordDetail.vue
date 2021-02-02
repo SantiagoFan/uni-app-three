@@ -129,7 +129,7 @@
           </view>
           <view class="cell u-skeleton-rect">
             <view class="cell-label">医院名称</view>
-            <view class="cell-con">{{ hospital_name }}</view>
+            <view class="cell-con">{{ $config('name') }}</view>
           </view>
           <view class="cell u-skeleton-rect">
             <view class="cell-label">就诊科室</view>
@@ -163,7 +163,7 @@
           </view>
           <view class="cell">
             <view class="cell-label">医院名称</view>
-            <view class="cell-con">{{ hospital_name }}</view>
+            <view class="cell-con">{{ $config('name') }}</view>
           </view>
           <view class="cell">
             <view class="cell-label">医院单号</view>
@@ -246,7 +246,6 @@ export default {
       reg_no: '',
       info: {},
       lock_minutes: 0,
-      hospital_name: '',
       departmentInfo: {},
       isCancel: false,
       showModal: false,
@@ -262,7 +261,7 @@ export default {
     //(1成功2锁号3取消)
     this.getHisDetail()
     this.getLockMinute()
-    this.getHospitalName()
+    // this.getHospitalName()
     this.getDepartmentDetail()
   },
   watch: {
@@ -371,11 +370,11 @@ export default {
         })
     },
     //医院名称
-    getHospitalName() {
-      this.$http.post(this.API.HOSPITAL_NAME, {}, false).then((res) => {
-        this.hospital_name = res.data
-      })
-    },
+    // getHospitalName() {
+    //   this.$http.post(this.API.HOSPITAL_NAME, {}, false).then((res) => {
+    //     this.hospital_name = res.data
+    //   })
+    // },
     //科室位置
     getDepartmentDetail() {
       this.$http

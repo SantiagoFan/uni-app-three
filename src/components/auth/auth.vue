@@ -3,7 +3,10 @@
     <view class="loginMask" v-if="loginPopupShow" @click="closePopup"></view>
     <view class="loginPopup" v-if="loginPopupShow">
       <view class="loginBox">
-        <image class="logo" :src="base.logoUrl"></image>
+        <view class="logo-wrapper">
+          <image class="logo" :src="base.logoUrl"></image>
+          <text>{{$config('name')}}</text>
+        </view>
         <view class="platformName">{{ base.platformName }}</view>
         <view class="description" v-if="base.description">{{
           base.description
@@ -23,18 +26,24 @@
 </template>
 <script>
 import { mapState, mapMutations } from "vuex";
+
 export default {
   data() {
     return {
       base: {
-        logoUrl:require("@/static/image/hos_logo.jpg"),
+        logoUrl:require("@/static/image/logo.jpg"),
         platformName:'申请获得您的公开信息（头像，昵称等）',
-        description:''
+        description:'',
+
+
       },
     };
   },
   computed: {
     ...mapState(["userInfo", "loginPopupShow"]),
+  },
+  created(){
+    console.log('1111',this.$SITENAME)
   },
   methods: {
     ...mapMutations(['setUserInfo', 'setLoginPopupShow']),
@@ -64,7 +73,7 @@ export default {
     },
     //关闭弹窗
     closePopup() {
-      this.setLoginPopupShow(false);
+      // this.setLoginPopupShow(false);
     },
   },
 };
@@ -84,16 +93,16 @@ export default {
   top: 50%;
   left: 50%;
   transform: translateX(-50%) translateY(-50%);
-  width: 500upx;
+  width: 600upx;
   background-color: #fff;
   border-radius: 20upx;
   overflow: hidden;
   z-index: 11;
   .btn{
-    width:300upx;
-    height: 60upx;
-    line-height: 60upx;
-    font-size: 24upx;
+    width:400upx;
+    height: 80upx;
+    line-height: 80upx;
+    font-size: 36upx;
     margin-bottom: 40upx;
   }
   .loginBox {
@@ -101,17 +110,24 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
-
-    .logo {
-      width: 454upx;
-      height: 130upx;
-      border-radius: 20%;
+    .logo-wrapper{
+      display: flex;
+      align-items: center;
+      font-size: 34upx;
+      color:#0BA15A;
+      .logo {
+        width: 140upx;
+        height: 140upx;
+        // border-radius: 20%;
+      }
     }
+    
 
     .platformName {
-      font-size: 24upx;
+      font-size: 28upx;
       color: #999;
       margin-top: 10upx;
+      text-align: center;
     }
 
     .description {
