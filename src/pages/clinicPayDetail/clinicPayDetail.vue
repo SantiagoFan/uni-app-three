@@ -8,23 +8,17 @@
         </view>
         <view class="text">缴费成功</view>
       </view>
-      <view class="wrap-status__msg">请凭手机缴费页面和处方单，及时到对应科室执行项目。如需打印发票，请到收费窗口咨询。</view>
+      <view class="wrap-status__msg"
+        >请凭手机缴费页面和处方单，及时到对应科室执行项目。如需打印发票，请到收费窗口咨询。</view
+      >
     </view>
     <u-gap height="20" bg-color="#f3f3f3"></u-gap>
     <view class="wrap-code">
-      <view class="wrap-code__tab">
-        <view :class="['item', {active: codeIndex === 0}]" @click="codeIndex = 0">电子健康卡</view>
-        <view :class="['item', {active: codeIndex === 1}]" @click="codeIndex = 1">就诊凭条</view>
-      </view>
-      <view class="wrap-code__con">
-        <view class="wrap-code__con-code1" v-if="codeIndex === 0">
-          <image class="img" mode="aspectFill" src="@/static/image/code1.jpg" />
-        </view>
-        <view class="wrap-code__con-code2" v-else>
-          <image class="img" mode="widthFix" src="@/static/image/code.jpg" />
-          <view class="num">100005149844</view>
-        </view>
-      </view>
+      <my-code
+        :patient_code="patientInfo.patient_code"
+        :ehealth_code="patientInfo.ehealth_code"
+        @refresh="updateHealth"
+      ></my-code>
     </view>
     <view class="wrap-info">
       <view class="wrap-info__box">
@@ -32,15 +26,15 @@
         <view class="list">
           <view class="cell">
             <view class="cell-label">就诊人</view>
-            <view class="cell-con">贾铭</view>
+            <view class="cell-con">{{ detail.patient_name }}</view>
           </view>
           <view class="cell">
             <view class="cell-label">就诊卡号</view>
-            <view class="cell-con">100000000000242424210</view>
+            <view class="cell-con">{{ detail.patient_code }}</view>
           </view>
           <view class="cell">
             <view class="cell-label">医院名称</view>
-            <view class="cell-con">呼和浩特市蒙医中医医院</view>
+            <view class="cell-con">{{ $config('name') }}</view>
           </view>
         </view>
       </view>
@@ -48,21 +42,23 @@
         <view class="bt">导诊信息</view>
         <view class="list">
           <view class="cell">
-            <view class="cell-label">脾胃病科室</view>
-            <view class="cell-con">二楼中厅脾胃科室<br>(周一、三、五全天）</view>
+            <view class="cell-label">{{ detail.guide.department }}</view>
+            <view class="cell-con"
+              >二楼中厅脾胃科室<br />(周一、三、五全天）</view
+            >
           </view>
-          <view class="cell">
+          <!-- <view class="cell">
             <view class="cell-label">妇科</view>
             <view class="cell-con">二楼北侧步梯旁妇科</view>
           </view>
           <view class="cell">
             <view class="cell-label">B超市心电图</view>
             <view class="cell-con">一楼北侧</view>
-          </view>
+          </view> -->
         </view>
       </view>
       <view class="wrap-info__box">
-        <view :class="['bt', {'bt-show': payDetailShow}]" @click="handleBt">
+        <view :class="['bt', { 'bt-show': payDetailShow }]" @click="handleBt">
           <view class="bt-text">处方单</view>
           <view class="bt-arrow">
             <text class="iconfont icon-right"></text>
@@ -104,7 +100,7 @@
         </view>
       </view>
       <view class="wrap-info__box">
-        <view :class="['bt', {'bt-show': payDetailShow}]" @click="handleBt">
+        <view :class="['bt', { 'bt-show': payDetailShow }]" @click="handleBt">
           <view class="bt-text">缴费详情</view>
           <view class="bt-arrow">
             <text class="iconfont icon-right"></text>
@@ -113,31 +109,31 @@
         <view class="list" v-show="payDetailShow">
           <view class="cell">
             <view class="cell-label">交易金额</view>
-            <view class="cell-con price">¥244.44</view>
+            <view class="cell-con price">¥{{ detail.pay_fee }}</view>
           </view>
           <view class="cell">
             <view class="cell-label">医院名称</view>
-            <view class="cell-con">呼和浩特市蒙医中医医院</view>
+            <view class="cell-con">{{ $config('name') }}</view>
           </view>
           <view class="cell">
             <view class="cell-label">医院单号</view>
-            <view class="cell-con">B4582644,B5464954,B2544645,B4242142</view>
+            <view class="cell-con">{{ detail.innner_trade_no }}</view>
           </view>
           <view class="cell">
             <view class="cell-label">平台单号</view>
-            <view class="cell-con">544465465465161211</view>
+            <view class="cell-con">没写</view>
           </view>
           <view class="cell">
             <view class="cell-label">支付流水号</view>
-            <view class="cell-con">444242042011565465441215456441</view>
+            <view class="cell-con">没写</view>
           </view>
           <view class="cell">
             <view class="cell-label">支付状态</view>
-            <view class="cell-con">已支付</view>
+            <view class="cell-con">没写</view>
           </view>
           <view class="cell">
             <view class="cell-label">支付时间</view>
-            <view class="cell-con">2020-07-04  14:44:14</view>
+            <view class="cell-con">{{ detail.pay_time }}</view>
           </view>
         </view>
       </view>
@@ -146,21 +142,28 @@
 </template>
 
 <script>
+import MyCode from '@/components/common/MyCode'
+import { mapState } from 'vuex'
 export default {
   data() {
     return {
       codeIndex: 0,
-      payDetailShow: true
+      payDetailShow: true,
+      detail: {},
     }
   },
-  onLoad(options) {
-    console.log('options', options)
+  components: { MyCode },
+  computed: {
+    ...mapState(['patientInfo']),
+  },
+  onLoad() {
+    this.detail = this.$Route.query.payDetail
   },
   methods: {
     // 点击缴费详情
     handleBt() {
       // this.payDetailShow = true
-    }
+    },
   },
 }
 </script>
@@ -316,7 +319,7 @@ export default {
         }
         &-arrow {
           color: #5ecb81;
-          transition: all .5s;
+          transition: all 0.5s;
         }
       }
       // 处方单

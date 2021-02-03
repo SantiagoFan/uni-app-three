@@ -70,7 +70,7 @@ export default {
     getDetail() {
       this.$http
         .post(this.API.LIVE_DAILY_ORDER, {
-          live_code: this.livePatientInfo.live_code,
+          live_code: this.livePatientInfo.inpatient_code,
           date: this.date,
         })
         .then((res) => {

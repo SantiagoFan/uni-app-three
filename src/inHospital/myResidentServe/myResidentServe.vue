@@ -11,7 +11,9 @@
               <view class="name">{{ livePatientInfo.name }}</view>
               <view class="tag">默认</view>
             </view>
-            <view class="code">住院号：{{ livePatientInfo.live_code }}</view>
+            <view class="code"
+              >住院号：{{ livePatientInfo.inpatient_code }}</view
+            >
           </view>
           <view class="arrow">
             <text class="iconfont icon-arrowb"></text>

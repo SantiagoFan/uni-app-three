@@ -47,7 +47,7 @@ export default {
     getList() {
       this.$http
         .post(this.API.LIVE_PAY_RECORD, {
-          live_code: this.livePatientInfo.live_code,
+          live_code: this.livePatientInfo.inpatient_code,
         })
         .then((res) => {
           this.list = res.data
