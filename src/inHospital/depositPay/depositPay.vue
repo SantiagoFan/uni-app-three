@@ -149,7 +149,7 @@ export default {
 
 <style lang="scss" scoped>
 .wrap {
-  padding-top: 20rpx;
+  padding: 20rpx 20rpx 0;
   min-height: 100vh;
   background: #ffffff;
   &-user {

@@ -5,9 +5,9 @@
       <view class="item">
         <view class="info">
           <view class="title">
-            <view class="name">{{ getName(livePatientInfo) }}</view>
+            <view class="name">{{ livePatientInfo|getName }}</view>
           </view>
-          <view class="code">住院号：{{ livePatientInfo.patient_code }}</view>
+          <view class="code">住院号：{{ livePatientInfo.inpatient_code }}</view>
         </view>
         <view class="check" @click="handleChoose">切换住院人</view>
       </view>
@@ -35,7 +35,7 @@
             >
               <view class="info">
                 <view class="name">{{ item.name }}</view>
-                <view class="code">就诊卡：{{ item.patient_code }}</view>
+                <view class="code">住院号：{{ item.live_code }}</view>
               </view>
               <view class="radio">
                 <text class="iconfont icon-duihao"></text>
@@ -44,7 +44,7 @@
           </view>
         </view>
         <view class="check-wrap__btn">
-          <view class="item" @click="addLivePatient">添加住院人</view>
+          <view class="item" @click="addResident">添加住院人</view>
           <view class="item" @click="manageLivePatient">管理住院人</view>
         </view>
       </view>
@@ -80,6 +80,20 @@ export default {
       showModal: false,
     }
   },
+  filters:{
+    getName(item){
+      if (item && item.name) {
+        // if (item.name.length > 4) {
+        //   return item.name.substr(-2, 4)
+        // } else {
+        //   return item.name
+        // }
+        return item.name
+      } else {
+        return ''
+      }
+    }
+  },
   mounted() {
     this.checkLivePatient()
   },
@@ -90,17 +104,6 @@ export default {
     checkLivePatient() {
       if (this.needLivePatient && this.livePatient == null) {
         this.showModal = true
-      }
-    },
-    getName(item) {
-      if (item && item.name) {
-        if (item.name.length > 4) {
-          return item.name.substr(-2, 4)
-        } else {
-          return item.name
-        }
-      } else {
-        return ''
       }
     },
     handleChoose() {
@@ -130,7 +133,7 @@ export default {
     showLivePatient() {
       this.$Router.push({
         name: 'myResidentDetail',
-        params: { patient_code: this.livePatientInfo.patient_code },
+        params: { patient_code: this.livePatientInfo.inpatient_code },
       })
     },
     goBack() {
@@ -144,7 +147,7 @@ export default {
   display: flex;
   flex-direction: column;
   .wrap-user {
-    padding: 30rpx 20rpx;
+    padding: 30rpx 0;
     .item {
       display: flex;
       align-items: center;
@@ -221,7 +224,7 @@ export default {
           justify-content: space-between;
           padding: 20rpx 40rpx;
           .info {
-            font-size: 28rpx;
+            font-size: 32rpx;
             .name {
               color: #333333;
             }
@@ -261,11 +264,11 @@ export default {
       padding: 30rpx 70rpx;
       .item {
         width: 275rpx;
-        height: 64rpx;
-        line-height: 64rpx;
+        height: 70rpx;
+        line-height: 70rpx;
         color: #ffffff;
         text-align: center;
-        font-size: 28rpx;
+        font-size: 32rpx;
         border-radius: 8rpx;
         background: #0ec698;
       }

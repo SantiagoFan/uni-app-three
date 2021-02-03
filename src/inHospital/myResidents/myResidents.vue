@@ -104,9 +104,9 @@ export default {
               margin-right: 15rpx;
             }
             .tag {
-              height: 32rpx;
-              line-height: 32rpx;
-              font-size: 20rpx;
+              height: 38rpx;
+              line-height: 38rpx;
+              font-size: 26rpx;
               padding: 0 10rpx;
               color: rgba($color: #ffffff, $alpha: 0.65);
               border: 1rpx solid rgba($color: #ffffff, $alpha: 0.65);
@@ -114,7 +114,7 @@ export default {
             }
           }
           .code {
-            font-size: 24rpx;
+            font-size: 28rpx;
             margin-top: 20rpx;
           }
         }
@@ -147,11 +147,11 @@ export default {
         margin: 0 20rpx;
         .tit {
           color: #333333;
-          font-size: 28rpx;
+          font-size: 32rpx;
         }
         .sub {
           color: #898989;
-          font-size: 24rpx;
+          font-size: 28rpx;
           margin-top: 10rpx;
         }
       }
