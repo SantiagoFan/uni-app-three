@@ -430,11 +430,12 @@ export default {
           justify-content: space-between;
           padding: 20rpx 40rpx;
           .info {
-            font-size: 28rpx;
+            font-size: 32rpx;
             .name {
               color: #333333;
             }
             .code {
+              font-size: 28rpx;
               color: #999999;
               margin-top: 10rpx;
             }
@@ -470,11 +471,11 @@ export default {
       padding: 30rpx 70rpx;
       .item {
         width: 275rpx;
-        height: 64rpx;
-        line-height: 64rpx;
+        height: 70rpx;
+        line-height: 70rpx;
         color: #ffffff;
         text-align: center;
-        font-size: 28rpx;
+        font-size: 32rpx;
         border-radius: 8rpx;
         background: #0ec698;
       }

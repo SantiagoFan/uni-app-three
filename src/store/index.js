@@ -66,10 +66,6 @@ export default new Vuex.Store({
               http
                 .post(api.GET_TOKEN, { code }, false)
                 .then((res) => {
-                  // uni.showToast({
-                  //   title: '登录结果'+JSON.stringify(res),
-                  //   icon:'none'
-                  // });
                   uni.hideLoading()
                   if (res.code === 20000) {
                     uni.setStorageSync('token', res.token)
@@ -83,7 +79,8 @@ export default new Vuex.Store({
                 })
                 .catch((res) => {
                   uni.showToast({
-                    title: '登录结果' + JSON.stringify(res),
+                    // title: '登录结果' + JSON.stringify(res),
+                    title: '网络繁忙，请稍后再试',
                     icon: 'none',
                     duration: 10000,
                   })

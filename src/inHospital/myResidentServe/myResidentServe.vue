@@ -60,7 +60,9 @@ export default {
   },
   onLoad() {},
   methods: {
-    
+    addResident() {
+      this.$Router.push({ name: 'myResidenAdd' })
+    },
     goDetail() {
       this.$Router.push({
         name: 'myResidentBill',
