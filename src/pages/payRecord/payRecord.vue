@@ -2,18 +2,25 @@
   <view class="record">
     <view class="record-m">
       <view class="record-m__list">
-        <view class="item" v-for="item in 2" :key="item" @click="handleItem">
+        <view
+          class="item"
+          v-for="(item, index) in list"
+          :key="index"
+          @click="handleItem"
+        >
           <view class="icon">
             <text class="iconfont icon-duihao"></text>
           </view>
           <view class="info">
             <view class="title">
-              <view class="status">缴费成功</view>
-              <view class="price">¥10000.00</view>
+              <view class="status"
+                >缴费{{ item.pay_status == 1 ? '成功' : '失败' }}</view
+              >
+              <view class="price">¥{{ item.pay_fee }}</view>
             </view>
             <view class="subt">
-              <view class="name">贾铭</view>
-              <view class="date">2020-07-18 10:30:00</view>
+              <view class="name">{{ item.patient_name }}</view>
+              <view class="date">{{ item.pay_time }}</view>
             </view>
           </view>
         </view>
@@ -28,6 +35,7 @@ export default {
   data() {
     return {
       type: '',
+      list: [],
     }
   },
   watch: {
@@ -40,8 +48,6 @@ export default {
         case 1:
           title = '诊间支付缴费记录'
           break
-        case 2:
-          title = '住院缴费记录'
         default:
           break
       }
@@ -83,7 +89,9 @@ export default {
         .post(this.API.EXAMINATION_RECORD, {
           patient_code: this.patientInfo.patient_code,
         })
-        .then((res) => {})
+        .then((res) => {
+          this.list = res.data
+        })
     },
   },
 }

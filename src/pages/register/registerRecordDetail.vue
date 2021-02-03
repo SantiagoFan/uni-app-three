@@ -205,8 +205,8 @@
       </view>
       <view
         class="wrap-info-btn"
-        v-if="isCancel && data.status != 4"
-        @click="goCancel()"
+        v-if="isCancel && data.status == 1"
+        @click="showModal = true"
         >取消挂号</view
       >
       <view
@@ -407,7 +407,7 @@ export default {
       })
     },
     confirm() {
-      if (data.status == 4) {
+      if (this.data.status == 4) {
         uni.showToast({
           title: '该号源已就诊,无法取消',
           duration: 2000,

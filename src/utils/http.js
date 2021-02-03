@@ -81,6 +81,11 @@ http.interceptor.response(
     return response.data
   },
   (response) => {
+    uni.hideLoading()
+    uni.showToast({
+      title: '网络异常',
+      icon: 'none',
+    })
     // 请求错误做点什么
     return response
   }

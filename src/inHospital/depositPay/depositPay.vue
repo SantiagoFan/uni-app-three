@@ -21,34 +21,126 @@
         </view>
       </view>
       <view class="wrap-con__price">
-        <view class="item active">
+        <view
+          :class="['item', { active: item.amount == money }]"
+          v-for="(item, index) in list"
+          :key="index"
+          @click="changeAmount(item, index)"
+        >
           <view class="ren">¥</view>
-          <view class="price">100</view>
+          <view class="price">{{ parseFloat(item.amount) }}</view>
         </view>
-        <view class="item">
-          <view class="ren">¥</view>
-          <view class="price">200</view>
-        </view>
-        <view class="item">
-          <view class="ren">¥</view>
-          <view class="price">500</view>
-        </view>
-        <view class="item">
-          <view class="ren">¥</view>
-          <view class="price">200</view>
-        </view>
-        <view class="item">
-          <input class="input" type="number" placeholder="请输入整百金额" />
+        <view class="item last-item">
+          <input
+            class="input"
+            type="number"
+            @input="changeMoney"
+            placeholder="请输入其他金额，金额至少2000元"
+          />
         </view>
       </view>
-      <view class="wrap-con__btn">充值</view>
+      <view class="wrap-con__btn" @click="goPay">充值</view>
     </view>
   </view>
 </template>
 
 <script>
+import { isNull } from '@/utils/common.js'
+import { mapState } from 'vuex'
 export default {
+  data() {
+    return {
+      list: [],
+      money: 0,
+      flag: false,
+    }
+  },
+  onLoad() {
+    this.getList()
+  },
+  computed: {
+    ...mapState(['livePatientInfo']),
+  },
+  methods: {
+    getList() {
+      this.$http.post(this.API.LIVE_DEPOSIT_RULE).then((res) => {
+        this.list = res.data
+        this.money = this.list[0]['amount']
+      })
+    },
 
+    changeAmount(item) {
+      this.money = item.amount
+    },
+    goPay() {
+      if (isNull(this.money)) {
+        uni.showToast({
+          title: '请输入充值金额',
+          icon: 'none',
+        })
+        return false
+      }
+      if (this.money < 2000) {
+        uni.showToast({
+          title: '充值金额不得少于2000',
+          icon: 'none',
+        })
+        return false
+      }
+      if (parseFloat(this.money) % 1000 != 0) {
+        uni.showToast({
+          title: '充值金额必须为一千的倍数',
+          icon: 'none',
+        })
+        return false
+      }
+      let that = this
+      if (this.flag) {
+        return false
+      }
+      that.flag = true
+      that.$http
+        .post(that.API.LIVE_DEPOSIT_ORDER, {
+          amount: that.money,
+          live_code: that.livePatientInfo.live_code,
+        })
+        .then((res) => {
+          const config = JSON.parse(res.data)
+          uni.requestPayment({
+            provider: 'wxpay',
+            timeStamp: config.timeStamp,
+            nonceStr: config.nonceStr,
+            package: config.package,
+            signType: 'MD5',
+            paySign: config.paySign,
+            success: function(response) {
+              uni.showToast({
+                title: '支付成功',
+                duration: 2000,
+                icon: 'none',
+              })
+              that.$Router.replace({
+                name: 'payRecord',
+              })
+            },
+            fail: function(err) {
+              that.flag = false
+              uni.showToast({
+                title: '支付失败',
+                duration: 2000,
+                icon: 'none',
+              })
+            },
+          })
+        })
+        .finally((res) => {
+          that.flag = false
+        })
+    },
+    changeMoney(event) {
+      this.money = event.target.value
+    },
+  },
 }
 </script>
 
@@ -66,8 +158,10 @@ export default {
       margin-bottom: 20rpx;
       color: #ffffff;
       border-radius: 10rpx;
-      background: #0ec698 url('@/static/image/residents_item_bg.jpg') no-repeat right center;
+      background: #0ec698 url('@/static/image/residents_item_bg.jpg') no-repeat
+        right center;
       background-size: contain;
+
       &:last-child {
         margin-bottom: 0;
       }
@@ -88,8 +182,8 @@ export default {
             line-height: 32rpx;
             font-size: 20rpx;
             padding: 0 10rpx;
-            color: rgba($color: #ffffff, $alpha: .65);
-            border: 1rpx solid rgba($color: #ffffff, $alpha: .65);
+            color: rgba($color: #ffffff, $alpha: 0.65);
+            border: 1rpx solid rgba($color: #ffffff, $alpha: 0.65);
             border-radius: 8rpx;
           }
         }
@@ -140,9 +234,12 @@ export default {
         font-size: 32rpx;
         border: 1rpx solid;
         border-color: #dcdcdc;
-        &:nth-child(5) {
-          grid-column-start: span 2;
+        &.last-item {
+          grid-column-start: span 3;
         }
+        // &:nth-child(5) {
+        //   grid-column-start: span 2;
+        // }
         .ren {
           margin-right: 8rpx;
         }
@@ -157,7 +254,6 @@ export default {
           background: #0ec698;
           border-color: #0ec698;
         }
-       
       }
     }
     &__btn {
@@ -170,5 +266,4 @@ export default {
     }
   }
 }
-
 </style>

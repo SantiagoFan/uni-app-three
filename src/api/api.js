@@ -61,4 +61,6 @@ export default {
   WAIT_DETAIL: '/wait_detail/getDetail', //排队候诊
   NEWS_DETAIL: '/news/getNewsDetail', //新闻详情
   EXAMINATION_RECORD: '/examination/getExaminationRecord', //门诊缴费记录
+  LIVE_DEPOSIT_RULE: '/live_deposit_order/getRule', //押金缴费规则
+  LIVE_DEPOSIT_ORDER: '/live_deposit_order/payOrder',
 }
