@@ -37,12 +37,16 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
   data() {
     return {
       list: [],
       count: 0,
     }
+  },
+  computed: {
+    ...mapState(['livePatientList', 'livePatientInfo']),
   },
   onShow() {
     this.getList()
