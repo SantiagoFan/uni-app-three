@@ -9,13 +9,20 @@
           @click="handleItem(item)"
         >
           <view class="icon">
-            <text class="iconfont icon-duihao"></text>
+            <text
+              class="iconfont icon-duihao"
+              v-if="item.pay_status == 0"
+            ></text>
+            <text
+              class="iconfont icon-jianhao"
+              v-if="item.pay_status == 1"
+            ></text>
           </view>
           <view class="info">
             <view class="title">
-              <view class="status"
-                >缴费{{ item.pay_status == 1 ? '成功' : '失败' }}</view
-              >
+              <view class="status">{{
+                item.pay_status == 1 ? '已退款' : '缴费成功'
+              }}</view>
               <view class="price">¥{{ item.pay_fee }}</view>
             </view>
             <view class="subt">

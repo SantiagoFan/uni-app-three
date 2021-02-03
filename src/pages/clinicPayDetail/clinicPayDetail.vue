@@ -4,9 +4,14 @@
       <view class="wrap-status__info">
         <view class="icon">
           <!-- icon icon-dasuozi：锁号 icon-duihao：预约挂号成功 icon-jianhao：icon-jianhao -->
-          <view class="iconfont icon-jianhao"></view>
+          <view class="iconfont icon-jianhao" v-if="detail.pay_status == 0">
+          </view>
+          <view v-if="detail.pay_status == 1" class="iconfont icon-duihao">
+          </view>
         </view>
-        <view class="text">缴费成功</view>
+        <view class="text">
+          {{ detail.pay_status == 1 ? '已退款' : '缴费成功' }}
+        </view>
       </view>
       <view class="wrap-status__msg"
         >请凭手机缴费页面和处方单，及时到对应科室执行项目。如需打印发票，请到收费窗口咨询。</view

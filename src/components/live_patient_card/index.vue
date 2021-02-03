@@ -72,7 +72,7 @@ export default {
     needLivePatient: {
       type: Boolean,
       default: false,
-    }
+    },
   },
   data() {
     return {
@@ -188,21 +188,21 @@ export default {
     }
   }
   .no-residen {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 166rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 166rpx;
+    border-radius: 10rpx;
+    background: #ffffff;
+    &__text {
+      color: #0ec698;
+      font-size: 32rpx;
+      padding: 15rpx 30rpx;
+      letter-spacing: 1rpx;
+      border: 1rpx solid #0ec698;
       border-radius: 10rpx;
-      background: #ffffff;
-      &__text {
-        color: #0ec698;
-        font-size: 32rpx;
-        padding: 15rpx 30rpx;
-        letter-spacing: 1rpx;
-        border: 1rpx solid #0ec698;
-        border-radius: 10rpx;
-      }
     }
+  }
   // 弹出层
   .check-wrap {
     &__title {
