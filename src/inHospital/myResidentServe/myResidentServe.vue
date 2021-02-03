@@ -1,30 +1,6 @@
 <template>
   <view class="wrap">
-<<<<<<< HEAD
     <LivePatientCard></LivePatientCard>
-=======
-    <view class="wrap-user">
-      <view class="no-residen" v-if="!livePatientInfo" @click="addResident">
-        <view class="no-residen__text">初次使用，请添加住院人</view>
-      </view>
-      <view class="wrap-user__list" v-else>
-        <view class="cell">
-          <view class="info">
-            <view class="title">
-              <view class="name">{{ livePatientInfo.name }}</view>
-              <view class="tag">默认</view>
-            </view>
-            <view class="code"
-              >住院号：{{ livePatientInfo.inpatient_code }}</view
-            >
-          </view>
-          <view class="arrow">
-            <text class="iconfont icon-arrowb"></text>
-          </view>
-        </view>
-      </view>
-    </view>
->>>>>>> 1911a84d45d0feae261072c018f17f25995224af
     <view class="wrap-serve">
       <view class="wrap-serve__bt">住院服务</view>
       <view class="wrap-serve__con">
