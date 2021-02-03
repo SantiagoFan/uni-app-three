@@ -1,16 +1,6 @@
 <template>
   <view class="wrap">
-    <view class="wrap-user">
-      <view class="item">
-        <view class="info">
-          <view class="title">
-            <view class="name">贾铭</view>
-          </view>
-          <view class="code">住院号：0000514984444</view>
-        </view>
-        <view class="check">切换住院人</view>
-      </view>
-    </view>
+    <LivePatientCard></LivePatientCard>
     <u-gap height="15" bg-color="#f6f6f6"></u-gap>
     <view class="wrap-con">
       <view class="wrap-con__title">
@@ -47,6 +37,8 @@
 <script>
 import { isNull } from '@/utils/common.js'
 import { mapState } from 'vuex'
+import LivePatientCard from "@/components/live_patient_card/index.vue"
+
 export default {
   data() {
     return {
@@ -54,6 +46,9 @@ export default {
       money: 0,
       flag: false,
     }
+  },
+  components:{
+    LivePatientCard
   },
   onLoad() {
     this.getList()
@@ -73,6 +68,13 @@ export default {
       this.money = item.amount
     },
     goPay() {
+      if (!this.livePatientInfo) {
+        uni.showToast({
+          title: '请添加住院人',
+          icon: 'none',
+        })
+        return false
+      }
       if (isNull(this.money)) {
         uni.showToast({
           title: '请输入充值金额',
@@ -146,6 +148,7 @@ export default {
 
 <style lang="scss" scoped>
 .wrap {
+  padding-top: 20rpx;
   min-height: 100vh;
   background: #ffffff;
   &-user {

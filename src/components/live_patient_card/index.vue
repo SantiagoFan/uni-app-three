@@ -1,31 +1,20 @@
 <template>
   <view class="container">
-    <view class="wrap">
-      <!-- 已经存在住院人 -->
-      <view class="wrap-user" v-if="livePatientInfo">
-        <view class="item">
-          <view class="info">
-            <view class="title">
-              <view class="name">{{ getName(livePatientInfo) }}</view>
-            </view>
-            <view class="code">住院号：{{ livePatientInfo.patient_code }}</view>
+    <!-- 已经存在住院人 -->
+    <view class="wrap-user" v-if="livePatientInfo">
+      <view class="item">
+        <view class="info">
+          <view class="title">
+            <view class="name">{{ getName(livePatientInfo) }}</view>
           </view>
-          <view class="check" @click="handleChoose">切换住院人</view>
+          <view class="code">住院号：{{ livePatientInfo.patient_code }}</view>
         </view>
+        <view class="check" @click="handleChoose">切换住院人</view>
       </view>
-       <!-- 添加就诊人 -->
-      <view v-else class="patient-m__add" @click="addLivePatient">
-        <view class="patient-m__add-icon">
-          <text class="iconfont icon-jiahao"></text>
-        </view>
-        <view class="patient-m__add-info">
-          <view class="tit">添加住院人</view>
-          <view class="sub">还可添加{{ count }}人</view>
-        </view>
-        <view class="patient-m__add-arrow">
-          <text class="iconfont icon-arrowb"></text>
-        </view>
-      </view>
+    </view>
+    <!-- 添加就诊人 -->
+    <view class="no-residen" v-else @click="addResident">
+      <view class="no-residen__text">初次使用，请添加住院人</view>
     </view>
     <!-- 弹出窗 -->
     <u-popup
@@ -95,6 +84,9 @@ export default {
     this.checkLivePatient()
   },
   methods: {
+    addResident() {
+      this.$Router.push({ name: 'myResidenAdd' })
+    },
     checkLivePatient() {
       if (this.needLivePatient && this.livePatient == null) {
         this.showModal = true
@@ -151,20 +143,23 @@ export default {
 .container {
   display: flex;
   flex-direction: column;
-  .wrap {
-    flex: 1;
-    padding: 0rpx 20rpx;
-    overflow-y: auto;
-    &__user {
-      position: relative;
+  .wrap-user {
+    padding: 30rpx 20rpx;
+    .item {
       display: flex;
       align-items: center;
       height: 156rpx;
-      padding: 0 30rpx;
-      margin: 30rpx 0 20rpx 0;
-      background: #ffffff url('@/static/image/box_bg.png') no-repeat 70rpx -50rpx;
-      background-size: 260rpx;
+      padding: 0 40rpx;
+      margin-bottom: 20rpx;
+      color: #ffffff;
       border-radius: 10rpx;
+      background: #0ec698 url('@/static/image/residents_item_bg.jpg') no-repeat
+        right center;
+      background-size: contain;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
       .info {
         flex: 1;
         display: flex;
@@ -174,120 +169,40 @@ export default {
           align-items: center;
           border-radius: 10rpx;
           .name {
-            color: #333333;
             font-size: 36rpx;
             margin-right: 15rpx;
           }
-          .tag {
-            height: 32rpx;
-            line-height: 32rpx;
-            color: #898989;
-            font-size: 20rpx;
-            padding: 0 10rpx;
-            border: 1rpx solid #a6a9a8;
-            border-radius: 8rpx;
-          }
         }
         .code {
-          color: #898989;
-          font-size: 24rpx;
+          font-size: 28rpx;
           margin-top: 20rpx;
         }
       }
-      .switch {
-        position: absolute;
-        top: 25rpx;
-        right: 20rpx;
-        line-height: 42rpx;
-        padding: 0 15rpx;
-        color: #51d6b5;
-        font-size: 20rpx;
-        border: 1rpx solid #51d6b5;
-        border-radius: 20rpx;
-      }
-      .add_btn {
-        display: inline-flex;
-        align-items: center;
-        height: 82rpx;
-        padding: 0 30rpx;
-        color: #0ec698;
-        border: 1rpx solid #0ec698;
-        border-radius: 20rpx;
-        &__icon {
-          margin-right: 20rpx;
-          .iconfont {
-            font-size: 45rpx;
-          }
-        }
-        &__text {
-          font-size: 32rpx;
-        }
-      }
-    }
-    &__list {
-      .item {
-        color: #a8a8a8;
-        font-size: 26rpx;
-        padding: 30rpx;
-        margin-bottom: 20rpx;
-        background: #ffffff;
+      .check {
+        line-height: 60rpx;
+        font-size: 30rpx;
+        padding: 0 20rpx;
+        border: 1rpx solid #ffffff;
         border-radius: 10rpx;
-        &:last-child {
-          margin-bottom: 0;
-        }
-        &-sta {
-          display: flex;
-          padding-bottom: 30rpx;
-          &__icon {
-            width: 32rpx;
-            height: 32rpx;
-            line-height: 32rpx;
-            text-align: center;
-            margin-right: 20rpx;
-            border: 1rpx solid;
-            border-color: #bebebe;
-            border-radius: 50%;
-            .iconfont {
-              font-size: 25rpx;
-              display: none;
-            }
-            &.active {
-              color: #ffffff;
-              border-color: #0ec698;
-              background: #0ec698;
-              .iconfont {
-                display: block;
-              }
-            }
-          }
-          &__con {
-            flex: 1;
-            &-title {
-              color: #333333;
-              font-size: 28rpx;
-              margin: 0 0 20rpx 0;
-            }
-            &-list {
-              .cell {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                margin-bottom: 20rpx;
-                &:last-child {
-                  margin-bottom: 0;
-                }
-              }
-            }
-          }
-        }
-        &-total {
-          padding-top: 20rpx;
-          text-align: right;
-          border-top: 1rpx solid #eaeaea;
-        }
       }
     }
   }
+  .no-residen {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 166rpx;
+      border-radius: 10rpx;
+      background: #ffffff;
+      &__text {
+        color: #0ec698;
+        font-size: 32rpx;
+        padding: 15rpx 30rpx;
+        letter-spacing: 1rpx;
+        border: 1rpx solid #0ec698;
+        border-radius: 10rpx;
+      }
+    }
   // 弹出层
   .check-wrap {
     &__title {

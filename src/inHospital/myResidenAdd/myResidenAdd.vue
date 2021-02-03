@@ -3,22 +3,24 @@
     <view class="patient-m">
       <view class="patient-m__massage">通过就诊人添加</view>
       <view class="patient-m__list" v-if="list.length > 0">
-        <view class="item" v-for="(item, index) in list" :key="index">
+        <view
+          class="item"
+          v-for="(item, index) in list"
+          :key="index"
+          @click="choicePatient(index)"
+        >
           <view class="info">
             <view class="title">
               <view class="name">{{ item.name }}</view>
             </view>
             <view class="code">院内诊疗号：{{ item.patient_code }}</view>
           </view>
-          <view
-            :class="['icon', item.isChoice ? 'active' : '']"
-            @click="choicePatient(index)"
-          >
+          <view :class="['icon', item.isChoice ? 'active' : '']">
             <text class="iconfont icon-duihao2"></text>
           </view>
         </view>
       </view>
-      <view class="nodata" v-else>
+      <view class="nodata" v-if='list.length==0&&finished'>
         暂无可添加的就诊人
       </view>
       <view class="patient-m__add" @click="handleClickAdd">
@@ -41,6 +43,7 @@ export default {
     return {
       list: [],
       count: 0,
+      finished:false
     }
   },
   onShow() {
@@ -49,8 +52,16 @@ export default {
   methods: {
     getList() {
       this.$http.post(this.API.PATIENT_LIST, { status: 1 }).then((res) => {
-        this.list = res.data
+        let list = res.data
+        list.forEach((item, index) => {
+          item['isChoice'] = false
+          if (index == 0) {
+            item['isChoice'] = true
+          }
+        })
+        this.list = list
         this.count = res.count
+        this.finished=true
       })
     },
     choicePatient(index) {
@@ -61,41 +72,34 @@ export default {
       })
       this.list[index]['isChoice'] = !this.list[index]['isChoice']
     },
-    addLivePatient() {
-      var that = this
-      var patient_code = ''
-      that.list.forEach((e) => {
+    addLivePatient(){
+      let patient_code = ''
+      for(let e of this.list){
         if (e.isChoice == true || e.isChoice == 1) {
           patient_code = e.patient_code
+          break;
         }
-      })
+      }
       if (patient_code == '') {
         uni.showToast({
-          title: '请先选择住院人',
+          title: '请选择住院人',
           duration: 2000,
           icon: 'none',
         })
         return false
       }
-      uni.showModal({
-        title: '提示',
-        content: '确定将该就诊人员添加为住院人吗？',
-        success: function(res) {
-          that.$http
-            .post(that.API.LIVE_PATIENT_ADD, { patient_code: patient_code })
-            .then((res) => {
-              uni.showToast({
-                title: res.message,
-                duration: 2000,
-                icon: 'none',
-              })
-              if (res.code == 20000) {
-                // that.$store.commit('setPatientInfo', res.data)
-                that.$Router.back(1)
-              }
-            })
-        },
-      })
+      this.$http.post(this.API.LIVE_PATIENT_ADD, { patient_code: patient_code }).then((res) => {
+          uni.showToast({
+            title: res.message,
+            duration: 2000,
+            icon: 'none',
+          })
+          if (res.code == 20000) {
+            setTimeout(()=>{
+              this.$Router.back(1)
+            },1000)
+          }
+        })
     },
     handleClickAdd() {
       if (this.count < 1) {
@@ -158,14 +162,14 @@ export default {
           }
           .code {
             color: #898989;
-            font-size: 24rpx;
+            font-size: 28rpx;
             margin-top: 20rpx;
           }
         }
         .icon {
-          width: 32rpx;
-          height: 32rpx;
-          line-height: 32rpx;
+          width: 44rpx;
+          height: 44rpx;
+          line-height: 44rpx;
           text-align: center;
           margin-right: 20rpx;
           border: 1rpx solid;
@@ -212,11 +216,11 @@ export default {
         margin-right: 20rpx;
         .tit {
           color: #333333;
-          font-size: 28rpx;
+          font-size: 32rpx;
         }
         .sub {
           color: #898989;
-          font-size: 24rpx;
+          font-size: 28rpx;
           margin-top: 10rpx;
         }
       }
