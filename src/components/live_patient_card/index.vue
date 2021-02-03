@@ -28,8 +28,8 @@
         <view class="check-wrap__con">
           <view class="list">
             <view
-              :class="['item', item.id == livePatientInfo.id ? 'active' : '']"
-              @click="choicePatient(item.id)"
+              :class="['item', item.live_code == livePatientInfo.inpatient_code ? 'active' : '']"
+              @click="choiceLivePatient(item.id)"
               v-for="(item, index) in livePatientList"
               :key="index"
             >
@@ -54,9 +54,9 @@
       v-model="showModal"
       title="提示"
       :show-cancel-button="true"
-      @confirm="addLivePatient"
+      @confirm="addResident"
       @cancel="goBack"
-      content="未添加住院人人,请添加后重试"
+      content="未添加住院人,请添加后重试"
     ></u-modal>
   </view>
 </template>
@@ -114,11 +114,8 @@ export default {
     handleChooseClose() {
       uni.showTabBar()
     },
-    addLivePatient() {
-      this.$Router.push({ name: 'medicalCardLogin' })
-    },
     manageLivePatient() {
-      this.$Router.push({ name: 'patientAdd' })
+      this.$Router.push({ name: 'myResidents' })
     },
     choiceLivePatient(id) {
       this.$http
@@ -138,7 +135,7 @@ export default {
     },
     goBack() {
       this.$Router.back(1)
-    },
+    }
   },
 }
 </script>
@@ -229,6 +226,7 @@ export default {
               color: #333333;
             }
             .code {
+              font-size: 28rpx;
               color: #999999;
               margin-top: 10rpx;
             }
