@@ -43,7 +43,6 @@ export default {
     ...mapState(["userInfo", "loginPopupShow"]),
   },
   created(){
-    console.log('1111',this.$SITENAME)
   },
   methods: {
     ...mapMutations(['setUserInfo', 'setLoginPopupShow']),
@@ -107,9 +106,9 @@ export default {
   }
   .loginBox {
     padding: 30upx 15upx 40upx 15upx;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    // display: flex;
+    // flex-direction: column;
+    // align-items: center;
     .logo-wrapper{
       display: flex;
       align-items: center;
@@ -121,7 +120,6 @@ export default {
         // border-radius: 20%;
       }
     }
-    
 
     .platformName {
       font-size: 28upx;

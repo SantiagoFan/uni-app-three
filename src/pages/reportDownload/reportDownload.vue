@@ -112,7 +112,7 @@ export default {
     background: #ffffff;
     border-radius: 10rpx;
     &__title {
-      height: 100rpx;
+      // height: 100rpx;
       line-height: 100rpx;
       color: #333333;
       font-size: 34rpx;

@@ -12,9 +12,9 @@
           <view v-if="data.status == 2" class="iconfont icon-dasuozi"></view>
         </view>
         <view class="title" v-if="data.status == 2">锁号成功</view>
-        <view class="title" v-else-if="data.status == 1">预约挂号成功</view>
-        <view class="title" v-else-if="data.status == 3">预约挂号取消成功</view>
-        <view class="title" v-else>已就诊</view>
+        <view class="title" v-if="data.status == 1">预约挂号成功</view>
+        <view class="title" v-if="data.status == 3">预约挂号取消成功</view>
+        <view class="title" v-if="data.status == 4">已就诊</view>
         <view v-if="data.status == 3" class="tag">有退款</view>
         <!-- 锁号成功显示 -->
         <view class="time" v-if="data.status == 2 && timestamp > 0">
@@ -334,7 +334,6 @@ export default {
           let selectDate = this.info.selectDate
 
           let date = moment(selectDate + 'T' + startTime[0])
-          console.log('123123', date.endOf('day'))
           if (this.info.pay_state == 2 && date.isValid()) {
             // if (moment().isBefore(date.subtract(1, 'hours'))) {
             if (moment().isBefore(date.endOf('day'))) {

@@ -27,7 +27,7 @@ export default {
       list: []
     }
   },
-  onShow(){
+  onLoad(){
     this.getDepartment();
   },
   methods:{
@@ -62,13 +62,14 @@ export default {
       position: absolute;
       align-items: center;
       bottom: 50rpx;
-      left: 50%;
+      left: 34%;
       transform: translateX(-50%);
       &-item {
         position: relative;
         color: #ffffff;
         font-weight: bold;
-        font-size: 32rpx;
+        font-size: 36rpx;
+        line-height: 80rpx;
         margin-right: 75rpx;
         &:last-child {
           margin-right: 0;
@@ -106,8 +107,9 @@ export default {
         flex-wrap: wrap;
         margin: -20rpx 0 0 -60rpx;
         .item {
-          font-size: 28rpx;
-          padding: 10rpx;
+          width:42%;
+          font-size: 30rpx;
+          padding: 10rpx 0;
           margin: 20rpx 0 0 60rpx;
         }
       }

@@ -167,7 +167,6 @@ export default {
     },
     getSourceStatus(item) {
       var sourceStatus = ''
-      console.log(item)
       if (item.total_num == 0) {
         sourceStatus = '无'
       } else if (

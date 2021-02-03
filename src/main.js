@@ -7,6 +7,7 @@ import mixin from "@/utils/mixin";
 import api from "@/api/api";
 
 import { http } from "@/utils/http";
+import share from "@/utils/share";
 import { getConfig } from "@/config";
 import auth from "./components/auth/auth.vue";
 import empty from "./components/empty/empty.vue";
@@ -30,6 +31,7 @@ Vue.prototype.API = api;
 Vue.use(uView);
 
 Vue.mixin(mixin);
+Vue.mixin(share);
 
 Vue.config.productionTip = false;
 
