@@ -7,7 +7,7 @@
         <view class="text">选择充值金额</view>
         <view class="amount">
           <view class="amount-text">余额：</view>
-          <view class="amount-price">¥2440.24</view>
+          <view class="amount-price">¥{{ livePatientInfo.remain_total }}</view>
         </view>
       </view>
       <view class="wrap-con__price">
@@ -104,7 +104,8 @@ export default {
       that.$http
         .post(that.API.LIVE_DEPOSIT_ORDER, {
           amount: that.money,
-          live_code: that.livePatientInfo.live_code,
+          live_code: that.livePatientInfo.inpatient_code,
+          patient_code: that.livePatientInfo.patient_code,
         })
         .then((res) => {
           const config = JSON.parse(res.data)
@@ -122,7 +123,7 @@ export default {
                 icon: 'none',
               })
               that.$Router.replace({
-                name: 'payRecord',
+                name: 'livePatientRecord',
               })
             },
             fail: function(err) {

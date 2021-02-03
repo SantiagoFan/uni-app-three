@@ -234,6 +234,12 @@
       :animation="true"
       bg-color="#fff"
     ></u-skeleton>
+    <u-modal
+      v-model="showCancelModal"
+      @confirm="cancelConfirm"
+      title="提示"
+      content="取消成功"
+    ></u-modal>
   </view>
 </template>
 
@@ -257,6 +263,7 @@ export default {
       isCancel: false,
       showModal: false,
       loading: true,
+      showCancelModal: false,
     }
   },
   components: { MyCode },
@@ -419,15 +426,13 @@ export default {
         .post(this.API.CANCEL_REGISTER, { order_no: this.info.order_no })
         .then((res) => {
           if (res.code == 20000) {
-            uni.showToast({
-              title: res.message,
-              duration: 2000,
-              icon: 'none',
-            })
-            this.getOrderDetail()
-            this.getHisDetail()
+            this.showCancelModal = true
           }
         })
+    },
+    cancelConfirm() {
+      this.getOrderDetail()
+      this.getHisDetail()
     },
   },
 }

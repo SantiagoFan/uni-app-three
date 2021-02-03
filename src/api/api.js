@@ -41,7 +41,7 @@ export default {
   SAVE_ANSWER: '/questionnaire/saveAnswer', //保存答案
   REGISTER_RECORD_LIST: '/register/getRecordList', //挂号记录
   SEARCH: '/search/search', //搜索
-  LIVE_PAY_RECORD: '/live_patient/getLivePayRecord', //住院缴费记录
+  LIVE_PAY_RECORD: '/live_deposit_order/getLivePayRecord', //住院缴费记录
   REPORT_LIST: '/report/getReportList', //检验检查报告
   JY_REPORT_DETAIL: '/report/getJyDetail', //检验报告详情
   JC_REPORT_DETAIL: '/report/getJcDetail', //检验报告详情
@@ -62,5 +62,6 @@ export default {
   NEWS_DETAIL: '/news/getNewsDetail', //新闻详情
   EXAMINATION_RECORD: '/examination/getExaminationRecord', //门诊缴费记录
   LIVE_DEPOSIT_RULE: '/live_deposit_order/getRule', //押金缴费规则
-  LIVE_DEPOSIT_ORDER: '/live_deposit_order/payOrder',
+  LIVE_DEPOSIT_ORDER: '/live_deposit_order/payOrder', //押金缴费
+  LIVE_DEPOSIT_ORDER_DETAIL: '/live_deposit_order/getLivePayRecordDetail', //押金缴费记录详情
 }

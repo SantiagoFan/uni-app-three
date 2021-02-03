@@ -6,7 +6,7 @@
           class="item"
           v-for="(item, index) in list"
           :key="index"
-          @click="handleItem"
+          @click="handleItem(item)"
         >
           <view class="icon">
             <text class="iconfont icon-duihao"></text>
@@ -34,55 +34,21 @@ import { mapState } from 'vuex'
 export default {
   data() {
     return {
-      type: '',
       list: [],
     }
-  },
-  watch: {
-    type() {
-      let title
-      switch (this.type) {
-        case 0:
-          title = '门诊缴费记录'
-          break
-        case 1:
-          title = '诊间支付缴费记录'
-          break
-        default:
-          break
-      }
-      uni.setNavigationBarTitle({
-        title: title,
-      })
-    },
   },
   computed: {
     ...mapState(['patientInfo']),
   },
   onLoad() {
-    // 从我的跳转过来 type: 0、门诊缴费记录 1、诊间支付缴费记录 2、住院缴费记录
-    this.type = this.$Route.query.type
     this.getList()
   },
   methods: {
-    handleItem() {
-      const { type } = this
-      let url
-      switch (type) {
-        case 0:
-          url = '/pages/clinicPayDetail/clinicPayDetail'
-          break
-        case 1:
-          url = '/pages/payRecordDetail/payRecordDetail'
-          break
-        case 2:
-          url = '/pages/paymentDetail/paymentDetail'
-          break
-        default:
-          url = '/pages/clinicPayDetail/clinicPayDetail'
-          break
-      }
-      this.$Router.push({ name: url })
+    handleItem(item) {
+      this.$Router.push({
+        name: 'clinicPayDetail',
+        params: { payDetail: item },
+      })
     },
     getList() {
       this.$http

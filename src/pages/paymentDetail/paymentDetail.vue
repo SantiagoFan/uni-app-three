@@ -34,11 +34,11 @@
           </view>
           <view class="cell">
             <view class="cell-label">住院号</view>
-            <view class="cell-con">没写</view>
+            <view class="cell-con">{{ info.zyh }}</view>
           </view>
           <view class="cell">
             <view class="cell-label">就诊卡号</view>
-            <view class="cell-con">没写</view>
+            <view class="cell-con">{{ data.patient_code }}</view>
           </view>
           <view class="cell">
             <view class="cell-label">医院单号</view>
@@ -46,11 +46,11 @@
           </view>
           <view class="cell">
             <view class="cell-label">平台单号</view>
-            <view class="cell-con">没写</view>
+            <view class="cell-con">{{ detail.order_no }}</view>
           </view>
           <view class="cell">
             <view class="cell-label">支付流水号</view>
-            <view class="cell-con">没写</view>
+            <view class="cell-con">{{ detail.transaction_no }}</view>
           </view>
           <view class="cell">
             <view class="cell-label">支付时间</view>
@@ -69,15 +69,27 @@ export default {
       codeIndex: 0,
       payDetailShow: true,
       info: {},
+      detail: {},
     }
   },
   onLoad() {
     this.info = this.$Route.query.livePatientRecordInfo
+    if (this.info) {
+      this.getDetail()
+    }
   },
   methods: {
     // 点击缴费详情
     handleBt() {
       this.payDetailShow = !this.payDetailShow
+    },
+    getDetail() {
+      this.$http.post(this.API.LIVE_DEPOSIT_ORDER_DETAIL, {
+        inner_trade_no: this.info.inner_trade_no,
+      }),
+        then((res) => {
+          this.detail = res.data
+        })
     },
   },
 }
