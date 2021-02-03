@@ -72,7 +72,7 @@ export default {
     },
     //关闭弹窗
     closePopup() {
-      // this.setLoginPopupShow(false);
+      this.setLoginPopupShow(false);
     },
   },
 };

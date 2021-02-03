@@ -202,6 +202,7 @@
         >
       </view>
     </u-popup>
+
   </view>
 </template>
 
@@ -259,14 +260,18 @@ export default {
     this.getPatientList()
   },
   onLoad(options) {
+
+    if (!this.$store.state.userInfo) {
+      this.$store.dispatch("login")
+    }
+
     if (this.patientInfo) {
       this.patient_code = this.patientInfo.patient_code
       this.patient_name = this.patientInfo.name
     }
-    if(options.doctor_id){//从分享进来
-      this.doctor_id=options.doctor_id
-      this.department_id=options.department_id
-    }else if(this.$Route.query){
+    console.log('options',options) 
+    console.log('query',this.$Route.query) 
+    if(this.$Route.query.doctor_id){
       this.doctor_id = this.$Route.query.doctor_id
       this.department_id = this.$Route.query.department_id
     }else{
@@ -490,21 +495,22 @@ export default {
           }
         })
     },
+    getShareObj(){
+      let obj={
+        title: this.model.doctor_name,
+        path:'/pages/doctor/doctorDetail?query=' +encodeURIComponent(JSON.stringify(this.$Route.query)),
+        // imageUrl:this.model.Doctor_head||(basepath + '/static/wx/doctor.jpg')
+      }
+      console.log('shareobj',obj)
+      return obj
+    },
     onShareAppMessage(res) {
       if (res.from === 'button') {
         // 来自页面内分享按钮
         console.log(res.target)
       }
-      return {
-        title: this.model.doctor_name,
-        path:
-          '/pages/doctor/doctorDetail?doctor_id=' +
-          this.model.doctor_id +
-          '&department_id=' +
-          this.model.department_id,
-        // imageUrl:this.model.Doctor_head||(basepath + '/static/wx/doctor.jpg')
-      }
-    },
+      return this.getShareObj()
+    }
   },
 }
 </script>

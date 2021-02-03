@@ -17,6 +17,7 @@
         </view>
       </view>
     </view>
+    <auth></auth>
   </view>
 </template>
 
