@@ -316,6 +316,7 @@ export default {
   font-size: 30rpx;
   color: #666666;
   margin-left: 10rpx;
+  width: 100%;
 }
 .u-tab-view {
   flex: 1;

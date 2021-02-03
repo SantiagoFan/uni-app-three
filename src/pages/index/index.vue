@@ -160,7 +160,7 @@
             :size="390"
             icon="/static/image/logo.png"
             :loadMake="true"
-            :show-loading="false"
+            :show-loading="true"
           />
           <!-- <view class="nohealth" @click="refresh" v-if="!patientInfo.ehealth_code">点击刷新健康卡号</view> -->
           <!-- <image class="img" mode="aspectFill" src="@/static/image/code1.jpg" /> -->
