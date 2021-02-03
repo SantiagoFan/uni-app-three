@@ -31,6 +31,7 @@
             </view>
           </view>
         </view>
+        <empty></empty>
       </view>
     </view>
   </view>
@@ -38,7 +39,9 @@
 
 <script>
 import { mapState } from 'vuex'
+import empty from '../../components/empty/empty.vue'
 export default {
+  components: { empty },
   data() {
     return {
       list: [],

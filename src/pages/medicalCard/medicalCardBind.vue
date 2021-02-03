@@ -1,7 +1,9 @@
 <template>
   <view class="container">
     <view class="wrap">
-      <view class="wrap__massage">温馨提示：<br>本院实行实名制就诊，请如实填写就诊人信息，<br>如因信息错误产生的一切后果自行负责。</view>
+      <view class="wrap__massage"
+        >温馨提示：<br />本院实行实名制就诊，请如实填写就诊人信息，<br />如因信息错误产生的一切后果自行负责。</view
+      >
       <form @submit="formSubmit">
         <view class="wrap__con">
           <view class="wrap__con-art">
@@ -15,7 +17,7 @@
                   v-model="name"
                   placeholder="请输入姓名"
                   placeholder-class="placr_style"
-                >
+                />
               </view>
             </view>
             <view class="wrap__con-art-item">
@@ -29,7 +31,7 @@
                   v-model="idcard"
                   placeholder="请输入身份证号"
                   placeholder-class="placr_style"
-                >
+                />
               </view>
             </view>
           </view>
@@ -43,7 +45,7 @@
                   name="patient_code"
                   placeholder="请输入就诊卡号"
                   placeholder-class="placr_style"
-                >
+                />
               </view>
             </view>
             <view class="wrap__con-art-item">
@@ -57,7 +59,7 @@
                   v-model="phone"
                   placeholder="请输入手机号"
                   placeholder-class="placr_style"
-                >
+                />
               </view>
             </view>
           </view>
@@ -69,79 +71,83 @@
 </template>
 
 <script>
-import { isMobile } from "@/utils/common.js";
-import { isCardNo } from "@/utils/checkIdcard.js";
+import { isMobile } from '@/utils/common.js'
+import { isCardNo } from '@/utils/checkIdcard.js'
 export default {
-  data(){
-    return{
+  data() {
+    return {
       name: '',
       phone: '',
       idcard: '',
-      flag: false
+      flag: false,
     }
   },
-  onShow(){
-    var obj = uni.getStorageSync('patientInfo');
-    if(obj){
-      this.name = obj.name;
-      this.phone = obj.phone;
-      this.idcard = obj.idcard;
-    };
+  onShow() {
+    var obj = uni.getStorageSync('patientInfo')
+    if (obj) {
+      this.name = obj.name
+      this.phone = obj.phone
+      this.idcard = obj.idcard
+    }
   },
   methods: {
     formSubmit(e) {
-      var data = e.detail.value;
-      if(data['name'].trim()==''){
+      var data = e.detail.value
+      if (data['name'].trim() == '') {
         uni.showToast({
           title: '请输入姓名',
           duration: 2000,
-          icon:'none',
-        });
-        return false;
+          icon: 'none',
+        })
+        return false
       }
-      if(!isCardNo(data['idcard'])){
-				uni.showToast({
-					title: "身份证号有误",
-					icon: "none"
-				});
-				return false;
+      if (!isCardNo(data['idcard'])) {
+        uni.showToast({
+          title: '身份证号有误',
+          icon: 'none',
+        })
+        return false
       }
-      if(data['patient_code'].trim()==''){
+      if (data['patient_code'].trim() == '') {
         uni.showToast({
           title: '请输入院内卡号',
           duration: 2000,
-          icon:'none',
-        });
-        return false;
+          icon: 'none',
+        })
+        return false
       }
-      if(!isMobile(data['phone'])){
-				uni.showToast({
-					title: "手机号码有误",
-					icon: "none"
-				});
-				return false;
+      if (!isMobile(data['phone'])) {
+        uni.showToast({
+          title: '手机号码有误',
+          icon: 'none',
+        })
+        return false
       }
-      if(this.flag){
+      if (this.flag) {
         return false
       }
       this.flag = true
-      this.$http.post(this.API.BIND_PATIENT,data).then(res=>{
-        uni.showToast({
-          title: res.message,
-          duration: 2000,
-          icon:'none',
-        });
-        if(res.code==20000){
-          // uni.setStorageSync('patientInfo', res.data)
-          this.$store.commit('setPatientInfo', res.data)
-          setTimeout(()=>{
-            this.$Router.replaceAll('/pages/index/index')
-          },1000)
-        }
-      }).finally(res=>{
-        this.flag = false
-      })
-    }
+      this.$http
+        .post(this.API.BIND_PATIENT, data)
+        .then((res) => {
+          uni.showToast({
+            title: res.message,
+            duration: 2000,
+            icon: 'none',
+          })
+          if (res.code == 20000) {
+            // uni.setStorageSync('patientInfo', res.data)
+            this.$store.commit('setPatientInfo', res.data)
+            this.$store.dispatch('loadPatientList', true)
+            setTimeout(() => {
+              this.$Router.back(1)
+            }, 1000)
+          }
+        })
+        .finally((res) => {
+          this.flag = false
+        })
+    },
   },
 }
 </script>
@@ -207,5 +213,4 @@ export default {
     }
   }
 }
-
 </style>

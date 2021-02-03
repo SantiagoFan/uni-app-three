@@ -173,15 +173,17 @@
           </view>
           <view class="order-wrap__info-con">
             <view class="bt">请选择就诊人</view>
-            <view class="info" v-if="patient_name"
-              >({{ patient_name }} 卡号:{{ patient_code }})</view
+            <view class="info" v-if="patientInfo"
+              >({{ patientInfo.patient_name }} 卡号:{{
+                patientInfo.patient_code
+              }})</view
             >
             <view class="list">
-              <template v-if="patient_code">
+              <template v-if="patientInfo">
                 <view
                   :class="[
                     'item',
-                    { active: patient_code == item.patient_code },
+                    { active: patientInfo.patient_code == item.patient_code },
                   ]"
                   v-for="(item, index) in patientList"
                   :key="index"
@@ -196,8 +198,8 @@
           </view>
         </view>
         <view
-          :class="['order-wrap__btn', { active: patient_code }]"
-          @click="patient_code && createOrder()"
+          :class="['order-wrap__btn', { active: patientInfo }]"
+          @click="patientInfo && createOrder()"
           >确认挂号</view
         >
       </view>
@@ -211,7 +213,7 @@ import { mapState } from 'vuex'
 import moment from 'moment'
 import dhImage from '@/components/dh-image/dh-image.vue'
 import { weekList, fillWeek } from '@/utils/week.js'
-import login from "@/utils/login";
+import login from '@/utils/login'
 
 export default {
   data() {
@@ -229,7 +231,6 @@ export default {
       list: [],
       time: '',
       timeStatus: '',
-      patientList: [],
       isShow: false,
       schemeList: [],
       week: weekList(),
@@ -237,18 +238,16 @@ export default {
       postLock: false,
       hasSource: 0,
       price: 0,
-      patient_code: 0,
       count: 0, //可添加的就诊人数
       schemeIndex: 0,
       scheme: [],
-      patient_name: '',
       is_collect: false,
     }
   },
   components: { dhImage },
 
   computed: {
-    ...mapState(['patientInfo']),
+    ...mapState(['patientInfo', 'patientList']),
     dateStr() {
       return (
         this.selectDate +
@@ -258,28 +257,25 @@ export default {
     },
   },
   onShow() {
-    this.getPatientList()
+    this.$store.dispatch('loadPatientList', false)
   },
-  onLoad(options) {
-
+  onLoad() {
     login.checkLogin()
 
-    if (this.patientInfo) {
-      this.patient_code = this.patientInfo.patient_code
-      this.patient_name = this.patientInfo.name
-    }
-    console.log('options',options) 
-    console.log('query',this.$Route.query) 
-    if(this.$Route.query.doctor_id){
+    // if (this.patientInfo) {
+    //   this.patient_code = this.patientInfo.patient_code
+    //   this.patient_name = this.patientInfo.name
+    // }
+    if (this.$Route.query.doctor_id) {
       this.doctor_id = this.$Route.query.doctor_id
       this.department_id = this.$Route.query.department_id
-    }else{
+    } else {
       uni.showToast({
-        title: "暂无医生信息",
+        title: '暂无医生信息',
         duration: 2000,
         icon: 'none',
       })
-      return;
+      return
     }
 
     if (this.$Route.query.date) {
@@ -418,12 +414,6 @@ export default {
       this.orderPopupStatus = true
       this.schemeIndex = index
     },
-    getPatientList() {
-      this.$http.post(this.API.PATIENT_LIST, {}, false).then((res) => {
-        this.patientList = res.data
-        this.count = res.count
-      })
-    },
     addPatient() {
       this.$Router.push({ name: 'medicalCardLogin' })
     },
@@ -441,13 +431,14 @@ export default {
         doctor_name: this.model.doctor_name,
         selectDate: this.selectDate,
         time: this.time,
-        patient_name: this.patient_name,
+        patient_name: this.patientInfo.patient_name,
         scheme_id: this.scheme[scheme_id_index]['scheme_id'],
         serisl_number: schemeInfo[serisl_number_index]['serisl_number'],
-        patient_code: this.patient_code,
+        patient_code: this.patientInfo.patient_code,
         doctor_id: this.model.doctor_id,
         department_id: this.model.department_id,
         doctor_professional: this.model.professional,
+        doctor_head: this.model.doctor_head,
       }
       this.$http.post(this.API.CREATE_REGISTER, params).then((res) => {
         if (res.code == 20000) {
@@ -480,7 +471,6 @@ export default {
       return time.replace('--', '~')
     },
     changePatient(index) {
-      this.patient_code = this.patientList[index]['patient_code']
       this.patient_name = this.patientList[index]['name']
       this.choicePatient(this.patientList[index]['id'])
     },
@@ -494,13 +484,15 @@ export default {
           }
         })
     },
-    getShareObj(){
-      let obj={
+    getShareObj() {
+      let obj = {
         title: this.model.doctor_name,
-        path:'/pages/doctor/doctorDetail?query=' +encodeURIComponent(JSON.stringify(this.$Route.query)),
+        path:
+          '/pages/doctor/doctorDetail?query=' +
+          encodeURIComponent(JSON.stringify(this.$Route.query)),
         // imageUrl:this.model.Doctor_head||(basepath + '/static/wx/doctor.jpg')
       }
-      console.log('shareobj',obj)
+      console.log('shareobj', obj)
       return obj
     },
     onShareAppMessage(res) {
@@ -509,7 +501,7 @@ export default {
         console.log(res.target)
       }
       return this.getShareObj()
-    }
+    },
   },
 }
 </script>
