@@ -202,7 +202,7 @@
         >
       </view>
     </u-popup>
-
+    <auth></auth>
   </view>
 </template>
 
@@ -211,6 +211,7 @@ import { mapState } from 'vuex'
 import moment from 'moment'
 import dhImage from '@/components/dh-image/dh-image.vue'
 import { weekList, fillWeek } from '@/utils/week.js'
+import login from "@/utils/login";
 
 export default {
   data() {
@@ -261,9 +262,7 @@ export default {
   },
   onLoad(options) {
 
-    if (!this.$store.state.userInfo) {
-      this.$store.dispatch("login")
-    }
+    login.checkLogin()
 
     if (this.patientInfo) {
       this.patient_code = this.patientInfo.patient_code
