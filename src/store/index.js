@@ -9,10 +9,15 @@ export default new Vuex.Store({
   state: {
     userInfo: null,
     loginPopupShow: false,
-    patientInfo: null,
-    livePatientInfo: null,
-    patientList: [],
-    patientListLoad: false, //是否已完成加载
+    // 就诊人
+    patientList: [], // 就诊人列表
+    patientListLoad: false, //是否已完成加载就诊人
+    patientInfo: null,// 默认就诊人
+    // 住院人
+    livePatientInfo: null, //默认住院人列表
+    livePatientList:[],// 住院人列表
+    livePatientCount:0,//剩余可添加人数
+    livePatientListLoad:false
   },
   getters: {
     getToken() {
@@ -40,6 +45,10 @@ export default new Vuex.Store({
     setPatientList(state, data) {
       state.patientList = data
       state.patientListLoad = true
+    },
+    setLivePatientList(state, data) {
+      state.livePatientList = data
+      state.livePatientListLoad = true
     },
   },
   actions: {
@@ -110,6 +119,7 @@ export default new Vuex.Store({
         console.log('打开授权弹框')
       }
     },
+    // 加载就诊人
     loadPatientList({ state, commit }, isUpdate) {
       //加载完不重新加载 isUpdate 强制更新标识
       if (state.patientListLoad && !isUpdate) {
@@ -117,6 +127,17 @@ export default new Vuex.Store({
       }
       http.post(api.PATIENT_LIST).then((res) => {
         commit('setPatientList', res.data)
+      })
+    },
+    // 加载住院人
+    loadLivePatientList({ state, commit }, isUpdate) {
+      //加载完不重新加载 isUpdate 强制更新标识
+      if (state.livePatientListLoad && !isUpdate) {
+        return
+      }
+      http.post(api.LIVE_PAATIENT_LIST).then((res) => {
+        commit('setLivePatientList', res.data)
+        commit('setLivePatientCount', res.count)
       })
     },
   },

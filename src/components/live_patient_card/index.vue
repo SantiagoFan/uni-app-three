@@ -1,57 +1,29 @@
 <template>
   <view class="container">
     <view class="wrap">
-      <view class="wrap__massage" v-if="showMessage">
-        温馨提示：<br />暂时不支持医保卡看病，持有医保卡的用户请到前台直接办理手续。
-      </view>
-      <!-- 正常样式 -->
-      <view v-if="theme == 'normal'" class="wrap__user">
-        <!-- 已经存在就诊人 -->
-        <view class="info" v-if="patientInfo">
-          <view class="title">
-            <view class="name">{{ getName(patientInfo) }}</view>
-          </view>
-          <view class="code">院内诊疗号：{{ patientInfo.patient_code }}</view>
-        </view>
-        <view class="switch" v-if="patientInfo" @click="handleChoose"
-          >切换就诊人</view
-        >
-        <!-- 添加就诊人 -->
-        <view class="add_btn" v-if="!patientInfo" @click="addPatient">
-          <view class="add_btn__icon">
-            <text class="iconfont icon-add-fill"></text>
-          </view>
-          <view class="add_btn__text">添加就诊卡</view>
-        </view>
-      </view>
-      <!-- 图形样式 -->
-      <view v-else class="index-wrap__user">
-        <view class="index-wrap__user-info">
-          <view v-if="patientInfo">
+      <!-- 已经存在住院人 -->
+      <view class="wrap-user" v-if="livePatientInfo">
+        <view class="item">
+          <view class="info">
             <view class="title">
-              <view class="name" @click="showPatient()">{{
-                getName(patientInfo)
-              }}</view>
-              <view class="tag" @click="showPatient()">电子就诊卡</view>
-              <view @click.stop="handleChoose" class="check">切换</view>
+              <view class="name">{{ getName(livePatientInfo) }}</view>
             </view>
-            <view class="code" @click="showPatient()"
-              >诊疗号：{{ patientInfo.patient_code }}</view
-            >
+            <view class="code">住院号：{{ livePatientInfo.patient_code }}</view>
           </view>
-          <view @click.stop="addPatient" class="add_btn" v-else>
-            <view class="add_btn__icon">
-              <text class="iconfont icon-add-fill"></text>
-            </view>
-            <view class="add_btn__text">添加就诊卡</view>
-          </view>
+          <view class="check" @click="handleChoose">切换住院人</view>
         </view>
-        <view class="index-wrap__user-pic">
-          <image
-            class="img"
-            mode="widthFix"
-            src="@/static/image/index_rw.png"
-          />
+      </view>
+       <!-- 添加就诊人 -->
+      <view v-else class="patient-m__add" @click="addLivePatient">
+        <view class="patient-m__add-icon">
+          <text class="iconfont icon-jiahao"></text>
+        </view>
+        <view class="patient-m__add-info">
+          <view class="tit">添加住院人</view>
+          <view class="sub">还可添加{{ count }}人</view>
+        </view>
+        <view class="patient-m__add-arrow">
+          <text class="iconfont icon-arrowb"></text>
         </view>
       </view>
     </view>
@@ -63,13 +35,13 @@
       @close="handleChooseClose"
     >
       <view class="check-wrap">
-        <view class="check-wrap__title">切换就诊人</view>
+        <view class="check-wrap__title">切换住院人</view>
         <view class="check-wrap__con">
           <view class="list">
             <view
-              :class="['item', item.id == patientInfo.id ? 'active' : '']"
+              :class="['item', item.id == livePatientInfo.id ? 'active' : '']"
               @click="choicePatient(item.id)"
-              v-for="(item, index) in patientList"
+              v-for="(item, index) in livePatientList"
               :key="index"
             >
               <view class="info">
@@ -83,8 +55,8 @@
           </view>
         </view>
         <view class="check-wrap__btn">
-          <view class="item" @click="addPatient">添加就诊人</view>
-          <view class="item" @click="managePatient">管理就诊人</view>
+          <view class="item" @click="addLivePatient">添加住院人</view>
+          <view class="item" @click="manageLivePatient">管理住院人</view>
         </view>
       </view>
     </u-popup>
@@ -93,33 +65,25 @@
       v-model="showModal"
       title="提示"
       :show-cancel-button="true"
-      @confirm="addPatient"
+      @confirm="addLivePatient"
       @cancel="goBack"
-      content="未添加就诊人,请添加后重试"
+      content="未添加住院人人,请添加后重试"
     ></u-modal>
   </view>
 </template>
 <script>
 import { mapState } from 'vuex'
 export default {
-  name: 'PatientCard',
+  name: 'LivePatientCard',
   computed: {
-    ...mapState(['patientList', 'patientInfo']),
+    ...mapState(['livePatientList', 'livePatientInfo']),
   },
   props: {
-    // 强制检查 必须存在就诊卡
-    needPatient: {
+    // 强制检查 必须存在住院人
+    needLivePatient: {
       type: Boolean,
       default: false,
-    },
-    showMessage: {
-      type: Boolean,
-      default: true,
-    },
-    theme: {
-      type: String,
-      default: 'normal',
-    },
+    }
   },
   data() {
     return {
@@ -128,11 +92,11 @@ export default {
     }
   },
   mounted() {
-    this.checkPatient()
+    this.checkLivePatient()
   },
   methods: {
-    checkPatient() {
-      if (this.needPatient && this.patientInfo == null) {
+    checkLivePatient() {
+      if (this.needLivePatient && this.livePatient == null) {
         this.showModal = true
       }
     },
@@ -150,32 +114,31 @@ export default {
     handleChoose() {
       this.show = true
       uni.hideTabBar()
-      this.$store.dispatch('loadPatientList', false)
+      this.$store.dispatch('loadLivePatientList', false)
     },
     handleChooseClose() {
       uni.showTabBar()
     },
-    addPatient() {
+    addLivePatient() {
       this.$Router.push({ name: 'medicalCardLogin' })
     },
-    managePatient() {
+    manageLivePatient() {
       this.$Router.push({ name: 'patientAdd' })
     },
-    choicePatient(id) {
+    choiceLivePatient(id) {
       this.$http
         .post(this.API.CHANGE_DEFAULT_PATIENT, { id: id })
         .then((res) => {
           if (res.code == 20000) {
-            this.$store.commit('setPatientInfo', res.data)
+            this.$store.commit('setLivePatientInfo', res.data)
             this.show = false
           }
         })
     },
-    showPatient() {
-      console.info('showPatient')
+    showLivePatient() {
       this.$Router.push({
-        name: 'patientDetail',
-        params: { idcard: this.patientInfo.idcard },
+        name: 'myResidentDetail',
+        params: { patient_code: this.livePatientInfo.patient_code },
       })
     },
     goBack() {
@@ -192,12 +155,6 @@ export default {
     flex: 1;
     padding: 0rpx 20rpx;
     overflow-y: auto;
-    &__massage {
-      color: #0ec698;
-      font-size: 26rpx;
-      padding: 20rpx;
-      letter-spacing: 1rpx;
-    }
     &__user {
       position: relative;
       display: flex;
@@ -264,87 +221,6 @@ export default {
         }
         &__text {
           font-size: 32rpx;
-        }
-      }
-    }
-    .index-wrap__user {
-      display: flex;
-      align-items: center;
-      position: absolute;
-      top: -80rpx;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 680rpx;
-      height: 160rpx;
-      padding: 0 25rpx;
-      border-radius: 20rpx;
-      box-shadow: 0 10rpx 12rpx rgba($color: #61b47c, $alpha: 0.2);
-      background: #ffffff url('@/static/image/box_bg.png') no-repeat 18rpx 18rpx;
-      background-size: 250rpx;
-      &-info {
-        color: #0ec698;
-        font-size: 24rpx;
-        .add_btn {
-          display: inline-flex;
-          align-items: center;
-          height: 82rpx;
-          padding: 0 30rpx;
-          color: #0ec698;
-          border: 1rpx solid #0ec698;
-          border-radius: 20rpx;
-          &__icon {
-            margin-right: 20rpx;
-            .iconfont {
-              font-size: 45rpx;
-            }
-          }
-          &__text {
-            font-size: 32rpx;
-          }
-        }
-        .title {
-          display: flex;
-          align-items: center;
-          margin-bottom: 20rpx;
-          .name {
-            max-width: 128rpx;
-            font-size: 33rpx;
-            font-weight: bold;
-            word-wrap: break-word;
-            display: -webkit-box;
-            -webkit-box-orient: vertical;
-            -webkit-line-clamp: 1;
-            overflow: hidden;
-          }
-          .tag {
-            height: 32rpx;
-            line-height: 32rpx;
-            font-size: 20rpx;
-            margin: 0 25rpx;
-            padding: 0 10rpx;
-            border: 1rpx solid #0ec698;
-            border-radius: 10rpx;
-          }
-          .check {
-            width: 92rpx;
-            height: 40rpx;
-            line-height: 40rpx;
-            text-align: center;
-            color: #ffffff;
-            background: #0fd1a1;
-            border-radius: 20rpx;
-          }
-        }
-      }
-      &-pic {
-        position: absolute;
-        bottom: 0;
-        right: 0;
-        width: 280rpx;
-        .img {
-          width: 100%;
-          height: auto;
-          display: block;
         }
       }
     }
