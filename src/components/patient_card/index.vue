@@ -5,7 +5,7 @@
         温馨提示：<br />暂时不支持医保卡看病，持有医保卡的用户请到前台直接办理手续。
       </view>
       <!-- 正常样式 -->
-      <view v-if="theme == 'normal'" class="wrap__user">
+      <view v-if="theme == 'normal' && patientInfo" class="wrap__user">
         <!-- 已经存在就诊人 -->
         <view class="info" v-if="patientInfo">
           <view class="title">
@@ -17,15 +17,15 @@
           >切换就诊人</view
         >
         <!-- 添加就诊人 -->
-        <view class="add_btn" v-if="!patientInfo" @click="addPatient">
+        <!-- <view class="add_btn" v-if="!patientInfo" @click="addPatient">
           <view class="add_btn__icon">
             <text class="iconfont icon-add-fill"></text>
           </view>
           <view class="add_btn__text">添加就诊卡</view>
-        </view>
+        </view> -->
       </view>
       <!-- 图形样式 -->
-      <view v-else class="index-wrap__user">
+      <view v-if="theme =='card'" class="index-wrap__user">
         <view class="index-wrap__user-info">
           <view v-if="patientInfo">
             <view class="title">
