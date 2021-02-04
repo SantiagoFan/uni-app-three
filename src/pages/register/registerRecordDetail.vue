@@ -15,7 +15,9 @@
         <view class="title" v-if="data.status == 1">预约挂号成功</view>
         <view class="title" v-if="data.status == 3">预约挂号取消成功</view>
         <view class="title" v-if="data.status == 4">已就诊</view>
-        <view v-if="data.status == 3" class="tag">有退款</view>
+        <view v-if="data.status == 3 && info.pay_state == 4" class="tag"
+          >有退款</view
+        >
         <!-- 锁号成功显示 -->
         <view class="time" v-if="data.status == 2 && timestamp > 0">
           <u-count-down

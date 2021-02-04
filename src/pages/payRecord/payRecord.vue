@@ -31,8 +31,8 @@
             </view>
           </view>
         </view>
-        <empty></empty>
       </view>
+      <empty v-if="list.length == 0"></empty>
     </view>
   </view>
 </template>
