@@ -51,7 +51,9 @@ export default {
     ...mapState(['patientInfo']),
   },
   onLoad() {
-    this.getList()
+    if (this.patientInfo) {
+      this.getList()
+    }
   },
   methods: {
     handleItem(item) {

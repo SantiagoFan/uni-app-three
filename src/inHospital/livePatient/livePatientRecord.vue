@@ -24,6 +24,7 @@
             </view>
           </view>
         </view>
+        <empty v-if="list.length == 0"></empty>
       </view>
     </view>
   </view>
@@ -31,7 +32,9 @@
 
 <script>
 import { mapState } from 'vuex'
+import empty from '../../components/empty/empty.vue'
 export default {
+  components: { empty },
   data() {
     return {
       list: [],
@@ -41,7 +44,9 @@ export default {
     ...mapState(['livePatientInfo']),
   },
   onLoad() {
-    this.getList()
+    if (this.livePatientInfo) {
+      this.getList()
+    }
   },
   methods: {
     getList() {

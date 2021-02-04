@@ -99,6 +99,15 @@
         "navigationBarTextStyle": "#ffffff"
       }
     },
+    {
+      "path": "pages/nucleicAcid/nucleicAcid",
+      "name": "nucleicAcid",
+      "style": {
+        "navigationBarTitleText": "核酸检测",
+        "navigationBarBackgroundColor": "#0ec698",
+        "navigationBarTextStyle": "#ffffff"
+      }
+    },
     
     {
       "path": "pages/clinicPayDetail/clinicPayDetail",
