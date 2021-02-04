@@ -33,7 +33,7 @@
       <view class="fot-box__total">
         <text class="text">总额：</text>
         <text class="price">￥{{ amount }}</text>
-        <text>111111</text>
+        <text></text>
       </view>
       <view class="fot-box__btn active" @click="createOrder">
         <text class="text">去缴费</text>
