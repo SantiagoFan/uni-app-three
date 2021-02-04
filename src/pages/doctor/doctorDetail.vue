@@ -495,21 +495,26 @@ export default {
         })
     },
     getShareObj() {
+      
       let obj = {
         title: this.model.doctor_name,
-        path:
-          '/pages/doctor/doctorDetail?query=' +
-          encodeURIComponent(JSON.stringify(this.$Route.query)),
+        path:'/pages/doctor/doctorDetail?query=' + encodeURIComponent(JSON.stringify(this.$Route.query)),
         // imageUrl:this.model.Doctor_head||(basepath + '/static/wx/doctor.jpg')
       }
       console.log('shareobj', obj)
       return obj
     },
     onShareAppMessage(res) {
+      uni.showLoading({
+        title: '正在分享..',
+      })
       if (res.from === 'button') {
         // 来自页面内分享按钮
         console.log(res.target)
       }
+      setTimeout(()=>{
+        uni.hideLoading();
+      },2000)
       return this.getShareObj()
     },
   },

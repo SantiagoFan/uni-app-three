@@ -13,7 +13,7 @@
             <dh-image
               class="img"
               mode="aspectFill"
-              :src="item.doctor_head"
+              :src="item.headimg"
               :inHis='true'
               errorSrc="doctor.jpg"
             ></dh-image>

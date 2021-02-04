@@ -1,17 +1,16 @@
 <template>
   <view class="wrap">
-    <view class="wrap-head">
+    <view class="wrap-head" >
       <view class="wrap-head__art1">
         <view class="title">{{ model.name }}</view>
-        <view class="date"
-          >有效期：{{ model.start_time }} 至 {{ model.end_time }}</view
+        <view class="date" v-if='model.start_time'>有效期：{{ model.start_time }} 至 {{ model.end_time }}</view
         >
       </view>
       <view class="wrap-head__art2">
         <view class="title" v-if="model.description">{{
           model.description
         }}</view>
-        <view class="subt">发布单位：{{ model.author }}</view>
+        <view class="subt" v-if='model.author'>发布单位：{{ model.author }}</view>
       </view>
     </view>
     <form @submit="formSubmit">
@@ -26,6 +25,7 @@
               type="textarea"
               v-model="item.answer"
               name="answer"
+              :custom-style="{fontSize:'32rpx'}"
               :height="60"
               :placeholder="'请在此输入（最多' + item.description + '字）'"
             />
@@ -34,8 +34,8 @@
             <u-radio-group
               v-model="item.answer"
               :wrap="true"
-              :size="35"
-              :icon-size="24"
+              :size="38"
+              :icon-size="30"
             >
               <u-radio
                 v-for="(obj, index1) in item.editredios"
@@ -48,7 +48,7 @@
             </u-radio-group>
           </view>
           <view class="radio-list" v-else>
-            <u-checkbox-group @change="checkboxGroupChange">
+            <u-checkbox-group @change="checkboxGroupChange" :size="38">
               <u-checkbox
                 v-model="obj.checked"
                 v-for="(obj, index1) in item.editredios"
@@ -173,12 +173,12 @@ export default {
       border-bottom: 1rpx solid #dfdfdf;
       .title {
         color: #333333;
-        font-size: 34rpx;
+        font-size: 36rpx;
         font-weight: bold;
       }
       .date {
         color: #898989;
-        font-size: 24rpx;
+        font-size: 28rpx;
         margin-top: 20rpx;
       }
     }
@@ -188,11 +188,11 @@ export default {
       padding: 30rpx 0;
       .title {
         color: #484848;
-        font-size: 28rpx;
+        font-size: 30rpx;
       }
       .subt {
         color: #a8a8a8;
-        font-size: 24rpx;
+        font-size: 28rpx;
         margin-top: 20rpx;
       }
     }
@@ -210,7 +210,7 @@ export default {
       .label {
         position: relative;
         color: #484848;
-        font-size: 28rpx;
+        font-size: 36rpx;
         &.active::before {
           display: inline-block;
           margin-right: 4rpx;
@@ -224,7 +224,7 @@ export default {
       .radio-list {
         margin-top: 20rpx;
         &::v-deep .u-radio {
-          line-height: 2.2;
+          line-height: 2.8;
         }
         &::v-deep .u-radio__label {
           margin-left: 20rpx;
@@ -232,15 +232,15 @@ export default {
       }
       .textarea {
         margin-top: 30rpx;
-        font-size: 26rpx;
+        font-size: 34rpx;
       }
     }
   }
   &-btn {
-    height: 80rpx;
-    line-height: 80rpx;
+    height: 90rpx;
+    line-height: 90rpx;
     color: #ffffff;
-    font-size: 30rpx;
+    font-size: 36rpx;
     text-align: center;
     margin-top: 30rpx;
     background: #0ec698;

@@ -162,14 +162,14 @@ export default {
       this.$Router.push({ name: 'patientAdd' })
     },
     choicePatient(id) {
-      this.$http
-        .post(this.API.CHANGE_DEFAULT_PATIENT, { id: id })
-        .then((res) => {
+      if(id!=this.patientInfo.id){
+        this.$http.post(this.API.CHANGE_DEFAULT_PATIENT, { id: id }).then((res) => {
           if (res.code == 20000) {
             this.$store.commit('setPatientInfo', res.data)
             this.show = false
           }
         })
+      }
     },
     showPatient() {
       console.info('showPatient')
@@ -190,7 +190,7 @@ export default {
   flex-direction: column;
   .wrap {
     flex: 1;
-    padding: 0rpx 20rpx;
+    // padding: 0rpx 20rpx;
     overflow-y: auto;
     &__massage {
       color: #0ec698;
