@@ -14,7 +14,9 @@
               <text class="iconfont icon-duihao2"></text>
             </view>
             <view class="item-sta__con">
-              <view class="item-sta__con-title">检查项目名称</view>
+              <view class="item-sta__con-title">
+                {{ item.category | getCategory }}
+              </view>
               <view class="item-sta__con-list">
                 <view
                   class="cell"
@@ -67,6 +69,21 @@ export default {
       this.getExamination()
       this.getSuccessRegister()
     }
+  },
+  filters: {
+    getCategory(category) {
+      console.log(category)
+      switch (category) {
+        case '1':
+          return '处方项目'
+        case '2':
+          return '检验项目'
+        case '3':
+          return '检查项目'
+        case '4':
+          return '处置费(医疗项目)'
+      }
+    },
   },
   computed: {
     ...mapState(['patientInfo']),
