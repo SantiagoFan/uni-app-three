@@ -43,7 +43,7 @@ async function upload({version = '0.0.0', desc ='test'}){
     onProgressUpdate: console.log,
   })
 } 
-async function git_sync({version = '0.0.0', desc ='test'}){
+async function git_sync({ desc ='test'}){
   shell.exec('git add .')
   shell.exec(`git commit -m "${desc}"`)
   shell.exec(`git pull`)
@@ -57,9 +57,9 @@ function inquirerResult(){
       message: '请选择命令类型:',
       name: 'type',
       choices: [
+        {name:"代码同步 code_sync",value:"code_sync"},
         {name:"上传新版本 upload",value:"upload"},
         {name:"预览新版本 preview",value:"preview"},
-        {name:"代码同步 code_sync",value:"code_sync"},
       ],
     },
     // 设置版本号
