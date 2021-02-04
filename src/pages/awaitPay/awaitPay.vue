@@ -51,6 +51,7 @@
 <script>
 import CheckPopup from '@/components/common/CheckPopup'
 import { mapState } from 'vuex'
+
 export default {
   data() {
     return {
@@ -62,6 +63,11 @@ export default {
   onLoad() {
     if (this.patientInfo) {
       this.getExamination()
+    }
+  },
+  watch:{
+    patientInfo(val){
+      console.log('change',val)
     }
   },
   computed: {

@@ -233,7 +233,7 @@ export default {
         }
         .code {
           color: #898989;
-          font-size: 24rpx;
+          font-size: 26rpx;
           margin-top: 20rpx;
         }
       }
@@ -241,12 +241,12 @@ export default {
         position: absolute;
         top: 25rpx;
         right: 20rpx;
-        line-height: 42rpx;
+        line-height: 52rpx;
         padding: 0 15rpx;
         color: #51d6b5;
-        font-size: 20rpx;
+        font-size: 28rpx;
         border: 1rpx solid #51d6b5;
-        border-radius: 20rpx;
+        border-radius: 10rpx;
       }
       .add_btn {
         display: inline-flex;
