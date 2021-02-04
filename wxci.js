@@ -1,6 +1,6 @@
 const ci = require('miniprogram-ci')
 const inquirer = require('inquirer')
-let child_process = require('child_process');
+let shell = require('shelljs');
 // 项目参数
 const project = new ci.Project({
   appid: 'wxb122ef40a4df26c9',
@@ -44,10 +44,10 @@ async function upload({version = '0.0.0', desc ='test'}){
   })
 } 
 async function git_sync({version = '0.0.0', desc ='test'}){
-  child_process.exec('git add .')
-  child_process.exec('git commit -m '+desc)
-  child_process.exec('git pull')
-  child_process.exec('git push')
+  shell.exec('git add .')
+  shell.exec(`git commit -m "${desc}"`)
+  shell.exec(`git pull`)
+  shell.exec('git push')
 }
 
 function inquirerResult(){
