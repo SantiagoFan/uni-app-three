@@ -53,6 +53,7 @@
 <script>
 import CheckPopup from '@/components/common/CheckPopup'
 import { mapState } from 'vuex'
+
 export default {
   data() {
     return {
@@ -68,6 +69,11 @@ export default {
     if (this.patientInfo) {
       this.getExamination()
       this.getSuccessRegister()
+    }
+  },
+  watch:{
+    patientInfo(val){
+      console.log('change',val)
     }
   },
   filters: {
@@ -87,6 +93,9 @@ export default {
   },
   computed: {
     ...mapState(['patientInfo']),
+  },
+  components: {
+    CheckPopup,
   },
   methods: {
     getSuccessRegister() {
@@ -176,10 +185,7 @@ export default {
           this.flag = false
         })
     },
-  },
-  components: {
-    CheckPopup,
-  },
+  }
 }
 </script>
 

@@ -1,5 +1,6 @@
 const ci = require('miniprogram-ci')
 const inquirer = require('inquirer')
+let shell = require('shelljs');
 // 项目参数
 const project = new ci.Project({
   appid: 'wxb122ef40a4df26c9',
@@ -18,7 +19,7 @@ async function preview(){
     setting: {
       es6: true,
     },
-    qrcodeFormat: 'image',
+    qrcodeFormat: 'terminal',
     qrcodeOutputDest: './destination.jpg',
     onProgressUpdate: console.log,
     // pagePath: 'pages/index/index', // 预览页面
@@ -42,14 +43,31 @@ async function upload({version = '0.0.0', desc ='test'}){
     onProgressUpdate: console.log,
   })
 } 
+async function git_sync({ desc ='test'}){
+  shell.exec('git add .')
+  shell.exec(`git commit -m "${desc}"`)
+  shell.exec(`git pull`)
+  shell.exec('git push')
+}
 
 function inquirerResult(){
   return inquirer.prompt([
+    {
+      type: 'list',
+      message: '请选择命令类型:',
+      name: 'type',
+      choices: [
+        {name:"代码同步 code_sync",value:"code_sync"},
+        {name:"上传新版本 upload",value:"upload"},
+        {name:"预览新版本 preview",value:"preview"},
+      ],
+    },
     // 设置版本号
     {
       type: 'input',
       name: 'version',
       message: `设置上传的版本号:`,
+      when:(answers)=>{ return answers.type =='upload' }
   },
 
   // 设置上传描述
@@ -57,13 +75,18 @@ function inquirerResult(){
       type: 'input',
       name: 'desc',
       message: `写一个简单的介绍来描述这个版本的改动过:`,
+      when:(answers)=>{ return answers.type =='upload'||answers.type =='code_sync' }
   },
 ]);
 }
 async function init() {
   let result = await inquirerResult();  
   console.log(result);      // 输出
-  await upload(result)
+  switch(result.type){
+    case 'upload':{ await upload(result) }break;
+    case 'preview':{ await preview(result) }break;
+    case 'code_sync':{ await git_sync(result)}break;
+  }
 }
 
 init()
