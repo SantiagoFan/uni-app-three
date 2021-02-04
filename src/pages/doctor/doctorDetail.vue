@@ -176,7 +176,8 @@
             <view class="info" v-if="patientInfo"
               >({{ patientInfo.name }} 卡号:{{
                 patientInfo.patient_code
-              }})</view>
+              }})</view
+            >
             <view class="list">
               <template v-if="patientInfo">
                 <view
@@ -241,6 +242,7 @@ export default {
       schemeIndex: 0,
       scheme: [],
       is_collect: false,
+      flag: false,
     }
   },
   components: { dhImage },
@@ -417,6 +419,10 @@ export default {
       this.$Router.push({ name: 'medicalCardLogin' })
     },
     createOrder() {
+      if (this.flag) {
+        return false
+      }
+      this.flag = true
       let scheme_id_index = this.scheme.findIndex((val) => {
         return val['qfsx'] == this.timeStatus
       })
@@ -439,14 +445,19 @@ export default {
         doctor_professional: this.model.professional,
         doctor_head: this.model.doctor_head,
       }
-      this.$http.post(this.API.CREATE_REGISTER, params).then((res) => {
-        if (res.code == 20000) {
-          this.$Router.push({
-            name: 'payment',
-            params: { reg_no: res.data },
-          })
-        }
-      })
+      this.$http
+        .post(this.API.CREATE_REGISTER, params)
+        .then((res) => {
+          if (res.code == 20000) {
+            this.$Router.push({
+              name: 'payment',
+              params: { reg_no: res.data },
+            })
+          }
+        })
+        .finally((res) => {
+          this.flag = false
+        })
     },
     getName(str) {
       if (str.length > 2) {

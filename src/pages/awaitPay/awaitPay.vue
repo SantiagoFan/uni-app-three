@@ -142,7 +142,7 @@ export default {
                 icon: 'none',
               })
               that.$Router.replace({
-                name: 'clinicPayDetail',
+                name: 'payRecord',
               })
             },
             fail: function(err) {
