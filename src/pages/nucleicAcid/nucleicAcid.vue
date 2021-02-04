@@ -1,26 +1,46 @@
 <template>
-  <view class="wrap">
-    <view class="wrap-massage">
-      <view class="icon">
-        <image class="img" mode="widthFix" src="@/static/image/icon.jpg" />
+  <view class="container">
+    <PatientCard :need-patient="true"></PatientCard>
+    <view class="wrap">
+      <view class="wrap__list">
+        <view
+          class="item"
+          v-for="(item, index) in list"
+          :key="index"
+          @click="handleChoose(index)"
+        >
+          <view class="item-sta">
+            <view :class="['item-sta__icon', { active: item.checked }]">
+              <text class="iconfont icon-duihao2"></text>
+            </view>
+            <view class="item-sta__con">
+              <view class="item-sta__con-title">
+                {{ item.name }}
+              </view>
+              <!-- <view class="item-sta__con-list">
+                <view class="cell">
+                  <view class="name"></view>
+                  <view class="price">¥</view>
+                </view>
+              </view> -->
+            </view>
+          </view>
+          <view class="item-total">价格：¥{{ item.price }}</view>
+        </view>
       </view>
-      <view class="text"
-        >暂时不支持医保卡看病，持有医保卡的用户请到前台直接办理手续。</view
-      >
     </view>
-    <view class="wrap-con">
-      <view class="wrap-con__cell">
-        <PatientCard
-          style="margin:0;"
-          :need-patient="true"
-          :show-message="false"
-        ></PatientCard>
+    <view class="fot-box">
+      <view class="fot-box__total">
+        <text class="text">总额：</text>
+        <text class="price">￥{{ amount }}</text>
+        <text>111111</text>
+      </view>
+      <view class="fot-box__btn active" @click="createOrder">
+        <text class="text">去缴费</text>
       </view>
     </view>
-    <view class="wrap-fot">
-      <view class="wrap-fot__total">总额：¥160.00</view>
-      <view class="wrap-fot__btn">去缴费</view>
-    </view>
+    <!-- 弹出层 -->
+    <check-popup ref="popup" />
   </view>
 </template>
 
@@ -29,151 +49,141 @@ export default {
   data() {
     return {
       show: false, //  切换弹出层
+      list: [
+        {
+          name:"新型冠状病毒核酸检测（鼻咽拭子）",
+          price:100.00,
+          checked:false   
+        },
+        {
+          name:"新型冠状病毒核酸检测（口咽拭子）",
+          price:120.00,
+          checked:false
+        }
+      ],
     }
   },
+  computed:{
+    amount(){
+      return this.list.reduce(res=>{ return res.checked?res.price:0 },0)
+    }
+  },
+  methods:{
+    loadData(){
+
+    },
+    handleChoose(index){
+      this.list[index].checked = !this.list[index].checked
+    }
+  }
 }
 </script>
 
 <style lang="scss" scoped>
-.wrap {
-  padding: 0 20rpx;
-  background: #ffffff;
-  &-massage {
-    display: flex;
-    padding: 20rpx 0;
-    .icon {
-      width: 52rpx;
-      margin-right: 20rpx;
-      .img {
-        width: 100%;
-        height: auto;
-        display: block;
-      }
-    }
-    .text {
-      flex: 1;
-      color: #666666;
-      font-size: 26rpx;
-    }
-  }
-  &-con {
-    &__cell {
-      // padding: 20rpx;
-      border-top: 1rpx solid #dbdbdb;
-      .title {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        .name {
-          color: #333333;
-          font-size: 32rpx;
-        }
-        .check {
-          color: #0ec698;
-          font-size: 26rpx;
-          line-height: 48rpx;
-          padding: 0 15rpx;
-          border: 1rpx solid #5ecb81;
-          border-radius: 24rpx;
-        }
-      }
-      .code {
-        color: #666666;
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  .wrap {
+    flex: 1;
+    padding: 20rpx;
+    overflow-y: auto;
+    &__list {
+      .item {
+        color: #a8a8a8;
         font-size: 26rpx;
-        margin-top: 15rpx;
-      }
-    }
-  }
-  &-fot {
-    position: fixed;
-    display: flex;
-    align-items: center;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    font-size: 32rpx;
-    background: #ffffff;
-    &__total {
-      flex: 1;
-      color: #666666;
-      padding: 0 30rpx;
-    }
-    &__btn {
-      width: 250rpx;
-      height: 90rpx;
-      line-height: 90rpx;
-      text-align: center;
-      color: #ffffff;
-      background: #0ec698;
-    }
-  }
-  // 弹出层
-  .check-wrap {
-    &__title {
-      height: 84rpx;
-      line-height: 84rpx;
-      text-align: center;
-      color: #333333;
-      font-size: 32rpx;
-      border-bottom: 1rpx solid #e3e3e3;
-    }
-    &__con {
-      .list {
-        .item {
+        padding: 30rpx;
+        margin-bottom: 20rpx;
+        background: #ffffff;
+        border-radius: 10rpx;
+        &:last-child {
+          margin-bottom: 0;
+        }
+        &-sta {
           display: flex;
-          align-items: center;
-          justify-content: space-between;
-          padding: 20rpx 40rpx;
-          .info {
-            font-size: 28rpx;
-            .name {
-              color: #333333;
-            }
-            .code {
-              color: #999999;
-              margin-top: 10rpx;
-            }
-          }
-          .radio {
-            width: 54rpx;
-            height: 54rpx;
-            line-height: 54rpx;
+          padding-bottom: 30rpx;
+          &__icon {
+            width: 32rpx;
+            height: 32rpx;
+            line-height: 32rpx;
             text-align: center;
-            color: #ffffff;
-            border-radius: 50%;
+            margin-right: 20rpx;
             border: 1rpx solid;
-            border-color: #e3e3e3;
-            .icon {
+            border-color: #bebebe;
+            border-radius: 50%;
+            .iconfont {
+              font-size: 25rpx;
               display: none;
             }
-          }
-          &.active {
-            .radio {
+            &.active {
+              color: #ffffff;
               border-color: #0ec698;
               background: #0ec698;
-              .icon {
+              .iconfont {
                 display: block;
               }
             }
           }
+          &__con {
+            flex: 1;
+            &-title {
+              color: #333333;
+              font-size: 28rpx;
+              margin: 0 0 20rpx 0;
+            }
+            &-list {
+              .cell {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin-bottom: 20rpx;
+                &:last-child {
+                  margin-bottom: 0;
+                }
+              }
+            }
+          }
         }
+        &-total {
+          padding-top: 20rpx;
+          text-align: right;
+          border-top: 1rpx solid #eaeaea;
+        }
+      }
+    }
+  }
+  .fot-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 104rpx;
+    padding-left: 20rpx;
+    background: #ffffff;
+    &__total {
+      display: flex;
+      align-items: center;
+      color: #a9a9a9;
+      font-size: 28rpx;
+      .price {
+        color: #fa710a;
       }
     }
     &__btn {
       display: flex;
-      justify-content: space-between;
-      padding: 30rpx 70rpx;
-      .item {
-        width: 275rpx;
-        height: 64rpx;
-        line-height: 64rpx;
+      width: 220rpx;
+      height: 100%;
+      background: #cfcfcf;
+      .text {
         color: #ffffff;
-        text-align: center;
+        margin: auto;
         font-size: 28rpx;
-        border-radius: 8rpx;
+      }
+      &.active {
         background: #0ec698;
       }
     }
   }
 }
 </style>
+
