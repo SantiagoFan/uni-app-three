@@ -269,8 +269,9 @@ export default {
   display: flex;
   flex-direction: column;
   height: 100vh;
+  padding: 20rpx;
   .showReg {
-    padding: 0 20rpx;
+    // padding: 0 20rpx;
     // height: 200rpx;
     // background: #fff;
     // display: flex;
@@ -310,7 +311,7 @@ export default {
 
   .wrap {
     flex: 1;
-    padding: 20rpx 20rpx 160rpx;
+    padding: 20rpx 0 160rpx;
     // overflow-y: auto;
     &__list {
       .item {

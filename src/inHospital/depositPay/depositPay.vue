@@ -2,7 +2,7 @@
   <view class="wrap">
     <LivePatientCard></LivePatientCard>
     <u-gap height="15" bg-color="#f6f6f6"></u-gap>
-    <view class="wrap-con">
+    <view class="wrap-con" v-if='livePatientInfo'>
       <view class="wrap-con__title">
         <view class="text">选择充值金额</view>
         <view class="amount">

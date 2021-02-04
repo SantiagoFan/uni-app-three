@@ -108,7 +108,7 @@ export default {
             .tag {
               line-height: 32rpx;
               color: #898989;
-              font-size: 20rpx;
+              font-size: 26rpx;
               padding: 0 10rpx;
               border: 1rpx solid #a6a9a8;
               border-radius: 8rpx;
@@ -116,7 +116,7 @@ export default {
           }
           .code {
             color: #898989;
-            font-size: 28rpx;
+            font-size: 30rpx;
             margin-top: 20rpx;
           }
         }

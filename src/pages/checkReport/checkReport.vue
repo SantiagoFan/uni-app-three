@@ -84,49 +84,6 @@ export default {
 @import '@/assets/scss/mixin.scss';
 .wrap {
   padding: 20rpx;
-  &-user {
-    .item {
-      position: relative;
-      display: flex;
-      align-items: center;
-      height: 156rpx;
-      padding: 0 30rpx;
-      background: #ffffff url('@/static/image/box_bg.png') no-repeat 70rpx -50rpx;
-      background-size: 260rpx;
-      border-radius: 10rpx;
-      .info {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        .title {
-          display: flex;
-          align-items: center;
-          border-radius: 10rpx;
-          .name {
-            color: #333333;
-            font-size: 36rpx;
-            margin-right: 15rpx;
-          }
-        }
-        .code {
-          color: #898989;
-          font-size: 24rpx;
-          margin-top: 20rpx;
-        }
-      }
-      .switch {
-        position: absolute;
-        top: 25rpx;
-        right: 20rpx;
-        line-height: 42rpx;
-        padding: 0 15rpx;
-        color: #51d6b5;
-        font-size: 20rpx;
-        border: 1rpx solid #51d6b5;
-        border-radius: 20rpx;
-      }
-    }
-  }
   &-list {
     margin-top: 20rpx;
     .item {

@@ -21,15 +21,6 @@
       }
     },
     {
-      "path": "pages/surveyDetail/surveyDetail",
-      "name": "surveyDetail",
-      "style": {
-        "navigationBarTitleText": "问卷调查",
-        "navigationBarBackgroundColor": "#0ec698",
-        "navigationBarTextStyle": "white"
-      }
-    },
-    {
       "path": "pages/checkReport/checkReport",
       "name": "checkReport",
       "style": {
@@ -216,7 +207,7 @@
       }
     },
     {
-      "path": "pages/hospitalTrendsDetail/hospitalTrendsDetail",
+      "path": "pages/hospitalTrends/hospitalTrendsDetail",
       "name": "hospitalTrendsDetail",
       "style": {
         "navigationBarTitleText": "新闻详情",
@@ -285,6 +276,15 @@
         "navigationBarTitleText": "问卷调查列表",
         "navigationBarBackgroundColor": "#0ec698",
         "navigationBarTextStyle": "#ffffff"
+      }
+    },
+    {
+      "path": "pages/survey/surveyDetail",
+      "name": "surveyDetail",
+      "style": {
+        "navigationBarTitleText": "问卷调查",
+        "navigationBarBackgroundColor": "#0ec698",
+        "navigationBarTextStyle": "white"
       }
     },
     {
