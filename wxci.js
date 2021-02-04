@@ -44,9 +44,13 @@ async function upload({version = '0.0.0', desc ='test'}){
   })
 } 
 async function git_sync({ desc ='test'}){
+  console.info('-------  git add . -------')
   shell.exec('git add .')
+  console.info(`-------  git commit -m "${desc}" -------`)
   shell.exec(`git commit -m "${desc}"`)
+  console.info('-------  git pull -------')
   shell.exec(`git pull`)
+  console.info('-------  git push -------')
   shell.exec('git push')
 }
 

@@ -1,6 +1,51 @@
 <template>
   <view class="container">
     <PatientCard :need-patient="true"></PatientCard>
+    <view class="showReg">
+      <view
+        class="pop-item"
+        v-if="registerList.length > 0"
+        @click="show = true"
+      >
+        <view class="pop-item-info">
+          <view>门诊号:{{ registerList[index].register_no }}</view>
+          <view class="pop-item-info-sub">
+            {{ registerList[index].doctor_name }}/{{
+              registerList[index].department_name
+            }}
+          </view>
+          <!-- <view class="pop-item-info-sub">
+              {{registerList[index].selectDate}} {{registerList[index].time}}
+            </view> -->
+        </view>
+        <view class="pop-item-jt">
+          <text class="iconfont icon-arrowb"></text>
+        </view>
+      </view>
+    </view>
+    <u-popup v-model="show" mode="bottom" height="600rpx">
+      <view class="pop-wrap">
+        <view
+          class="pop-item"
+          v-for="(item, index) in registerList"
+          :key="index"
+          @click="changeIndex(index)"
+        >
+          <view class="pop-item-info">
+            <view>门诊号:{{ registerList[index].register_no }}</view>
+            <view class="pop-item-info-sub">
+              {{ item.doctor_name }}/{{ item.department_name }}
+            </view>
+            <!-- <view class="pop-item-info-sub">
+              {{item.selectDate}} {{item.time}}
+            </view> -->
+          </view>
+          <view class="pop-item-jt">
+            <text class="iconfont icon-arrowb"></text>
+          </view>
+        </view>
+      </view>
+    </u-popup>
     <view class="wrap">
       <view class="wrap__list">
         <view
@@ -60,20 +105,20 @@ export default {
       show: false, //  切换弹出层
       list: [],
       amount: 0.0,
-      reg_no: '2102001820',
       flag: false,
       registerList: [],
+      index: 0,
     }
   },
   onLoad() {
     if (this.patientInfo) {
-      this.getExamination()
+      // this.getExamination()
       this.getSuccessRegister()
     }
   },
   watch: {
     patientInfo(val) {
-      console.log('change', val)
+      this.getSuccessRegister()
     },
   },
   filters: {
@@ -92,6 +137,12 @@ export default {
   },
   computed: {
     ...mapState(['patientInfo']),
+    reg_no() {
+      if (this.registerList.length > 0) {
+        return this.registerList[this.index].register_no
+      }
+      return ''
+    },
   },
   components: {
     CheckPopup,
@@ -104,7 +155,13 @@ export default {
         })
         .then((res) => {
           this.registerList = res.data
+          this.getExamination()
         })
+    },
+    changeIndex(index) {
+      this.index = index
+      this.show = false
+      this.getExamination()
     },
     handleChoose(index) {
       console.log('初始', this.amount)
@@ -121,14 +178,23 @@ export default {
       this.$refs.popup.handleChoose()
     },
     getExamination() {
-      this.$http.post(this.API.EXAMINATION).then((res) => {
-        if (res.data.length > 0) {
-          res.data.forEach((e) => {
-            e.checked = false
+      if (this.reg_no) {
+        this.$http
+          .post(this.API.EXAMINATION, { reg_no: this.reg_no })
+          .then((res) => {
+            if (res.code === 20000) {
+              if (res.data.length > 0) {
+                res.data.forEach((e) => {
+                  e.checked = false
+                })
+              }
+              this.list = res.data
+            }
           })
-        }
-        this.list = res.data
-      })
+          .catch(() => {
+            this.list = []
+          })
+      }
     },
     createOrder() {
       let ids = []
@@ -140,6 +206,13 @@ export default {
       if (ids.length <= 0) {
         uni.showToast({
           title: '请先选择缴费项目',
+          icon: 'none',
+        })
+        return false
+      }
+      if (!this.reg_no) {
+        uni.showToast({
+          title: '请先选择诊疗记录',
           icon: 'none',
         })
         return false
@@ -196,10 +269,49 @@ export default {
   display: flex;
   flex-direction: column;
   height: 100vh;
+  .showReg {
+    padding: 0 20rpx;
+    // height: 200rpx;
+    // background: #fff;
+    // display: flex;
+    // align-items: center;
+    // justify-content: center;
+  }
+  .pop-wrap {
+    background: #f6f6f6;
+    padding: 30rpx;
+  }
+  .pop-item {
+    padding: 10rpx 20rpx;
+    background: #fff;
+    margin-bottom: 20rpx;
+    display: flex;
+    align-items: center;
+    &-info {
+      flex: 1;
+      & > view {
+        font-size: 30rpx;
+        line-height: 54rpx;
+        // display: flex;
+        // justify-content: space-between;
+      }
+      &-sub {
+        font-size: 28rpx;
+        color: #898989;
+      }
+    }
+    &-jt {
+      color: #cbcbcb;
+      .iconfont {
+        font-size: 50rpx;
+      }
+    }
+  }
+
   .wrap {
     flex: 1;
-    padding: 20rpx;
-    overflow-y: auto;
+    padding: 20rpx 20rpx 160rpx;
+    // overflow-y: auto;
     &__list {
       .item {
         color: #a8a8a8;
@@ -265,6 +377,8 @@ export default {
     }
   }
   .fot-box {
+    position: fixed;
+    bottom: 0;
     display: flex;
     align-items: center;
     justify-content: space-between;
