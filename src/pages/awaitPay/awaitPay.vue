@@ -16,25 +16,27 @@
             <view class="item-sta__con">
               <view class="item-sta__con-title">检查项目名称</view>
               <view class="item-sta__con-list">
-                <view class="cell">
-                  <view class="name">检查项目</view>
-                  <view class="price">¥0.00</view>
-                </view>
-                <view class="cell">
-                  <view class="name">检查项目</view>
-                  <view class="price">¥0.00</view>
+                <view
+                  class="cell"
+                  v-for="(obj, index1) in item.recipe"
+                  :key="index1"
+                >
+                  <view class="name">{{ obj.yp_name }}</view>
+                  <view class="price"
+                    >¥{{ obj.yp_dj_price * obj.yp_number }}</view
+                  >
                 </view>
               </view>
             </view>
           </view>
-          <view class="item-total">共计：¥0.00</view>
+          <view class="item-total">共计：¥{{ item.amount }}</view>
         </view>
       </view>
     </view>
     <view class="fot-box">
       <view class="fot-box__total">
         <text class="text">总额：</text>
-        <text class="price">￥0.00</text>
+        <text class="price">￥{{ amount }}</text>
         <text>{{ val }}</text>
       </view>
       <navigator url="/pages/payment/payment" class="fot-box__btn active">
@@ -53,16 +55,8 @@ export default {
   data() {
     return {
       show: false, //  切换弹出层
-      list: [
-        {
-          title: '项目名称1',
-          checked: false,
-        },
-        {
-          title: '项目名称2',
-          checked: false,
-        },
-      ],
+      list: [],
+      amount: 0.0,
     }
   },
   onLoad() {
@@ -76,6 +70,11 @@ export default {
   methods: {
     handleChoose(index) {
       this.list[index].checked = !this.list[index].checked
+      if (this.list[index].checked) {
+        this.amount += parseFloat(this.list[index]['amount'])
+      } else {
+        this.amount -= parseFloat(this.list[index]['amount'])
+      }
     },
     handleCheck() {
       this.$refs.popup.handleChoose()
@@ -85,7 +84,14 @@ export default {
         .post(this.API.EXAMINATION, {
           patient_code: this.patientInfo.patient_code,
         })
-        .then((res) => {})
+        .then((res) => {
+          if (res.data.length > 0) {
+            res.data.forEach((e) => {
+              e.checked = false
+            })
+          }
+          this.list = res.data
+        })
     },
   },
   components: {
