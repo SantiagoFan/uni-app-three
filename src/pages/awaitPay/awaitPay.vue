@@ -74,6 +74,7 @@ export default {
   watch:{
     patientInfo(val){
       console.log('change',val)
+    }
   },
   filters: {
     getCategory(category) {
@@ -92,6 +93,9 @@ export default {
   },
   computed: {
     ...mapState(['patientInfo']),
+  },
+  components: {
+    CheckPopup,
   },
   methods: {
     getSuccessRegister() {
@@ -181,10 +185,7 @@ export default {
           this.flag = false
         })
     },
-  },
-  components: {
-    CheckPopup,
-  },
+  }
 }
 </script>
 
