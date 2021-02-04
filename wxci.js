@@ -67,7 +67,7 @@ function inquirerResult(){
       type: 'input',
       name: 'version',
       message: `设置上传的版本号:`,
-      when:(answers)=>{ return answers.type =='upload'||answers.type =='code_sync' }
+      when:(answers)=>{ return answers.type =='upload' }
   },
 
   // 设置上传描述
