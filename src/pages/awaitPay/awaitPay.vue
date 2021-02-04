@@ -71,14 +71,13 @@ export default {
       this.getSuccessRegister()
     }
   },
-  watch:{
-    patientInfo(val){
-      console.log('change',val)
-    }
+  watch: {
+    patientInfo(val) {
+      console.log('change', val)
+    },
   },
   filters: {
     getCategory(category) {
-      console.log(category)
       switch (category) {
         case '1':
           return '处方项目'
@@ -108,12 +107,15 @@ export default {
         })
     },
     handleChoose(index) {
+      console.log('初始', this.amount)
       this.list[index].checked = !this.list[index].checked
       if (this.list[index].checked) {
         this.amount += parseFloat(this.list[index]['amount'])
       } else {
-        this.amount -= parseFloat(this.list[index]['amount'])
+        this.amount =
+          parseFloat(this.amount) - parseFloat(this.list[index]['amount'])
       }
+      console.log(this.list[index]['amount'])
     },
     handleCheck() {
       this.$refs.popup.handleChoose()
@@ -185,7 +187,7 @@ export default {
           this.flag = false
         })
     },
-  }
+  },
 }
 </script>
 
