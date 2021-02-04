@@ -80,7 +80,8 @@
                       <dh-image
                         class="img"
                         mode="aspectFill"
-                        src=""
+                        :src="obj.doctor_head"
+                        :inHis='true'
                         errorSrc="doctor.jpg"
                       ></dh-image>
                     </view>
