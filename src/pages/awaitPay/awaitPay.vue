@@ -2,28 +2,39 @@
   <view class="container">
     <PatientCard :need-patient="true"></PatientCard>
     <view class="showReg">
-      <view class="pop-item" v-if='registerList.length>0' @click="show=true">
-          <view class="pop-item-info">
-            <view>门诊号:{{registerList[index].register_no}}</view>
-            <view class="pop-item-info-sub">
-              {{registerList[index].doctor_name}}/{{registerList[index].department_name}}
-            </view>
-            <!-- <view class="pop-item-info-sub">
+      <view
+        class="pop-item"
+        v-if="registerList.length > 0"
+        @click="show = true"
+      >
+        <view class="pop-item-info">
+          <view>门诊号:{{ registerList[index].register_no }}</view>
+          <view class="pop-item-info-sub">
+            {{ registerList[index].doctor_name }}/{{
+              registerList[index].department_name
+            }}
+          </view>
+          <!-- <view class="pop-item-info-sub">
               {{registerList[index].selectDate}} {{registerList[index].time}}
             </view> -->
-          </view>
-          <view class="pop-item-jt">
-            <text class="iconfont icon-arrowb"></text>
-          </view>
+        </view>
+        <view class="pop-item-jt">
+          <text class="iconfont icon-arrowb"></text>
+        </view>
       </view>
     </view>
     <u-popup v-model="show" mode="bottom" height="600rpx">
       <view class="pop-wrap">
-        <view class="pop-item" v-for='(item,index) in registerList' :key='index' @click="changeIndex(index)">
+        <view
+          class="pop-item"
+          v-for="(item, index) in registerList"
+          :key="index"
+          @click="changeIndex(index)"
+        >
           <view class="pop-item-info">
-            <view>门诊号:{{registerList[index].register_no}}</view>
+            <view>门诊号:{{ registerList[index].register_no }}</view>
             <view class="pop-item-info-sub">
-              {{item.doctor_name}}/{{item.department_name}}
+              {{ item.doctor_name }}/{{ item.department_name }}
             </view>
             <!-- <view class="pop-item-info-sub">
               {{item.selectDate}} {{item.time}}
@@ -34,7 +45,7 @@
           </view>
         </view>
       </view>
-		</u-popup>
+    </u-popup>
     <view class="wrap">
       <view class="wrap__list">
         <view
@@ -96,7 +107,7 @@ export default {
       amount: 0.0,
       flag: false,
       registerList: [],
-      index:0
+      index: 0,
     }
   },
   onLoad() {
@@ -105,14 +116,13 @@ export default {
       this.getSuccessRegister()
     }
   },
-  watch:{
-    patientInfo(val){
+  watch: {
+    patientInfo(val) {
       this.getSuccessRegister()
-    }
+    },
   },
   filters: {
     getCategory(category) {
-      console.log(category)
       switch (category) {
         case '1':
           return '处方项目'
@@ -127,12 +137,12 @@ export default {
   },
   computed: {
     ...mapState(['patientInfo']),
-    reg_no(){
-      if(this.registerList.length>0){
+    reg_no() {
+      if (this.registerList.length > 0) {
         return this.registerList[this.index].register_no
       }
       return ''
-    }
+    },
   },
   components: {
     CheckPopup,
@@ -148,36 +158,42 @@ export default {
           this.getExamination()
         })
     },
-    changeIndex(index){
-      this.index=index
-      this.show=false
+    changeIndex(index) {
+      this.index = index
+      this.show = false
       this.getExamination()
     },
     handleChoose(index) {
+      console.log('初始', this.amount)
       this.list[index].checked = !this.list[index].checked
       if (this.list[index].checked) {
         this.amount += parseFloat(this.list[index]['amount'])
       } else {
-        this.amount -= parseFloat(this.list[index]['amount'])
+        this.amount =
+          parseFloat(this.amount) - parseFloat(this.list[index]['amount'])
       }
+      console.log(this.list[index]['amount'])
     },
     handleCheck() {
       this.$refs.popup.handleChoose()
     },
     getExamination() {
-      if(this.reg_no){
-          this.$http.post(this.API.EXAMINATION,{reg_no:this.reg_no}).then((res) => {
-          if(res.code===20000){
-            if (res.data.length > 0) {
-              res.data.forEach((e) => {
-                e.checked = false
-              })
+      if (this.reg_no) {
+        this.$http
+          .post(this.API.EXAMINATION, { reg_no: this.reg_no })
+          .then((res) => {
+            if (res.code === 20000) {
+              if (res.data.length > 0) {
+                res.data.forEach((e) => {
+                  e.checked = false
+                })
+              }
+              this.list = res.data
             }
-            this.list = res.data
-          }
-        }).catch(()=>{
-          this.list=[];
-        })
+          })
+          .catch(() => {
+            this.list = []
+          })
       }
     },
     createOrder() {
@@ -244,7 +260,7 @@ export default {
           this.flag = false
         })
     },
-  }
+  },
 }
 </script>
 
@@ -253,7 +269,7 @@ export default {
   display: flex;
   flex-direction: column;
   height: 100vh;
-  .showReg{
+  .showReg {
     padding: 0 20rpx;
     // height: 200rpx;
     // background: #fff;
@@ -261,37 +277,37 @@ export default {
     // align-items: center;
     // justify-content: center;
   }
-  .pop-wrap{
-    background: #F6F6F6;
+  .pop-wrap {
+    background: #f6f6f6;
     padding: 30rpx;
   }
-  .pop-item{
-      padding: 10rpx 20rpx;
-      background: #fff;
-      margin-bottom: 20rpx;
-      display: flex;
-      align-items: center;
-      &-info{
-        flex: 1;
-        &>view{
-          font-size: 30rpx;
-          line-height: 54rpx;
-          // display: flex;
-          // justify-content: space-between;
-        }
-        &-sub{
-          font-size: 28rpx;
-          color:#898989;
-        }
+  .pop-item {
+    padding: 10rpx 20rpx;
+    background: #fff;
+    margin-bottom: 20rpx;
+    display: flex;
+    align-items: center;
+    &-info {
+      flex: 1;
+      & > view {
+        font-size: 30rpx;
+        line-height: 54rpx;
+        // display: flex;
+        // justify-content: space-between;
       }
-      &-jt{
-        color: #cbcbcb;
-        .iconfont {
-          font-size: 50rpx;
-        }
+      &-sub {
+        font-size: 28rpx;
+        color: #898989;
       }
+    }
+    &-jt {
+      color: #cbcbcb;
+      .iconfont {
+        font-size: 50rpx;
+      }
+    }
   }
-  
+
   .wrap {
     flex: 1;
     padding: 20rpx 20rpx 160rpx;
