@@ -174,7 +174,7 @@
           <view class="order-wrap__info-con">
             <view class="bt">请选择就诊人</view>
             <view class="info" v-if="patientInfo"
-              >({{ patientInfo.patient_name }} 卡号:{{
+              >({{ patientInfo.name }} 卡号:{{
                 patientInfo.patient_code
               }})</view
             >
@@ -431,7 +431,7 @@ export default {
         doctor_name: this.model.doctor_name,
         selectDate: this.selectDate,
         time: this.time,
-        patient_name: this.patientInfo.patient_name,
+        patient_name: this.patientInfo.name,
         scheme_id: this.scheme[scheme_id_index]['scheme_id'],
         serisl_number: schemeInfo[serisl_number_index]['serisl_number'],
         patient_code: this.patientInfo.patient_code,
