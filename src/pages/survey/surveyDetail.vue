@@ -54,6 +54,7 @@
                 v-for="(obj, index1) in item.editredios"
                 :key="index1"
                 :name="obj.name"
+                active-color="#0ec698"
                 >{{ obj.name }}</u-checkbox
               >
             </u-checkbox-group>

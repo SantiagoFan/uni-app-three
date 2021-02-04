@@ -5,8 +5,8 @@
         <dh-image
           class="img"
           mode="widthFix"
-          :src="banner"
-          errorSrc="index_img01.jpg"
+          src=""
+          errorSrc="index_img01.jpg?v=0.1"
         ></dh-image>
       </view>
       <view class="index-wrap">
