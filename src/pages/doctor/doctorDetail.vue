@@ -176,8 +176,7 @@
             <view class="info" v-if="patientInfo"
               >({{ patientInfo.name }} 卡号:{{
                 patientInfo.patient_code
-              }})</view
-            >
+              }})</view>
             <view class="list">
               <template v-if="patientInfo">
                 <view
