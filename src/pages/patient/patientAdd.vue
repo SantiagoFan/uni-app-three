@@ -116,7 +116,7 @@ export default {
           }
           .code {
             color: #898989;
-            font-size: 24rpx;
+            font-size: 28rpx;
             margin-top: 20rpx;
           }
         }
