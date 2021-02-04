@@ -39,9 +39,9 @@
         <text class="price">￥{{ amount }}</text>
         <text>{{ val }}</text>
       </view>
-      <navigator url="/pages/payment/payment" class="fot-box__btn active">
+      <view class="fot-box__btn active" @click="createOrder">
         <text class="text">去缴费</text>
-      </navigator>
+      </view>
     </view>
     <!-- 弹出层 -->
     <check-popup ref="popup" />
@@ -57,17 +57,30 @@ export default {
       show: false, //  切换弹出层
       list: [],
       amount: 0.0,
+      reg_no: '2102001820',
+      flag: false,
+      registerList: [],
     }
   },
   onLoad() {
     if (this.patientInfo) {
       this.getExamination()
+      this.getSuccessRegister()
     }
   },
   computed: {
     ...mapState(['patientInfo']),
   },
   methods: {
+    getSuccessRegister() {
+      this.$http
+        .post(this.API.REGISTER_SUCCESS, {
+          patient_code: this.patientInfo.patient_code,
+        })
+        .then((res) => {
+          this.registerList = res.data
+        })
+    },
     handleChoose(index) {
       this.list[index].checked = !this.list[index].checked
       if (this.list[index].checked) {
@@ -80,17 +93,70 @@ export default {
       this.$refs.popup.handleChoose()
     },
     getExamination() {
+      this.$http.post(this.API.EXAMINATION).then((res) => {
+        if (res.data.length > 0) {
+          res.data.forEach((e) => {
+            e.checked = false
+          })
+        }
+        this.list = res.data
+      })
+    },
+    createOrder() {
+      let ids = []
+      this.list.forEach((e) => {
+        if (e.checked) {
+          ids.push(e.innner_trade_no)
+        }
+      })
+      if (ids.length <= 0) {
+        uni.showToast({
+          title: '请先选择缴费项目',
+          icon: 'none',
+        })
+        return false
+      }
+      if (this.flag) {
+        return false
+      }
+      this.flag = true
       this.$http
-        .post(this.API.EXAMINATION, {
-          patient_code: this.patientInfo.patient_code,
+        .post(this.API.EXAMINATION_ORDER, {
+          reg_no: this.reg_no,
+          ids: ids,
+          amount: this.amount,
         })
         .then((res) => {
-          if (res.data.length > 0) {
-            res.data.forEach((e) => {
-              e.checked = false
-            })
-          }
-          this.list = res.data
+          const config = JSON.parse(res.data)
+          uni.requestPayment({
+            provider: 'wxpay',
+            timeStamp: config.timeStamp,
+            nonceStr: config.nonceStr,
+            package: config.package,
+            signType: 'MD5',
+            paySign: config.paySign,
+            success: function(response) {
+              uni.showToast({
+                title: '支付成功',
+                duration: 2000,
+                icon: 'none',
+              })
+              that.$Router.replace({
+                name: 'clinicPayDetail',
+              })
+            },
+            fail: function(err) {
+              that.flag = false
+              uni.showToast({
+                title: '支付失败',
+                duration: 2000,
+                icon: 'none',
+              })
+            },
+          })
+        })
+        .finally((res) => {
+          this.flag = false
         })
     },
   },

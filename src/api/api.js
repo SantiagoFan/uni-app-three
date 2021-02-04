@@ -64,4 +64,6 @@ export default {
   LIVE_DEPOSIT_RULE: '/live_deposit_order/getRule', //押金缴费规则
   LIVE_DEPOSIT_ORDER: '/live_deposit_order/payOrder', //押金缴费
   LIVE_DEPOSIT_ORDER_DETAIL: '/live_deposit_order/getLivePayRecordDetail', //押金缴费记录详情
+  EXAMINATION_ORDER: '/examination/payOrder', //门诊待缴费项目支付
+  REGISTER_SUCCESS: '/register/getSuccessRegisterList', //待缴费项目获取支付成功的诊疗号
 }
