@@ -25,6 +25,7 @@
               type="textarea"
               v-model="item.answer"
               name="answer"
+              :custom-style="{fontSize:'32rpx'}"
               :height="60"
               :placeholder="'请在此输入（最多' + item.description + '字）'"
             />
@@ -33,8 +34,8 @@
             <u-radio-group
               v-model="item.answer"
               :wrap="true"
-              :size="35"
-              :icon-size="24"
+              :size="38"
+              :icon-size="30"
             >
               <u-radio
                 v-for="(obj, index1) in item.editredios"
@@ -47,7 +48,7 @@
             </u-radio-group>
           </view>
           <view class="radio-list" v-else>
-            <u-checkbox-group @change="checkboxGroupChange">
+            <u-checkbox-group @change="checkboxGroupChange" :size="38">
               <u-checkbox
                 v-model="obj.checked"
                 v-for="(obj, index1) in item.editredios"
@@ -209,7 +210,7 @@ export default {
       .label {
         position: relative;
         color: #484848;
-        font-size: 32rpx;
+        font-size: 36rpx;
         &.active::before {
           display: inline-block;
           margin-right: 4rpx;
@@ -223,7 +224,7 @@ export default {
       .radio-list {
         margin-top: 20rpx;
         &::v-deep .u-radio {
-          line-height: 2.2;
+          line-height: 2.8;
         }
         &::v-deep .u-radio__label {
           margin-left: 20rpx;
@@ -231,7 +232,7 @@ export default {
       }
       .textarea {
         margin-top: 30rpx;
-        font-size: 28rpx;
+        font-size: 34rpx;
       }
     }
   }

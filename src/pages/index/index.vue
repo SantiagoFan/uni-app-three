@@ -5,7 +5,7 @@
         <dh-image
           class="img"
           mode="widthFix"
-          src="@/static/image/index_img01.jpg"
+          :src="banner"
           errorSrc="index_img01.jpg"
         ></dh-image>
       </view>
@@ -191,6 +191,7 @@ export default {
     return {
       typeIndex: 0,
       name: '',
+      banner: '',
       typeList: [
         {
           text: '门诊',
@@ -219,6 +220,7 @@ export default {
   onLoad() {
     console.log('onLoad')
     console.log(this.$store.state)
+    this.getBanner()
   },
   onShow() {
     console.log('onShow')
@@ -230,6 +232,11 @@ export default {
       } else {
         return str
       }
+    },
+    getBanner(){
+      this.$http.post(this.API.BANNER,{type:1},false).then((res) => {
+        this.banner = res.data
+      })
     },
     //就诊人
     handleTypeItem(index) {
