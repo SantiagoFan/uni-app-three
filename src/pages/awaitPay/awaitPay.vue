@@ -60,14 +60,10 @@
             </view>
             <view class="item-sta__con">
               <view class="item-sta__con-title">
-                {{ item.category | getCategory }}
+                {{ item[0].category | getCategory }}
               </view>
               <view class="item-sta__con-list">
-                <view
-                  class="cell"
-                  v-for="(obj, index1) in item.recipe"
-                  :key="index1"
-                >
+                <view class="cell" v-for="(obj, index1) in item" :key="index1">
                   <view class="name">{{ obj.yp_name }}</view>
                   <view class="price"
                     >¥{{ obj.yp_dj_price * obj.yp_number }}</view
@@ -123,6 +119,7 @@ export default {
   },
   filters: {
     getCategory(category) {
+      console.log(category)
       switch (category) {
         case '1':
           return '处方项目'

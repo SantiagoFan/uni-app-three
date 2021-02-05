@@ -70,4 +70,5 @@ export default {
   INSPECTION_CREATE_ORDER: '/InspectionOrder/CreateOrder', //一建核酸检测
   INSPECTION_QUERY_ORDER: '/InspectionOrder/QueryOrder', //查询核酸检测结果
   GET_PDF: '/report/getPdf', //获取pdf
+  REGISTER_SUCCESS: '/register/getSuccessRegisterList', //获取成功挂号的列表
 }
