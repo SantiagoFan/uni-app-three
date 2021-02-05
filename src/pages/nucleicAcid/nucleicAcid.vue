@@ -49,18 +49,7 @@ export default {
   data() {
     return {
       show: false, //  切换弹出层
-      list: [
-        {
-          name:"新型冠状病毒核酸检测（鼻咽拭子）",
-          price:100.00,
-          checked:false   
-        },
-        {
-          name:"新型冠状病毒核酸检测（口咽拭子）",
-          price:120.00,
-          checked:false
-        }
-      ],
+      list: [],
     }
   },
   computed:{
@@ -68,9 +57,16 @@ export default {
       return this.list.reduce(res=>{ return res.checked?res.price:0 },0)
     }
   },
+  mounted() {
+    this.loadData()
+  },
   methods:{
     loadData(){
-
+      this.$http
+        .post(this.API.INSPECTION_QUERY_OPTIONS, {})
+        .then((res) => {
+          this.list = res.data
+        })
     },
     handleChoose(index){
       this.list[index].checked = !this.list[index].checked
