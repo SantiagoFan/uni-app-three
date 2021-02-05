@@ -5,7 +5,8 @@
         <dh-image
           class="img"
           mode="widthFix"
-          src=""
+          :src="banner"
+          :allowEmpty='true'
           errorSrc="index_img01.jpg?v=0.1"
         ></dh-image>
       </view>
