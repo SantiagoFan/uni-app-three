@@ -141,6 +141,7 @@ export default {
 .hospital {
   &-m {
     &__pic {
+      min-height: 340rpx;
       .img {
         width: 100%;
         height: auto;

@@ -293,6 +293,7 @@ export default {
 .index-container {
   .index-main {
     .top_pic {
+      min-height: 340rpx;
       .img {
         width: 100%;
         display: block;
