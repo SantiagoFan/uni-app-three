@@ -69,4 +69,5 @@ export default {
   INSPECTION_QUERY_OPTIONS: '/InspectionOrder/QueryOptions', //查询核酸检测项目
   INSPECTION_CREATE_ORDER: '/InspectionOrder/CreateOrder', //一建核酸检测
   INSPECTION_QUERY_ORDER: '/InspectionOrder/QueryOrder', //查询核酸检测结果
+  GET_PDF: '/report/getPdf', //获取pdf
 }

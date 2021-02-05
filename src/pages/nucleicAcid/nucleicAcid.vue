@@ -52,26 +52,26 @@ export default {
       list: [],
     }
   },
-  computed:{
-    amount(){
-      return this.list.reduce(res=>{ return res.checked?res.price:0 },0)
-    }
+  computed: {
+    amount() {
+      return this.list.reduce((res) => {
+        return res.checked ? res.price : 0
+      }, 0)
+    },
   },
   mounted() {
     this.loadData()
   },
-  methods:{
-    loadData(){
-      this.$http
-        .post(this.API.INSPECTION_QUERY_OPTIONS, {})
-        .then((res) => {
-          this.list = res.data
-        })
+  methods: {
+    loadData() {
+      this.$http.post(this.API.INSPECTION_QUERY_OPTIONS, {}).then((res) => {
+        this.list = res.data
+      })
     },
-    handleChoose(index){
+    handleChoose(index) {
       this.list[index].checked = !this.list[index].checked
-    }
-  }
+    },
+  },
 }
 </script>
 
@@ -182,4 +182,3 @@ export default {
   }
 }
 </style>
-
