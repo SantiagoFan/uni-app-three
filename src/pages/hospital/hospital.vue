@@ -6,7 +6,8 @@
           class="img"
           mode="widthFix"
           :src="banner"
-          errorSrc="hos_pic.jpg"
+          :allowEmpty='true'
+          errorSrc="hos_pic.jpg?v=0.1"
         ></dh-image>
       </view>
       <view class="hospital-m__wrap">
@@ -140,6 +141,7 @@ export default {
 .hospital {
   &-m {
     &__pic {
+      min-height: 340rpx;
       .img {
         width: 100%;
         height: auto;

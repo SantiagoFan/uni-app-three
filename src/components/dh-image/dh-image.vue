@@ -23,6 +23,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    allowEmpty:{
+      type:Boolean,
+      default:false
+    }
   },
   watch: {
     src(val) {
@@ -53,7 +57,7 @@ export default {
     if (this.inHis && src) {
       src = basepath + '/his' + this.src
     }
-    this.imageSrc = src || 'error'
+    this.imageSrc = src || this.allowEmpty?'':'error'
   },
 }
 </script>

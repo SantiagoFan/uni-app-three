@@ -6,7 +6,8 @@
           class="img"
           mode="widthFix"
           :src="banner"
-          errorSrc="index_img01.jpg"
+          :allowEmpty='true'
+          errorSrc="index_img01.jpg?v=0.1"
         ></dh-image>
       </view>
       <view class="index-wrap">
@@ -292,6 +293,7 @@ export default {
 .index-container {
   .index-main {
     .top_pic {
+      min-height: 340rpx;
       .img {
         width: 100%;
         display: block;
