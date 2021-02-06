@@ -67,6 +67,9 @@ export default {
   onLoad() {
     this.getList()
   },
+  onPullDownRefresh() {
+    this.getList()
+  },
   computed: {
     ...mapState(['patientInfo']),
   },
@@ -90,6 +93,9 @@ export default {
         })
         .then((res) => {
           this.list = res.data
+        })
+        .finally((res) => {
+          uni.stopPullDownRefresh()
         })
     },
   },
