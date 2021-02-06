@@ -1,6 +1,6 @@
 <template>
   <view class="container">
-    <PatientCard :need-patient="true"></PatientCard>
+    <PatientCard :need-patient="true" @change="loadData"></PatientCard>
     <view class="wrap">
       <view class="wrap__list">
         <view

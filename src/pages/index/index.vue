@@ -6,7 +6,7 @@
           class="img"
           mode="widthFix"
           :src="banner"
-          :allowEmpty='true'
+          :allowEmpty="true"
           errorSrc="index_img01.jpg?v=0.1"
         ></dh-image>
       </view>
@@ -219,8 +219,6 @@ export default {
     },
   },
   onLoad() {
-    console.log('onLoad')
-    console.log(this.$store.state)
     this.getBanner()
   },
   onShow() {
@@ -234,8 +232,8 @@ export default {
         return str
       }
     },
-    getBanner(){
-      this.$http.post(this.API.BANNER,{type:1},false).then((res) => {
+    getBanner() {
+      this.$http.post(this.API.BANNER, { type: 1 }, false).then((res) => {
         this.banner = res.data
       })
     },

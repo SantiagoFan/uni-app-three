@@ -1,6 +1,10 @@
 <template>
   <view class="wrap">
-    <PatientCard :show-message="false" :need-patient="true"></PatientCard>
+    <PatientCard
+      :show-message="false"
+      :need-patient="true"
+      @change="getDetail"
+    ></PatientCard>
     <view class="wrap__tab">
       <view
         :class="['wrap__tab-item', { active: tabIndex === 0 }]"

@@ -1,6 +1,9 @@
 <template>
   <view class="container">
-    <PatientCard :need-patient="true"></PatientCard>
+    <PatientCard
+      :need-patient="true"
+      @change="getSuccessRegister"
+    ></PatientCard>
     <view class="showReg">
       <view
         class="pop-item"
@@ -60,10 +63,14 @@
             </view>
             <view class="item-sta__con">
               <view class="item-sta__con-title">
-                {{ item[0].category | getCategory }}
+                {{ item.category | getCategory }}
               </view>
               <view class="item-sta__con-list">
-                <view class="cell" v-for="(obj, index1) in item" :key="index1">
+                <view
+                  class="cell"
+                  v-for="(obj, index1) in item.recipe"
+                  :key="index1"
+                >
                   <view class="name">{{ obj.yp_name }}</view>
                   <view class="price"
                     >¥{{ obj.yp_dj_price * obj.yp_number }}</view
@@ -79,8 +86,7 @@
     <view class="fot-box">
       <view class="fot-box__total">
         <text class="text">总额：</text>
-        <text class="price">￥{{ amount }}</text>
-        <text>{{ val }}</text>
+        <text class="price">￥{{ totalAmount }}</text>
       </view>
       <view class="fot-box__btn active" @click="createOrder">
         <text class="text">去缴费</text>
@@ -100,7 +106,6 @@ export default {
     return {
       show: false, //  切换弹出层
       list: [],
-      amount: 0.0,
       flag: false,
       registerList: [],
       index: 0,
@@ -112,14 +117,13 @@ export default {
       this.getSuccessRegister()
     }
   },
-  watch: {
-    patientInfo(val) {
-      this.getSuccessRegister()
-    },
-  },
+  // watch: {
+  //   patientInfo(val) {
+  //     this.getSuccessRegister()
+  //   },
+  // },
   filters: {
     getCategory(category) {
-      console.log(category)
       switch (category) {
         case '1':
           return '处方项目'
@@ -139,6 +143,13 @@ export default {
         return this.registerList[this.index].register_no
       }
       return ''
+    },
+    totalAmount() {
+      return this.list.reduce((p, res) => {
+        return (
+          parseFloat(p) + parseFloat(res.checked ? res.amount : 0)
+        ).toFixed(2)
+      }, 0)
     },
   },
   components: {
@@ -161,20 +172,13 @@ export default {
       this.getExamination()
     },
     handleChoose(index) {
-      console.log('初始', this.amount)
       this.list[index].checked = !this.list[index].checked
-      if (this.list[index].checked) {
-        this.amount += parseFloat(this.list[index]['amount'])
-      } else {
-        this.amount =
-          parseFloat(this.amount) - parseFloat(this.list[index]['amount'])
-      }
-      console.log(this.list[index]['amount'])
     },
     handleCheck() {
       this.$refs.popup.handleChoose()
     },
     getExamination() {
+      this.list = []
       if (this.reg_no) {
         this.$http
           .post(this.API.EXAMINATION, { reg_no: this.reg_no })
@@ -222,7 +226,7 @@ export default {
         .post(this.API.EXAMINATION_ORDER, {
           reg_no: this.reg_no,
           ids: ids,
-          amount: this.amount,
+          amount: this.totalAmount,
         })
         .then((res) => {
           const config = JSON.parse(res.data)
@@ -241,6 +245,9 @@ export default {
               })
               that.$Router.replace({
                 name: 'payRecord',
+                params: {
+                  patient_code: that.patientInfo['patient_code'],
+                },
               })
             },
             fail: function(err) {

@@ -5,7 +5,7 @@
       <view class="item">
         <view class="info">
           <view class="title">
-            <view class="name">{{ livePatientInfo|getName }}</view>
+            <view class="name">{{ livePatientInfo | getName }}</view>
           </view>
           <view class="code">住院号：{{ livePatientInfo.inpatient_code }}</view>
         </view>
@@ -28,7 +28,12 @@
         <view class="check-wrap__con">
           <view class="list">
             <view
-              :class="['item', item.live_code == livePatientInfo.inpatient_code ? 'active' : '']"
+              :class="[
+                'item',
+                item.live_code == livePatientInfo.inpatient_code
+                  ? 'active'
+                  : '',
+              ]"
               @click="choiceLivePatient(item.id)"
               v-for="(item, index) in livePatientList"
               :key="index"
@@ -80,8 +85,8 @@ export default {
       showModal: false,
     }
   },
-  filters:{
-    getName(item){
+  filters: {
+    getName(item) {
       if (item && item.name) {
         // if (item.name.length > 4) {
         //   return item.name.substr(-2, 4)
@@ -92,7 +97,7 @@ export default {
       } else {
         return ''
       }
-    }
+    },
   },
   mounted() {
     this.checkLivePatient()
@@ -135,7 +140,7 @@ export default {
     },
     goBack() {
       this.$Router.back(1)
-    }
+    },
   },
 }
 </script>

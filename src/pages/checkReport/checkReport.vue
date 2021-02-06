@@ -1,6 +1,10 @@
 <template>
   <view class="wrap">
-    <PatientCard :show-message="false" :need-patient="true"></PatientCard>
+    <PatientCard
+      :show-message="false"
+      :need-patient="true"
+      @change="getList"
+    ></PatientCard>
     <view class="wrap-list">
       <view
         class="item"
