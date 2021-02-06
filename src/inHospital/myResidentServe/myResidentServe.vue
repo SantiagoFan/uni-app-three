@@ -28,6 +28,16 @@
           </view>
           <view class="text">住院日清单</view>
         </view>
+        <view class="wrap-serve__con-item" @click="goPay()">
+          <view class="icon">
+            <image
+              class="img"
+              mode="widthFix"
+              src="@/static/image/serve_icon3.jpg"
+            />
+          </view>
+          <view class="text">住院缴费</view>
+        </view>
         <view class="wrap-serve__con-item" @click="goRecord()">
           <view class="icon">
             <image
@@ -71,6 +81,9 @@ export default {
     goRecord() {
       this.$Router.push({ name: 'livePatientRecord' })
     },
+    goPay(){
+       this.$Router.push({ name: 'depositPay' })
+    }
   },
 }
 </script>

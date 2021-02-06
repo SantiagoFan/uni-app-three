@@ -1,5 +1,5 @@
 <template>
-  <div class="wrap">
+  <view class="wrap">
     <view class="wrap-info">
       <view class="wrap-info__user">
         <view class="wrap-info__user-name">{{ model.name }}</view>
@@ -43,7 +43,14 @@
       </view>
     </view>
     <view class="wrap-btn" @click="deleteLivePatient">删除住院人</view>
-  </div>
+    <u-modal
+      v-model="showModal"
+      @confirm="confirm"
+      title="提示"
+      content="确认删除"
+      show-cancel-button="true"
+    ></u-modal>
+  </view>
 </template>
 
 <script>
@@ -51,7 +58,10 @@ import { mapState } from 'vuex'
 export default {
   data() {
     return {
-      model: '',
+      showModal: false,
+      model: {
+        inpatient_code:''
+      },
     }
   },
   computed: {
@@ -77,6 +87,9 @@ export default {
       })
     },
     deleteLivePatient() {
+      this.showModal = true
+    },
+    confirm(){
       this.$http
         .post(this.API.LIVE_PATIENT_DELETE, {
           live_code: this.model.inpatient_code,
@@ -89,11 +102,11 @@ export default {
           })
           if (res.code == 20000) {
             setTimeout(() => {
-              this.$Router.replace('/pages/myResidents/myResidents')
+              this.$Router.replace({name:'myResidents'})
             }, 1000)
           }
         })
-    },
+    }
   },
 }
 </script>
@@ -111,11 +124,11 @@ export default {
       border-bottom: 2rpx dashed #eaeaea;
       &-name {
         color: #333333;
-        font-size: 32rpx;
+        font-size: 36rpx;
       }
       &-code {
         color: #999999;
-        font-size: 24rpx;
+        font-size: 28rpx;
         margin-top: 20rpx;
       }
     }
@@ -128,12 +141,12 @@ export default {
           font-size: 30rpx;
         }
         &-list {
-          margin-top: 30rpx;
+          margin-top: 32rpx;
           .cell {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 24rpx;
+            font-size: 28rpx;
             margin-bottom: 30rpx;
             &:last-child {
               margin-bottom: 0;
