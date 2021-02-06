@@ -29,7 +29,7 @@
           <view class="list">
             <view
               :class="['item', item.live_code == livePatientInfo.inpatient_code ? 'active' : '']"
-              @click="choiceLivePatient(item.id)"
+              @click="choiceLivePatient(item)"
               v-for="(item, index) in livePatientList"
               :key="index"
             >
@@ -117,15 +117,17 @@ export default {
     manageLivePatient() {
       this.$Router.push({ name: 'myResidents' })
     },
-    choiceLivePatient(id) {
-      this.$http
-        .post(this.API.CHANGE_DEFAULT_PATIENT, { id: id })
-        .then((res) => {
-          if (res.code == 20000) {
-            this.$store.commit('setLivePatientInfo', res.data)
-            this.show = false
-          }
-        })
+    choiceLivePatient(item) {
+      // if(item.live_code!=this.livePatient.inpatient_code){
+        this.$http
+          .post(this.API.CHANGE_DEFAULT_LIVE_PATIENT, { patient_code: item.patient_code })
+          .then((res) => {
+            if (res.code == 20000) {
+              this.$store.commit('setLivePatientInfo', res.data)
+              this.show = false
+            }
+          })
+      // }
     },
     showLivePatient() {
       this.$Router.push({
