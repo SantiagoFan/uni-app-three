@@ -44,6 +44,7 @@ export default {
   },
   methods: {
     error(e) {
+      console.log('errorimage_event',e);
       this.imageSrc = basepath + '/static/wx/' + this.errorSrc
       console.log('errorImage', this.imageSrc)
       this.$emit('error', e)
@@ -57,7 +58,7 @@ export default {
     if (this.inHis && src) {
       src = basepath + '/his' + this.src
     }
-    this.imageSrc = src || this.allowEmpty?'':'error'
+    this.imageSrc = src || (this.allowEmpty?'':'error')
   },
 }
 </script>
