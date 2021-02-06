@@ -153,7 +153,10 @@
           </view>
         </view>
       </view>
-      <view class="wrap-info__box" v-if="data.status == 1 || data.status == 3">
+      <view
+        class="wrap-info__box"
+        v-if="data.status == 1 || data.status == 3 || data.status == 4"
+      >
         <view :class="['bt', { 'bt-show': payDetailShow }]" @click="handleBt">
           <view class="bt-text">缴费详情</view>
           <view class="bt-arrow">

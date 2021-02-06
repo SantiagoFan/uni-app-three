@@ -48,7 +48,7 @@
           </view>
         </view>
       </view>
-      <view class="report-wrap__btn">
+      <view class="report-wrap__btn" @click="dowmloadReport">
         <view class="report-wrap__btn-box">下载报告</view>
       </view>
     </view>
@@ -74,6 +74,24 @@ export default {
         .then((res) => {
           this.model = res.data
         })
+    },
+    dowmloadReport() {
+      this.$http.post(this.API.GET_PDF).then((res) => {
+        if (res.code == 20000) {
+          uni.downloadFile({
+            url: res.data,
+            success: function(res) {
+              var filePath = res.tempFilePath
+              uni.openDocument({
+                filePath: filePath,
+                success: function(res) {
+                  // console.log('打开文档成功')
+                },
+              })
+            },
+          })
+        }
+      })
     },
   },
 }
