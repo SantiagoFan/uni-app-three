@@ -198,8 +198,9 @@ export default {
       }
     },
     createOrder() {
+      var that = this
       let ids = []
-      this.list.forEach((e) => {
+      that.list.forEach((e) => {
         if (e.checked) {
           ids.push(e.innner_trade_no)
         }
@@ -211,22 +212,22 @@ export default {
         })
         return false
       }
-      if (!this.reg_no) {
+      if (!that.reg_no) {
         uni.showToast({
           title: '请先选择诊疗记录',
           icon: 'none',
         })
         return false
       }
-      if (this.flag) {
+      if (that.flag) {
         return false
       }
-      this.flag = true
-      this.$http
-        .post(this.API.EXAMINATION_ORDER, {
-          reg_no: this.reg_no,
+      that.flag = true
+      that.$http
+        .post(that.API.EXAMINATION_ORDER, {
+          reg_no: that.reg_no,
           ids: ids,
-          amount: this.totalAmount,
+          amount: that.totalAmount,
         })
         .then((res) => {
           const config = JSON.parse(res.data)
@@ -261,7 +262,7 @@ export default {
           })
         })
         .finally((res) => {
-          this.flag = false
+          that.flag = false
         })
     },
   },
