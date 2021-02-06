@@ -96,7 +96,7 @@ export default {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            font-size: 28rpx;
+            font-size: 34rpx;
             .status {
               color: #484848;
             }
@@ -109,7 +109,7 @@ export default {
             align-items: center;
             justify-content: space-between;
             color: #a8a8a8;
-            font-size: 26rpx;
+            font-size: 32rpx;
             margin-top: 20rpx;
           }
         }
