@@ -117,12 +117,12 @@ export default new Vuex.Store({
       }
     },
     // 加载就诊人
-    loadPatientList({ state, commit }, isUpdate) {
+    loadPatientList({ state, commit }, isUpdate, showLoad = true) {
       //加载完不重新加载 isUpdate 强制更新标识
       if (state.patientListLoad && !isUpdate) {
         return
       }
-      http.post(api.PATIENT_LIST).then((res) => {
+      http.post(api.PATIENT_LIST,{},showLoad).then((res) => {
         commit('setPatientList', res.data)
       })
     },

@@ -39,9 +39,9 @@
             <view class="pop-item-info-sub">
               {{ item.doctor_name }}/{{ item.department_name }}
             </view>
-            <!-- <view class="pop-item-info-sub">
+            <view class="pop-item-info-sub">
               {{item.selectDate}} {{item.time}}
-            </view> -->
+            </view>
           </view>
           <view class="pop-item-jt">
             <text class="iconfont icon-arrowb"></text>

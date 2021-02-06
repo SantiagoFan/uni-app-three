@@ -258,7 +258,7 @@ export default {
     },
   },
   onShow() {
-    this.$store.dispatch('loadPatientList', false)
+    this.$store.dispatch('loadPatientList', false,false)
   },
   onLoad() {
     login.checkLogin()
