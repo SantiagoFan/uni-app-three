@@ -45,11 +45,15 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
   data() {
     return {
       tabIndex: 0,
     }
+  },
+  computed: {
+    ...mapState(['patientInfo']),
   },
   onLoad() {
     this.getDetail()
@@ -59,7 +63,11 @@ export default {
       this.tabIndex = index
     },
     getDetail() {
-      this.$http.post(this.API.WAIT_DETAIL).then((res) => {})
+      this.$http
+        .post(this.API.WAIT_DETAIL, {
+          patient_code: this.patientInfo.patient_code,
+        })
+        .then((res) => {})
     },
   },
 }

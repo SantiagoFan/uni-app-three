@@ -72,9 +72,9 @@
         <view class="recipel">
           <view class="table-th">
             <view class="item">项目名称</view>
-            <view class="item">单价(元)</view>
-            <view class="item">数量</view>
-            <view class="item">金额(元)</view>
+            <view class="item">检测方法</view>
+            <view class="item">结果</view>
+            <view class="item">参考区间</view>
           </view>
           <view class="table-con">
             <view class="table-con__td">
@@ -83,24 +83,11 @@
               <view class="item">1</view>
               <view class="item">20.00</view>
             </view>
-            <view class="table-con__td">
-              <view class="item">产前常规检查</view>
-              <view class="item">15.00</view>
-              <view class="item">1</view>
-              <view class="item">15.00</view>
-            </view>
-            <view class="table-con__td">
-              <view class="item">彩色多普勒超声多功能检查床单加收</view>
-              <view class="item">5.00</view>
-              <view class="item">1</view>
-              <view class="item">5.00</view>
-            </view>
-            <view class="table-con__td">
-              <view class="item">胎儿系统性彩色多普勒超声筛查(一级)</view>
-              <view class="item">180.00</view>
-              <view class="item">1</view>
-              <view class="item">180.00</view>
-            </view>
+          </view>
+        </view>
+        <view class="detail">
+          <view class="text">
+            建议与解释：此结仅为新型冠状病毒核酸定性筛查；筛查阳性的确诊结果请与当地疾病预防控制中心联系。
           </view>
         </view>
       </view>
@@ -367,6 +354,14 @@ export default {
               }
             }
           }
+        }
+      }
+      //建议与解释
+      .detail {
+        font-size: 24rpx;
+        margin-top: 20rpx;
+        .text {
+          line-height: 50rpx;
         }
       }
       // 缴费详情
