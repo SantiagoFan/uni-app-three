@@ -14,7 +14,7 @@
         <view class="bt">就诊凭条</view>
         <view class="con">
           <view class="code-pic">
-            <image class="img" mode="widthFix" src="@/static/image/code.jpg" />
+            <!-- <image class="img" mode="widthFix" src="@/static/image/code.jpg" /> -->
           </view>
           <view class="code-num">10000000354635465</view>
         </view>
