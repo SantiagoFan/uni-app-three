@@ -100,6 +100,15 @@
       }
     },
     {
+      "path": "pages/nucleicAcid/nucleicAcidList",
+      "name": "nucleicAcidList",
+      "style": {
+        "navigationBarTitleText": "核酸检测记录",
+        "navigationBarBackgroundColor": "#0ec698",
+        "navigationBarTextStyle": "#ffffff"
+      }
+    },
+    {
       "path": "pages/nucleicAcid/nucleicAcidDetail",
       "name": "nucleicAcidDetail",
       "style": {
