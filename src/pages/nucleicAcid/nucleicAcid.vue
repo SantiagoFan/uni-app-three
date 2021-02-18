@@ -39,8 +39,6 @@
         <text class="text">去缴费</text>
       </view>
     </view>
-    <!-- 弹出层 -->
-    <check-popup ref="popup" />
   </view>
 </template>
 
@@ -48,7 +46,6 @@
 export default {
   data() {
     return {
-      show: false, //  切换弹出层
       list: [],
     }
   },

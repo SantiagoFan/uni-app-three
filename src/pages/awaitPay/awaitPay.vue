@@ -40,7 +40,7 @@
               {{ item.doctor_name }}/{{ item.department_name }}
             </view>
             <view class="pop-item-info-sub">
-              {{item.selectDate}} {{item.time}}
+              {{ item.selectDate }} {{ item.time }}
             </view>
           </view>
           <view class="pop-item-jt">
@@ -92,13 +92,10 @@
         <text class="text">去缴费</text>
       </view>
     </view>
-    <!-- 弹出层 -->
-    <check-popup ref="popup" />
   </view>
 </template>
 
 <script>
-import CheckPopup from '@/components/common/CheckPopup'
 import { mapState } from 'vuex'
 
 export default {
@@ -151,9 +148,6 @@ export default {
         ).toFixed(2)
       }, 0)
     },
-  },
-  components: {
-    CheckPopup,
   },
   methods: {
     getSuccessRegister() {
