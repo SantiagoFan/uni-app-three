@@ -5,7 +5,8 @@
       :need-patient="true"
       @change="getDetail"
     ></PatientCard>
-    <view class="wrap__tab">
+    <RegisterCard @change="getWaitDetail"></RegisterCard>
+    <!-- <view class="wrap__tab">
       <view
         :class="['wrap__tab-item', { active: tabIndex === 0 }]"
         @click="handleTabItem(0)"
@@ -18,13 +19,13 @@
       >
         <view class="text">检查排队</view>
       </view>
-    </view>
+    </view> -->
     <view class="wrap__con">
-      <view class="art">
+      <view class="art" v-if="detail">
         <view class="title">排队号</view>
-        <view class="num">15</view>
+        <view class="num">{{detail.now_rank}}</view>
         <view class="massage"
-          >您前面还有<text class="count">9</text>人，请耐心等待！</view
+          >您前面还有<text class="count">{{detail.wait_person}}</text>人，请耐心等待！</view
         >
         <view class="gap">
           <image class="img" mode="widthFix" src="@/static/image/gap_img.jpg" />
@@ -32,11 +33,11 @@
         <view class="info">
           <view class="cell">
             <view class="label">就诊科室</view>
-            <view class="text">皮肤科门诊</view>
+            <view class="text">{{detail.department_name}}</view>
           </view>
           <view class="cell">
             <view class="label">医生姓名</view>
-            <view class="text">姓名</view>
+            <view class="text">{{detail.doctor_name}}</view>
           </view>
         </view>
       </view>
@@ -46,28 +47,32 @@
 
 <script>
 import { mapState } from 'vuex'
+import RegisterCard from "@/components/register_card/index.vue"
 export default {
   data() {
     return {
       tabIndex: 0,
+      detail:null
     }
+  },
+  components:{
+    RegisterCard
   },
   computed: {
     ...mapState(['patientInfo']),
-  },
-  onLoad() {
-    this.getDetail()
   },
   methods: {
     handleTabItem(index) {
       this.tabIndex = index
     },
-    getDetail() {
+    getWaitDetail(reg_code) {
       this.$http
         .post(this.API.WAIT_DETAIL, {
-          patient_code: this.patientInfo.patient_code,
+          reg_code: reg_code,
         })
-        .then((res) => {})
+        .then((res) => {
+          this.detail = res.data
+        })
     },
   },
 }

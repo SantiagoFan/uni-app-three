@@ -7,10 +7,10 @@
         @click="show = true"
       >
         <view class="pop-item-info">
-          <view>门诊号:{{ registerList[index].register_no }}</view>
+          <view>门诊号:{{ registerList[selectIndex].register_no }}</view>
           <view class="pop-item-info-sub">
-            {{ registerList[index].doctor_name }}/{{
-              registerList[index].department_name
+            {{ registerList[selectIndex].doctor_name }}/{{
+              registerList[selectIndex].department_name
             }}
           </view>
           <!-- <view class="pop-item-info-sub">
@@ -31,7 +31,7 @@
           @click="changeIndex(index)"
         >
           <view class="pop-item-info">
-            <view>门诊号:{{ registerList[index].register_no }}</view>
+            <view>门诊号:{{ item.register_no }}</view>
             <view class="pop-item-info-sub">
               {{ item.doctor_name }}/{{ item.department_name }}
             </view>
@@ -54,34 +54,43 @@ export default {
   computed: {
     ...mapState(['patientInfo']),
   },
-  props: {
-    theme: {
-      type: String,
-      default: 'normal',
-    },
-  },
   data() {
     return {
       registerList:[],
+      selectIndex:0,
       show: false
     }
   },
   mounted() {
-    console.info(this.patientInfo)
+    this.getSuccessRegister()
   },
   methods: {
-    changeIndex(){
-      
+    /**
+     * 查询挂号信息
+     */
+    getSuccessRegister() {
+      this.$http
+        .post(this.API.REGISTER_SUCCESS, {
+          patient_code: this.patientInfo.patient_code,
+        })
+        .then((res) => {
+          this.registerList = res.data
+          if(this.registerList.length>0){
+            this.selectIndex = 0;
+            this.$emit('change',this.registerList[0].register_no)
+          }
+        })
+    },
+    changeIndex(index){
+      this.selectIndex = index
+      this.show = false
+      this.$emit('change',this.registerList[index].register_no)
     }
   }
 }
 </script>
 <style lang="scss" scoped>
 .container {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  padding: 20rpx;
   .showReg {
     // padding: 0 20rpx;
     // height: 200rpx;
