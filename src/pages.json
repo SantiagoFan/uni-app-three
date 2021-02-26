@@ -114,7 +114,8 @@
       "style": {
         "navigationBarTitleText": "门诊缴费记录",
         "navigationBarBackgroundColor": "#0ec698",
-        "navigationBarTextStyle": "#ffffff"
+        "navigationBarTextStyle": "#ffffff",
+        "enablePullDownRefresh": true
       }
     },
     {
@@ -123,8 +124,7 @@
       "style": {
         "navigationBarTitleText": "门诊缴费详情",
         "navigationBarBackgroundColor": "#0ec698",
-        "navigationBarTextStyle": "#ffffff",
-        "enablePullDownRefresh": true
+        "navigationBarTextStyle": "#ffffff"
       }
     },
     {

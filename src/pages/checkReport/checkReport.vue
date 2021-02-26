@@ -67,14 +67,13 @@ export default {
       this.$refs.popup.handleChoose()
     },
     getList() {
+      this.list = [];
       this.$http
         .post(this.API.REPORT_LIST, {
           patient_code: this.patientInfo.patient_code,
         })
         .then((res) => {
-          if (res == 20000) {
             this.list = res.data
-          }
         })
     },
   },
