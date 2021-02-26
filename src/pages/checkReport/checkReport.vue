@@ -72,7 +72,9 @@ export default {
           patient_code: this.patientInfo.patient_code,
         })
         .then((res) => {
-          this.list = res.data
+          if (res == 20000) {
+            this.list = res.data
+          }
         })
     },
   },

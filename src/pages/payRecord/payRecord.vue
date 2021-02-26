@@ -55,6 +55,9 @@ export default {
       this.getList()
     }
   },
+   onPullDownRefresh() {
+    this.getList()
+  },
   methods: {
     handleItem(item) {
       this.$Router.push({
@@ -69,6 +72,9 @@ export default {
         })
         .then((res) => {
           this.list = res.data
+        })
+        .finally((res) => {
+          uni.stopPullDownRefresh()
         })
     },
   },
