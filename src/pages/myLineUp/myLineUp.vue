@@ -66,6 +66,7 @@ export default {
       this.tabIndex = index
     },
     getWaitDetail(reg_code) {
+      this.detail = null;
       this.$http
         .post(this.API.WAIT_DETAIL, {
           reg_code: reg_code,

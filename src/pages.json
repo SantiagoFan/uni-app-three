@@ -46,16 +46,7 @@
         "navigationBarBackgroundColor": "#0ec698",
         "navigationBarTextStyle": "#ffffff"
       }
-    },
-    {
-      "path": "pages/payRecord/payRecordDetail",
-      "name": "payRecordDetail",
-      "style": {
-        "navigationBarTitleText": "诊间支付缴费详情",
-        "navigationBarBackgroundColor": "#0ec698",
-        "navigationBarTextStyle": "#ffffff"
-      }
-    },
+    },  
     {
       "path": "pages/my/my",
       "name": "my",
@@ -117,22 +108,20 @@
         "navigationBarTextStyle": "#ffffff"
       }
     },
-    
-    
-    {
-      "path": "pages/clinicPayDetail/clinicPayDetail",
-      "name": "clinicPayDetail",
-      "style": {
-        "navigationBarTitleText": "门诊缴费详情",
-        "navigationBarBackgroundColor": "#0ec698",
-        "navigationBarTextStyle": "#ffffff"
-      }
-    },
     {
       "path": "pages/payRecord/payRecord",
       "name": "payRecord",
       "style": {
         "navigationBarTitleText": "门诊缴费记录",
+        "navigationBarBackgroundColor": "#0ec698",
+        "navigationBarTextStyle": "#ffffff"
+      }
+    },
+    {
+      "path": "pages/payRecord/payRecordDetail",
+      "name": "payRecordDetail",
+      "style": {
+        "navigationBarTitleText": "门诊缴费详情",
         "navigationBarBackgroundColor": "#0ec698",
         "navigationBarTextStyle": "#ffffff",
         "enablePullDownRefresh": true
