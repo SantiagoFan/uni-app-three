@@ -100,22 +100,27 @@ export default {
         })
     },
     dowmloadReport() {
-      this.$http.post(this.API.GET_PDF).then((res) => {
-        if (res.code == 20000) {
-          uni.downloadFile({
-            url: res.data,
-            success: function(res) {
-              var filePath = res.tempFilePath
-              uni.openDocument({
-                filePath: filePath,
-                success: function(res) {
-                  // console.log('打开文档成功')
-                },
-              })
-            },
-          })
-        }
-      })
+      this.$http
+        .post(this.API.GET_PDF, {
+          report_code: this.model.report_code,
+          type: 1,
+        })
+        .then((res) => {
+          if (res.code == 20000) {
+            uni.downloadFile({
+              url: res.data,
+              success: function(res) {
+                var filePath = res.tempFilePath
+                uni.openDocument({
+                  filePath: filePath,
+                  success: function(res) {
+                    // console.log('打开文档成功')
+                  },
+                })
+              },
+            })
+          }
+        })
     },
   },
 }
