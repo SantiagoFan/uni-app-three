@@ -1,57 +1,117 @@
 <template>
-  <view class="record-d">
-    <view class="record-d-main">
-      <view class="record-d-main__status">
-        <view class="title">
-          <view class="icon">
-            <text class="iconfont icon-duihao"></text>
+  <view class="wrap" id="wrap">
+    <view class="wrap-status">
+      <view class="wrap-status__info">
+        <view class="icon">
+          <!-- icon icon-dasuozi：锁号 icon-duihao：预约挂号成功 icon-jianhao：icon-jianhao -->
+          <view class="iconfont icon-jianhao" v-if="detail.pay_status == 1">
           </view>
-          <view class="text">缴费成功</view>
+          <view class="iconfont icon-duihao" v-if="detail.pay_status == 0">
+          </view>
         </view>
-        <view class="massage">请凭手机缴费页面和处方单，及时到对应科室执行项目。<br>如需打印发票，请到收费窗口咨询。</view>
-      </view>
-      <view class="record-d-main__proof">
-        <view class="bt">就诊凭条</view>
-        <view class="con">
-          <view class="code-pic">
-            <!-- <image class="img" mode="widthFix" src="@/static/image/code.jpg" /> -->
-          </view>
-          <view class="code-num">10000000354635465</view>
+        <view class="text">
+          {{ detail.pay_status == 1 ? '已退款' : '缴费成功' }}
         </view>
       </view>
-      <view class="record-d-main__info">
-        <view class="wrap">
-          <view class="wrap__bt">就诊信息</view>
-          <view class="wrap__list">
-            <view class="item">
-              <view class="label">就诊人</view>
-              <view class="text">姓名</view>
-            </view>
-            <view class="item">
-              <view class="label">就诊卡号</view>
-              <view class="text">10000000002435464</view>
-            </view>
-            <view class="item">
-              <view class="label">医院名称</view>
-              <view class="text">呼和浩特市蒙医中医医院</view>
+      <view class="wrap-status__msg"
+        >请凭手机缴费页面和处方单，及时到对应科室执行项目。如需打印发票，请到收费窗口咨询。</view
+      >
+    </view>
+    <u-gap height="20" bg-color="#f3f3f3"></u-gap>
+    <view class="wrap-code">
+      <my-code
+        :patient_code="patientInfo.patient_code"
+        :ehealth_code="patientInfo.ehealth_code"
+        @refresh="updateHealth"
+      ></my-code>
+    </view>
+    <view class="wrap-info">
+      <view class="wrap-info__box">
+        <view class="bt">就诊信息</view>
+        <view class="list">
+          <view class="cell">
+            <view class="cell-label">就诊人</view>
+            <view class="cell-con">{{ detail.patient_name }}</view>
+          </view>
+          <view class="cell">
+            <view class="cell-label">就诊卡号</view>
+            <view class="cell-con">{{ detail.patient_code }}</view>
+          </view>
+          <view class="cell">
+            <view class="cell-label">医院名称</view>
+            <view class="cell-con">{{ $config('name') }}</view>
+          </view>
+        </view>
+      </view>
+      <view class="wrap-info__box">
+        <view class="bt">导诊信息</view>
+        <view class="list">
+          <view class="cell">
+            <view class="cell-label">{{ detail.guide.department }}</view>
+            <view class="cell-con">{{detail.guide.address}}</view
+            >
+          </view>
+          <!-- <view class="cell">
+            <view class="cell-label">妇科</view>
+            <view class="cell-con">二楼北侧步梯旁妇科</view>
+          </view>
+          <view class="cell">
+            <view class="cell-label">B超市心电图</view>
+            <view class="cell-con">一楼北侧</view>
+          </view> -->
+        </view>
+      </view>
+      <view class="wrap-info__box">
+        <view :class="['bt', { 'bt-show': payDetailShow }]" @click="handleBt">
+          <view class="bt-text">缴费项目</view>
+          <view class="bt-arrow">
+            <text class="iconfont icon-right"></text>
+          </view>
+        </view>
+        <view class="recipel">
+          <view class="table-th">
+            <view class="item">项目名称</view>
+            <view class="item">单价(元)</view>
+            <view class="item">数量</view>
+            <view class="item">金额(元)</view>
+          </view>
+          <view class="table-con">
+            <view class="table-con__td" v-for="(it,index) in detail.recipe" :key="index">
+              <view class="item">{{it.name}}</view>
+              <view class="item">{{it.price}}</view>
+              <view class="item">{{it.quantity}}</view>
+              <view class="item">{{it.amount}}</view>
             </view>
           </view>
         </view>
-        <view class="wrap">
-          <view class="wrap__bt">导诊信息</view>
-          <view class="wrap__list">
-            <view class="item">
-              <view class="label">超声医学科</view>
-              <view class="text">门诊北区   一楼超声医学科A区</view>
-            </view>
-            <view class="item">
-              <view class="label">皮肤科门诊</view>
-              <view class="text">门诊北区   一楼皮肤科门诊</view>
-            </view>
-            <view class="item">
-              <view class="label">心电图室</view>
-              <view class="text">门诊中区三楼普外科门诊区</view>
-            </view>
+      </view>
+      <view class="wrap-info__box">
+        <view :class="['bt', { 'bt-show': payDetailShow }]" @click="handleBt">
+          <view class="bt-text">缴费详情</view>
+          <view class="bt-arrow">
+            <text class="iconfont icon-right"></text>
+          </view>
+        </view>
+        <view class="list" v-show="payDetailShow">
+          <view class="cell">
+            <view class="cell-label">交易金额</view>
+            <view class="cell-con price">¥{{ detail.pay_fee }}</view>
+          </view>
+          <view class="cell">
+            <view class="cell-label">医院名称</view>
+            <view class="cell-con">{{ $config('name') }}</view>
+          </view>
+          <view class="cell">
+            <view class="cell-label">医院单号</view>
+            <view class="cell-con">{{ detail.innner_trade_no }}</view>
+          </view>
+          <view class="cell">
+            <view class="cell-label">支付流水号</view>
+            <view class="cell-con">{{detail.out_trade_no}}</view>
+          </view>
+          <view class="cell">
+            <view class="cell-label">支付时间</view>
+            <view class="cell-con">{{ detail.pay_time }}</view>
           </view>
         </view>
       </view>
@@ -60,87 +120,249 @@
 </template>
 
 <script>
-  export default {
-    
-  }
+import MyCode from '@/components/common/MyCode'
+import { mapState } from 'vuex'
+export default {
+  data() {
+    return {
+      codeIndex: 0,
+      payDetailShow: true,
+      detail: {},
+    }
+  },
+  components: { MyCode },
+  computed: {
+    ...mapState(['patientInfo']),
+  },
+  onLoad() {
+    this.detail = this.$Route.query.payDetail
+  },
+  methods: {
+    // 点击缴费详情
+    handleBt() {
+      // this.payDetailShow = true
+    },
+  },
+}
 </script>
 
 <style lang="scss" scoped>
-.record-d {
-  &-main {
-    &__status {
-      padding: 30rpx;
-      color: #ffffff;
-      background: #0ec698;
-      .title {
-        display: flex;
-        align-items: center;
-        .icon {
-          width: 60rpx;
-          height: 60rpx;
-          line-height: 60rpx;
-          text-align: center;
-          border-radius: 50%;
-          color: #0ec698;
-          margin-right: 20rpx;
-          background: #fff;
-        }
-        .text {
-          font-size: 48rpx;
-        }
+@import '@/assets/scss/mixin.scss';
+.wrap {
+  &-status {
+    padding: 30rpx;
+    color: #ffffff;
+    background: #0ec698;
+    &__info {
+      display: flex;
+      align-items: center;
+      .icon {
+        width: 55rpx;
+        height: 55rpx;
+        line-height: 55rpx;
+        color: #0ec698;
+        margin-right: 20rpx;
+        text-align: center;
+        background: #ffffff;
+        border-radius: 50%;
       }
-      .massage {
-        font-size: 26rpx;
-        margin-top: 30rpx;
+      .text {
+        font-size: 34rpx;
+      }
+      .time {
+        margin-left: auto;
+        font-size: 40rpx;
       }
     }
-    &__proof {
-      padding: 30rpx;
-      background: #fff;
-      .con {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin-top: 20rpx;
-        .code-pic {
-          width: 610rpx;
-          .img {
-            width: 100%;
-            height: auto;
+    &__msg {
+      font-size: 26rpx;
+      margin-top: 30rpx;
+    }
+  }
+  &-code {
+    padding: 30rpx;
+    background: #ffffff;
+    &__tab {
+      display: flex;
+      justify-content: space-evenly;
+      color: #333333;
+      font-size: 30rpx;
+      .item {
+        &.active {
+          color: #0ec698;
+          &:after {
+            content: '';
             display: block;
+            width: 70%;
+            height: 2rpx;
+            margin: 15rpx auto 0 auto;
+            background: #0ec698;
           }
         }
       }
     }
-    &__info {
-      padding: 20rpx;
-      .wrap {
-        padding: 30rpx;
-        margin-bottom: 20rpx;
-        background: #ffffff;
-        border-radius: 10rpx;
+    &__con {
+      padding-top: 50rpx;
+      &-code1 {
+        .img {
+          width: 310rpx;
+          height: 310rpx;
+          margin: 0 auto;
+          display: block;
+        }
+      }
+      &-code2 {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        .num {
+          color: #333333;
+          font-size: 24rpx;
+          margin-top: 15rpx;
+          letter-spacing: 1rpx;
+        }
+      }
+    }
+  }
+  .refund-line {
+    color: #333333;
+    font-size: 28rpx;
+    padding: 30rpx 70rpx;
+    background: #ffffff;
+    &__list {
+      margin-top: 30rpx;
+      .item {
+        position: relative;
+        padding: 0 0 50rpx 75rpx;
         &:last-child {
-          margin-bottom: 0;
+          padding-bottom: 0;
+          &:before {
+            display: none;
+          }
         }
-        &__bt {
-          color: #484848;
+        &::before {
+          content: '';
+          position: absolute;
+          top: 15rpx;
+          left: 0;
+          width: 1rpx;
+          height: 100%;
+          background: #e4e4e4;
+        }
+        &-dot {
+          position: absolute;
+          left: -10rpx;
+          top: 15rpx;
+          width: 20rpx;
+          height: 20rpx;
+          background: #e4e4e4;
+          border-radius: 50%;
+        }
+        &-text {
+          color: #333333;
           font-size: 28rpx;
+          line-height: 50rpx;
         }
-        &__list {
-          margin-top: 20rpx;
+        &.active {
+          &::before {
+            background: #0ec698;
+          }
+          .item-dot {
+            background: #0ec698;
+          }
+        }
+      }
+    }
+  }
+  &-info {
+    padding: 20rpx 20rpx 40rpx 20rpx;
+    &__box {
+      padding: 30rpx;
+      background: #ffffff;
+      border-radius: 10rpx;
+      margin-bottom: 20rpx;
+      &:last-child {
+        margin-bottom: 0;
+      }
+      .bt {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: #484848;
+        font-size: 28rpx;
+        &-show {
+          .bt-arrow {
+            transform: rotate(180deg);
+          }
+        }
+        &-arrow {
+          color: #5ecb81;
+          transition: all 0.5s;
+        }
+      }
+      // 处方单
+      .recipel {
+        font-size: 24rpx;
+        margin-top: 30rpx;
+        .table-th {
+          display: grid;
+          grid-template-columns: 230rpx repeat(3, 1fr);
+          height: 84rpx;
+          line-height: 84rpx;
+          color: #a2a2a2;
+          text-align: center;
+          border-top: 1rpx solid #0ec698;
+          border-bottom: 1rpx dashed #eaeaea;
           .item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            min-height: 50rpx;
-            color: #3f3f3f;
-            font-size: 26rpx;
-            margin-bottom: 15rpx;
-            &:last-child {
-              margin-bottom: 0;
+            padding: 0 10rpx;
+            @include textOverflow(1);
+            &:first-child {
+              text-align: left;
             }
-            .label {
-              color: #a8a8a8;
+          }
+        }
+        .table-con {
+          display: grid;
+          color: #1e1e1e;
+          &__td {
+            display: grid;
+            align-items: center;
+            grid-template-columns: 230rpx repeat(3, 1fr);
+            text-align: center;
+            padding: 20rpx 0;
+            border-bottom: 1rpx solid #f6f6f6;
+            .item {
+              padding: 0 10rpx;
+              line-height: 40rpx;
+              // @include textOverflow(1);
+              &:first-child {
+                text-align: left;
+              }
+            }
+          }
+        }
+      }
+      // 缴费详情
+      .list {
+        margin-top: 30rpx;
+        .cell {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          font-size: 26rpx;
+          margin-bottom: 20rpx;
+          padding: 15rpx 0;
+          &:last-child {
+            margin-bottom: 0;
+          }
+          &-label {
+            color: #999999;
+          }
+          &-con {
+            color: #3f3f3f;
+            &.price {
+              color: #333333;
+              font-weight: bold;
             }
           }
         }

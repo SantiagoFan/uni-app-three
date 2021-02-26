@@ -61,8 +61,14 @@ export default {
       show: false
     }
   },
-  mounted() {
-    this.getSuccessRegister()
+  watch:{
+    "patientInfo":{
+      handler(){
+        this.getSuccessRegister()
+      },
+      deep:true,
+      immediate:true
+    }
   },
   methods: {
     /**

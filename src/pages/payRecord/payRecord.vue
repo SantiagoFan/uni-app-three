@@ -57,8 +57,9 @@ export default {
   },
   methods: {
     handleItem(item) {
+      console.info(item)
       this.$Router.push({
-        name: 'clinicPayDetail',
+        name: 'payRecordDetail',
         params: { payDetail: item },
       })
     },
