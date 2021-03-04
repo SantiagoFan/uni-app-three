@@ -1,7 +1,7 @@
 <template>
   <view class="report">
     <view class="report-wrap">
-      <view class="report-wrap__title">{{ model.items.name }}</view>
+      <view class="report-wrap__title">{{ model.report_name }}</view>
       <view class="report-wrap__info">
         <view class="item">
           <view class="label">就诊人：</view>
