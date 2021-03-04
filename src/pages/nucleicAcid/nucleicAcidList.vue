@@ -5,44 +5,31 @@
       :need-patient="true"
       @change="getDetail"
     ></PatientCard>
-    <view class="wrap__tab">
-      <view
-        :class="['wrap__tab-item', { active: tabIndex === 0 }]"
-        @click="handleTabItem(0)"
-      >
-        <view class="text">候诊排队</view>
-      </view>
-      <view
-        :class="['wrap__tab-item', { active: tabIndex === 1 }]"
-        @click="handleTabItem(1)"
-      >
-        <view class="text">检查排队</view>
-      </view>
+    <!-- 创建新检测项目 -->
+    <view class="wrap__action">
+      <view class="btn" @click="createOrder">申请新检测</view>
     </view>
     <view class="wrap__con">
       <view class="art" v-for="i in [1,2,3]" :key="i" @click="getDetail(i)">
-        <view class="title">排队号</view>
-        <view class="num">15</view>
-        <view class="massage"
-          >您前面还有<text class="count">9</text>人，请耐心等待！</view
-        >
+        <view class="title">核酸检测结果</view>
+        <view class="num">阳性</view>
         <view class="gap">
           <image class="img" mode="widthFix" src="@/static/image/gap_img.jpg" />
         </view>
         <view class="info">
           <view class="cell">
-            <view class="label">就诊科室</view>
-            <view class="text">皮肤科门诊</view>
+            <view class="label">检测项目</view>
+            <view class="text">新型冠状病毒核酸检测（鼻拭子）</view>
           </view>
           <view class="cell">
-            <view class="label">医生姓名</view>
-            <view class="text">姓名</view>
+            <view class="label">检测时间</view>
+            <view class="text">2021-05-04 12:12:12</view>
+          </view>
+           <view class="cell">
+            <view class="label">检测单号</view>
+            <view class="text">255666221656522156</view>
           </view>
         </view>
-      </view>
-      <!-- 创建新检测项目 -->
-      <view>
-        <view @click="createOrder">申请新检测</view>
       </view>
     </view>
   </view>
@@ -53,7 +40,7 @@ import { mapState } from 'vuex'
 export default {
   data() {
     return {
-      tabIndex: 0,
+      list:[]
     }
   },
   computed: {
@@ -63,9 +50,6 @@ export default {
     this.loadList()
   },
   methods: {
-    handleTabItem(index) {
-      this.tabIndex = index
-    },
     loadList(){
       this.$http
         .post(this.API.INSPECTION_QUERY_ORDER, {
@@ -137,53 +121,15 @@ export default {
       }
     }
   }
-  &__tab {
-    display: flex;
-    align-items: center;
+  &__action{
     background: #ffffff;
-    &-item {
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex: 1;
-      color: #333333;
-      font-size: 28rpx;
-      &::after {
-        position: absolute;
-        top: 50%;
-        right: 0;
-        transform: translateY(-50%);
-        width: 2rpx;
-        height: 42rpx;
-        background: #f6f6f6;
-        content: '';
-      }
-      .text {
-        position: relative;
-        height: 100%;
-        height: 88rpx;
-        line-height: 88rpx;
-      }
-      &:last-child {
-        &::after {
-          display: none;
-        }
-      }
-      &.active {
-        color: #0ec698;
-        .text {
-          &::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 4rpx;
-            background: #0ec698;
-          }
-        }
-      }
+    padding: 20rpx;
+    .btn{
+      text-align: center;
+      height: 88rpx;
+      line-height: 88rpx;
+      color: #0ec698;
+      border:1px solid #0ec698;
     }
   }
   &__con {
@@ -193,6 +139,7 @@ export default {
       flex-direction: column;
       align-items: center;
       background: #ffffff;
+      margin-bottom: 10rpx;
       .title {
         color: #333333;
         font-size: 36rpx;
@@ -200,7 +147,7 @@ export default {
       }
       .num {
         color: #0ec698;
-        font-size: 120rpx;
+        font-size: 60rpx;
         font-weight: bold;
       }
       .massage {

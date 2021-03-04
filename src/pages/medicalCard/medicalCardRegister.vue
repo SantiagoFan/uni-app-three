@@ -67,8 +67,8 @@
                   placeholder="请选择民族"
                   placeholder-class="placr_style"
                 > -->
-                <picker @change="bindPickerChange" :range="nationList">
-                  <view class="uni-input">{{ nationList[nation_index] }}</view>
+                <picker @change="bindPickerChange" range-key="value" :range="nationList">
+                  <view class="uni-input">{{ nationList[nation_index].value }}</view>
                 </picker>
               </view>
             </view>
@@ -96,12 +96,13 @@ export default {
   methods: {
     bindPickerChange(e) {
       this.nation_index = e.target.value
-      this.data['nation'] = this.nationList[this.nation_index]
     },
     formSubmit(e) {
       uni.removeStorageSync('patientInfo')
       var data = e.detail.value
-      data.nation = this.nationList[this.nation_index]
+      data['nation'] = this.nationList[this.nation_index].value
+      data['nation_code'] = this.nationList[this.nation_index].code
+      console.info(data)
       if (isNull(data['name'])) {
         uni.showToast({
           title: '请输入姓名',
