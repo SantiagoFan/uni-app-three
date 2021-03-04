@@ -15,7 +15,7 @@
             </view>
             <view class="item-sta__con">
               <view class="item-sta__con-title">
-                {{ item.name }}
+                {{ item.item_name }}
               </view>
               <!-- <view class="item-sta__con-list">
                 <view class="cell">
@@ -62,6 +62,9 @@ export default {
   methods: {
     loadData() {
       this.$http.post(this.API.INSPECTION_QUERY_OPTIONS, {}).then((res) => {
+        res.data.forEach(element => {
+          element.checked = false
+        });
         this.list = res.data
       })
     },
