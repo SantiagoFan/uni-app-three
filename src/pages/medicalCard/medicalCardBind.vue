@@ -36,7 +36,7 @@
             </view>
           </view>
           <view class="wrap__con-art">
-            <view class="wrap__con-art-item">
+            <!-- <view class="wrap__con-art-item">
               <view class="label">就诊卡号</view>
               <view class="input-box">
                 <input
@@ -47,7 +47,7 @@
                   placeholder-class="placr_style"
                 />
               </view>
-            </view>
+            </view> -->
             <view class="wrap__con-art-item">
               <view class="label">手机号</view>
               <view class="input-box">
@@ -93,6 +93,7 @@ export default {
   methods: {
     formSubmit(e) {
       var data = e.detail.value
+      data['patient_code'] = data.idcard // 蒙中医院 就诊卡同身份证同号 特殊处理
       if (data['name'].trim() == '') {
         uni.showToast({
           title: '请输入姓名',
@@ -108,14 +109,14 @@ export default {
         })
         return false
       }
-      if (data['patient_code'].trim() == '') {
-        uni.showToast({
-          title: '请输入院内卡号',
-          duration: 2000,
-          icon: 'none',
-        })
-        return false
-      }
+      // if (data['patient_code'].trim() == '') {
+      //   uni.showToast({
+      //     title: '请输入院内卡号',
+      //     duration: 2000,
+      //     icon: 'none',
+      //   })
+      //   return false
+      // }
       if (!isMobile(data['phone'])) {
         uni.showToast({
           title: '手机号码有误',

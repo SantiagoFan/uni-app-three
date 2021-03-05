@@ -36,23 +36,31 @@
         <text></text>
       </view>
       <view class="fot-box__btn active" @click="createOrder">
-        <text class="text">去缴费</text>
+        <text class="text">申请检测</text>
       </view>
     </view>
   </view>
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
   data() {
     return {
       list: [],
+      selected:null
     }
   },
   computed: {
+    ...mapState(['patientInfo']),
     amount() {
-      return this.list.reduce((res) => {
-        return res.checked ? res.price : 0
+      return this.list.reduce((pre,res) => {
+        return (parseFloat(pre)+( res.checked ? parseFloat(res.price) : 0)).toFixed(2)
+      }, 0)
+    },
+    count() {
+      return this.list.reduce((pre,res) => {
+        return pre+( res.checked ? 1 : 0)
       }, 0)
     },
   },
@@ -68,8 +76,36 @@ export default {
         this.list = res.data
       })
     },
+    createOrder(){
+      if(this.count!=1){
+        uni.showToast({
+          title: "请选择一项检查项目提交申请",
+          icon: "none",
+        });
+      }else{
+        console.info(this.patientInfo)
+        console.info(this.selected)
+        let formData={
+          "template_code":this.selected.formwork_id,
+          "group_code":this.selected.combination_id,
+          "idcard":this.patientInfo.idcard
+        }
+        console.info(formData)
+        
+        this.$http.post(this.API.INSPECTION_CREATE_ORDER, formData).then((res) => {
+          if(res.code=20000){
+              this.$Router.push({ name: 'awaitPay' })
+          }
+          else{
+            uni.showToast({ title:res.message,icon: "none",});
+          }
+        })
+        //-----
+      }
+    },
     handleChoose(index) {
       this.list[index].checked = !this.list[index].checked
+      this.selected = this.list[index]
     },
   },
 }

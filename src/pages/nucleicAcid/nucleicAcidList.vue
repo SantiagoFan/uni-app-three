@@ -51,19 +51,12 @@ export default {
   },
   methods: {
     loadList(){
-      this.$http
-        .post(this.API.INSPECTION_QUERY_ORDER, {
-          patient_code: this.patientInfo.patient_code,
-        })
-        .then((res) => {
-          this.list = res.data
-        })
     },
     getDetail(id) {
-      this.$Router.push({
-        name: 'nucleicAcidDetail',
-        params: { id },
-      })
+      // this.$Router.push({
+      //   name: 'nucleicAcidDetail',
+      //   params: { id },
+      // })
     },
     createOrder(){
       this.$Router.push({

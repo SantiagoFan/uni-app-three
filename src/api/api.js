@@ -67,8 +67,7 @@ export default {
   LIVE_DEPOSIT_ORDER_DETAIL: '/live_deposit_order/getLivePayRecordDetail', //押金缴费记录详情
   EXAMINATION_ORDER: '/examination/payOrder', //门诊待缴费项目支付
   INSPECTION_QUERY_OPTIONS: '/inspection_order/QueryOptions', //查询核酸检测项目
-  INSPECTION_CREATE_ORDER: '/inspection_order/CreateOrder', //一建核酸检测
-  INSPECTION_QUERY_ORDER: '/inspection_order/QueryOrder', //查询核酸检测结果
+  INSPECTION_CREATE_ORDER: '/inspection_order/CreateOrder', //一建核酸检测预约
   GET_PDF: '/report/getPdf', //获取pdf
   REGISTER_SUCCESS: '/register/getSuccessRegisterList', //获取成功挂号的列表
 }
