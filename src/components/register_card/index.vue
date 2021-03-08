@@ -8,10 +8,13 @@
       >
         <view class="pop-item-info">
           <view>门诊号:{{ registerList[selectIndex].register_no }}</view>
-          <view class="pop-item-info-sub">
+          <view class="pop-item-info-sub"  v-if="item.type==0">
             {{ registerList[selectIndex].doctor_name }}/{{
               registerList[selectIndex].department_name
             }}
+          </view>
+          <view class="pop-item-info-sub"  v-else>
+            核酸检测-预约
           </view>
           <!-- <view class="pop-item-info-sub">
               {{registerList[index].selectDate}} {{registerList[index].time}}
@@ -32,11 +35,14 @@
         >
           <view class="pop-item-info">
             <view>门诊号:{{ item.register_no }}</view>
-            <view class="pop-item-info-sub">
+            <view class="pop-item-info-sub" v-if="item.type==0">
               {{ item.doctor_name }}/{{ item.department_name }}
             </view>
-            <view class="pop-item-info-sub">
+            <view class="pop-item-info-sub" v-if="item.type==0">
               {{ item.selectDate }} {{ item.time }}
+            </view>
+            <view class="pop-item-info-sub" v-if="item.type==1">
+              核酸检测-预约
             </view>
           </view>
           <view class="pop-item-jt">

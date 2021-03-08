@@ -121,6 +121,14 @@
               </view>
             </view>
           </router-link>
+          <view class="item">
+              <view class="item__icon">
+              </view>
+              <view class="item__text">版本</view>
+              <view class="item__jt">
+                12.0.0
+              </view>
+            </view>
         </view>
       </view>
     </view>

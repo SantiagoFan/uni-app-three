@@ -90,11 +90,16 @@ export default {
           "group_code":this.selected.combination_id,
           "idcard":this.patientInfo.idcard
         }
-        console.info(formData)
-        
         this.$http.post(this.API.INSPECTION_CREATE_ORDER, formData).then((res) => {
           if(res.code=20000){
-              this.$Router.push({ name: 'awaitPay' })
+            uni.showModal({
+              title: '提示',
+              content: '预约成功，请前往缴费',
+              showCancel:false,
+              success: (res)=> {
+                this.$Router.push({ name: 'awaitPay' })
+              }
+            });
           }
           else{
             uni.showToast({ title:res.message,icon: "none",});
