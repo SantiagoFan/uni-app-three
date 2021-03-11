@@ -1,7 +1,7 @@
 <template>
   <view class="report">
     <view class="report-wrap">
-      <view class="report-wrap__title">{{ model.report_name }}</view>
+      <view class="report-wrap__title">核酸：{{ model.report_name }}</view>
       <view class="report-wrap__info">
         <view class="item">
           <view class="label">就诊人：</view>
@@ -42,13 +42,7 @@
               </view>
               <view class="item">
                 <view class="label">结果：</view>
-                <view class="item">{{ obj.result }}
-                  <text v-if="obj.flag==''" class="flag">{{obj.flag}}</text>
-                  <text v-else-if="obj.flag=='↓'" class="flag" style="color:#4e6ef2">{{obj.flag}}</text>
-                  <text v-else-if="obj.flag=='↓↓'" class="flag" style="color:#f60">{{obj.flag}}</text>
-                  <text v-else-if="obj.flag=='↑'" class="flag" style="color:#fe2d46">{{obj.flag}}</text>
-                  <text v-else-if="obj.flag=='↑↑'" class="flag" style="color:#f60">{{obj.flag}}</text>
-                </view>
+                <view class="item">{{ obj.result }}</view>
               </view>
               <view class="item">
                 <view class="label">单位：</view>
@@ -212,7 +206,6 @@ export default {
               }
               .item {
                 flex: 1;
-                .flag{margin-left: 10rpx; font-weight: bold;}
               }
             }
           }

@@ -109,7 +109,7 @@
                 <view class="date">{{ getTime(item.time) }}</view>
                 <view class="rest_source">余号：{{ item.source.length }}</view>
                 <view class="price" v-if="item.source.length > 0">{{
-                  item.price > 0 ? '¥' + (item.price | toFixed) : '免费'
+                  item.price > 0 ? '¥' + (item.price) : '免费'
                 }}</view>
                 <view class="price" v-if="item.source.length > 0">{{
                   item.price == 0 ? '' : ''
@@ -159,7 +159,7 @@
               </view>
               <view class="info-cell">
                 <view class="info-cell__label ">费用：</view>
-                <view class="info-cell__text price">{{ price | toFixed }}</view>
+                <view class="info-cell__text price">{{ price }}</view>
               </view>
               <view class="info-cell">
                 <view class="info-cell__label">时段：</view>
@@ -309,9 +309,6 @@ export default {
         sourceStatus = '满'
       }
       return sourceStatus
-    },
-    toFixed(price) {
-      return parseFloat(price).toFixed(2)
     },
   },
   methods: {

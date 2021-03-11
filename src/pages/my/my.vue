@@ -126,7 +126,7 @@
               </view>
               <view class="item__text">版本</view>
               <view class="item__jt">
-                12.0.0
+                12.0.3
               </view>
             </view>
         </view>

@@ -281,7 +281,6 @@ export default {
     this.getHisDetail()
     this.getLockMinute()
     // this.getHospitalName()
-    this.getDepartmentDetail()
   },
   watch: {
     data() {
@@ -354,6 +353,8 @@ export default {
               this.isCancel = false
             }
           }
+          // 科室信息
+          this.getDepartmentDetail(this.info.department_id)
           //支付状态
           // let statusName = ''
           // switch (this.info.pay_state) {
@@ -394,11 +395,11 @@ export default {
     //   })
     // },
     //科室位置
-    getDepartmentDetail() {
+    getDepartmentDetail(id) {
       this.$http
         .post(
           this.API.DEPARTMENT_INFO_DETAIL,
-          { id: this.$Route.query.id },
+          { id },
           false
         )
         .then((res) => {

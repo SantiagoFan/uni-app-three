@@ -50,10 +50,15 @@ export default {
     handleClickDetail(item) {
       if (item.BGLX == 1) {
         //检验报告
-        this.$Router.push({
-          name: 'reportDownload',
-          params: { report_code: item.report_code },
-        })
+        if(item.report_name.indexOf("新型冠状病毒")==0){ // 核酸检测单独页面处理
+
+        }
+        else{
+          this.$Router.push({
+            name: 'reportDownload',
+            params: { report_code: item.report_code },
+          })
+        }
       } else {
         //检查报告
         this.$Router.push({

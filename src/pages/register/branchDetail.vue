@@ -85,7 +85,7 @@
                   >余号:{{ item.remain_count }}</view
                 >
                 <view class="tag" v-if="item.remain_count > 0">{{
-                  item.price > 0 ? '¥' + (item.price | toFixed) : '免费'
+                  item.price > 0 ? '¥' + (item.price ) : '免费'
                 }}</view>
                 <view class="tag" v-if="item.remain_count == 0">满诊</view>
               </view>
@@ -156,9 +156,6 @@ export default {
     this.getDocListByDepart()
   },
   filters: {
-    toFixed(price) {
-      return parseFloat(price).toFixed(2)
-    },
     getDay(val) {
       return moment(val).format('DD')
     },
