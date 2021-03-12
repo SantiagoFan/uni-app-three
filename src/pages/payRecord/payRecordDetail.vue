@@ -1,6 +1,6 @@
 <template>
   <view class="wrap" id="wrap">
-    <view class="wrap-status">
+    <view :class="['wrap-status', { 'wrap-status__bg': detail.pay_status == 1 }]">
       <view class="wrap-status__info">
         <view class="icon">
           <!-- icon icon-dasuozi：锁号 icon-duihao：预约挂号成功 icon-jianhao：icon-jianhao -->
@@ -134,6 +134,16 @@ export default {
   computed: {
     ...mapState(['patientInfo']),
   },
+  watch: {
+    detail() {
+      if (this.detail.pay_status == 1) {
+        uni.setNavigationBarColor({
+          frontColor: '#ffffff',
+          backgroundColor: '#979797',
+        })
+      }
+    },
+  },
   onLoad() {
     this.detail = this.$Route.query.payDetail
   },
@@ -177,6 +187,12 @@ export default {
     &__msg {
       font-size: 26rpx;
       margin-top: 30rpx;
+    }
+    &__bg {
+      background: #979797;
+      .icon {
+        color: #979797;
+      }
     }
   }
   &-code {

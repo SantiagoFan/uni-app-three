@@ -210,7 +210,16 @@
       "path": "pages/reportDownload/jcReportDownload",
       "name": "jcReportDownload",
       "style": {
-        "navigationBarTitleText": "检查报告下载",
+        "navigationBarTitleText": "检查报告",
+        "navigationBarBackgroundColor": "#0ec698",
+        "navigationBarTextStyle": "#ffffff"
+      }
+    },
+    {
+      "path": "pages/reportDownload/hsReportDownload",
+      "name": "hsReportDownload",
+      "style": {
+        "navigationBarTitleText": "核酸检查报告",
         "navigationBarBackgroundColor": "#0ec698",
         "navigationBarTextStyle": "#ffffff"
       }

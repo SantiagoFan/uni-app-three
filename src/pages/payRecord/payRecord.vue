@@ -8,15 +8,12 @@
           :key="index"
           @click="handleItem(item)"
         >
-          <view class="icon">
-            <text
-              class="iconfont icon-duihao"
-              v-if="item.pay_status == 0"
-            ></text>
-            <text
-              class="iconfont icon-jianhao"
-              v-if="item.pay_status == 1"
-            ></text>
+ 
+          <view class="icon active" v-if="item.pay_status == 0">
+            <text class="iconfont icon-duihao"></text>
+          </view>
+          <view class="icon" v-if="item.pay_status == 1">
+            <text class="iconfont icon-jianhao"></text>
           </view>
           <view class="info">
             <view class="title">
@@ -101,8 +98,11 @@ export default {
           margin-right: 30rpx;
           text-align: center;
           color: #ffffff;
-          background: #0ec698;
           border-radius: 50%;
+          background: #e3e3e3;
+          &.active {
+            background: #0ec698;
+          }
         }
         .info {
           flex: 1;

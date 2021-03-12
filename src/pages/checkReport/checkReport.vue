@@ -48,10 +48,14 @@ export default {
   },
   methods: {
     handleClickDetail(item) {
+      console.info(item)
       if (item.BGLX == 1) {
         //检验报告
         if(item.report_name.indexOf("新型冠状病毒")==0){ // 核酸检测单独页面处理
-
+          this.$Router.push({
+            name: 'hsReportDownload',
+            params: { report_code: item.report_code },
+          })
         }
         else{
           this.$Router.push({

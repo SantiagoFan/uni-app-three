@@ -53,10 +53,18 @@ export default new Vuex.Store({
   },
   actions: {
     login({ commit, dispatch }) {
+      uni.getProvider({
+        service: 'oauth',
+        success: function (res) {
+            console.info("getProvider:")
+            console.log(res.provider)
+        }
+      });
       return new Promise((resolve, reject) => {
         uni.showLoading({
           title: '登录中',
         })
+        // 分运行环境进行登录
         uni.login({
           provider: 'weixin',
           success: function(loginRes) {

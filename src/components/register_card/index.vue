@@ -8,7 +8,7 @@
       >
         <view class="pop-item-info">
           <view>门诊号:{{ registerList[selectIndex].register_no }}</view>
-          <view class="pop-item-info-sub"  v-if="item.type==0">
+          <view class="pop-item-info-sub"  v-if="registerList[selectIndex].type==0">
             {{ registerList[selectIndex].doctor_name }}/{{
               registerList[selectIndex].department_name
             }}

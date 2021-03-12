@@ -12,7 +12,7 @@ import { getConfig } from '@/config'
 import auth from './components/auth/auth.vue'
 import empty from './components/empty/empty.vue'
 import PatientCard from './components/patient_card/index.vue'
-
+import filter from "./common/filter"
 import router from './router'
 import routerLink from '../node_modules/uni-simple-router/component/router-link.vue'
 Vue.component('router-link', routerLink)

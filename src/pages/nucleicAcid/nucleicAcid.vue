@@ -25,7 +25,7 @@
               </view> -->
             </view>
           </view>
-          <view class="item-total">价格：¥{{ item.price }}</view>
+          <view class="item-total">价格：¥{{ item.price | moneyformat}}</view>
         </view>
       </view>
     </view>
