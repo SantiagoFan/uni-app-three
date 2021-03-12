@@ -53,55 +53,58 @@ export default new Vuex.Store({
   },
   actions: {
     login({ commit, dispatch }) {
-      uni.getProvider({
-        service: 'oauth',
-        success: function (res) {
-            console.info("getProvider:")
-            console.log(res.provider)
-        }
-      });
       return new Promise((resolve, reject) => {
         uni.showLoading({
           title: '登录中',
         })
         // 分运行环境进行登录
-        uni.login({
-          provider: 'weixin',
-          success: function(loginRes) {
-            console.info('登录结果', loginRes)
-            if (loginRes.errMsg == 'login:ok') {
-              let code = loginRes.code
-              http
-                .post(api.GET_TOKEN, { code }, false)
-                .then((res) => {
-                  uni.hideLoading()
-                  if (res.code === 20000) {
-                    uni.setStorageSync('token', res.token)
-                    commit('setUserInfo', res.data)
-                    commit('setPatientInfo', res.patientInfo)
-                    commit('setLivePatientInfo', res.livePatientInfo)
-                    resolve()
-                  } else {
-                    reject()
-                  }
-                })
-                .catch((res) => {
-                  uni.showToast({
-                    // title: '登录结果' + JSON.stringify(res),
-                    title: '网络繁忙，请稍后再试',
-                    icon: 'none',
-                    duration: 10000,
-                  })
-                  console.log('GET_TOKEN', res)
-                  reject()
-                })
-            }
-          },
-          fail: function(es) {
-            uni.hideLoading()
-            console.log('login,fail')
-          },
-        })
+        uni.getProvider({
+          service: 'oauth',
+          success: function (res) {
+            let provider = res.provider[0]
+            console.info("当前服务提供商:",provider)
+            uni.login({
+              provider: provider,
+              success: function(loginRes) {
+                console.info('登录结果', loginRes)
+                if (loginRes.errMsg == 'login:ok') {
+                  let code = loginRes.code
+                  http
+                    .post(api.GET_TOKEN, { code,provider }, false)
+                    .then((res) => {
+                      uni.hideLoading()
+                      if (res.code === 20000) {
+                        uni.setStorageSync('token', res.token)
+                        commit('setUserInfo', res.data)
+                        commit('setPatientInfo', res.patientInfo)
+                        commit('setLivePatientInfo', res.livePatientInfo)
+                        resolve()
+                      } else {
+                        reject()
+                      }
+                    })
+                    .catch((res) => {
+                      uni.showToast({
+                        // title: '登录结果' + JSON.stringify(res),
+                        title: '网络繁忙，请稍后再试',
+                        icon: 'none',
+                        duration: 10000,
+                      })
+                      console.log('GET_TOKEN', res)
+                      reject()
+                    })
+                }
+              },
+              fail: function(es) {
+                uni.hideLoading()
+                console.log('login,fail')
+                console.log(es)
+              },
+            })
+            //---
+          }
+        });
+        
       })
     },
     // getDefaultPatient({ commit }) {
