@@ -25,7 +25,20 @@
         @refresh="updateHealth"
       ></my-code>
     </view>
+    
     <view class="wrap-info">
+      <view class="wrap-info__box">
+        <view class="bt">导诊信息</view>
+        <view class="list">
+          <view class="cell" v-if="isHSJC">
+            <view class="cell-con" style="color:red;font-size:30rpx">核酸检测请到一楼东侧采样，并展示电子就诊凭条</view>
+          </view>
+          <view class="cell" v-else>
+            <view class="cell-label">{{ detail.guide.department }}</view>
+            <view class="cell-con .b">{{detail.guide.address}}</view>
+          </view>
+        </view>
+      </view>
       <view class="wrap-info__box">
         <view class="bt">就诊信息</view>
         <view class="list">
@@ -42,20 +55,7 @@
             <view class="cell-con">{{ $config('name') }}</view>
           </view>
         </view>
-      </view>
-      <view class="wrap-info__box">
-        <view class="bt">导诊信息</view>
-        <view class="list">
-          <view class="cell" v-if="isHSJC">
-            <view class="cell-label">检测点：</view>
-            <view class="cell-con" style="color:red">核酸检测请到一楼东侧采样</view>
-          </view>
-          <view class="cell" v-else>
-            <view class="cell-label">{{ detail.guide.department }}</view>
-            <view class="cell-con">{{detail.guide.address}}</view>
-          </view>
-        </view>
-      </view>
+      </view> 
       <view class="wrap-info__box">
         <view :class="['bt', { 'bt-show': payDetailShow }]" @click="handleBt">
           <view class="bt-text">缴费项目</view>
