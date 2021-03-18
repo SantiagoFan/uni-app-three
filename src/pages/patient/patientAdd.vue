@@ -10,7 +10,7 @@
         >
           <view class="info">
             <view class="title">
-              <view class="name">{{ item.name }}</view>
+              <view class="name">{{ item.name | hideIdRealName }}</view>
               <view class="tag" v-if="item.is_default">默认</view>
             </view>
             <view class="code">院内诊疗号：{{ item.patient_code }}</view>

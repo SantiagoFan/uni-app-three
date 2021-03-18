@@ -7,14 +7,11 @@
         @click="show = true"
       >
         <view class="pop-item-info">
-          <view>门诊号:{{ registerList[selectIndex].register_no }}</view>
-          <view class="pop-item-info-sub"  v-if="registerList[selectIndex].type==0">
+          <view>门诊号:{{ registerList[selectIndex].reg_no }}</view>
+          <view class="pop-item-info-sub">
             {{ registerList[selectIndex].doctor_name }}/{{
               registerList[selectIndex].department_name
             }}
-          </view>
-          <view class="pop-item-info-sub"  v-else>
-            核酸检测-预约
           </view>
           <!-- <view class="pop-item-info-sub">
               {{registerList[index].selectDate}} {{registerList[index].time}}
@@ -34,15 +31,12 @@
           @click="changeIndex(index)"
         >
           <view class="pop-item-info">
-            <view>门诊号:{{ item.register_no }}</view>
-            <view class="pop-item-info-sub" v-if="item.type==0">
+            <view>门诊号:{{ item.reg_no }}</view>
+            <view class="pop-item-info-sub" >
               {{ item.doctor_name }}/{{ item.department_name }}
             </view>
-            <view class="pop-item-info-sub" v-if="item.type==0">
-              {{ item.selectDate }} {{ item.time }}
-            </view>
-            <view class="pop-item-info-sub" v-if="item.type==1">
-              核酸检测-预约
+            <view class="pop-item-info-sub">
+              {{ item.reg_date }}
             </view>
           </view>
           <view class="pop-item-jt">
@@ -89,14 +83,14 @@ export default {
           this.registerList = res.data
           if(this.registerList.length>0){
             this.selectIndex = 0;
-            this.$emit('change',this.registerList[0].register_no)
+            this.$emit('change',this.registerList[0].reg_no)
           }
         })
     },
     changeIndex(index){
       this.selectIndex = index
       this.show = false
-      this.$emit('change',this.registerList[index].register_no)
+      this.$emit('change',this.registerList[index].reg_no)
     }
   }
 }

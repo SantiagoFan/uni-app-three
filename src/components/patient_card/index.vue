@@ -30,7 +30,7 @@
           <view v-if="patientInfo">
             <view class="title">
               <view class="name" @click="showPatient()">{{
-                getName(patientInfo)
+                patientInfo.name| hideIdRealName
               }}</view>
               <view class="tag" @click="showPatient()">电子就诊卡</view>
               <view @click.stop="handleChoose" class="check">切换</view>
@@ -73,7 +73,7 @@
               :key="index"
             >
               <view class="info">
-                <view class="name">{{ item.name }}</view>
+                <view class="name">{{ item.name|hideIdRealName }}</view>
                 <view class="code">就诊卡：{{ item.patient_code }}</view>
               </view>
               <view class="radio">

@@ -123,10 +123,15 @@
           </router-link>
           <view class="item">
               <view class="item__icon">
+                <image
+                  class="img"
+                  mode="widthFix"
+                  src="@/static/image/my_icon6.png"
+                />
               </view>
               <view class="item__text">版本</view>
               <view class="item__jt">
-                12.0.4
+                0.1.30
               </view>
             </view>
         </view>

@@ -151,11 +151,15 @@
               info.doctor_professional == null ? '' : info.doctor_professional
             }}</view>
           </view>
+          <view class="cell u-skeleton-rect">
+            <view class="cell-label">医院单号</view>
+            <view class="cell-con">{{ data.reg_no }}</view>
+          </view>
         </view>
       </view>
       <view
         class="wrap-info__box"
-        v-if="data.status == 1 || data.status == 3 || data.status == 4"
+        v-if="info &&(data.status == 1 || data.status == 3 || data.status == 4)"
       >
         <view :class="['bt', { 'bt-show': payDetailShow }]" @click="handleBt">
           <view class="bt-text">缴费详情</view>

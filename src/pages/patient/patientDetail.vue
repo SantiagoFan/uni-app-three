@@ -4,7 +4,7 @@
       <view class="wrap-info__con">
         <view class="info">
           <!-- <image src='@/static/image/card_logo.png'></image> -->
-          <view class="item">{{ model.name }}</view>
+          <view class="item">{{ model.name|hideIdRealName }}</view>
           <!-- <view class="item">性别：{{ model.gender }}</view> -->
           <!-- <view class="item">居民健康卡号码：</view> -->
           <view class="item">{{ model.idcard | hideIdCard }}</view>
@@ -45,14 +45,6 @@ export default {
     }
   },
   components: { MyCode,tkiQrcode },
-  filters: {
-    hideIdCard(val) {
-      if (val) {
-        return val.replace(/^(.{4})(?:\d+)(.{4})$/, '$1******$2')
-      }
-      return ''
-    },
-  },
   onLoad() {
     this.getDetail()
   },

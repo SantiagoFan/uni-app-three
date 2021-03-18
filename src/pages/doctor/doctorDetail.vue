@@ -99,12 +99,15 @@
                 </view>
               </view>
             </view>
-            <view class="list">
+
+            <view class="list"  v-for="(scheme,idx) in list"  :key="idx">
+              <view class="title" v-if="scheme.source_list.length > 0 && scheme.qfsx==1">上午</view>
+              <view class="title" v-if="scheme.source_list.length >0 && scheme.qfsx==2">下午</view>
               <view
                 :class="['item', item.source.length > 0 ? '' : 'item-active']"
-                v-for="(item, index) in list"
+                v-for="(item, index) in scheme.source_list"
                 :key="index"
-                @click="goRegister(index)"
+                @click="goRegister(item,scheme)"
               >
                 <view class="date">{{ getTime(item.time) }}</view>
                 <view class="rest_source">余号：{{ item.source.length }}</view>
@@ -159,14 +162,14 @@
               </view>
               <view class="info-cell">
                 <view class="info-cell__label ">费用：</view>
-                <view class="info-cell__text price">{{ price }}</view>
+                <view class="info-cell__text price">{{ selectScheme.price }}</view>
               </view>
               <view class="info-cell">
                 <view class="info-cell__label">时段：</view>
                 <view class="info-cell__text"
-                  >{{ dateStr }} {{ timeStatus == 1 ? '上午' : '下午' }}
+                  >{{ dateStr }} {{ selectScheme.qfsx == 1 ? '上午' : '下午' }}
                   <br />
-                  {{ time }}</view
+                  {{ selectItem.time }}</view
                 >
               </view>
             </view>
@@ -221,7 +224,7 @@ export default {
       doctor_id: '',
       department_id: '',
       tabIndex: 0,
-      orderPopupStatus: false,
+      orderPopupStatus: false,//弹出层显示
       model: {
         doctor_head: '',
         doctor_name: '',
@@ -229,18 +232,13 @@ export default {
         professional: '',
       },
       list: [],
-      time: '',
-      timeStatus: '',
       isShow: false,
       schemeList: [],
       week: weekList(),
       selectDate: '',
       postLock: false,
-      hasSource: 0,
-      price: 0,
-      count: 0, //可添加的就诊人数
-      schemeIndex: 0,
-      scheme: [],
+      selectScheme:null,//点击选择的排班
+      selectItem:null,//点击选择的时间段
       is_collect: false,
       flag: false,
     }
@@ -364,7 +362,6 @@ export default {
           uni.hideLoading()
           this.postLock = false
           this.list = res.data
-          this.scheme = res.scheme
         })
     },
     isCollect() {
@@ -403,14 +400,10 @@ export default {
           })
       }
     },
-    goRegister(index) {
-      var time = this.list[index]['time']
-      this.time = this.getTime(time)
-      var hour = time.split('--')[1].split(':')[0]
-      this.timeStatus = hour > 12 ? 2 : 1
-      this.price = this.list[index]['price']
+    goRegister(item,scheme) {
+      this.selectItem = item;
+      this.selectScheme = scheme;
       this.orderPopupStatus = true
-      this.schemeIndex = index
     },
     addPatient() {
       this.$Router.push({ name: 'medicalCardLogin' })
@@ -420,22 +413,18 @@ export default {
         return false
       }
       this.flag = true
-      let scheme_id_index = this.scheme.findIndex((val) => {
-        return val['qfsx'] == this.timeStatus
-      })
-      let schemeInfo = this.list[this.schemeIndex]['source']
-      let serisl_number_index = schemeInfo.findIndex((item) => {
+      let serisl_number_index = this.selectItem["source"].findIndex((item) => {
         return item.scheme_status == 0
       })
       var params = {
-        price: this.price,
+        price: this.selectItem.price,
         department_name: this.model.department_name,
         doctor_name: this.model.doctor_name,
         selectDate: this.selectDate,
-        time: this.time,
+        time: this.getTime(this.selectItem.time),
         patient_name: this.patientInfo.name,
-        scheme_id: this.scheme[scheme_id_index]['scheme_id'],
-        serisl_number: schemeInfo[serisl_number_index]['serisl_number'],
+        scheme_id: this.selectScheme['scheme_id'],
+        serisl_number: this.selectItem["source"][serisl_number_index]['serisl_number'],
         patient_code: this.patientInfo.patient_code,
         doctor_id: this.model.doctor_id,
         department_id: this.model.department_id,
@@ -469,11 +458,6 @@ export default {
         this.getList()
       }
     },
-    // getHasSource(obj) {
-    //   var list = Array.from(obj.source)
-    //   var isSet = list.findIndex((item) => item.scheme_status === 0)
-    //   return isSet == -1 ? true : false
-    // },
     getTime(time) {
       return time.replace('--', '~')
     },
@@ -884,6 +868,10 @@ export default {
           justify-content: center;
           grid-gap: 20rpx 40rpx;
           margin-top: 30rpx;
+          .title{
+            line-height: 30rpx;
+            margin-left: 20rpx;
+          }
           .item {
             width: 90rpx;
             height: 90rpx;
