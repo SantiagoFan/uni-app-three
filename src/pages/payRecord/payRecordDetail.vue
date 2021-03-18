@@ -46,19 +46,14 @@
       <view class="wrap-info__box">
         <view class="bt">导诊信息</view>
         <view class="list">
-          <view class="cell">
+          <view class="cell" v-if="isHSJC">
+            <view class="cell-label">检测点：</view>
+            <view class="cell-con" style="color:red">核酸检测请到一楼东侧采样</view>
+          </view>
+          <view class="cell" v-else>
             <view class="cell-label">{{ detail.guide.department }}</view>
-            <view class="cell-con">{{detail.guide.address}}</view
-            >
+            <view class="cell-con">{{detail.guide.address}}</view>
           </view>
-          <!-- <view class="cell">
-            <view class="cell-label">妇科</view>
-            <view class="cell-con">二楼北侧步梯旁妇科</view>
-          </view>
-          <view class="cell">
-            <view class="cell-label">B超市心电图</view>
-            <view class="cell-con">一楼北侧</view>
-          </view> -->
         </view>
       </view>
       <view class="wrap-info__box">
@@ -133,6 +128,13 @@ export default {
   components: { MyCode },
   computed: {
     ...mapState(['patientInfo']),
+    isHSJC(){// 是否为核酸检测订单,做特殊处理
+      let ishs =false
+      this.detail.recipe.forEach(element => {
+        if(element.name=="新冠病毒核酸1人1检测"){ishs=true }
+      });
+      return ishs
+    }
   },
   watch: {
     detail() {
