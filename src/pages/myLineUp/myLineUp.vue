@@ -22,11 +22,10 @@
     </view> -->
     <view class="wrap__con">
       <view class="art" v-if="detail">
-        <view class="title">排队号</view>
-        <view class="num">{{detail.now_rank}}</view>
+        <view class="title">您前面还有</view>
+        <view class="num">{{detail.wait_person}}</view>
         <view class="massage"
-          >您前面还有<text class="count">{{detail.wait_person}}</text>人，请耐心等待！</view
-        >
+          >人，请耐心等待！坐席号<text class="count">{{detail.now_rank}}</text></view>
         <view class="gap">
           <image class="img" mode="widthFix" src="@/static/image/gap_img.jpg" />
         </view>

@@ -217,6 +217,7 @@ import moment from 'moment'
 import dhImage from '@/components/dh-image/dh-image.vue'
 import { weekList, fillWeek } from '@/utils/week.js'
 import login from '@/utils/login'
+import wx_message from '@/utils/message.js'
 
 export default {
   data() {
@@ -416,6 +417,7 @@ export default {
       let serisl_number_index = this.selectItem["source"].findIndex((item) => {
         return item.scheme_status == 0
       })
+
       var params = {
         price: this.selectItem.price,
         department_name: this.model.department_name,
