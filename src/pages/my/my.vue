@@ -131,7 +131,7 @@
               </view>
               <view class="item__text">版本</view>
               <view class="item__jt">
-                0.1.30
+                0.1.31
               </view>
             </view>
         </view>
