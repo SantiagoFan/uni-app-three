@@ -175,7 +175,7 @@ export default {
     getSettings(){
       this.$http.post(this.API.REGISTER_SETTINGS).then((res) => {
         this.reminder_message = res.data.reminder_message
-        this.show_message =true
+        this.show_message = true
       })
     },
     // 点击详情

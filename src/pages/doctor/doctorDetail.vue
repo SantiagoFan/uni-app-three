@@ -409,7 +409,11 @@ export default {
     addPatient() {
       this.$Router.push({ name: 'medicalCardLogin' })
     },
-    createOrder() {
+    async createOrder() {
+
+      //订阅一次消息
+      await wx_message.req_msg([1])
+      
       if (this.flag) {
         return false
       }
