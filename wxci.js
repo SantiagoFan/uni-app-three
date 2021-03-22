@@ -1,6 +1,8 @@
+const package = require('./package.json');
 const ci = require('miniprogram-ci')
 const inquirer = require('inquirer')
 let shell = require('shelljs');
+let fs = require('fs');
 // 项目参数
 const project = new ci.Project({
   appid: 'wx5e0462f1330ca0cf',
@@ -32,6 +34,12 @@ async function preview(){
  * 上传
  */
 async function upload({version = '0.0.0', desc ='test'}){
+  //修改文件版本
+  package.version = version
+  let jsonStr = JSON.stringify(package);
+  fs.writeFile('./package.json',jsonStr,(err)=>{
+    console.info('package.json 保存成功')
+  })
   shell.exec('npm run build:mp-weixin')
   await ci.upload({
     project,
