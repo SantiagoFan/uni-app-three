@@ -83,7 +83,6 @@
 import { isMobile, isNull } from '@/utils/common.js'
 import { isCardNo } from '@/utils/checkIdcard.js'
 import nation from '@/common/nation.js'
-import message from '@/utils/message.js'
 export default {
   data() {
     return {
@@ -138,15 +137,13 @@ export default {
         return false
       }
       this.flag = true
-      message
-        .req_msg([1])
-        .then(() => {
-          uni.showLoading({
-            title: '正在提交',
-          })
-          this.$http
-            .post(this.API.ADD_PATIENT, data, false)
-            .then((res) => {
+   
+      uni.showLoading({
+        title: '正在提交',
+      })
+      this.$http
+        .post(this.API.ADD_PATIENT, data, false)
+        .then((res) => {
               uni.hideLoading()
               if (res.code === 20000) {
                 this.$store.commit('setPatientInfo', res.data)
@@ -162,13 +159,9 @@ export default {
                 }, 1000)
               }
             })
-            .finally((res) => {
-              this.flag = false
-            })
-        })
-        .catch(() => {
+        .finally((res) => {
           this.flag = false
-        })
+      }) 
     },
     // formSubmit(e) {
     //   const { value } = e.detail

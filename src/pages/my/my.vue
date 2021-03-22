@@ -8,7 +8,7 @@
               <image class="img" mode="aspectFill" :src="userInfo.headimgurl" />
             </view>
             <view class="art1_info">
-              <view class="art1_info__name">{{ userInfo.nickname }}</view>
+              <view class="art1_info__name">{{ userInfo.nickname || '' }}</view>
               <view
                 @click="goDetail"
                 hover-class="none"
