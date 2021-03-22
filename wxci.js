@@ -6,7 +6,8 @@ const project = new ci.Project({
   appid: 'wxb122ef40a4df26c9',
   type: 'miniProgram',
   projectPath: './dist/build/mp-weixin/',
-  privateKeyPath: './ci-private.key',
+  // privateKeyPath: './ci-private_dev.key',
+  privateKeyPath: './ci-private_prod.key',
   ignores: ['node_modules/**/*'],
 })
 /**

@@ -141,7 +141,6 @@ export default {
       message
         .req_msg([1])
         .then(() => {
-          console.log(3333)
           uni.showLoading({
             title: '正在提交',
           })

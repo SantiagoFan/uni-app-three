@@ -5,12 +5,12 @@ export default{
      return new Promise((resolve,reject)=>{
         if (!store.state.userInfo) {
           store.dispatch("login").then(() => {
-            store.dispatch("checkAuth")
+            // store.dispatch("checkAuth")
             resolve()
           }).catch(()=>{
           });
         } else {
-          store.dispatch("checkAuth")
+          // store.dispatch("checkAuth")
           resolve()
         }
      })

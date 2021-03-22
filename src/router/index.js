@@ -15,7 +15,7 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   console.log("from", from);
   console.log("to", to);
-  
+  // 
   login.checkLogin().then(res=>{
     next()
   })

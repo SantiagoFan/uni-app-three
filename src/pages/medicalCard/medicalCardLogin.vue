@@ -22,7 +22,11 @@
 </template>
 
 <script>
+import store from "@/store";
 export default {
+  onLoad(){
+    store.dispatch("checkAuth")
+  },
   methods: {
     goAdd() {
       this.$Router.replace({ name: 'medicalCardRegister' })

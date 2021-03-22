@@ -36,7 +36,7 @@
               {{ item.doctor_name }}/{{ item.department_name }}
             </view>
             <view class="pop-item-info-sub">
-              {{ item.reg_date }}
+              登记时间：{{ item.create_time }}
             </view>
           </view>
           <view class="pop-item-jt">
