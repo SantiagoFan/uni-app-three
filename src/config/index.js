@@ -9,6 +9,7 @@ const baseUrl = basepath + '/api'
 
 const app_config = {
   name: '呼和浩特市蒙医中医医院',
+  version:  require('../../package.json').version
 }
 
 const getConfig = (key) => {

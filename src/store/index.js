@@ -17,7 +17,8 @@ export default new Vuex.Store({
     livePatientInfo: null, //默认住院人列表
     livePatientList:[],// 住院人列表
     livePatientCount:0,//剩余可添加人数
-    livePatientListLoad:false
+    livePatientListLoad:false,
+    register_settings:null //挂号设置
   },
   getters: {
     getToken() {

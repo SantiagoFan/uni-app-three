@@ -135,6 +135,10 @@
       @change="change"
       @backspace="backspace"
     ></u-keyboard>
+    <u-modal v-model="show_message">
+			<view class="message_content" v-html="reminder_message" >
+			</view>
+		</u-modal>
   </view>
 </template>
 
@@ -149,6 +153,8 @@ export default {
       menuHeight: 0, // 左边菜单的高度
       menuItemHeight: 0, // 左边菜单item的高度
       show: false,
+      show_message:false,// 挂号指南信息
+      reminder_message:'',
       val: '',
       cateList: [],
       list: [],
@@ -161,10 +167,17 @@ export default {
   },
   components: { dhImage },
   onLoad() {
+    this.getSettings()
     this.getList()
     this.getHistoryList()
   },
   methods: {
+    getSettings(){
+      this.$http.post(this.API.REGISTER_SETTINGS).then((res) => {
+        this.reminder_message = res.data.reminder_message
+        this.show_message =true
+      })
+    },
     // 点击详情
     handleClickDetail({ department_id, department_name }) {
       this.$Router.push({
@@ -284,6 +297,9 @@ export default {
 
 <style lang="scss" scoped>
 @import '@/assets/scss/mixin.scss';
+.message_content{
+  padding: 25rpx;
+}
 .u-wrap {
   height: calc(100vh);
   /* #ifdef H5 */

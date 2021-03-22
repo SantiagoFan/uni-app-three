@@ -3,7 +3,7 @@ const inquirer = require('inquirer')
 let shell = require('shelljs');
 // 项目参数
 const project = new ci.Project({
-  appid: 'wxb122ef40a4df26c9',
+  appid: 'wx5e0462f1330ca0cf',
   type: 'miniProgram',
   projectPath: './dist/build/mp-weixin/',
   // privateKeyPath: './ci-private_dev.key',
@@ -32,6 +32,7 @@ async function preview(){
  * 上传
  */
 async function upload({version = '0.0.0', desc ='test'}){
+  shell.exec('npm run build:mp-weixin')
   await ci.upload({
     project,
     version,

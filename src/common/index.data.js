@@ -7,6 +7,12 @@ export default {
       openType: 'push',
     },
     {
+      title: '核酸检测',
+      image: require('@/static/image/indx-sta14.jpg'),
+      name: 'nucleicAcid',
+      openType: 'push',
+    },
+    {
       title: '排队候诊',
       image: require('@/static/image/indx-sta2.jpg'),
       name: 'myLineUp',
@@ -58,12 +64,6 @@ export default {
       title: '诊间支付',
       image: require('@/static/image/indx-sta10.jpg'),
       name: 'awaitPay',
-      openType: 'push',
-    },
-    {
-      title: '核酸检测',
-      image: require('@/static/image/indx-sta14.jpg'),
-      name: 'nucleicAcid',
       openType: 'push',
     },
   ],

@@ -54,7 +54,7 @@ export default {
   EXAMINATION: '/examination/getExamination', //门诊代缴费项目
   REGISTER_ORDER_DETAIL: '/register/getRegisterOrderDetail', //记录详情
   GET_TEMPLATE_ID: '/message/getTemplateId', //查询通知
-  LOCK_MINUTES: '/register/getSettings', //锁号时间
+  REGISTER_SETTINGS: '/register/getSettings', //挂号设置 锁号时间、提醒内容
   HOSPITAL_NAME: '/register/getHospital', //医院名称
   UPDATE_HEALTH_CODE: '/patient/updateHealthCode', //刷新健康卡
   IS_COLLECT: '/collect_doctor/isCollect', //是否收藏

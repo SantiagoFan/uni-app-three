@@ -140,8 +140,8 @@ export default {
     },
     //锁号分钟
     getLockMinute() {
-      this.$http.post(this.API.LOCK_MINUTES).then((res) => {
-        this.lock_minutes = res.data
+      this.$http.post(this.API.REGISTER_SETTINGS).then((res) => {
+        this.lock_minutes = res.data.lock_minutes
         this.getDetail()
       })
     },

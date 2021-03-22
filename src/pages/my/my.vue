@@ -131,7 +131,7 @@
               </view>
               <view class="item__text">版本</view>
               <view class="item__jt">
-                0.1.31
+                {{version}}
               </view>
             </view>
         </view>
@@ -142,14 +142,17 @@
 
 <script>
 import { mapState } from 'vuex'
+import { getConfig } from '@/config'
 export default {
   data() {
     return {
       count: 0,
+      version:getConfig("version")
     }
   },
   onShow() {
     this.getIndex()
+    console.info(config)
   },
   computed: {
     ...mapState(['userInfo', 'patientInfo']),
