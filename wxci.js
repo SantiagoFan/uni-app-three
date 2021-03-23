@@ -27,6 +27,7 @@ const getVersion = function(){
     ver_list.unshift({name:"重大版本 更新：" + v_1,value:v_1})
     ver_list.unshift({name:"特性版本 更新：" + v_2,value:v_2})
     ver_list.unshift({name:"修复版本 更新：" + v_3,value:v_3})
+    ver_list.unshift({name:"原版本：" + version})
   }
   return ver_list
 }
