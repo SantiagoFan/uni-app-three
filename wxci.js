@@ -17,8 +17,11 @@ const project = new ci.Project({
  * 可选版本
  */
 const getVersion = function(){
-  let ver_list = [{name:"自定义",value:'自定义'}]
   let version = package.version
+  let ver_list = [
+    {name:"原版本：" + version,value:version},
+    {name:"自定义",value:'自定义'},
+  ]
   let res = version.match(/^(\d+).(\d+).(\d+)$/)
   if(res){
     let v_1 = (parseInt(res[1])+1)+"."+res[2]+"."+res[3] // 大版本更新
@@ -26,8 +29,7 @@ const getVersion = function(){
     let v_3 = res[1]+"."+res[2]+"."+(parseInt(res[3])+1) // 修复版本
     ver_list.unshift({name:"重大版本 更新：" + v_1,value:v_1})
     ver_list.unshift({name:"特性版本 更新：" + v_2,value:v_2})
-    ver_list.unshift({name:"修复版本 更新：" + v_3,value:v_3})
-    ver_list.unshift({name:"原版本：" + version})
+    ver_list.unshift({name:"修复版本 更新：" + v_3,value:v_3}) 
   }
   return ver_list
 }
