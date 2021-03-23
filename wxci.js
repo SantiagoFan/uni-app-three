@@ -2,6 +2,7 @@ const package = require('./package.json');
 const ci = require('miniprogram-ci')
 const inquirer = require('inquirer')
 let shell = require('shelljs');
+moment = require('moment')
 let fs = require('fs');
 // 项目参数
 const project = new ci.Project({
@@ -12,6 +13,23 @@ const project = new ci.Project({
   privateKeyPath: './ci-private_prod.key',
   ignores: ['node_modules/**/*'],
 })
+/**
+ * 可选版本
+ */
+const getVersion = function(){
+  let ver_list = [{name:"自定义",value:'自定义'}]
+  let version = package.version
+  let res = version.match(/^(\d+).(\d+).(\d+)$/)
+  if(res){
+    let v_1 = (parseInt(res[1])+1)+"."+res[2]+"."+res[3] // 大版本更新
+    let v_2 = res[1]+"."+(parseInt(res[2])+1)+"."+res[3] // 特性版本
+    let v_3 = res[1]+"."+res[2]+"."+(parseInt(res[3])+1) // 修复版本
+    ver_list.unshift({name:"重大版本 更新：" + v_1,value:v_1})
+    ver_list.unshift({name:"特性版本 更新：" + v_2,value:v_2})
+    ver_list.unshift({name:"修复版本 更新：" + v_3,value:v_3})
+  }
+  return ver_list
+}
 /**
  * 预览
  */
@@ -34,11 +52,10 @@ async function preview(){
  * 上传
  */
 async function upload({version = '0.0.0', desc ='test'}){
-  //修改文件版本
   package.version = version
-  let jsonStr = JSON.stringify(package);
-  fs.writeFile('./package.json',jsonStr,(err)=>{
-    console.info('package.json 保存成功')
+  let jsonStr = JSON.stringify(package,null,4);
+  fs.writeFileSync('./package.json',jsonStr,(err)=>{
+    console.info('package.json 更新成功')
   })
   shell.exec('npm run build:mp-weixin')
   await ci.upload({
@@ -65,6 +82,8 @@ async function git_sync({ desc ='test'}){
 }
 
 function inquirerResult(){
+  //修改文件版本
+  let ver_lsit = getVersion()
   return inquirer.prompt([
     {
       type: 'list',
@@ -76,26 +95,34 @@ function inquirerResult(){
         {name:"预览新版本 preview",value:"preview"},
       ],
     },
+    {
+      type: 'list',
+      message: '请选择版本号:',
+      name: 'version',
+      choices: ver_lsit,
+      when:(answers)=>{ return answers.type =='upload' }
+    },
     // 设置版本号
     {
       type: 'input',
       name: 'version',
-      message: `设置上传的版本号:`,
-      when:(answers)=>{ return answers.type =='upload' }
+      message: `输入自定义版本号:`,
+      askAnswered:true,
+      when:(answers)=>{ return answers.type =='upload'&&answers.version =='自定义' }
   },
 
   // 设置上传描述
   {
       type: 'input',
       name: 'desc',
+      default:moment().format('YYYY-MM-DD HH:mm:ss')+ "更新",
       message: `写一个简单的介绍来描述这个版本的改动过:`,
       when:(answers)=>{ return answers.type =='upload'||answers.type =='code_sync' }
   },
 ]);
 }
 async function init() {
-  let result = await inquirerResult();  
-  console.log(result);      // 输出
+  let result = await inquirerResult();
   switch(result.type){
     case 'upload':{ await upload(result) }break;
     case 'preview':{ await preview(result) }break;
