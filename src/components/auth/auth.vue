@@ -12,6 +12,7 @@
           base.description
         }}</view>
       </view>
+      <!-- #ifdef MP-WEIXIN -->
       <button
         type="primary"
         class="btn"
@@ -21,6 +22,18 @@
       >
         授权登录
       </button>
+      <!-- #endif -->
+      <!-- #ifdef MP-ALIPAY -->
+      <button
+        type="primary"
+        size="default"
+        open-type="getAuthorize"
+        scope="userInfo"
+        @getAuthorize="getUserInfo"
+          >
+        授权登录
+      </button>
+      <!-- #endif -->
     </view>
   </view>
 </template>
@@ -47,6 +60,7 @@ export default {
   methods: {
     ...mapMutations(['setUserInfo', 'setLoginPopupShow']),
     getUserInfo(e) {
+      console.info(e)
       if (e.detail.errMsg == "getUserInfo:fail auth deny") {
         uni.showToast({
           title: "请同意授权",

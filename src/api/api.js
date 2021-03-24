@@ -1,7 +1,7 @@
 export default {
   ADD_PATIENT: '/patient/addPatient', //添加就诊卡
   BIND_PATIENT: '/patient/bindPatient', //绑定就诊卡
-  GET_TOKEN: '/auth/wxLogin', //查询用户
+  GET_TOKEN: '/auth/login', //查询用户
   UPDATE_USERINFO: '/user/updateUserInfo', //提交用户信息
   PATIENT_LIST: '/patient/getPatientList', //就诊卡列表
   PATINET_DETAIL: '/patient/getPatientDetail', //就诊人详情
