@@ -59,6 +59,7 @@ export default {
   },
   methods: {
     ...mapMutations(['setUserInfo', 'setLoginPopupShow']),
+    // 微信登录
     getUserInfo(e) {
       console.info(e)
       if (e.detail.errMsg == "getUserInfo:fail auth deny") {
@@ -84,8 +85,14 @@ export default {
         });
       }
     },
+    // 支付宝登录
     getAuthorize(e){
-
+      my.getOpenUserInfo({
+        fail:()=>{},
+        success:(res)=>{
+          console.info(res)
+        }
+      })
     },
     //关闭弹窗
     closePopup() {
