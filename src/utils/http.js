@@ -74,6 +74,7 @@ http.interceptor.response(
       uni.showToast({
         title: response.data.message,
         icon: 'none',
+        duration: 2000,
       })
       return Promise.reject(response)
     }

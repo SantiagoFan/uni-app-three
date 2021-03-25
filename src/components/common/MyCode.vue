@@ -38,7 +38,7 @@ export default {
   components: { tkiBarcode, tkiQrcode },
   data() {
     return {
-      codeIndex: 1,
+      codeIndex: 0,
       barOpations: {
         height: 120,
         displayValue: false,

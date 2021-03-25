@@ -15,7 +15,7 @@
             </view>
             <view class="item-sta__con">
               <view class="item-sta__con-title">
-                {{ item.item_name }}
+              {{ item.item_name }}
               </view>
               <!-- <view class="item-sta__con-list">
                 <view class="cell">
@@ -73,6 +73,9 @@ export default {
         res.data.forEach(element => {
           element.checked = false
         });
+        if(res.data.length>0){
+          res.data[0].checked = true
+        }
         this.list = res.data
       })
     },
@@ -109,7 +112,16 @@ export default {
       }
     },
     handleChoose(index) {
-      this.list[index].checked = !this.list[index].checked
+      this.list[index].checked = true
+      for(let i=0; i<this.list.length;i++){
+        if(i==index){
+          this.list[i].checked = true 
+        }
+        else{
+          this.list[i].checked = false 
+        }
+      }
+      console.info(this.list)
       this.selected = this.list[index]
     },
   },

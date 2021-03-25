@@ -85,13 +85,12 @@ export default new Vuex.Store({
                       }
                     })
                     .catch((res) => {
-                      uni.showToast({
-                        // title: '登录结果' + JSON.stringify(res),
-                        title: '网络繁忙，请稍后再试',
-                        icon: 'none',
-                        duration: 10000,
-                      })
-                      console.log('GET_TOKEN', res)
+                      uni.hideToast();//
+                      uni.showModal({
+                        title: '提示',
+                        content: res.data.message,
+                        showCancel:false
+                    });
                       reject()
                     })
                 }

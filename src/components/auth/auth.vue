@@ -29,8 +29,8 @@
         size="default"
         open-type="getAuthorize"
         scope="userInfo"
-        @getAuthorize="getUserInfo"
-          >
+        @getAuthorize="getAuthorize"
+      >
         授权登录
       </button>
       <!-- #endif -->
@@ -83,6 +83,9 @@ export default {
           }
         });
       }
+    },
+    getAuthorize(e){
+
     },
     //关闭弹窗
     closePopup() {
