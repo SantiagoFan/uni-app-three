@@ -441,6 +441,8 @@ export default {
         .post(this.API.CREATE_REGISTER, params)
         .then((res) => {
           if (res.code == 20000) {
+            // 重新拉取号 防止号源占用
+            this.getSchemeList()
             this.$Router.push({
               name: 'payment',
               params: { reg_no: res.data },
