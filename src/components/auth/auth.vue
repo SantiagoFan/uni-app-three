@@ -88,9 +88,28 @@ export default {
     // 支付宝登录
     getAuthorize(e){
       my.getOpenUserInfo({
-        fail:()=>{},
+        fail:()=>{
+          uni.showToast({
+            title: "请同意授权",
+            icon: "none",
+          });
+        },
         success:(res)=>{
-          console.info(res.response)
+          let info = JSON.parse(res.response).response
+          var data = {
+            headimgurl: info.avatar,
+            nickname: info.nickName,
+          };
+          this.$http.post(this.API.UPDATE_USERINFO, data).then((res) => {
+            if (res.code == 20000) {
+              uni.showToast({
+                title: res.message,
+                icon: "none",
+              });
+              this.setUserInfo(res.data);
+              this.setLoginPopupShow(false);
+            }
+          });
         }
       })
     },

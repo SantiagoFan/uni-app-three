@@ -49,8 +49,7 @@
       <view
         :class="['wrap-btn__con', { active: timestamp == 0 }]"
         @click="timestamp > 0 && hanldePay()"
-        >微信支付</view
-      >
+        >支付</view>
     </view>
   </view>
 </template>
@@ -85,7 +84,11 @@ export default {
     },
   },
   methods: {
-    hanldePay() {
+    async hanldePay() {
+      
+
+      let res = await uni.getProvider({service:'payment'})
+      let provider = res[1].provider[0];
       let that = this
       if (that.flag) {
         return false
@@ -94,13 +97,14 @@ export default {
       this.$http
         .post(this.API.REGISTER_PAY, {
           order_no: this.model.order_no,
+          'provider':provider
         })
         .then((res) => {
           if (res.code == 20000) {
             if (res.need_pay) {
               const config = JSON.parse(res.data)
               uni.requestPayment({
-                provider: 'wxpay',
+                provider: provider,
                 timeStamp: config.timeStamp,
                 nonceStr: config.nonceStr,
                 package: config.package,

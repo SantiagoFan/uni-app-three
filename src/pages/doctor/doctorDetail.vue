@@ -411,8 +411,11 @@ export default {
     },
     async createOrder() {
 
-      //订阅一次消息
+      //订阅微信一次消息
+      //#ifdef MP-WEIXIN
       await wx_message.req_msg([1])
+      //#endif
+      
       
       if (this.flag) {
         return false
