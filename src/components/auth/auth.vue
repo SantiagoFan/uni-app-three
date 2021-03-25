@@ -90,7 +90,7 @@ export default {
       my.getOpenUserInfo({
         fail:()=>{},
         success:(res)=>{
-          console.info(res)
+          console.info(res.response)
         }
       })
     },
