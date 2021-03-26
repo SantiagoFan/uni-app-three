@@ -192,7 +192,7 @@ export default {
     return {
       typeIndex: 0,
       name: '',
-      banner: 'https://wx.mzyy.org.cn/uploads/image/20210204/fe8d5325f4054a07ecff15fb67c22d69.jpg',
+      banner: '',
       typeList: [
         {
           text: '门诊',
