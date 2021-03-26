@@ -115,6 +115,7 @@ export default {
                   })
                 },
                 fail: function(err) {
+                  console.error(err)
                   that.flag = false
                   uni.showToast({
                     title: '支付失败',
@@ -135,6 +136,7 @@ export default {
               // #ifdef MP-ALIPAY
               pay_params['orderInfo']= res.data
               // #endif
+              console.info('支付参数',pay_params)
               uni.requestPayment(pay_params)
             } else {
               that.$Router.replace({
