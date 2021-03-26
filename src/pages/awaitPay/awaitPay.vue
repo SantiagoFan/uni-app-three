@@ -155,14 +155,8 @@ export default {
           amount: that.totalAmount,
         })
         .then((res) => {
-          const config = JSON.parse(res.data)
-          uni.requestPayment({
-            provider: provider,
-            timeStamp: config.timeStamp,
-            nonceStr: config.nonceStr,
-            package: config.package,
-            signType: 'MD5',
-            paySign: config.paySign,
+          // 支付参数
+          let pay_params = {
             success: function(response) {
               uni.showToast({
                 title: '支付成功',
@@ -183,8 +177,21 @@ export default {
                 duration: 2000,
                 icon: 'none',
               })
-            },
-          })
+            }
+          }
+          // #ifdef MP-WEIXIN
+          const config = JSON.parse(res.data)
+          pay_params['provider']= provider
+          pay_params['timeStamp']= config.timeStamp
+          pay_params['nonceStr']= config.nonceStr
+          pay_params['package']= config.package
+          pay_params['signType']= 'MD5'
+          pay_params['paySign']= config.paySign
+          // #endif
+          // #ifdef MP-ALIPAY
+          pay_params['orderInfo']= res.data
+          // #endif
+          uni.requestPayment(pay_params) 
         })
         .finally((res) => {
           that.flag = false
