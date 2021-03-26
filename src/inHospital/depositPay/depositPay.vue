@@ -67,7 +67,7 @@ export default {
     changeAmount(item) {
       this.money = item.amount
     },
-    goPay() {
+    async goPay() {
       if (!this.livePatientInfo) {
         uni.showToast({
           title: '请添加住院人',
@@ -96,6 +96,8 @@ export default {
         })
         return false
       }
+      let res = await uni.getProvider({service:'payment'})
+      let provider = res[1].provider[0];
       let that = this
       if (this.flag) {
         return false
@@ -110,7 +112,7 @@ export default {
         .then((res) => {
           const config = JSON.parse(res.data)
           uni.requestPayment({
-            provider: 'wxpay',
+            provider:provider,
             timeStamp: config.timeStamp,
             nonceStr: config.nonceStr,
             package: config.package,

@@ -85,10 +85,9 @@ export default {
   },
   methods: {
     async hanldePay() {
-      
-
       let res = await uni.getProvider({service:'payment'})
       let provider = res[1].provider[0];
+      
       let that = this
       if (that.flag) {
         return false

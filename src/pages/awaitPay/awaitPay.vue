@@ -120,7 +120,7 @@ export default {
           })
       }
     },
-    createOrder() {
+    async createOrder() {
       var that = this
       let ids = []
       that.list.forEach((e) => {
@@ -142,6 +142,8 @@ export default {
         })
         return false
       }
+      let res = await uni.getProvider({service:'payment'})
+      let provider = res[1].provider[0];
       if (that.flag) {
         return false
       }
@@ -155,7 +157,7 @@ export default {
         .then((res) => {
           const config = JSON.parse(res.data)
           uni.requestPayment({
-            provider: 'wxpay',
+            provider: provider,
             timeStamp: config.timeStamp,
             nonceStr: config.nonceStr,
             package: config.package,
