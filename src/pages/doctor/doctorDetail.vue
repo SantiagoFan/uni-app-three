@@ -128,12 +128,13 @@
         </view>
       </view>
       <template v-if="tabIndex == 1">
-        <view
+        <!-- <view
           class="wrap__con-intr"
           v-if="model.content"
           v-html="model.content"
         >
-        </view>
+        </view> -->
+        <richtext className="wrap__con-intr" v-if="model.content" :content="model.content"></richtext>
         <empty v-else title="暂无介绍"></empty>
       </template>
     </view>
@@ -215,6 +216,8 @@
 import { mapState } from 'vuex'
 import moment from 'moment'
 import dhImage from '@/components/dh-image/dh-image.vue'
+import richtext from "@/components/common/richtext.vue"
+
 import { weekList, fillWeek } from '@/utils/week.js'
 import login from '@/utils/login'
 import wx_message from '@/utils/message.js'
@@ -244,8 +247,7 @@ export default {
       flag: false,
     }
   },
-  components: { dhImage },
-
+  components: { dhImage,richtext },
   computed: {
     ...mapState(['patientInfo', 'patientList']),
     dateStr() {
@@ -440,17 +442,31 @@ export default {
         doctor_professional: this.model.professional,
         doctor_head: this.model.doctor_head,
       }
+      let starttime=moment();
+
       this.$http
         .post(this.API.CREATE_REGISTER, params)
         .then((res) => {
           if (res.code == 20000) {
+            // #ifdef MP-ALIPAY
+            this.$monitor.api('预约挂号', true, moment().diff(starttime), 20000,"业务处理成功")
+            console.log(111)
+            // #endif
             // 重新拉取号 防止号源占用
             this.getSchemeList()
             this.$Router.push({
               name: 'payment',
               params: { reg_no: res.data },
             })
+          }else{
+            // #ifdef MP-ALIPAY
+             this.$monitor.api('预约挂号', false, moment().diff(starttime), 50000,res.message)
+            // #endif
           }
+        }).catch((res)=>{
+           // #ifdef MP-ALIPAY
+          this.$monitor.api('预约挂号', false, moment().diff(starttime), 50000,"业务处理失败")
+          // #endif
         })
         .finally((res) => {
           this.flag = false

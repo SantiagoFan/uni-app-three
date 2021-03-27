@@ -136,14 +136,15 @@
       @backspace="backspace"
     ></u-keyboard>
     <u-modal v-model="show_message">
-			<view class="message_content" v-html="reminder_message" >
-			</view>
+       <richtext className="message_content" :content="reminder_message"></richtext>
 		</u-modal>
   </view>
 </template>
 
 <script>
 import dhImage from '@/components/dh-image/dh-image.vue'
+import richtext from "@/components/common/richtext.vue";
+
 import { mapState } from 'vuex'
 export default {
   data() {
@@ -165,7 +166,7 @@ export default {
   computed: {
     ...mapState(['patientInfo']),
   },
-  components: { dhImage },
+  components: { dhImage,richtext },
   onLoad() {
     this.getSettings()
     this.getList()
