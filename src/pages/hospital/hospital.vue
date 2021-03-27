@@ -40,8 +40,8 @@
         <view class="hospital-m__wrap-sta">
           <view class="bt">功能清单</view>
           <view class="menu">
-            <router-link
-              :to="{ name: 'department', params: { isDoctor: 0 } }"
+            <view
+              @click="toUrl('department',{ isDoctor: 0 })"
               hover-class="none"
               class="menu-item"
             >
@@ -53,9 +53,9 @@
                 />
               </view>
               <view class="text">科室介绍</view>
-            </router-link>
-            <router-link
-              :to="{ name: 'department', params: { isDoctor: 1 } }"
+            </view>
+            <view
+              @click="toUrl('department',{ isDoctor: 1 })"
               hover-class="none"
               class="menu-item"
             >
@@ -67,9 +67,9 @@
                 />
               </view>
               <view class="text">医生介绍</view>
-            </router-link>
-            <router-link
-              :to="{ name: 'branchPlace' }"
+            </view>
+            <view
+              @click="toUrl('branchPlace')"
               hover-class="none"
               class="menu-item"
             >
@@ -81,7 +81,7 @@
                 />
               </view>
               <view class="text">科室分布</view>
-            </router-link>
+            </view>
           </view>
         </view>
         <u-gap height="20" bg-color="#f3f3f3"></u-gap>
@@ -133,7 +133,13 @@ export default {
         },
       });
     },
-    
+    toUrl(name,params){
+      let data={name:name};
+      if(params){
+        data['params']=params
+      }
+      this.$Router.push(data)
+    }
   },
 };
 </script>

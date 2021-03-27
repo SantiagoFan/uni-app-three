@@ -337,7 +337,7 @@ export default {
   width: 100%;
 }
 .u-tab-view {
-  flex: 1;
+  // flex: 1;
   height: 100%;
 }
 .u-tab-item {
@@ -367,6 +367,7 @@ export default {
 }
 
 .right-box {
+  flex: 1;
   color: #333333;
   padding-left: 30rpx;
   background-color: #ffffff;

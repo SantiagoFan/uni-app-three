@@ -236,7 +236,7 @@
       @confirm="confirm"
       title="提示"
       content="确认取消"
-      show-cancel-button="true"
+      :show-cancel-button="true"
     ></u-modal>
     <u-skeleton
       :loading="loading"

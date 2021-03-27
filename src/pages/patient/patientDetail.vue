@@ -10,7 +10,7 @@
           <view class="item">{{ model.idcard | hideIdCard }}</view>
         </view>
         <view class="qrcode" v-if='model.ehealth_code' >
-           <tki-qrcode ref="qrcode" style="margin-top:10rpx" onval :val="model.ehealth_code" :size="200"  icon="/static/image/logo.png" :iconSize='20'  :loadMake="true" :show-loading="true" />
+           <tki-qrcode cid="mycode" ref="qrcode" style="margin-top:10rpx" onval :val="model.ehealth_code" :size="200"  icon="/static/image/logo.png" :iconSize='20'  :loadMake="true" :show-loading="true" />
         </view>
       </view>
     </view>
@@ -27,7 +27,7 @@
       @confirm="confirm"
       title="提示"
       content="确认删除"
-      show-cancel-button="true"
+      :show-cancel-button="true"
     ></u-modal>
   </view>
 </template>
