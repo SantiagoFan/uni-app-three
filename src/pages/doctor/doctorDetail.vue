@@ -450,7 +450,6 @@ export default {
           if (res.code == 20000) {
             // #ifdef MP-ALIPAY
             this.$monitor.api('预约挂号', true, moment().diff(starttime), 20000,"业务处理成功")
-            console.log(111)
             // #endif
             // 重新拉取号 防止号源占用
             this.getSchemeList()
@@ -463,12 +462,12 @@ export default {
              this.$monitor.api('预约挂号', false, moment().diff(starttime), 50000,res.message)
             // #endif
           }
-        }).catch((res)=>{
+        }).catch(()=>{
            // #ifdef MP-ALIPAY
           this.$monitor.api('预约挂号', false, moment().diff(starttime), 50000,"业务处理失败")
           // #endif
         })
-        .finally((res) => {
+        .finally(() => {
           this.flag = false
         })
     },
