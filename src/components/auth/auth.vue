@@ -95,6 +95,7 @@ export default {
           });
         },
         success:(res)=>{
+          console.info(res)
           let info = JSON.parse(res.response).response
           var data = {
             headimgurl: info.avatar,
