@@ -155,6 +155,7 @@ export default {
           reg_no: that.reg_no,
           ids: ids,
           amount: that.totalAmount,
+          provider
         })
         .then((res) => {
           // 支付参数
