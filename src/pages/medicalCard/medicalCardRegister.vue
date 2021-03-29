@@ -4,7 +4,10 @@
       <view class="wrap__massage"
         >温馨提示：<br />本院实行实名制就诊，<br />请如实填写就诊人信息，系统将为您办理新建卡</view
       >
-      <form @submit="formSubmit">
+      <view class="wrap__switch">
+        <u-subsection active-color="#0ec698" mode="subsection" :list="[{name:'本人'},{name:'它人'}]" :current="curType" @change="changeType"></u-subsection>
+      </view>
+      <form>
         <view class="wrap__con">
           <view class="wrap__con-art">
             <view class="wrap__con-art-item">
@@ -13,6 +16,7 @@
                 <input
                   class="input"
                   type="text"
+                  v-model="formData.name"
                   name="name"
                   placeholder="请输入姓名"
                   placeholder-class="placr_style"
@@ -26,6 +30,7 @@
                   class="input"
                   type="idcard"
                   name="idcard"
+                  v-model="formData.idcard"
                   maxlength="18"
                   placeholder="请输入身份证号"
                   placeholder-class="placr_style"
@@ -39,6 +44,7 @@
                   class="input"
                   type="number"
                   name="phone"
+                  v-model="formData.phone"
                   maxlength="11"
                   placeholder="请输入手机号码"
                   placeholder-class="placr_style"
@@ -52,6 +58,7 @@
                   class="input"
                   type="text"
                   name="address"
+                  v-model="formData.address"
                   placeholder="请输入住址"
                   placeholder-class="placr_style"
                 />
@@ -74,8 +81,9 @@
             </view>
           </view>
         </view>
-        <button form-type="submit" class="wrap__btn active">立即新建</button>
+        <button class="wrap__btn active" @click="formSubmit">立即新建</button>
       </form>
+      
     </view>
   </view>
 </template>
@@ -88,7 +96,13 @@ export default {
     return {
       flag: false,
       nationList: nation.nationList,
-      nation_index: 0,
+      nation_index: 0, //民族选择序号
+      curType:0, // 0 添加本人 1添加其他人
+      formData:{
+        name:'',
+        idcard:'',
+        phone:''
+      } //待提交的表单信息
     }
   },
   created() {},
@@ -96,9 +110,42 @@ export default {
     bindPickerChange(e) {
       this.nation_index = e.target.value
     },
+    changeType(i){ // 切换类型
+      this.curType = i
+      if(this.curType==0){ //本人调起授权
+        // #ifdef MP-ALIPAY
+        my.getAuthCode({
+          scopes: 'auth_user', // 主动授权：auth_user，静默授权：auth_base。或者其它scope
+          success: (res) => {
+            if (res.authCode) {
+              this.$http.post(this.API.GET_USERINFO, { code: res.authCode })
+              .then(r=>{
+                this.formData.name = r.alipay_user_info_share_response.nick_name
+                this.formData.phone = r.alipay_user_info_share_response.mobile
+                this.formData.idcard = r.alipay_user_info_share_response.cert_no
+              })
+              // 认证成功      // 调用自己的服务端接口，让服务端进行后端的授权认证，并且利用session，需要解决跨域问题
+              // my.request({
+              //   url: 'https://isv.com/auth', // 该url是您自己的服务地址，实现的功能是服务端拿到authcode去开放平台进行token验证        
+              //   data: {
+              //     authcode: res.authCode,
+              //   },
+              //   success: () => {
+              //     // 授权成功并且服务器端登录成功        
+              //   },
+              //   fail: () => {
+              //     // 根据自己的业务场景来进行错误处理
+              //   },
+              // });
+            }
+          },
+        });
+        // #endif
+      }
+    },
     formSubmit(e) {
       uni.removeStorageSync('patientInfo')
-      var data = e.detail.value
+      var data = this.formData
       data['nation'] = this.nationList[this.nation_index].value
       data['nation_code'] = this.nationList[this.nation_index].code
       console.info(data)
@@ -191,6 +238,9 @@ export default {
       color: #0ec698;
       font-size: 28rpx;
       letter-spacing: 2rpx;
+    }
+    &__switch {
+      margin-top: 20rpx;
     }
     &__con {
       margin-top: 30rpx;
