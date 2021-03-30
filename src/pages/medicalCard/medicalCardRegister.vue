@@ -228,6 +228,9 @@ export default {
               // });
             }
           },
+          fail:_=>{
+            this.curType =1
+          }
         });
         // #endif
       }
