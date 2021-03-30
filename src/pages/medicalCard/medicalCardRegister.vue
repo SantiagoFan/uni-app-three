@@ -209,9 +209,9 @@ export default {
             if (res.authCode) {
               this.$http.post(this.API.GET_USERINFO, { code: res.authCode })
               .then(r=>{
-                this.formData.name = r.alipay_user_info_share_response.nick_name
-                this.formData.phone = r.alipay_user_info_share_response.mobile
-                this.formData.idcard = r.alipay_user_info_share_response.cert_no
+                this.formData.name = r.data.nick_name
+                this.formData.phone = r.data.mobile
+                this.formData.idcard = r.data.cert_no
               })
               // 认证成功      // 调用自己的服务端接口，让服务端进行后端的授权认证，并且利用session，需要解决跨域问题
               // my.request({
