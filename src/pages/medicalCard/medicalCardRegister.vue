@@ -188,7 +188,9 @@ export default {
       } //待提交的表单信息
     }
   },
-  created() {},
+  created() {
+    this.curType(0);
+  },
   methods: {
     bindPickerChange(e) {
       this.nation_index = e.target.value
