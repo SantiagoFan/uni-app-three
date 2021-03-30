@@ -9,6 +9,8 @@
       </view>
       <form>
         <view class="wrap__con">
+          <!-- 微信 -->
+          <!-- #ifdef MP-WEIXIN -->
           <view class="wrap__con-art">
             <view class="wrap__con-art-item">
               <view class="label">姓名</view>
@@ -80,6 +82,87 @@
               </view>
             </view>
           </view>
+          <!-- #endif -->
+          <!-- 支付宝 -->
+          <!-- #ifdef MP-ALIPAY -->
+          <view class="wrap__con-art">
+            <view class="wrap__con-art-item">
+              <view class="label">姓名</view>
+              <view class="input-box">
+                <input
+                  class="input"
+                  type="text"
+                  v-model="formData.name"
+                  name="name"
+                  placeholder="请输入姓名"
+                  placeholder-class="placr_style"
+                  v-if="curType==1"
+                />
+                <view v-else>{{formData.name | hideIdRealName}}</view>
+              </view>
+            </view>
+            <view class="wrap__con-art-item">
+              <view class="label">身份证</view>
+              <view class="input-box">
+                <input
+                  class="input"
+                  type="idcard"
+                  name="idcard"
+                  v-model="formData.idcard"
+                  maxlength="18"
+                  placeholder="请输入身份证号"
+                  placeholder-class="placr_style"
+                   v-if="curType==1"
+                />
+                <view v-else>{{formData.idcard | hideIdCard}}</view>
+              </view>
+            </view>
+            <view class="wrap__con-art-item">
+              <view class="label">手机号码</view>
+              <view class="input-box">
+                <input
+                  class="input"
+                  type="number"
+                  name="phone"
+                  v-model="formData.phone"
+                  maxlength="11"
+                  placeholder="请输入手机号码"
+                  placeholder-class="placr_style"
+                  v-if="curType==1"
+                />
+                <view v-else>{{formData.phone | hideIdPhone}}</view>
+              </view>
+            </view>
+            <view class="wrap__con-art-item">
+              <view class="label">住址</view>
+              <view class="input-box">
+                <input
+                  class="input"
+                  type="text"
+                  name="address"
+                  v-model="formData.address"
+                  placeholder="请输入住址"
+                  placeholder-class="placr_style"
+                />
+              </view>
+            </view>
+            <view class="wrap__con-art-item">
+              <view class="label">民族</view>
+              <view class="input-box">
+                <!-- <input
+                  class="input"
+                  type="text"
+                  name="nation"
+                  placeholder="请选择民族"
+                  placeholder-class="placr_style"
+                > -->
+                <picker @change="bindPickerChange" range-key="value" :range="nationList">
+                  <view class="uni-input">{{ nationList[nation_index].value }}</view>
+                </picker>
+              </view>
+            </view>
+          </view>
+          <!-- #endif -->
         </view>
         <button class="wrap__btn active" @click="formSubmit">立即新建</button>
       </form>
@@ -112,6 +195,10 @@ export default {
     },
     changeType(i){ // 切换类型
       this.curType = i
+      //清除选择
+      this.formData.name = ''
+      this.formData.phone = ''
+      this.formData.idcard = ''
       if(this.curType==0){ //本人调起授权
         // #ifdef MP-ALIPAY
         my.getAuthCode({
