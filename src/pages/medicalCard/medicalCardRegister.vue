@@ -5,7 +5,7 @@
         >温馨提示：<br />本院实行实名制就诊，<br />请如实填写就诊人信息，系统将为您办理新建卡</view
       >
       <view class="wrap__switch">
-        <u-subsection active-color="#0ec698" mode="subsection" :list="[{name:'本人'},{name:'它人'}]" :current="curType" @change="changeType"></u-subsection>
+        <u-subsection active-color="#0ec698" mode="subsection" :list="[{name:'本人'},{name:'他人'}]" :current="curType" @change="changeType"></u-subsection>
       </view>
       <form>
         <view class="wrap__con">
