@@ -189,7 +189,7 @@ export default {
     }
   },
   onShow() {
-    this.curType(0);
+    this.changeType(0);
   },
   methods: {
     bindPickerChange(e) {
