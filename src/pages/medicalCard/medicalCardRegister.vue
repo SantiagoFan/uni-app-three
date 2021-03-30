@@ -188,7 +188,7 @@ export default {
       } //待提交的表单信息
     }
   },
-  created() {
+  onShow() {
     this.curType(0);
   },
   methods: {
