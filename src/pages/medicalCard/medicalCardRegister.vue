@@ -209,7 +209,7 @@ export default {
             if (res.authCode) {
               this.$http.post(this.API.GET_USERINFO, { code: res.authCode })
               .then(r=>{
-                this.formData.name = r.data.nick_name
+                this.formData.name = r.data.user_name
                 this.formData.phone = r.data.mobile
                 this.formData.idcard = r.data.cert_no
               })
