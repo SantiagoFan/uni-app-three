@@ -37,6 +37,7 @@
 <script>
 import { mapState } from 'vuex'
 import Empty from '../../components/empty/empty.vue'
+
 export default {
   data() {
     return {
@@ -82,7 +83,7 @@ export default {
           patient_code: this.patientInfo.patient_code,
         })
         .then((res) => {
-            this.list = res.data
+          this.list = res.data
         })
     },
   },

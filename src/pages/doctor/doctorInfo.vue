@@ -20,16 +20,19 @@
     </view>
     <view class="wrap__con">
       <view class="wrap__con-title bordertop">详细介绍</view>
-      <view
+      <!-- <view
         class="wrap__con-intr"
         v-if="model.content"
         v-html="model.content"
-      ></view>
+      ></view> -->
+       <richtext className="wrap__con-intr" v-if="model.content" :content="model.content"></richtext>
       <empty v-else></empty>
     </view>
   </view>
 </template>
 <script>
+import richtext from "@/components/common/richtext.vue"
+
 export default {
   data() {
     return {
@@ -41,6 +44,7 @@ export default {
       },
     }
   },
+  components: { richtext },
   onShow() {
     this.getInfo()
   },

@@ -6,7 +6,7 @@
           class="img"
           mode="widthFix"
           :src="banner"
-          :allowEmpty='true'
+          :allowEmpty="true"
           errorSrc="hos_pic.jpg?v=0.1"
         ></dh-image>
       </view>
@@ -26,9 +26,7 @@
               <view class="menu-item__icon">
                 <text class="iconfont icon-dianhua"></text>
               </view>
-              <view class="menu-item__text">{{
-                info.phone
-              }}</view>
+              <view class="menu-item__text">{{ info.phone }}</view>
             </view>
             <view class="menu-item" @click="location()">
               <view class="menu-item__icon">
@@ -42,8 +40,8 @@
         <view class="hospital-m__wrap-sta">
           <view class="bt">功能清单</view>
           <view class="menu">
-            <router-link
-              :to="{ name: 'department', params: { isDoctor: 0 } }"
+            <view
+              @click="toUrl('department',{ isDoctor: 0 })"
               hover-class="none"
               class="menu-item"
             >
@@ -55,9 +53,9 @@
                 />
               </view>
               <view class="text">科室介绍</view>
-            </router-link>
-            <router-link
-              :to="{ name: 'department', params: { isDoctor: 1 } }"
+            </view>
+            <view
+              @click="toUrl('department',{ isDoctor: 1 })"
               hover-class="none"
               class="menu-item"
             >
@@ -69,9 +67,9 @@
                 />
               </view>
               <view class="text">医生介绍</view>
-            </router-link>
-            <router-link
-              :to="{ name: 'branchPlace' }"
+            </view>
+            <view
+              @click="toUrl('branchPlace')"
               hover-class="none"
               class="menu-item"
             >
@@ -83,13 +81,13 @@
                 />
               </view>
               <view class="text">科室分布</view>
-            </router-link>
+            </view>
           </view>
         </view>
         <u-gap height="20" bg-color="#f3f3f3"></u-gap>
         <view class="hospital-m__wrap-intr">
           <view class="bt">本院介绍</view>
-          <view class="centent" v-html="info.content"> </view>
+          <richtext className="centent" :content="info.content"></richtext>
         </view>
         <u-gap height="20" bg-color="#f3f3f3"></u-gap>
       </view>
@@ -98,43 +96,52 @@
 </template>
 
 <script>
-import dhImage from '@/components/dh-image/dh-image.vue'
+import dhImage from "@/components/dh-image/dh-image.vue";
+import richtext from "@/components/common/richtext.vue";
+
 export default {
   data() {
     return {
       info: {},
-      banner: '',
-    }
+      banner: "",
+    };
   },
-  components: { dhImage },
+  components: { dhImage,richtext },
   onLoad() {
-    this.getInfo()
+    this.getInfo();
   },
   methods: {
     getInfo() {
       this.$http.post(this.API.HOSPITAL_INFO).then((res) => {
-        this.info = res.data.info
-        this.banner = res.data.banner
-      })
+        this.info = res.data.info;
+        this.banner = res.data.banner;
+      });
     },
     call() {
       if (this.info.phone) {
         uni.makePhoneCall({
           phoneNumber: this.info.phone, //仅为示例
-        })
+        });
       }
     },
-    location(){
+    location() {
       uni.openLocation({
         latitude: 40.790314,
-        longitude: 111.726590,
-        success () {
-          console.log('success');
-        }
+        longitude: 111.72659,
+        success() {
+          console.log("success");
+        },
       });
+    },
+    toUrl(name,params){
+      let data={name:name};
+      if(params){
+        data['params']=params
+      }
+      this.$Router.push(data)
     }
   },
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -164,7 +171,7 @@ export default {
           border-radius: 50%;
           margin-right: 15rpx;
           background: #0ec698;
-          content: '';
+          content: "";
         }
       }
       &-info {

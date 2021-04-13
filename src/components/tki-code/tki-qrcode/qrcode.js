@@ -1087,7 +1087,7 @@ let QRCode = {};
             if (options.showLoading) {
                 uni.showLoading({
                     title: options.loadingText,
-                    mask: true
+                    // mask: true
                 });
             }
             var ctx = uni.createCanvasContext(options.canvasId, options.context);
@@ -1159,6 +1159,7 @@ let QRCode = {};
                                 }
                             },
                             complete: function () {
+                                console.log(options)
                                 if (options.showLoading){
                                     uni.hideLoading();
                                 }

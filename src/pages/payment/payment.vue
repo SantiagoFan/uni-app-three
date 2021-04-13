@@ -93,6 +93,7 @@ export default {
         return false
       }
       that.flag = true
+      let starttime=moment();
       this.$http
         .post(this.API.REGISTER_PAY, {
           order_no: this.model.order_no,
@@ -135,6 +136,7 @@ export default {
               // #endif
               // #ifdef MP-ALIPAY
               pay_params['orderInfo']= res.data
+              this.$monitor.api('挂号缴费', true, moment().diff(starttime), 20000,"业务处理成功")
               // #endif
               console.info('支付参数',pay_params)
               uni.requestPayment(pay_params)
@@ -144,7 +146,15 @@ export default {
                 params: { reg_no: res.reg_no },
               })
             }
+          }else{
+            // #ifdef MP-ALIPAY
+            this.$monitor.api('挂号缴费', false, moment().diff(starttime), 50000,"业务处理失败")
+            // #endif
           }
+        }).catch(()=>{
+          // #ifdef MP-ALIPAY
+          this.$monitor.api('挂号缴费', false, moment().diff(starttime), 50000,"业务处理失败")
+          // #endif
         })
         .finally((res) => {
           that.flag = false

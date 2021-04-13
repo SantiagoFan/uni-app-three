@@ -54,6 +54,7 @@
 <script>
 import { mapState } from 'vuex'
 import RegisterCard from "@/components/register_card/index.vue"
+import moment from 'moment'
 
 export default {
   components:{
@@ -79,6 +80,7 @@ export default {
           return '检查项目'
         case '4':
           return '处置费(医疗项目)'
+        default : return '其他'
       }
     },
   },
@@ -148,11 +150,13 @@ export default {
         return false
       }
       that.flag = true
+      let starttime=moment();
       that.$http
         .post(that.API.EXAMINATION_ORDER, {
           reg_no: that.reg_no,
           ids: ids,
           amount: that.totalAmount,
+          provider
         })
         .then((res) => {
           // 支付参数
@@ -191,9 +195,14 @@ export default {
           // #endif
           // #ifdef MP-ALIPAY
           pay_params['orderInfo']= res.data
+          this.$monitor.api('门诊缴费', true, moment().diff(starttime), 20000,"业务处理成功")
           // #endif
           console.info('支付参数',pay_params)
           uni.requestPayment(pay_params) 
+        }).catch(()=>{
+          // #ifdef MP-ALIPAY
+          this.$monitor.api('门诊缴费', false, moment().diff(starttime), 50000,"业务处理失败")
+          // #endif
         })
         .finally((res) => {
           that.flag = false

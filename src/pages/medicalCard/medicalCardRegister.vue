@@ -4,8 +4,13 @@
       <view class="wrap__massage"
         >温馨提示：<br />本院实行实名制就诊，<br />请如实填写就诊人信息，系统将为您办理新建卡</view
       >
-      <form @submit="formSubmit">
+      <view class="wrap__switch">
+        <u-subsection active-color="#0ec698" mode="subsection" :list="[{name:'本人'},{name:'他人'}]" :current="curType" @change="changeType"></u-subsection>
+      </view>
+      <form>
         <view class="wrap__con">
+          <!-- 微信 -->
+          <!-- #ifdef MP-WEIXIN -->
           <view class="wrap__con-art">
             <view class="wrap__con-art-item">
               <view class="label">姓名</view>
@@ -13,6 +18,7 @@
                 <input
                   class="input"
                   type="text"
+                  v-model="formData.name"
                   name="name"
                   placeholder="请输入姓名"
                   placeholder-class="placr_style"
@@ -26,6 +32,7 @@
                   class="input"
                   type="idcard"
                   name="idcard"
+                  v-model="formData.idcard"
                   maxlength="18"
                   placeholder="请输入身份证号"
                   placeholder-class="placr_style"
@@ -39,6 +46,7 @@
                   class="input"
                   type="number"
                   name="phone"
+                  v-model="formData.phone"
                   maxlength="11"
                   placeholder="请输入手机号码"
                   placeholder-class="placr_style"
@@ -52,6 +60,7 @@
                   class="input"
                   type="text"
                   name="address"
+                  v-model="formData.address"
                   placeholder="请输入住址"
                   placeholder-class="placr_style"
                 />
@@ -73,9 +82,91 @@
               </view>
             </view>
           </view>
+          <!-- #endif -->
+          <!-- 支付宝 -->
+          <!-- #ifdef MP-ALIPAY -->
+          <view class="wrap__con-art">
+            <view class="wrap__con-art-item">
+              <view class="label">姓名</view>
+              <view class="input-box">
+                <input
+                  class="input"
+                  type="text"
+                  v-model="formData.name"
+                  name="name"
+                  placeholder="请输入姓名"
+                  placeholder-class="placr_style"
+                  v-if="curType==1"
+                />
+                <view v-else>{{formData.name | hideIdRealName}}</view>
+              </view>
+            </view>
+            <view class="wrap__con-art-item">
+              <view class="label">身份证</view>
+              <view class="input-box">
+                <input
+                  class="input"
+                  type="idcard"
+                  name="idcard"
+                  v-model="formData.idcard"
+                  maxlength="18"
+                  placeholder="请输入身份证号"
+                  placeholder-class="placr_style"
+                   v-if="curType==1"
+                />
+                <view v-else>{{formData.idcard | hideIdCard}}</view>
+              </view>
+            </view>
+            <view class="wrap__con-art-item">
+              <view class="label">手机号码</view>
+              <view class="input-box">
+                <input
+                  class="input"
+                  type="number"
+                  name="phone"
+                  v-model="formData.phone"
+                  maxlength="11"
+                  placeholder="请输入手机号码"
+                  placeholder-class="placr_style"
+                  v-if="curType==1"
+                />
+                <view v-else>{{formData.phone | hideIdPhone}}</view>
+              </view>
+            </view>
+            <view class="wrap__con-art-item">
+              <view class="label">住址</view>
+              <view class="input-box">
+                <input
+                  class="input"
+                  type="text"
+                  name="address"
+                  v-model="formData.address"
+                  placeholder="请输入住址"
+                  placeholder-class="placr_style"
+                />
+              </view>
+            </view>
+            <view class="wrap__con-art-item">
+              <view class="label">民族</view>
+              <view class="input-box">
+                <!-- <input
+                  class="input"
+                  type="text"
+                  name="nation"
+                  placeholder="请选择民族"
+                  placeholder-class="placr_style"
+                > -->
+                <picker @change="bindPickerChange" range-key="value" :range="nationList">
+                  <view class="uni-input">{{ nationList[nation_index].value }}</view>
+                </picker>
+              </view>
+            </view>
+          </view>
+          <!-- #endif -->
         </view>
-        <button form-type="submit" class="wrap__btn active">立即新建</button>
+        <button class="wrap__btn active" @click="formSubmit">立即新建</button>
       </form>
+      
     </view>
   </view>
 </template>
@@ -88,17 +179,53 @@ export default {
     return {
       flag: false,
       nationList: nation.nationList,
-      nation_index: 0,
+      nation_index: 0, //民族选择序号
+      curType:0, // 0 添加本人 1添加其他人
+      formData:{
+        name:'',
+        idcard:'',
+        phone:''
+      } //待提交的表单信息
     }
   },
-  created() {},
+  onShow() {
+    this.changeType(0);
+  },
   methods: {
     bindPickerChange(e) {
       this.nation_index = e.target.value
     },
+    changeType(i){ // 切换类型
+      this.curType = i
+      //清除选择
+      this.formData.name = ''
+      this.formData.phone = ''
+      this.formData.idcard = ''
+      if(this.curType==0){ //本人调起授权
+        // #ifdef MP-ALIPAY
+        my.getAuthCode({
+          scopes: 'auth_user', // 主动授权：auth_user，静默授权：auth_base。或者其它scope
+          success: (res) => {
+            if (res.authCode) {
+              this.$http.post(this.API.GET_USERINFO, { code: res.authCode })
+              .then(r=>{
+                this.formData.name = r.data.user_name
+                this.formData.phone = r.data.mobile
+                this.formData.idcard = r.data.cert_no
+              })
+
+            }
+          },
+          fail:_=>{
+            this.curType =1
+          }
+        });
+        // #endif
+      }
+    },
     formSubmit(e) {
       uni.removeStorageSync('patientInfo')
-      var data = e.detail.value
+      var data = this.formData
       data['nation'] = this.nationList[this.nation_index].value
       data['nation_code'] = this.nationList[this.nation_index].code
       console.info(data)
@@ -191,6 +318,9 @@ export default {
       color: #0ec698;
       font-size: 28rpx;
       letter-spacing: 2rpx;
+    }
+    &__switch {
+      margin-top: 20rpx;
     }
     &__con {
       margin-top: 30rpx;

@@ -15,6 +15,9 @@ Vue.filter('hideIdCard',(val) => {
     }
     return ''
 })
+/**
+ * 隐藏姓名
+ */
 Vue.filter('hideIdRealName',(val)=>{
   if (val) {
     let str = val.substr(val.length-1,1)
@@ -22,6 +25,13 @@ Vue.filter('hideIdRealName',(val)=>{
       str="*"+str;
     }
     return str
+  }
+  return ''
+})
+
+Vue.filter('hideIdPhone',(val) => {
+  if (val) {
+    return val.replace(/^(.{3})(?:\d+)(.{2})$/, '$1*******$2')
   }
   return ''
 })

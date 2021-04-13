@@ -48,7 +48,7 @@
       @confirm="confirm"
       title="提示"
       content="确认删除"
-      show-cancel-button="true"
+      :show-cancel-button="true"
     ></u-modal>
   </view>
 </template>

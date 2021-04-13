@@ -14,21 +14,9 @@
         <PatientCard theme="card" :show-message="false"></PatientCard>
         <template v-if="patientInfo">
           <view class="index-wrap__art1">
-            <router-link
-              :to="{ name: 'registerRecord' }"
-              class="index-wrap__art1-item"
-            >
-              <view>挂号记录</view>
-            </router-link>
-            <router-link
-              :to="{ name: 'payRecord' }"
-              class="index-wrap__art1-item"
-            >
-              <view>缴费记录</view>
-            </router-link>
-            <view class="index-wrap__art1-item" @click="handleVisitCode"
-              >就诊码</view
-            >
+            <view class="index-wrap__art1-item" @click="toUrl('registerRecord')">挂号记录</view>
+            <view class="index-wrap__art1-item" @click="toUrl('payRecord')">缴费记录</view>
+            <view class="index-wrap__art1-item" @click="handleVisitCode">就诊码</view>
           </view>
           <u-gap height="20" bg-color="#f6f6f6"></u-gap>
         </template>
@@ -282,6 +270,9 @@ export default {
         this.$Router.push({ name: 'myResidents' })
       }
     },
+    toUrl(name){
+      this.$Router.push({ name: name })
+    }
   },
 }
 </script>
@@ -306,6 +297,7 @@ export default {
       &__art1 {
         display: flex;
         align-items: center;
+        // justify-content: space-around;
         height: 124rpx;
         &-item {
           flex: 1;

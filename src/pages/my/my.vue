@@ -152,7 +152,7 @@ export default {
   },
   onShow() {
     this.getIndex()
-    console.info(config)
+    // console.info(config)
   },
   computed: {
     ...mapState(['userInfo', 'patientInfo']),

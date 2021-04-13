@@ -6,7 +6,8 @@
         <view class="wrap__bt-date">{{ model.create_time }}</view>
       </view>
       <view class="wrap__con">
-        <view class="wrap__con-centent" v-html="model.content"></view>
+        <!-- <view class="wrap__con-centent" v-html="model.content"></view> -->
+        <richtext className="wrap__con-centent" :content="model.content"></richtext>
         <empty v-if="!model.content"></empty>
       </view>
     </view>
@@ -15,8 +16,10 @@
 
 <script>
 import empty from '../../components/empty/empty.vue'
+import richtext from "@/components/common/richtext.vue"
+
 export default {
-  components: { empty },
+  components: { empty,richtext },
   data() {
     return {
       model: {},

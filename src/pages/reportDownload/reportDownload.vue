@@ -84,6 +84,8 @@
 </template>
 
 <script>
+import moment from 'moment'
+
 export default {
   data() {
     return {
@@ -95,11 +97,19 @@ export default {
   },
   methods: {
     getDetail() {
+      let starttime=moment();
       this.$http
         .post(this.API.JY_REPORT_DETAIL, {
           report_code: this.$Route.query.report_code,
         })
         .then((res) => {
+          // #ifdef MP-ALIPAY
+          if(res.code===20000){
+            this.$monitor.api('报告查询', true, moment().diff(starttime), 20000,res.message)
+          }else{
+            this.$monitor.api('报告查询', false, moment().diff(starttime), 50000,res.message)
+          }
+          // #endif
           this.model = res.data
         })
     },

@@ -15,6 +15,12 @@ import PatientCard from './components/patient_card/index.vue'
 import filter from "./common/filter"
 import router from './router'
 import routerLink from '../node_modules/uni-simple-router/component/router-link.vue'
+
+// #ifdef MP-ALIPAY
+import monitor from './utils/alipayLogger'
+Vue.prototype.$monitor = monitor
+// #endif
+
 Vue.component('router-link', routerLink)
 Vue.component('auth', auth)
 Vue.component('empty', empty)

@@ -10,17 +10,20 @@
         ><text>科室电话</text
         ><text>{{ info.tel ? info.tel : '暂无' }}</text></view
       >
-      <view class="detail" v-html="info.content"> </view>
+      <richtext className="detail" :content="info.content"></richtext>
     </view>
   </view>
 </template>
 <script>
+import richtext from "@/components/common/richtext.vue"
+
 export default {
   data() {
     return {
       info: [],
     }
   },
+  components: { richtext },
   onShow() {
     this.getDetail()
   },
