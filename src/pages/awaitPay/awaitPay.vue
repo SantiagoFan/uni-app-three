@@ -80,6 +80,7 @@ export default {
           return '检查项目'
         case '4':
           return '处置费(医疗项目)'
+        default : return '其他'
       }
     },
   },

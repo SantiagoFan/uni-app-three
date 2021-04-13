@@ -26,7 +26,7 @@
         </view>
         <view class="patient-m__add-info">
           <view class="tit">添加就诊人</view>
-          <view class="sub">还可添加{{ count }}人</view>
+          <view class="sub">还可添加{{ count }}人</view>  
         </view>
         <view class="patient-m__add-jt">
           <text class="iconfont icon-arrowb"></text>
