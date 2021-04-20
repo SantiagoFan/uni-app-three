@@ -85,10 +85,10 @@ export default {
     },
     getDetail() {
       this.$http.post(this.API.LIVE_DEPOSIT_ORDER_DETAIL, {
-        inner_trade_no: this.info.inner_trade_no,
-      }),
-        then((res) => {
+        inner_trade_no: this.info.innner_trade_no,
+      }).then(res => {
           this.detail = res.data
+          console.info(this.detail)
         })
     },
   },
