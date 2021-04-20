@@ -74,7 +74,7 @@ export default {
           date: this.date,
         })
         .then((res) => {
-          this.list = res.data.item
+          this.list = res.data.items
           this.today_expend = res.data.today_expend
         })
     },

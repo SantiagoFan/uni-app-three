@@ -75,11 +75,14 @@ export default {
         });
         if(res.data.length>0){
           res.data[0].checked = true
+          this.selected = res.data[0]
         }
         this.list = res.data
       })
     },
     createOrder(){
+      console.info("点击了")
+      console.info(this.count)
       if(this.count!=1){
         uni.showToast({
           title: "请选择一项检查项目提交申请",

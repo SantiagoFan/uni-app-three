@@ -20,6 +20,7 @@
         scroll-with-animation
         class="u-tab-view menu-scroll-view"
         :scroll-top="scrollTop"
+        style="width:25%"
       >
         <view
           class="u-tab-item"
@@ -136,7 +137,9 @@
       @backspace="backspace"
     ></u-keyboard>
     <u-modal v-model="show_message">
-       <richtext className="message_content" :content="reminder_message"></richtext>
+      <view class="message_content">
+       <richtext :content="reminder_message"></richtext>
+      </view>
 		</u-modal>
   </view>
 </template>
