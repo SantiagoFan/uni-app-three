@@ -1,6 +1,6 @@
 <template>
   <view>
-    微信授权页面
+    授权页面
   </view>
 </template>
 <script>

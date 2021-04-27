@@ -48,6 +48,11 @@ export default {
       this.getList()
     }
   },
+  onPullDownRefresh() {
+    if (this.livePatientInfo) {
+      this.getList()
+    }
+  },
   methods: {
     getList() {
       this.$http
@@ -56,6 +61,9 @@ export default {
         })
         .then((res) => {
           this.list = res.data
+        })
+        .finally((res) => {
+          uni.stopPullDownRefresh()
         })
     },
     handleItem(item) {

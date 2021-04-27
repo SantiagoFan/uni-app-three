@@ -270,12 +270,10 @@ export default {
       })
       this.$http
         .post(this.API.ADD_PATIENT, data, false)
-        .then((res) => {
-              uni.hideLoading()
+        .then((res) => { 
               if (res.code === 20000) {
                 this.$store.commit('setPatientInfo', res.data)
                 this.$store.dispatch('loadPatientList', true)
-
                 uni.showToast({
                   title: res.message,
                   duration: 2000,
@@ -287,6 +285,7 @@ export default {
               }
             })
         .finally((res) => {
+          uni.hideLoading()
           this.flag = false
       }) 
     },

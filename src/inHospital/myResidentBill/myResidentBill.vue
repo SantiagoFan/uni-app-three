@@ -66,6 +66,9 @@ export default {
   onLoad() {
     this.getDetail()
   },
+  onPullDownRefresh() {
+    this.getDetail()
+  },
   methods: {
     getDetail() {
       this.$http
@@ -76,6 +79,9 @@ export default {
         .then((res) => {
           this.list = res.data.items
           this.today_expend = res.data.today_expend
+        })
+        .finally((res) => {
+          uni.stopPullDownRefresh()
         })
     },
     // 日期选择
