@@ -82,9 +82,9 @@ export default {
         })
         return false
       }
-      if (this.money < 2000) {
+      if (this.money < 500) {
         uni.showToast({
-          title: '充值金额不得少于2000',
+          title: '充值金额不得少于500',
           icon: 'none',
         })
         return false

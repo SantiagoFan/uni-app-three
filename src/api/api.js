@@ -1,6 +1,6 @@
 export default {
   ADD_PATIENT: '/patient/addPatient', //添加就诊卡
-  BIND_PATIENT: '/patient/bindPatient', //绑定就诊卡
+  BIND_PATIENT: '/patient/bindPatient2', //绑定就诊卡
   GET_TOKEN: '/auth/login', //查询用户
   GET_USERINFO:'/auth/getUserInfo', // 获取授权详情信息
   UPDATE_USERINFO: '/user/updateUserInfo', //提交用户信息
@@ -33,7 +33,8 @@ export default {
   DEPARTMENT_AREA: '/department/getDepartmentArea', //科室分布
   NEWS_CATE: '/news/getCateList', //健康指导分类
   NEWS_LIST: '/news/getNewsList', //健康指导列表
-  DEPARTMENT_INFO: '/department/getDepartmentList', //科室介绍
+  DEPARTMENT_INFO: '/department/getDepartmentList', //科室列表全部
+  DEPARTMENT_ALL_LIST: '/department/getAllListAndCate', //科室列表全部包含分类
   DEPARTMENT_INFO_DETAIL: '/department/getDepartmentInfo', //科室介绍详情
   DOCTOR_INFO: '/doctor/getDoctorInfo', //医生介绍-医生详情
   DOCTOR_INFO_LIST: '/doctor/getDoctorList', //医生列表

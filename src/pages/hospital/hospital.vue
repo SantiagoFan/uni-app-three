@@ -156,7 +156,11 @@ export default {
       }
     }
     &__wrap {
+      // 支付宝盖不上去
+      /*  #ifdef  MP-WEIXIN  */
       margin-top: -30rpx;
+      /*  #endif  */
+      
       .bt {
         display: flex;
         align-items: center;

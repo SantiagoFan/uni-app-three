@@ -7,7 +7,7 @@
           class="item"
           v-for="(item, index) in departmentList"
           :key="index"
-          @click="goScheme(item.department_id)"
+          @click="goScheme(item)"
         >
           <view class="icon">
             <text class="iconfont icon-keshi"></text>
@@ -39,12 +39,13 @@ export default {
           this.departmentList = res.data
         })
     },
-    goScheme(departmentid) {
+    goScheme(department) {
+      console.info(department)
       this.$Router.push({
         name: 'branchDetail',
         params: { 
-          departmentid: departmentid,
-          departmentName: department_name
+          departmentid: department.department_id,
+          departmentName: department.department_name
         },
       })
     },

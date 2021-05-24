@@ -66,6 +66,12 @@ export default {
       name: 'awaitPay',
       openType: 'push',
     },
+    {
+      title: '新冠疫苗预约',
+      image: require('@/static/image/indx-sta15.jpg'),
+      name: 'vaccine',
+      openType: 'push',
+    },
   ],
   list2: [
     {

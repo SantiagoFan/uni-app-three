@@ -347,6 +347,15 @@
       }
     },
     {
+      "path": "pages/vaccine/doctorDetail",
+      "name": "vaccine",
+      "style": {
+        "navigationBarTitleText": "新冠疫苗预约接种",
+        "navigationBarBackgroundColor": "#0ec698",
+        "navigationBarTextStyle": "#ffffff"
+      }
+    },
+    {
       "path": "pages/department/department",
       "name": "department",
       "style": {
