@@ -204,7 +204,7 @@ var SEQUENCE = Date.now(),
     }
   },
   Base = function (t) {
-    return this.ver = "1.2.0", this.syn = 0, this.err = 0, this._conf = util.ext({}, Base.dftCon), this.sampleCache = {}, this.requestQueue = [], this.hash = util.seq(), this.resetSession(), this.setConfig(t), this.rip = util.getRandIP(), this._common = {}, this
+    return this.ver = "1.0.9", this.syn = 0, this.err = 0, this._conf = util.ext({}, Base.dftCon), this.sampleCache = {}, this.requestQueue = [], this.hash = util.seq(), this.resetSession(), this.setConfig(t), this.rip = util.getRandIP(), this._common = {}, this
   };
 Base.dftCon = {
   sample: 1,
@@ -793,7 +793,6 @@ AlipayLogger.prototype = util.createObject(MiniProgramLogger.prototype), util.ex
         }
       }
       if (cp && "undefined" != typeof my && my) {
-        /*
         if ("function" == typeof my.call) {
           var c = my.call;
           var a = Object.getOwnPropertyDescriptor(my, "call");
@@ -805,12 +804,10 @@ AlipayLogger.prototype = util.createObject(MiniProgramLogger.prototype), util.ex
                 page: o,
                 c3: "c"
               })
-              return e.sendHealthOnPageShowOrHide(), c.call(my, i, j, k)  
             }
-
+            return e.sendHealthOnPageShowOrHide(), c.call(my, i, j, k)
           })
         }
-        */
         if ("function" == typeof my.navigateTo) {
           var n = my.navigateTo;
           var a = Object.getOwnPropertyDescriptor(my, "navigateTo");

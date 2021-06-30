@@ -125,7 +125,9 @@ export default new Vuex.Store({
         commit('setLoginPopupShow', true)
         //打开授权弹框
         console.log('打开授权弹框')
+        return false
       }
+      return true
     },
     // 加载就诊人
     loadPatientList({ state, commit }, isUpdate, showLoad = true) {

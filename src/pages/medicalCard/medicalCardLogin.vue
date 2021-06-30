@@ -28,11 +28,17 @@ export default {
     store.dispatch("checkAuth")
   },
   methods: {
-    goAdd() {
-      this.$Router.replace({ name: 'medicalCardRegister' })
+     async goAdd() {
+      var res = await store.dispatch("checkAuth")
+      if(res){
+        this.$Router.replace({ name: 'medicalCardRegister' })
+      }
     },
-    goBind() {
-      this.$Router.push({ name: 'medicalCardBind' })
+    async goBind() {
+      var res = await store.dispatch("checkAuth")
+      if(res){
+        this.$Router.push({ name: 'medicalCardBind' })
+      }
     },
   },
 }

@@ -195,13 +195,15 @@ export default {
           // #endif
           // #ifdef MP-ALIPAY
           pay_params['orderInfo']= res.data
-          this.$monitor.api('门诊缴费', true, moment().diff(starttime), 20000,"业务处理成功")
+          // this.$monitor.api('门诊缴费', true, moment().diff(starttime), 20000,"业务处理成功")
+          this.$monitor.api({api:"门诊缴费",success:true,c1:"taSR_YL",time:moment().diff(starttime)})
           // #endif
           console.info('支付参数',pay_params)
           uni.requestPayment(pay_params) 
         }).catch(()=>{
           // #ifdef MP-ALIPAY
-          this.$monitor.api('门诊缴费', false, moment().diff(starttime), 50000,"业务处理失败")
+          // this.$monitor.api('门诊缴费', false, moment().diff(starttime), 50000,"业务处理失败")
+          this.$monitor.api({api:"门诊缴费",success:false,c1:"taSR_YL",time:moment().diff(starttime)})
           // #endif
         })
         .finally((res) => {

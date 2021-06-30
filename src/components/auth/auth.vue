@@ -13,15 +13,8 @@
         }}</view>
       </view>
       <!-- #ifdef MP-WEIXIN -->
-      <button
-        type="primary"
-        class="btn"
-        hover-class="active"
-        open-type="getUserInfo"
-        @getuserinfo="getUserInfo"
-      >
-        授权登录
-      </button>
+      <button v-if="canUseGetUserProfile" type="primary" class="btn" hover-class="active" open-type="getUserInfo" @tap="getUserProfile">授权登录</button>
+      <button v-else type="primary" class="btn" hover-class="active" open-type="getUserInfo" @getuserinfo="getUserInfo">微信登录</button>
       <!-- #endif -->
       <!-- #ifdef MP-ALIPAY -->
       <button
@@ -43,19 +36,22 @@ import { mapState, mapMutations } from "vuex";
 export default {
   data() {
     return {
+      /** 客户端是否可以使用新版获取用户接口 */
+      canUseGetUserProfile: false,
       base: {
         logoUrl:require("@/static/image/logo.png"),
         platformName:'申请获得您的公开信息（头像，昵称等）',
         description:'',
-
-
       },
     };
   },
   computed: {
     ...mapState(["userInfo", "loginPopupShow"]),
   },
-  created(){
+  created() {
+    if(uni.getUserProfile){
+      this.canUseGetUserProfile = true
+    }
   },
   methods: {
     ...mapMutations(['setUserInfo', 'setLoginPopupShow']),
@@ -84,6 +80,44 @@ export default {
           }
         });
       }
+    },
+    // 微信登录新接口
+    getUserProfile(){
+      uni.getUserProfile({
+        desc:'用于完善用户基本信息',
+        success:(response)=>{
+          console.info('新版获取用户', response)
+          if(response.errMsg != "getUserProfile:ok"){
+            uni.showToast({
+              title: "请同意授权",
+              icon: "none",
+            })
+          }
+          else{
+            var info = response.userInfo;
+            var data = {
+              headimgurl: info.avatarUrl,
+              nickname: info.nickName,
+            };
+            this.$http.post(this.API.UPDATE_USERINFO, data).then((res) => {
+              if (res.code == 20000) {
+                uni.showToast({
+                  title: res.message,
+                  icon: "none",
+                });
+                this.setUserInfo(res.data);
+                this.setLoginPopupShow(false);
+              }
+            })
+          }
+        },
+        fail(){
+          uni.showToast({
+            title: "请同意授权",
+            icon: "none",
+          });
+        }
+      })
     },
     // 支付宝登录
     getAuthorize(e){

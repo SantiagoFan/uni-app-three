@@ -508,7 +508,7 @@ export default {
       
       let obj = {
         title: this.model.doctor_name,
-        path:'/pages/doctor/doctorDetail?query=' + encodeURIComponent(JSON.stringify(this.$Route.query)),
+        path:'/pages/vaccine/doctorDetail',
         // imageUrl:this.model.Doctor_head||(basepath + '/static/wx/doctor.jpg')
       }
       console.log('shareobj', obj)
