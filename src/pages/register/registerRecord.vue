@@ -64,7 +64,10 @@ export default {
       list: [],
     }
   },
-  onLoad() {
+  onLoad(query){
+    // #ifdef MP-ALIPAY
+    this.$reportCmPV_YL({ title: '挂号记录查询', query })
+    // #endif
     this.getList()
   },
   onPullDownRefresh() {

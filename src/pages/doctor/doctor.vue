@@ -40,7 +40,10 @@ export default {
       departmentid: ""
     };
   },
-  onLoad() {
+  onLoad(query){
+    // #ifdef MP-ALIPAY
+    this.$reportCmPV_YL({ title: '专家介绍', query })
+    // #endif
     this.departmentName = this.$Route.query.departmentname
     this.departmentid = this.$Route.query.departmentid
     this.getList();

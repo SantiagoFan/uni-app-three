@@ -449,7 +449,8 @@ export default {
         .then((res) => {
           if (res.code == 20000) {
             // #ifdef MP-ALIPAY
-            this.$monitor.api('预约挂号', true, moment().diff(starttime), 20000,"业务处理成功")
+            // this.$monitor.api('预约挂号', true, moment().diff(starttime), 20000,"业务处理成功")
+            this.$monitor.api({api:"预约挂号",success:true,c1:"taSR_YL",time:moment().diff(starttime)})
             // #endif
             // 重新拉取号 防止号源占用
             this.getSchemeList()
@@ -459,12 +460,14 @@ export default {
             })
           }else{
             // #ifdef MP-ALIPAY
-             this.$monitor.api('预约挂号', false, moment().diff(starttime), 50000,res.message)
+            //  this.$monitor.api('预约挂号', false, moment().diff(starttime), 50000,res.message)
+            this.$monitor.api({api:"预约挂号",success:false,c1:"taSR_YL",time:moment().diff(starttime)})
             // #endif
           }
         }).catch(()=>{
            // #ifdef MP-ALIPAY
-          this.$monitor.api('预约挂号', false, moment().diff(starttime), 50000,"业务处理失败")
+          // this.$monitor.api('预约挂号', false, moment().diff(starttime), 50000,"业务处理失败")
+          this.$monitor.api({api:"预约挂号",success:false,c1:"taSR_YL",time:moment().diff(starttime)})
           // #endif
         })
         .finally(() => {

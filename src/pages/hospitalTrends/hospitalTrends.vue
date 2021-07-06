@@ -58,8 +58,11 @@ export default {
     }
   },
   components: { dhImage },
-  onLoad() {
-    this.getCateList()
+  onLoad(query){
+    // #ifdef MP-ALIPAY
+    this.$reportCmPV_YL({ title: '就医指南', query })
+    // #endif
+    this.getCateList();
   },
   methods: {
     getCateList() {

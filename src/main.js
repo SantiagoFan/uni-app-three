@@ -18,7 +18,9 @@ import routerLink from '../node_modules/uni-simple-router/component/router-link.
 
 // #ifdef MP-ALIPAY
 import monitor from './utils/alipayLogger'
+import { reportCmPV_YL } from './utils/cloudMonitorHelper'
 Vue.prototype.$monitor = monitor
+Vue.prototype.$reportCmPV_YL = reportCmPV_YL
 // #endif
 
 Vue.component('router-link', routerLink)

@@ -88,7 +88,10 @@ export default {
       isDoctor: 0,
     }
   },
-  onLoad() {
+  onLoad(query){
+    // #ifdef MP-ALIPAY
+    this.$reportCmPV_YL({ title: '科室介绍', query })
+    // #endif
     this.isDoctor = this.$Route.query.isDoctor
     this.getList()
   },

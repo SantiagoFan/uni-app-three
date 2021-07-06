@@ -170,7 +170,10 @@ export default {
     ...mapState(['patientInfo']),
   },
   components: { dhImage,richtext },
-  onLoad() {
+  onLoad(query){
+    // #ifdef MP-ALIPAY
+    this.$reportCmPV_YL({ title: '预约挂号', query })
+    // #endif
     this.getSettings()
     this.getList()
     this.getHistoryList()

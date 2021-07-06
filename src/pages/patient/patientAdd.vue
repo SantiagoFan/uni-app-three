@@ -44,6 +44,11 @@ export default {
       count: 0,
     }
   },
+  onLoad(query){
+    // #ifdef MP-ALIPAY
+    this.$reportCmPV_YL({ title: '在线建档', query })
+    // #endif
+  },
   onShow() {
     this.getList()
   },

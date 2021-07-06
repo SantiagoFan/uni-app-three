@@ -63,7 +63,10 @@ export default {
   computed: {
     ...mapState(['patientInfo', 'livePatientInfo']),
   },
-  onLoad() {
+  onLoad(query){
+    // #ifdef MP-ALIPAY
+    this.$reportCmPV_YL({ title: '住院日清单查询', query })
+    // #endif
     this.getDetail()
   },
   onPullDownRefresh() {

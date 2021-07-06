@@ -77,9 +77,11 @@ export default {
         .then((res) => {
           // #ifdef MP-ALIPAY
           if(res.code===20000){
-            this.$monitor.api('报告查询', true, moment().diff(starttime), 20000,res.message)
+            // this.$monitor.api('报告查询', true, moment().diff(starttime), 20000,res.message)
+            this.$monitor.api({api:"报告查询",success:true,c1:"taSR_YL",time:moment().diff(starttime)})
           }else{
-            this.$monitor.api('报告查询', false, moment().diff(starttime), 50000,res.message)
+            // this.$monitor.api('报告查询', false, moment().diff(starttime), 50000,res.message)
+            this.$monitor.api({api:"报告查询",success:false,c1:"taSR_YL",time:moment().diff(starttime)})
           }
           // #endif
           this.model = res.data

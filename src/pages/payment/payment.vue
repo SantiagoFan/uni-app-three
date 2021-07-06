@@ -105,8 +105,9 @@ export default {
               // 支付参数
               let pay_params = {
                 success: function(response) {
+                  console.info(response)
                   uni.showToast({
-                    title: '支付成功',
+                    title: '跳转中',
                     duration: 2000,
                     icon: 'none',
                   })
@@ -136,7 +137,8 @@ export default {
               // #endif
               // #ifdef MP-ALIPAY
               pay_params['orderInfo']= res.data
-              this.$monitor.api('挂号缴费', true, moment().diff(starttime), 20000,"业务处理成功")
+              // this.$monitor.api('挂号缴费', true, moment().diff(starttime), 20000,"业务处理成功")
+              this.$monitor.api({api:"挂号缴费",success:true,c1:"taSR_YL",time:moment().diff(starttime)})
               // #endif
               console.info('支付参数',pay_params)
               uni.requestPayment(pay_params)
@@ -148,12 +150,14 @@ export default {
             }
           }else{
             // #ifdef MP-ALIPAY
-            this.$monitor.api('挂号缴费', false, moment().diff(starttime), 50000,"业务处理失败")
+            // this.$monitor.api('挂号缴费', false, moment().diff(starttime), 50000,"业务处理失败")
+            this.$monitor.api({api:"挂号缴费",success:false,c1:"taSR_YL",time:moment().diff(starttime)})
             // #endif
           }
         }).catch(()=>{
           // #ifdef MP-ALIPAY
-          this.$monitor.api('挂号缴费', false, moment().diff(starttime), 50000,"业务处理失败")
+          // this.$monitor.api('挂号缴费', false, moment().diff(starttime), 50000,"业务处理失败")
+          this.$monitor.api({api:"挂号缴费",success:false,c1:"taSR_YL",time:moment().diff(starttime)})
           // #endif
         })
         .finally((res) => {

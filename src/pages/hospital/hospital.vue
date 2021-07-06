@@ -107,8 +107,11 @@ export default {
     };
   },
   components: { dhImage,richtext },
-  onLoad() {
-    this.getInfo();
+  onLoad(query){
+    // #ifdef MP-ALIPAY
+    this.$reportCmPV_YL({ title: '医院介绍', query })
+    // #endif
+    this.getInfo()
   },
   methods: {
     getInfo() {

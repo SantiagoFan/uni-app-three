@@ -57,6 +57,11 @@ export default {
   components:{
     RegisterCard
   },
+  onLoad(query){
+    // #ifdef MP-ALIPAY
+    this.$reportCmPV_YL({ title: '候诊查询', query })
+    // #endif
+  },
   computed: {
     ...mapState(['patientInfo']),
   },

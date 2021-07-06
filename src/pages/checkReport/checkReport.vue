@@ -44,7 +44,10 @@ export default {
       list: [],
     }
   },
-  onLoad() {
+  onLoad(query){
+    // #ifdef MP-ALIPAY
+    this.$reportCmPV_YL({ title: '检查检验报告查询', query })
+    // #endif
     this.getList()
   },
   methods: {

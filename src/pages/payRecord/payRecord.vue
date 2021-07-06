@@ -47,7 +47,10 @@ export default {
   computed: {
     ...mapState(['patientInfo']),
   },
-  onLoad() {
+  onLoad(query){
+    // #ifdef MP-ALIPAY
+    this.$reportCmPV_YL({ title: '缴费记录查询', query })
+    // #endif
     if (this.patientInfo) {
       this.getList()
     }

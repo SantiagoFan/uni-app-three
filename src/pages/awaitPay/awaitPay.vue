@@ -67,7 +67,10 @@ export default {
       reg_no:''
     }
   },
-  onLoad() {
+  onLoad(query){
+    // #ifdef MP-ALIPAY
+    this.$reportCmPV_YL({ title: '门诊缴费', query })
+    // #endif
   },
   filters: {
     getCategory(category) {
@@ -163,7 +166,7 @@ export default {
           let pay_params = {
             success: function(response) {
               uni.showToast({
-                title: '支付成功',
+                title: '跳转中',
                 duration: 2000,
                 icon: 'none',
               })

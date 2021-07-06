@@ -45,8 +45,11 @@ export default {
     }
   },
   components: { MyCode,tkiQrcode },
-  onLoad() {
-    this.getDetail()
+  onLoad(query){
+    // #ifdef MP-ALIPAY
+    this.$reportCmPV_YL({ title: '电子健康卡', query })
+    // #endif
+    this.getDetail();
   },
   methods: {
     getDetail() {
