@@ -7,7 +7,7 @@
         <view class="text">选择充值金额</view>
         <view class="amount">
           <view class="amount-text">余额：</view>
-          <view class="amount-price">¥{{ livePatientInfo.remain_total }}</view>
+          <view class="amount-price">¥{{ livePatientInfo.remain_total|moneyformat }}</view>
         </view>
       </view>
       <view class="wrap-con__price">
@@ -142,7 +142,7 @@ export default {
           pay_params['timeStamp']= config.timeStamp
           pay_params['nonceStr']= config.nonceStr
           pay_params['package']= config.package
-          pay_params['signType']= 'MD5'
+          pay_params['signType']= config.signType
           pay_params['paySign']= config.paySign
           // #endif
           // #ifdef MP-ALIPAY

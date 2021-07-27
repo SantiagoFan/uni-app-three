@@ -193,7 +193,7 @@ export default {
           pay_params['timeStamp']= config.timeStamp
           pay_params['nonceStr']= config.nonceStr
           pay_params['package']= config.package
-          pay_params['signType']= 'MD5'
+          pay_params['signType']= config.signType
           pay_params['paySign']= config.paySign
           // #endif
           // #ifdef MP-ALIPAY

@@ -16,7 +16,7 @@
               <view class="status"
                 >缴费{{ item.pay_status == 1 ? '成功' : '失败' }}</view
               >
-              <view class="price">¥{{ item.pay_fee }}</view>
+              <view class="price">¥{{ item.pay_fee|moneyformat }}</view>
             </view>
             <view class="subt">
               <view class="name">{{ item.patient_name }}</view>

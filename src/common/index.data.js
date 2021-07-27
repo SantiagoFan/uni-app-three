@@ -72,6 +72,12 @@ export default {
       name: 'vaccine',
       openType: 'push',
     },
+    {
+      title: '听课证',
+      image: require('@/static/image/indx-sta16.jpg'),
+      name: 'courseCard',
+      openType: 'push',
+    },
   ],
   list2: [
     {

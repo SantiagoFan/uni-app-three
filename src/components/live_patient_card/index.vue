@@ -13,8 +13,11 @@
       </view>
     </view>
     <!-- 添加就诊人 -->
-    <view class="no-residen" v-else @click="addResident">
-      <view class="no-residen__text">初次使用，请添加住院人</view>
+    <view class="no-residen" v-else >
+      <view class="no-residen__text" @click="addResident">初次使用，请添加住院人</view>
+    </view>
+    <view class="no-residen">
+      <view class="no-residen__text" @click="handleChoose">已添加切换住院人</view>
     </view>
     <!-- 弹出窗 -->
     <u-popup

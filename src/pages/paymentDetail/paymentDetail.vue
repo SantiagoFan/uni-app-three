@@ -22,7 +22,7 @@
         <view class="list" v-show="payDetailShow">
           <view class="cell">
             <view class="cell-label">补缴金额</view>
-            <view class="cell-con price">¥{{ info.pay_fee }}</view>
+            <view class="cell-con price">¥{{ info.pay_fee|moneyformat }}</view>
           </view>
           <view class="cell">
             <view class="cell-label">医院名称</view>

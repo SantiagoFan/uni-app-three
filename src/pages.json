@@ -356,6 +356,33 @@
       }
     },
     {
+      "path": "pages/courseCard/index",
+      "name": "courseCard",
+      "style": {
+        "navigationBarTitleText": "听课证",
+        "navigationBarBackgroundColor": "#d5ad6f",
+        "navigationBarTextStyle": "#ffffff"
+      }
+    },
+    {
+      "path": "pages/courseCard/detail",
+      "name": "courseCardDetail",
+      "style": {
+        "navigationBarTitleText": "听课证预约",
+        "navigationBarBackgroundColor": "#d5ad6f",
+        "navigationBarTextStyle": "#ffffff"
+      }
+    },
+    {
+      "path": "pages/courseCard/recordDetail",
+      "name": "courseCardRecordDetail",
+      "style": {
+        "navigationBarTitleText": "听课证详情",
+        "navigationBarBackgroundColor": "#d5ad6f",
+        "navigationBarTextStyle": "#ffffff"
+      }
+    },
+    {
       "path": "pages/department/department",
       "name": "department",
       "style": {
