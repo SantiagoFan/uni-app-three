@@ -59,6 +59,7 @@ export default {
   data() {
     return {
       showModal: false,
+      patient_code:'',
       model: {
         inpatient_code:''
       },
@@ -68,13 +69,14 @@ export default {
     ...mapState(['livePatientInfo']),
   },
   onLoad() {
+    this.patient_code = this.$Route.query.patient_code
     this.getDetail()
   },
   methods: {
     getDetail() {
       this.$http
         .post(this.API.LIVE_PATIENT_DETAIL, {
-          patient_code: this.$Route.query.patient_code,
+          patient_code: this.patient_code,
         })
         .then((res) => {
           this.model = res.data
@@ -92,7 +94,7 @@ export default {
     confirm(){
       this.$http
         .post(this.API.LIVE_PATIENT_DELETE, {
-          live_code: this.model.inpatient_code,
+          patient_code: this.patient_code,
         })
         .then((res) => {
           uni.showToast({

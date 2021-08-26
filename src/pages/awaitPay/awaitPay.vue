@@ -90,11 +90,8 @@ export default {
   computed: {
     ...mapState(['patientInfo']),
     totalAmount() {
-      return this.list.reduce((p, res) => {
-        return (
-          parseFloat(p) + parseFloat(res.checked ? res.amount : 0)
-        ).toFixed(2)
-      }, 0)
+      var amount = this.list.reduce((p, res) => { return ( parseFloat(p) + parseFloat(res.checked ? res.amount : 0) )}, 0)
+      return (Math.round(amount*100)/100).toFixed(2);
     },
   },
   methods: {

@@ -270,7 +270,7 @@ export default {
       })
       this.$http
         .post(this.API.ADD_PATIENT, data, false)
-        .then((res) => { 
+        .then((res) => {
               if (res.code === 20000) {
                 this.$store.commit('setPatientInfo', res.data)
                 this.$store.dispatch('loadPatientList', true)
@@ -282,6 +282,14 @@ export default {
                 setTimeout(() => {
                   this.$Router.back(1)
                 }, 1000)
+              }
+              else{
+                uni.showModal({
+                  title: '提示',
+                  showCancel:false,
+                  content: res.message,
+                  success: function (res) {}
+                });
               }
             })
         .finally((res) => {
