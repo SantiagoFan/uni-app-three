@@ -5,6 +5,7 @@
       :need-patient="true"
       @change="getList"
     ></PatientCard>
+    <view>提示：可查看近十天内报告，结果以纸质报告为准！</view>
     <view class="wrap-list">
       <view
         class="item"

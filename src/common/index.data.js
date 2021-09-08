@@ -78,6 +78,12 @@ export default {
       name: 'courseCard',
       openType: 'push',
     },
+    {
+      title: '健康证',
+      image: require('@/static/image/health.png'),
+      name: 'healthCard',
+      openType: 'push',
+    }
   ],
   list2: [
     {

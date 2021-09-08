@@ -46,7 +46,7 @@
         "navigationBarBackgroundColor": "#0ec698",
         "navigationBarTextStyle": "#ffffff"
       }
-    },  
+    },
     {
       "path": "pages/my/my",
       "name": "my",
@@ -379,6 +379,15 @@
       "style": {
         "navigationBarTitleText": "听课证详情",
         "navigationBarBackgroundColor": "#d5ad6f",
+        "navigationBarTextStyle": "#ffffff"
+      }
+    },
+    {
+      "path": "pages/healthCard/index",
+      "name": "healthCard",
+      "style": {
+        "navigationBarTitleText": "健康证",
+        "navigationBarBackgroundColor": "#0ec698",
         "navigationBarTextStyle": "#ffffff"
       }
     },
