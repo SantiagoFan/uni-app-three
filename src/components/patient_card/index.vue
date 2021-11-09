@@ -11,11 +11,9 @@
           <view class="title">
             <view class="name">{{ getName(patientInfo) }}</view>
           </view>
-          <view class="code">院内诊疗号：{{ patientInfo.patient_code }}</view>
+          <view class="code">院内诊疗号：{{ patientInfo.patient_code | hidePatientCard }}</view>
         </view>
-        <view class="switch" v-if="patientInfo" @click="handleChoose"
-          >切换就诊人</view
-        >
+        <view class="switch" v-if="patientInfo" @click="handleChoose">切换就诊人</view>
         <!-- 添加就诊人 -->
         <!-- <view class="add_btn" v-if="!patientInfo" @click="addPatient">
           <view class="add_btn__icon">
@@ -36,7 +34,7 @@
               <view @click.stop="handleChoose" class="check">切换</view>
             </view>
             <view class="code" @click="showPatient()"
-              >诊疗号：{{ patientInfo.patient_code }}</view
+              >诊疗号2：{{ patientInfo.patient_code | hidePatientCard }}</view
             >
           </view>
           <view @click.stop="addPatient" class="add_btn" v-else>
@@ -74,7 +72,7 @@
             >
               <view class="info">
                 <view class="name">{{ item.name|hideIdRealName }}</view>
-                <view class="code">就诊卡：{{ item.patient_code }}</view>
+                <view class="code">就诊卡：{{ item.patient_code | hidePatientCard }}</view>
               </view>
               <view class="radio">
                 <text class="iconfont icon-duihao"></text>

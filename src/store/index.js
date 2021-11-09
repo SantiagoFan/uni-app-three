@@ -121,6 +121,7 @@ export default new Vuex.Store({
     //   })
     // },
     checkAuth({ state, commit }) {
+      console.info('授权信息（state.userInfo）：',state.userInfo)
       if (state.userInfo && !state.userInfo.nickname) {
         commit('setLoginPopupShow', true)
         //打开授权弹框
@@ -128,6 +129,21 @@ export default new Vuex.Store({
         return false
       }
       return true
+    },
+    // 更新用户昵称
+    updateNickName({state,commit},nickname){
+      console.info('updateNickName',nickname)
+      if(state.userInfo&& (!state.userInfo.nickname||state.userInfo.nickname=='未设置')){
+        state.userInfo.nickname = nickname
+        console.info('updateNickName 成功1',state.userInfo)
+        // 更新数据库
+        http.post(api.UPDATE_USERINFO, {
+          headimgurl: state.userInfo.headimgurl,
+          nickname: state.userInfo.nickname,
+        }).then((res) => {
+          console.info('updateNickName 成功2',res)
+        });
+      }
     },
     // 加载就诊人
     loadPatientList({ state, commit }, isUpdate, showLoad = true) {

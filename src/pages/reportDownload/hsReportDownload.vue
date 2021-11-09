@@ -52,7 +52,9 @@
         </view>
       </view>
     </view>
-    
+    <view class="report-wrap__btn" @click="dowmloadReport">
+        <view class="report-wrap__btn-box">下载报告</view>
+      </view>
   </view>
 </template>
 
@@ -80,29 +82,51 @@ export default {
           this.model = res.data
         })
     },
-    dowmloadReport() {
-      this.$http
-        .post(this.API.GET_PDF, {
+    async dowmloadReport() {
+      // 下载报告
+      const res = await this.$http.post(this.API.GET_JY_PDF, {
           report_code: this.model.report_code,
-          type: 1,
-        })
-        .then((res) => {
-          if (res.code == 20000) {
-            uni.downloadFile({
-              url: res.data,
-              success: function(res) {
-                var filePath = res.tempFilePath
-                uni.openDocument({
-                  filePath: filePath,
-                  success: function(res) {
-                    // console.log('打开文档成功')
-                  },
-                })
-              },
-            })
+          report_type: 1,
+          apply_number: this.$Route.query.apply_number,
+      });
+      if (res.code != 20000) {
+        uni.showToast({ title: '获取PDF错误', duration: 2000, icon:'error' });
+        return false
+      }
+      // 下载文件
+      uni.showLoading({ title: '下载中...'});
+      const [download_error,download_res] = await uni.downloadFile({ url: res.data })
+      uni.hideLoading();
+      if(download_error){
+        uni.showToast({ title: '下载PDF错误', duration: 2000, icon:'error' });
+        console.info(download_error)
+        return false
+      } 
+      // 保存文件
+      uni.showLoading({ title: '保存中...'});
+      const [save_error,save_res] = await uni.saveFile({ tempFilePath: download_res.tempFilePath})
+      uni.hideLoading();
+      if(save_error){
+        uni.showToast({ title: '保存PDF错误', duration: 2000, icon:'error' });
+        console.info(save_error)
+        return false
+      }
+      uni.showModal({
+        title: '下载成功',
+        confirmText:'打开查看',
+        content: `文件已下载到【${save_res.savedFilePath}】,是否要打开查看？`,
+        success: function (res) {
+          uni.getSavedFileList({
+            success: function (res) {
+              console.log(res.fileList);
+            }
+          });
+          if (res.confirm) {
+            uni.openDocument({ filePath: save_res.savedFilePath })
           }
-        })
-    },
+        }
+      });
+    }
   },
 }
 </script>

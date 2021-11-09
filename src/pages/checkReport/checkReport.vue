@@ -5,19 +5,26 @@
       :need-patient="true"
       @change="getList"
     ></PatientCard>
-    <view>提示：可查看近十天内报告，结果以纸质报告为准！</view>
+    <view>提示：可查看近十天内报告，结果以纸质报告为准！需纸质版报告请到门诊一楼大厅自助机自行打印。</view>
+    <view><text class="link" @click="goList">查看下载列表</text></view>
     <view class="wrap-list">
       <view
         class="item"
         v-for="(item, index) in list"
         :key="index"
-        @click="item.report_code && item.status == 1 && handleClickDetail(item)"
+        @click="item.report_code && item.status == 1 && item.sfzt == 1 && handleClickDetail(item)"
       >
         <view class="title">{{ item.report_name }}</view>
         <view class="date">{{ item.report_time }}</view>
         <view class="status">
           <image
-            v-if="item.status == 1"
+            v-if="item.sfzt != 1"
+            class="img"
+            mode="widthFix"
+            src="@/static/image/check_report_icon3.jpg"
+          />
+          <image
+            v-else-if="item.status == 1"
             class="img"
             mode="widthFix"
             src="@/static/image/check_report_icon.jpg"
@@ -52,6 +59,9 @@ export default {
     this.getList()
   },
   methods: {
+    goList(){
+      this.$Router.push({ name: 'download' })
+    },
     handleClickDetail(item) {
       console.info(item)
       if (item.BGLX == 1) {
@@ -59,7 +69,10 @@ export default {
         if(item.report_name.indexOf("新型冠状病毒")==0){ // 核酸检测单独页面处理
           this.$Router.push({
             name: 'hsReportDownload',
-            params: { report_code: item.report_code },
+            params: { 
+              report_code: item.report_code,
+              apply_number: item.apply_number
+             },
           })
         }
         else{
@@ -103,6 +116,9 @@ export default {
 @import '@/assets/scss/mixin.scss';
 .wrap {
   padding: 20rpx;
+  .link{
+    color: royalblue;
+  }
   &-list {
     margin-top: 20rpx;
     .item {

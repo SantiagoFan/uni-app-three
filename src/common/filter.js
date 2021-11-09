@@ -16,6 +16,15 @@ Vue.filter('hideIdCard',(val) => {
     return ''
 })
 /**
+ * 
+ */
+ Vue.filter('hidePatientCard',(val) => {
+  if (val) {
+    return val.replace(/^(.{6})(?:\d+)(.{4})$/, '$1************$2')
+  }
+  return ''
+})
+/**
  * 隐藏姓名
  */
 Vue.filter('hideIdRealName',(val)=>{

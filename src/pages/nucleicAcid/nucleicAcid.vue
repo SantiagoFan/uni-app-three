@@ -1,6 +1,7 @@
 <template>
   <view class="container">
     <PatientCard :need-patient="true" @change="loadData"></PatientCard>
+    <view class="tip">鼻口咽拭子仅限发热患者</view>
     <view class="wrap">
       <view class="wrap__list">
         <view
@@ -39,18 +40,27 @@
         <text class="text">申请检测</text>
       </view>
     </view>
+    <u-modal v-model="show_message">
+      <view class="message_content">
+       <richtext :content="reminder_message"></richtext>
+      </view>
+		</u-modal>
   </view>
 </template>
 
 <script>
+import richtext from "@/components/common/richtext.vue";
 import { mapState } from 'vuex'
 export default {
   data() {
     return {
       list: [],
-      selected:null
+      selected:null,
+      reminder_message:'',
+      show_message:false
     }
   },
+  components: { richtext },
   computed: {
     ...mapState(['patientInfo']),
     amount() {
@@ -65,9 +75,16 @@ export default {
     },
   },
   mounted() {
+    this.getSettings()
     this.loadData()
   },
   methods: {
+    getSettings(){
+      this.$http.post(this.API.NUCLEICACID_SETTINGS).then((res) => {
+        this.reminder_message = res.data.reminder_message
+        this.show_message = res.data.reminder_show
+      })
+    },
     loadData() {
       this.$http.post(this.API.INSPECTION_QUERY_OPTIONS, {}).then((res) => {
         res.data.forEach(element => {
@@ -132,10 +149,17 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.message_content{
+  padding: 25rpx;
+}
 .container {
   display: flex;
   flex-direction: column;
   height: 100vh;
+  .tip{
+    text-align: center;
+    color:red;
+  }
   .wrap {
     flex: 1;
     padding: 20rpx;

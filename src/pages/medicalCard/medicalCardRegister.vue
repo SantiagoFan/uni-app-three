@@ -212,6 +212,8 @@ export default {
                 this.formData.name = r.data.user_name
                 this.formData.phone = r.data.mobile
                 this.formData.idcard = r.data.cert_no
+                // 如果用户授权开发信息没有昵称则把用户姓名更新到昵称信息中
+                this.$store.dispatch('updateNickName', this.formData.name)
               })
 
             }

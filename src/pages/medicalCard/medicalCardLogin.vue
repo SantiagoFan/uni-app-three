@@ -30,6 +30,7 @@ export default {
   methods: {
      async goAdd() {
       var res = await store.dispatch("checkAuth")
+      console.info('授权检查结果：',res)
       if(res){
         this.$Router.replace({ name: 'medicalCardRegister' })
       }

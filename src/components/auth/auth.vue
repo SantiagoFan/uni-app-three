@@ -67,7 +67,7 @@ export default {
         var info = e.detail.userInfo;
         var data = {
           headimgurl: info.avatarUrl,
-          nickname: info.nickName,
+          nickname: info.nickName||' ', // 支付宝存在没有昵称的情况
         };
         this.$http.post(this.API.UPDATE_USERINFO, data).then((res) => {
           if (res.code == 20000) {
@@ -129,11 +129,11 @@ export default {
           });
         },
         success:(res)=>{
-          console.info(res)
+          console.info('授权成功信息：',res)
           let info = JSON.parse(res.response).response
           var data = {
             headimgurl: info.avatar,
-            nickname: info.nickName,
+            nickname: info.nickName||'未设置',
           };
           this.$http.post(this.API.UPDATE_USERINFO, data).then((res) => {
             if (res.code == 20000) {

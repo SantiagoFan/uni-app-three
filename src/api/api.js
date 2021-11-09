@@ -69,8 +69,11 @@ export default {
   LIVE_DEPOSIT_ORDER: '/live_deposit_order/payOrder', //押金缴费
   LIVE_DEPOSIT_ORDER_DETAIL: '/live_deposit_order/getLivePayRecordDetail', //押金缴费记录详情
   EXAMINATION_ORDER: '/examination/payOrder', //门诊待缴费项目支付
+  NUCLEICACID_SETTINGS: '/inspection_order/getNucleicAcidSettings', //核酸检测设置 提醒内容
   INSPECTION_QUERY_OPTIONS: '/inspection_order/QueryOptions', //查询核酸检测项目
   INSPECTION_CREATE_ORDER: '/inspection_order/CreateOrder', //一建核酸检测预约
   GET_PDF: '/report/getPdf', //获取pdf
+  GET_JY_PDF: '/report/get_pdf',
   REGISTER_SUCCESS: '/register/getSuccessRegisterList', //获取成功挂号的列表
+  QUERY_HEALTH_CARD:'/health_Card/Query' //健康卡查询
 }

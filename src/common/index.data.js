@@ -1,7 +1,7 @@
 export default {
   list1: [
     {
-      title: '添加就诊人',
+      title: '管理就诊人',
       image: require('@/static/image/indx-sta1.jpg'),
       name: 'patientAdd',
       openType: 'push',
@@ -49,9 +49,9 @@ export default {
       openType: 'push',
     },
     {
-      title: '报告下载',
+      title: '下载管理',
       image: require('@/static/image/indx-sta8.jpg'),
-      name: 'checkReport',
+      name: 'download',
       openType: 'push',
     },
     {

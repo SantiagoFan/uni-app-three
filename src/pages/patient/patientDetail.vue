@@ -22,6 +22,7 @@
     ></my-code>
     <u-gap height="20" bg-color="transparent"></u-gap>
     <view class="wrap-btn" @click="delPatient">删除就诊人</view>
+    <view class="wrap-btn" @click="choicePatient">设为默认</view>
     <u-modal
       v-model="showModal"
       @confirm="confirm"
@@ -58,6 +59,17 @@ export default {
         .then((res) => {
           if (res.code == 20000) {
             this.model = res.data
+          }
+        })
+    },
+    choicePatient() {
+      this.$http
+        .post(this.API.CHANGE_DEFAULT_PATIENT, { id: this.model.id })
+        .then((res) => {
+          if (res.code == 20000) {
+            this.$store.commit('setPatientInfo', res.data)
+            this.$emit('change')
+            uni.showToast({title: '设置成功',  duration: 2000,  })
           }
         })
     },
@@ -245,6 +257,7 @@ export default {
     margin: 0 auto;
     background: #ffffff;
     border-radius: 10rpx;
+    margin-bottom: 15rpx;
   }
 }
 </style>

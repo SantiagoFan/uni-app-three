@@ -207,6 +207,15 @@
       }
     },
     {
+      "path": "pages/download/list",
+      "name": "download",
+      "style": {
+        "navigationBarTitleText": "下载管理",
+        "navigationBarBackgroundColor": "#0ec698",
+        "navigationBarTextStyle": "#ffffff"
+      }
+    },
+    {
       "path": "pages/reportDownload/jcReportDownload",
       "name": "jcReportDownload",
       "style": {

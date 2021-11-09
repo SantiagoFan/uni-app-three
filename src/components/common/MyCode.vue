@@ -11,7 +11,7 @@
       </view>
       <view class="wrap-code__con-code2" v-if="codeIndex === 1">
         <tki-barcode ref="barcode" :onval="true" :show="true" :val="patient_code" :loadMake="true" :opations="barOpations" />
-        <view class="num">{{ patient_code }}</view>
+        <view class="num">{{ patient_code| hidePatientCard }}</view>
       </view>
     </view>
   </view>
