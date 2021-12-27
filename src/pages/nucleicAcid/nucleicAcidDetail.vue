@@ -34,7 +34,7 @@
             <view class="cell-con">{{ detail.patient_name }}</view>
           </view>
           <view class="cell">
-            <view class="cell-label">就诊卡号</view>
+            <view class="cell-label">就诊码号</view>
             <view class="cell-con">{{ detail.patient_code }}</view>
           </view>
           <view class="cell">

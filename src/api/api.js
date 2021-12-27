@@ -1,10 +1,10 @@
 export default {
-  ADD_PATIENT: '/patient/addPatient', //添加就诊卡
-  BIND_PATIENT: '/patient/bindPatient2', //绑定就诊卡
+  ADD_PATIENT: '/patient/addPatient', //添加就诊码
+  BIND_PATIENT: '/patient/bindPatient2', //绑定就诊码
   GET_TOKEN: '/auth/login', //查询用户
   GET_USERINFO:'/auth/getUserInfo', // 获取授权详情信息
   UPDATE_USERINFO: '/user/updateUserInfo', //提交用户信息
-  PATIENT_LIST: '/patient/getPatientList', //就诊卡列表
+  PATIENT_LIST: '/patient/getPatientList', //就诊码列表
   PATINET_DETAIL: '/patient/getPatientDetail', //就诊人详情
   PATIENT_DELETE: '/patient/delPatient', //删除就诊人
   LIVE_PATIENT_ADD: '/live_patient/addLivePatient', //添加住院人
@@ -26,7 +26,7 @@ export default {
   DOCTOR_SEARCH: '/doctor/search', //搜索医生
   DEPARTMENT_SEARCH: '/department/search', //搜索科室
   LIVE_PATIENT_DELETE: '/live_patient/deleteLivePatient', //删除住院人
-  MEMBER_INDEX: '/member/getIndex', //个人中心就诊卡数量
+  MEMBER_INDEX: '/member/getIndex', //个人中心就诊码数量
   HOSPITAL_INFO: '/hospital_info/getInfo', //医院信息
   BANNER: '/hospital_info/getBanner', //医院信息
   FLOOR_LIST: '/department/getFloorList', //楼层列表
@@ -59,7 +59,7 @@ export default {
   GET_TEMPLATE_ID: '/message/getTemplateId', //查询通知
   REGISTER_SETTINGS: '/register/getSettings', //挂号设置 锁号时间、提醒内容
   HOSPITAL_NAME: '/register/getHospital', //医院名称
-  UPDATE_HEALTH_CODE: '/patient/updateHealthCode', //刷新健康卡
+  UPDATE_HEALTH_CODE: '/patient/updateHealthCode', //刷新健康码
   IS_COLLECT: '/collect_doctor/isCollect', //是否收藏
   CANCEL_REGISTER: '/register/refundOrder', //取消挂号
   WAIT_DETAIL: '/wait_detail/getDetail', //排队候诊
@@ -75,5 +75,5 @@ export default {
   GET_PDF: '/report/getPdf', //获取pdf
   GET_JY_PDF: '/report/get_pdf',
   REGISTER_SUCCESS: '/register/getSuccessRegisterList', //获取成功挂号的列表
-  QUERY_HEALTH_CARD:'/health_Card/Query' //健康卡查询
+  QUERY_HEALTH_CARD:'/health_Card/Query' //健康码查询
 }

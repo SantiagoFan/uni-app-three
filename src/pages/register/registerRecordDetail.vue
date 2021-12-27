@@ -54,7 +54,7 @@
         <view
           :class="['item', { active: codeIndex === 0 }]"
           @click="codeIndex = 0"
-          >电子健康卡</view
+          >电子健康码</view
         >
         <view
           :class="['item', { active: codeIndex === 1 }]"
@@ -70,7 +70,7 @@
             canvas-id="qrcode"
           ></canvas>
           <view class="wrap-code__con-code1_refresh" @click="refresh()"
-            >点击刷新健康卡</view
+            >点击刷新健康码</view
           >
         </view>
         <view class="wrap-code__con-code2" :class="{ hide: codeIndex === 0 }">
@@ -119,7 +119,7 @@
             <view class="cell-con ">{{ data.patient_name }}</view>
           </view>
           <view class="cell u-skeleton-rect">
-            <view class="cell-label">就诊卡号</view>
+            <view class="cell-label">就诊码号</view>
             <view class="cell-con">{{ data.patient_code }}</view>
           </view>
           <view class="cell u-skeleton-rect">

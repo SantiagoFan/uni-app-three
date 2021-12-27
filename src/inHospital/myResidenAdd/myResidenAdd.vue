@@ -76,6 +76,7 @@ export default {
       let patient_code = ''
       for(let e of this.list){
         if (e.isChoice == true || e.isChoice == 1) {
+          console.info(e)
           patient_code = e.patient_code
           break;
         }
@@ -88,7 +89,9 @@ export default {
         })
         return false
       }
-      this.$http.post(this.API.LIVE_PATIENT_ADD, { patient_code: patient_code }).then((res) => {
+      this.$http.post(this.API.LIVE_PATIENT_ADD, { 
+        patient_code: patient_code
+         }).then((res) => {
           uni.showToast({
             title: res.message,
             duration: 2000,
@@ -110,7 +113,8 @@ export default {
         })
         return false
       } else {
-        this.$Router.push({ name: 'medicalCardLogin' })
+        // this.$Router.push({ name: 'medicalCardLogin' })
+        this.$Router.push({ name: 'medicalCardRegister' })
       }
     },
   },

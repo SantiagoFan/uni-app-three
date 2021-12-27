@@ -409,7 +409,8 @@ export default {
       this.orderPopupStatus = true
     },
     addPatient() {
-      this.$Router.push({ name: 'medicalCardLogin' })
+      // this.$Router.push({ name: 'medicalCardLogin' })
+      this.$Router.push({ name: 'medicalCardRegister' })
     },
     async createOrder() {
 

@@ -6,7 +6,7 @@
           <!-- <image src='@/static/image/card_logo.png'></image> -->
           <view class="item">{{ model.name|hideIdRealName }}</view>
           <!-- <view class="item">性别：{{ model.gender }}</view> -->
-          <!-- <view class="item">居民健康卡号码：</view> -->
+          <!-- <view class="item">居民健康码号码：</view> -->
           <view class="item">{{ model.idcard | hideIdCard }}</view>
         </view>
         <view class="qrcode" v-if='model.ehealth_code' >
@@ -111,7 +111,7 @@ export default {
     height: 390rpx;
     // padding-top: 30rpx;
     padding: 0 30rpx 0 30rpx;
-    background: #dbe79c url('https://wx.mzyy.org.cn/static/wx/patient_d_bg.jpg?v=0.3') top center;
+    background: #dbe79c url('https://wx.mzyy.org.cn/static/wx/patient_d_bg.jpg?v=0.4') top center;
     background-repeat: no-repeat;
     background-size: 100%;
     border-radius: 10rpx;

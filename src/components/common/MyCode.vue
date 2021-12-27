@@ -1,13 +1,13 @@
 <template>
   <view class="wrap-code">
     <view class="wrap-code__tab">
-      <view :class="['item', { active: codeIndex === 0 }]" @click="codeIndex = 0">电子健康卡</view>
+      <view :class="['item', { active: codeIndex === 0 }]" @click="codeIndex = 0">电子健康码</view>
       <view :class="['item', { active: codeIndex === 1 }]" @click="codeIndex = 1">就诊凭条</view>
     </view>
     <view class="wrap-code__con">
       <view class="wrap-code__con-code1" v-if="codeIndex === 0">
         <tki-qrcode v-if="ehealth_code" ref="qrcode" onval :val="ehealth_code" :size="400" icon="/static/image/logo.png" :loadMake="true" :show-loading="false" />
-        <view class="nohealth" @click="refresh" v-if="!ehealth_code">点击刷新健康卡号</view>
+        <view class="nohealth" @click="refresh" v-if="!ehealth_code">点击刷新健康码</view>
       </view>
       <view class="wrap-code__con-code2" v-if="codeIndex === 1">
         <tki-barcode ref="barcode" :onval="true" :show="true" :val="patient_code" :loadMake="true" :opations="barOpations" />

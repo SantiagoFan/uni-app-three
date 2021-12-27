@@ -74,20 +74,44 @@
           </view>
           <view class="index-wrap__art3-con">
             <view class="list" v-if="typeIndex === 0">
-              <router-link
-                v-for="(item, index) in list1"
-                :key="index"
-                :to="{ name: item.name }"
-                :navType="item.openType"
-                hover-class="none"
-              >
-                <view class="item">
-                  <view class="icon">
-                    <image class="img" mode="widthFix" :src="item.image" />
+              <block v-for="(item, index) in list1" :key="index">
+                <block v-if="item.openType=='mp-weixin'">
+                  <!-- #ifdef MP-WEIXIN -->
+                  <view class="item" @click="toMiniProgram(item)">
+                      <view class="icon">
+                        <image class="img" mode="widthFix" :src="item.image" />
+                      </view>
+                      <view class="text">{{ item.title }}</view>
                   </view>
-                  <view class="text">{{ item.title }}</view>
-                </view>
-              </router-link>
+                  <!-- #endif -->
+                </block>
+                <block v-else-if="item.openType=='mp-alipay'">
+                  <!-- #ifdef MP-ALIPAY -->
+                  <view class="item" @click="toMiniProgram(item)">
+                      <view class="icon">
+                        <image class="img" mode="widthFix" :src="item.image" />
+                      </view>
+                      <view class="text">{{ item.title }}</view>
+                  </view>
+                  <!-- #endif -->
+                </block>
+                <!-- 普通 -->
+                <router-link
+                  v-else
+                  :to="{ name: item.name }"
+                  :navType="item.openType"
+                  hover-class="none"
+                >
+                  <view class="item">
+                    <view class="icon">
+                      <image class="img" mode="widthFix" :src="item.image" />
+                    </view>
+                    <view class="text">{{ item.title }}</view>
+                  </view>
+                </router-link>
+                <!-- 跳转到其他小程序 -->
+                
+              </block>
             </view>
             <view class="list" v-if="typeIndex === 1">
               <view @click="goLiveDaily()">
@@ -151,7 +175,7 @@
             :loadMake="true"
             :show-loading="true"
           />
-          <!-- <view class="nohealth" @click="refresh" v-if="!patientInfo.ehealth_code">点击刷新健康卡号</view> -->
+          <!-- <view class="nohealth" @click="refresh" v-if="!patientInfo.ehealth_code">点击刷新健康码</view> -->
           <!-- <image class="img" mode="aspectFill" src="@/static/image/code1.jpg" /> -->
         </view>
       </view>
@@ -159,7 +183,7 @@
     <auth></auth>
     <u-modal
       v-model="showConfirm"
-      content="当前用户未生成健康卡号"
+      content="当前用户未生成健康码"
       :show-confirm-button="true"
       :show-cancel-button="true"
       confirm-text="重新获取"
@@ -213,6 +237,15 @@ export default {
     console.log('onShow')
   },
   methods: {
+    /**
+     * 跳转到其他小程序
+     */
+    toMiniProgram(item){
+      uni.navigateToMiniProgram({
+        appId: item.appId,// 其他小程序APPID
+        path: item.path,//其他小程序地址
+      });
+    },
     getName(str) {
       if (str.length > 4) {
         return str.substr(-2, 4)
@@ -239,7 +272,7 @@ export default {
         })
       } else {
         this.showConfirm = true
-        console.log('暂无健康卡')
+        console.log('暂无健康码')
       }
     },
     refresh() {

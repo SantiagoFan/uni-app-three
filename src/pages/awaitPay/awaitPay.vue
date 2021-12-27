@@ -201,13 +201,11 @@ export default {
           console.info('支付参数',pay_params)
           uni.requestPayment(pay_params) 
         }).catch(()=>{
+          that.flag = false
           // #ifdef MP-ALIPAY
           // this.$monitor.api('门诊缴费', false, moment().diff(starttime), 50000,"业务处理失败")
           this.$monitor.api({api:"门诊缴费",success:false,c1:"taSR_YL",time:moment().diff(starttime)})
           // #endif
-        })
-        .finally((res) => {
-          that.flag = false
         })
     },
   },

@@ -16,7 +16,7 @@
                 v-if="patientInfo"
               >
                 <view class="text">
-                  就诊卡 <text class="num">{{ count }}</text> 张</view
+                  就诊码 <text class="num">{{ count }}</text> 张</view
                 >
                 <view class="jt">
                   <text class="iconfont icon-arrowb"></text>
@@ -34,7 +34,7 @@
               <view class="art2_title__name">{{ patientInfo.name }}</view>
               <view class="art2_title__tag">
                 <view class="art2_title__tag-item">默认卡</view>
-                <view class="art2_title__tag-item">电子就诊卡</view>
+                <view class="art2_title__tag-item">电子就诊码</view>
               </view>
             </view>
             <view class="art2_subt"
@@ -43,7 +43,7 @@
           </view>
           <view class="art2" v-else @click="addPatient">
             <view class="art2_none">
-              <text class="iconfont icon-hao"></text> 添加就诊卡
+              <text class="iconfont icon-hao"></text> 添加就诊码
             </view>
           </view>
         </view>
@@ -180,7 +180,8 @@ export default {
       })
     },
     addPatient() {
-      this.$Router.push({ name: 'medicalCardLogin' })
+      // this.$Router.push({ name: 'medicalCardLogin' })
+      this.$Router.push({ name: 'medicalCardRegister' })
     },
   },
 }

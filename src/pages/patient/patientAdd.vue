@@ -68,7 +68,8 @@ export default {
         })
         return false
       } else {
-        this.$Router.push({ name: 'medicalCardLogin' })
+        // this.$Router.push({ name: 'medicalCardLogin' }) // 改成只有一种添加方式了
+        this.$Router.push({ name: 'medicalCardRegister' })
       }
     },
     getDetail(idcard) {

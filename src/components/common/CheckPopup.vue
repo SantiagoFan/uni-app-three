@@ -8,7 +8,7 @@
           <view class="item active">
             <view class="info">
               <view class="name">李想</view>
-              <view class="code">就诊卡：100000254151</view>
+              <view class="code">就诊码：100000254151</view>
             </view>
             <view class="radio">
               <text class="iconfont icon-duihao"></text>

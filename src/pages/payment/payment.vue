@@ -41,7 +41,7 @@
         <view class="text">{{ model.patient_name }}</view>
       </view>
       <view class="wrap-info__cell">
-        <view class="label">就诊卡号</view>
+        <view class="label">就诊码号</view>
         <view class="text">{{ model.patient_code }}</view>
       </view>
     </view>
@@ -149,19 +149,18 @@ export default {
               })
             }
           }else{
+            that.flag = false
             // #ifdef MP-ALIPAY
             // this.$monitor.api('挂号缴费', false, moment().diff(starttime), 50000,"业务处理失败")
             this.$monitor.api({api:"挂号缴费",success:false,c1:"taSR_YL",time:moment().diff(starttime)})
             // #endif
           }
         }).catch(()=>{
+          that.flag = false
           // #ifdef MP-ALIPAY
           // this.$monitor.api('挂号缴费', false, moment().diff(starttime), 50000,"业务处理失败")
           this.$monitor.api({api:"挂号缴费",success:false,c1:"taSR_YL",time:moment().diff(starttime)})
           // #endif
-        })
-        .finally((res) => {
-          that.flag = false
         })
     },
     //锁号分钟

@@ -83,6 +83,22 @@ export default {
       image: require('@/static/image/health.png'),
       name: 'healthCard',
       openType: 'push',
+    },
+    {
+      title: '电子票夹',
+      image: require('@/static/image/indx-sta17.jpg'),
+      name: 'healthCard',
+      appId:'wx8e0b79a7f627ca18',
+      path:'pages/index/index?agencyCode=c4929b68384e4954b9c42c34b9fa1269',
+      openType: 'mp-weixin',
+    },
+    {
+      title: '电子票夹',
+      image: require('@/static/image/indx-sta17.jpg'),
+      name: 'healthCard',
+      appId:'2018110161963689',
+      path:'page/custom/index/index?agencyCode=c4929b68384e4954b9c42c34b9fa1269',
+      openType: 'mp-alipay',
     }
   ],
   list2: [

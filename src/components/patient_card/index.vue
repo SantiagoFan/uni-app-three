@@ -19,7 +19,7 @@
           <view class="add_btn__icon">
             <text class="iconfont icon-add-fill"></text>
           </view>
-          <view class="add_btn__text">添加就诊卡</view>
+          <view class="add_btn__text">添加就诊码</view>
         </view> -->
       </view>
       <!-- 图形样式 -->
@@ -30,18 +30,18 @@
               <view class="name" @click="showPatient()">{{
                 patientInfo.name| hideIdRealName
               }}</view>
-              <view class="tag" @click="showPatient()">电子就诊卡</view>
+              <view class="tag" @click="showPatient()">电子就诊码</view>
               <view @click.stop="handleChoose" class="check">切换</view>
             </view>
             <view class="code" @click="showPatient()"
-              >诊疗号2：{{ patientInfo.patient_code | hidePatientCard }}</view
+              >诊疗号：{{ patientInfo.patient_code | hidePatientCard }}</view
             >
           </view>
           <view @click.stop="addPatient" class="add_btn" v-else>
             <view class="add_btn__icon">
               <text class="iconfont icon-add-fill"></text>
             </view>
-            <view class="add_btn__text">添加就诊卡</view>
+            <view class="add_btn__text">添加就诊码</view>
           </view>
         </view>
         <view class="index-wrap__user-pic">
@@ -72,7 +72,7 @@
             >
               <view class="info">
                 <view class="name">{{ item.name|hideIdRealName }}</view>
-                <view class="code">就诊卡：{{ item.patient_code | hidePatientCard }}</view>
+                <view class="code">就诊码：{{ item.patient_code | hidePatientCard }}</view>
               </view>
               <view class="radio">
                 <text class="iconfont icon-duihao"></text>
@@ -105,7 +105,7 @@ export default {
     ...mapState(['patientList', 'patientInfo']),
   },
   props: {
-    // 强制检查 必须存在就诊卡
+    // 强制检查 必须存在就诊码
     needPatient: {
       type: Boolean,
       default: false,
@@ -154,7 +154,8 @@ export default {
       uni.showTabBar()
     },
     addPatient() {
-      this.$Router.push({ name: 'medicalCardLogin' })
+      // this.$Router.push({ name: 'medicalCardLogin' })
+      this.$Router.push({ name: 'medicalCardRegister' })
     },
     managePatient() {
       this.$Router.push({ name: 'patientAdd' })

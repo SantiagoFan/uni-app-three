@@ -150,8 +150,7 @@ export default {
           // #endif
           console.info('支付参数',pay_params)
           uni.requestPayment(pay_params)
-        })
-        .finally((res) => {
+        }).catch(()=>{
           that.flag = false
         })
     },

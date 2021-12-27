@@ -1,6 +1,6 @@
 <template>
   <view class="wrap">
-    <view>提示：下载文件只能在微信环境中打开</view>
+    <view>提示：下载文件只能在小程序环境中打开</view>
     <view class="wrap-list">
       <view
         class="item"

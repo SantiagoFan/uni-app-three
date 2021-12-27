@@ -9,12 +9,12 @@
             <text class="iconfont icon-arrowb"></text>
           </view>
         </view>
-        <view @click="goBind" class="item">
-          <view class="text">已有就诊卡，请绑定您的就诊信息</view>
+        <!-- <view @click="goBind" class="item">
+          <view class="text">已有就诊码，请绑定您的就诊信息</view>
           <view class="jt">
             <text class="iconfont icon-arrowb"></text>
           </view>
-        </view>
+        </view> -->
       </view>
     </view>
     <auth></auth>

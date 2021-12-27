@@ -270,7 +270,7 @@ export default {
     //   })
     // },
     getHistoryList() {
-      if (!this.patientInfo) return // 用户未包含就诊卡信息
+      if (!this.patientInfo) return // 用户未包含就诊码信息
       this.$http
         .post(this.API.REGISTER_HISTORY, {
           patient_code: this.patientInfo.patient_code,

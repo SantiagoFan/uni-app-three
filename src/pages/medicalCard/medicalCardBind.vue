@@ -37,13 +37,13 @@
           </view>
           <view class="wrap__con-art">
             <!-- <view class="wrap__con-art-item">
-              <view class="label">就诊卡号</view>
+              <view class="label">就诊码号</view>
               <view class="input-box">
                 <input
                   class="input"
                   type="text"
                   name="patient_code"
-                  placeholder="请输入就诊卡号"
+                  placeholder="请输入就诊码号"
                   placeholder-class="placr_style"
                 />
               </view>
@@ -93,7 +93,7 @@ export default {
   methods: {
     formSubmit(e) {
       var data = e.detail.value
-      data['patient_code'] = data.idcard // 蒙中医院 就诊卡同身份证同号 特殊处理
+      data['patient_code'] = data.idcard // 蒙中医院 就诊码同身份证同号 特殊处理
       if (data['name'].trim() == '') {
         uni.showToast({
           title: '请输入姓名',

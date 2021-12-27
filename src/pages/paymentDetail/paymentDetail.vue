@@ -37,7 +37,7 @@
             <view class="cell-con">{{ info.zyh }}</view>
           </view>
           <view class="cell">
-            <view class="cell-label">就诊卡号</view>
+            <view class="cell-label">就诊码号</view>
             <view class="cell-con">{{ data.patient_code }}</view>
           </view>
           <view class="cell">
