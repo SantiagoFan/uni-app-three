@@ -59,7 +59,10 @@
 		"setting": {
 			"urlCheck": false
 		},
-		"usingComponents": true
+		"usingComponents": true,
+		"optimization":{ 
+			"subPackages":true
+ 		}
 	},
 	"mp-alipay" : {
 		"appid": "2021002130608625",

@@ -1,7 +1,7 @@
 let basepath = 'https://wx.mzyy.org.cn'
 
 if (process.env.NODE_ENV === 'development') {
-  basepath = 'https://wxtest.mzyy.org.cn'
+  basepath = 'https://wx.mzyy.org.cn'
 }
 
 const baseUrl = basepath + '/api'

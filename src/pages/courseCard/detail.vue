@@ -518,9 +518,10 @@ export default {
   &__user {
     display: flex;
     padding: 30rpx;
-    background: url('@/static/image/class_detail_img.jpg') no-repeat center
-      bottom;
-    background-size: 100%;
+    background-color: #d5ad6f;
+    // background: url('@/static/image/class_detail_img.jpg') no-repeat center
+      // bottom;
+    // background-size: 100%;
     .avatar {
       width: 124rpx;
       height: 164rpx;

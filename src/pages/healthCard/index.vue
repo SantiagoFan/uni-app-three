@@ -37,7 +37,8 @@
         <image class="img" mode="widthFix" src='/static/image/no-health.png'></image>
       </template>
       <template v-else>
-        <image class="bg-img" src="/static/image/health-bg.png" mode="widthFix"></image>
+        <view class="bg-img"></view>  
+        <!-- <image class="bg-img" src="/static/image/health-bg.png" mode="widthFix"></image> -->
         <view class="title">健康检查合格证明</view>
         <view class="content">
          <template>
@@ -164,10 +165,14 @@ export default {
   }
   .health-content{
     position: relative;
+    
     // height: 100vh;
     .bg-img{
       display: block;
       width: 100%;
+      height: 800rpx;
+      background-color: #0ec698;
+      border-radius: 8px;
     }
     .title{
       width: 100%;

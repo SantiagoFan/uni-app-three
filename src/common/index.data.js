@@ -6,10 +6,16 @@ export default {
       name: 'patientAdd',
       openType: 'push',
     },
+    // {
+    //   title: '核酸检测',
+    //   image: require('@/static/image/indx-sta14.jpg'),
+    //   name: 'nucleicAcid',
+    //   openType: 'push',
+    // },
     {
       title: '核酸检测',
       image: require('@/static/image/indx-sta14.jpg'),
-      name: 'nucleicAcid',
+      name: 'nucleicAcidReg',
       openType: 'push',
     },
     {
