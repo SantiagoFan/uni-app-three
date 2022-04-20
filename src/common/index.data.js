@@ -30,54 +30,42 @@ export default {
       name: 'checkReport',
       openType: 'push',
     },
-    {
-      title: '调查问卷',
-      image: require('@/static/image/indx-sta4.jpg'),
-      name: 'survey',
-      openType: 'push',
-    },
-    {
-      title: '微网站',
-      image: require('@/static/image/indx-sta5.jpg'),
-      name: 'hospital',
-      openType: 'pushTab',
-    },
-    {
-      title: '挂号记录',
-      image: require('@/static/image/indx-sta6.jpg'),
-      name: 'registerRecord',
-      openType: 'push',
-    },
-    {
-      title: '缴费记录',
-      image: require('@/static/image/indx-sta7.jpg'),
-      name: 'payRecord',
-      openType: 'push',
-    },
-    {
-      title: '下载管理',
-      image: require('@/static/image/indx-sta8.jpg'),
-      name: 'download',
-      openType: 'push',
-    },
-    {
-      title: '健康指导',
-      image: require('@/static/image/indx-sta9.jpg'),
-      name: 'hospitalTrends',
-      openType: 'push',
-    },
-    {
-      title: '诊间支付',
-      image: require('@/static/image/indx-sta10.jpg'),
-      name: 'awaitPay',
-      openType: 'push',
-    },
-    {
-      title: '新冠疫苗预约',
-      image: require('@/static/image/indx-sta15.jpg'),
-      name: 'vaccine',
-      openType: 'push',
-    },
+    // {
+    //   title: '调查问卷',
+    //   image: require('@/static/image/indx-sta4.jpg'),
+    //   name: 'survey',
+    //   openType: 'push',
+    // },
+    // {
+    //   title: '微网站',
+    //   image: require('@/static/image/indx-sta5.jpg'),
+    //   name: 'hospital',
+    //   openType: 'pushTab',
+    // },
+    // {
+    //   title: '挂号记录',
+    //   image: require('@/static/image/indx-sta6.jpg'),
+    //   name: 'registerRecord',
+    //   openType: 'push',
+    // },
+    // {
+    //   title: '缴费记录',
+    //   image: require('@/static/image/indx-sta7.jpg'),
+    //   name: 'payRecord',
+    //   openType: 'push',
+    // },
+    // {
+    //   title: '诊间支付',
+    //   image: require('@/static/image/indx-sta10.jpg'),
+    //   name: 'awaitPay',
+    //   openType: 'push',
+    // },
+    // {
+    //   title: '新冠疫苗预约',
+    //   image: require('@/static/image/indx-sta15.jpg'),
+    //   name: 'vaccine',
+    //   openType: 'push',
+    // },
     {
       title: '听课证',
       image: require('@/static/image/indx-sta16.jpg'),
@@ -105,7 +93,19 @@ export default {
       appId:'2018110161963689',
       path:'page/custom/index/index?agencyCode=c4929b68384e4954b9c42c34b9fa1269',
       openType: 'mp-alipay',
-    }
+    },
+    {
+      title: '下载管理',
+      image: require('@/static/image/indx-sta8.jpg'),
+      name: 'download',
+      openType: 'push',
+    },
+    // {
+    //   title: '健康指导',
+    //   image: require('@/static/image/indx-sta9.jpg'),
+    //   name: 'hospitalTrends',
+    //   openType: 'push',
+    // },
   ],
   list2: [
     {
@@ -125,6 +125,26 @@ export default {
       image: require('@/static/image/indx-sta13.jpg'),
       name: 'myResidents',
       openType: 'push',
+    },
+  ],
+  list3:[
+    {
+      title: '健康指导',
+      image: require('@/static/image/indx-sta9.jpg'),
+      name: 'hospitalTrends',
+      openType: 'push',
+    },
+     {
+      title: '调查问卷',
+      image: require('@/static/image/indx-sta4.jpg'),
+      name: 'survey',
+      openType: 'push',
+    },
+    {
+      title: '微网站',
+      image: require('@/static/image/indx-sta5.jpg'),
+      name: 'hospital',
+      openType: 'pushTab',
     },
   ],
   hospitalList1: [

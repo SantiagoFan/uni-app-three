@@ -106,6 +106,7 @@ export default {
         return false
       }
       that.flag = true
+      let starttime=moment();
       that.$http
         .post(that.API.LIVE_DEPOSIT_ORDER, {
           amount: that.money,
@@ -147,11 +148,15 @@ export default {
           // #endif
           // #ifdef MP-ALIPAY
           pay_params['orderInfo']= res.data
+          this.$monitor.api({api:"住院缴费",success:true,c1:"taSR_YL",time:moment().diff(starttime)})
           // #endif
           console.info('支付参数',pay_params)
           uni.requestPayment(pay_params)
         }).catch(()=>{
           that.flag = false
+          // #ifdef MP-ALIPAY
+          this.$monitor.api({api:"住院缴费",success:false,c1:"taSR_YL",time:moment().diff(starttime)})
+          // #endif
         })
     },
     changeMoney(event) {

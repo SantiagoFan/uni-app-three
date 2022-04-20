@@ -53,8 +53,8 @@
       </view>
     </view>
     <view class="report-wrap__btn" @click="dowmloadReport">
-        <view class="report-wrap__btn-box">下载报告</view>
-      </view>
+      <view class="report-wrap__btn-box">下载报告</view>
+    </view>
   </view>
 </template>
 

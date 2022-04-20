@@ -99,6 +99,11 @@ export default {
       apply_date:null
     };
   },
+   onLoad(query){
+    // #ifdef MP-ALIPAY
+    this.$reportCmPV_YL({ title: '核酸检测预约', query })
+    // #endif
+  },
   components: { richtext },
   computed: {
     ...mapState(["patientInfo"]),
@@ -183,14 +188,28 @@ export default {
             return false
           }
           this.flag = true
+          let starttime=moment();
           this.$http
             .post(this.API.NUCLEICACID_APPLY_SOURCE, formData)
             .then((res) => {
               if ((res.code = 20000)) {
                 formData['order_no'] = res.data.order_no
                 this.$Router.push({ name: "nucleicAcidSurvey",query:formData });
+                // #ifdef MP-ALIPAY
+                this.$monitor.api({api:"核酸检测预约",success:true,c1:"taSR_YL",time:moment().diff(starttime)})
+                // #endif
               }
-            }).finally(()=>{
+              else{
+                // #ifdef MP-ALIPAY
+                this.$monitor.api({api:"核酸检测预约",success:false,c1:"taSR_YL",time:moment().diff(starttime)})
+                // #endif
+              }
+            }).catch(()=>{
+              // #ifdef MP-ALIPAY
+                this.$monitor.api({api:"核酸检测预约",success:false,c1:"taSR_YL",time:moment().diff(starttime)})
+                // #endif
+            })
+            .finally(()=>{
               this.flag = false
             });
         },

@@ -209,6 +209,11 @@
       </view>
     </u-popup>
     <auth></auth>
+     <u-modal v-model="show_message">
+      <view class="message_content">
+       <richtext :content="reminder_message"></richtext>
+      </view>
+		</u-modal>
   </view>
 </template>
 
@@ -234,7 +239,10 @@ export default {
         doctor_name: '',
         department_name: '',
         professional: '',
+        content:''
       },
+      show_message:false,
+      reminder_message:'',
       list: [],
       isShow: false,
       schemeList: [],
@@ -287,7 +295,6 @@ export default {
       this.isShow = true
     }
     this.getDetail()
-    this.getSchemeList()
     this.isCollect()
   },
   filters: {
@@ -330,6 +337,7 @@ export default {
             this.selectDate = res.data.date
           }
           if (this.schemeList.length > 0) {
+            this.showRemind() // 显示提醒
             this.getList()
           }
         })
@@ -339,7 +347,25 @@ export default {
         .post(this.API.DOCTOR_INFO, { id: this.doctor_id }, false)
         .then((res) => {
           this.model = res.data
+          this.getSchemeList()
         })
+    },
+    // 显示提示
+    showRemind(){
+      console.info('xxxxxxxxxxxxxxxxx'+this.selectDate)
+      console.info(this.schemeList)
+      // 是否约满
+      let today = this.schemeList.find(res=>res!=null && res.time == this.selectDate)
+      console.info('today',today)
+      console.info(this.model)
+      if(today && today.num == 0 && this.model && this.model.content){
+        var index = this.model.content.indexOf('出诊时间：')
+        if(index>=0){
+          let content = this.model.content.slice(index)
+          this.reminder_message = content
+          this.show_message = true
+        }
+      }
     },
     getList() {
       if (this.postLock) {
@@ -486,6 +512,7 @@ export default {
       if (!this.postLock && item && item.time != this.selectDate) {
         this.selectDate = item.time
         this.getList()
+        this.showRemind()
       }
     },
     getTime(time) {
@@ -534,6 +561,9 @@ export default {
 
 <style lang="scss" scoped>
 @import '@/assets/scss/mixin.scss';
+.message_content{
+  padding: 25rpx;
+}
 .wrap {
   &__user {
     display: flex;

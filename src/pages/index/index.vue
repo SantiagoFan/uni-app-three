@@ -154,6 +154,53 @@
           </view>
         </view>
         <u-gap height="20" bg-color="#f6f6f6"></u-gap>
+        <view class="index-wrap__art3">
+          <view class="index-wrap__art3-tab">
+            <view class="item active" >信息</view>
+          </view>
+          <view class="index-wrap__art3-con">
+            <view class="list">
+              <block v-for="(item, index) in list3" :key="index">
+                <block v-if="item.openType=='mp-weixin'">
+                  <!-- #ifdef MP-WEIXIN -->
+                  <view class="item" @click="toMiniProgram(item)">
+                      <view class="icon">
+                        <image class="img" mode="widthFix" :src="item.image" />
+                      </view>
+                      <view class="text">{{ item.title }}</view>
+                  </view>
+                  <!-- #endif -->
+                </block>
+                <block v-else-if="item.openType=='mp-alipay'">
+                  <!-- #ifdef MP-ALIPAY -->
+                  <view class="item" @click="toMiniProgram(item)">
+                      <view class="icon">
+                        <image class="img" mode="widthFix" :src="item.image" />
+                      </view>
+                      <view class="text">{{ item.title }}</view>
+                  </view>
+                  <!-- #endif -->
+                </block>
+                <!-- 普通 -->
+                <router-link
+                  v-else
+                  :to="{ name: item.name }"
+                  :navType="item.openType"
+                  hover-class="none"
+                >
+                  <view class="item">
+                    <view class="icon">
+                      <image class="img" mode="widthFix" :src="item.image" />
+                    </view>
+                    <view class="text">{{ item.title }}</view>
+                  </view>
+                </router-link>
+                <!-- 跳转到其他小程序 -->
+                
+              </block>
+            </view>
+          </view>
+        </view>
       </view>
     </view>
     <u-popup
@@ -215,6 +262,7 @@ export default {
       ],
       list1: indexList.list1,
       list2: indexList.list2,
+      list3: indexList.list3,
       visitCodeShow: false, // 就诊码
       showConfirm: false,
       ehealth_code: '',

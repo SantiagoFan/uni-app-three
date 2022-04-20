@@ -63,7 +63,7 @@
       </view>
       <view class="wrap_con__list" v-if="tabIndex === 0">
         <view
-          @click="item.remain_count > 0 && goDetail(item, selectDate)"
+          @click="goDetail(item, selectDate)"
           class="cell"
           v-for="(item, index) in doctorList"
           :key="index"
