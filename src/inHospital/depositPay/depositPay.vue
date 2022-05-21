@@ -37,6 +37,7 @@
 <script>
 import { isNull } from '@/utils/common.js'
 import { mapState } from 'vuex'
+import moment from 'moment'
 import LivePatientCard from "@/components/live_patient_card/index.vue"
 
 export default {

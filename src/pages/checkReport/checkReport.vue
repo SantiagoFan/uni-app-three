@@ -66,7 +66,7 @@ export default {
       console.info(item)
       if (item.BGLX == 1) {
         //检验报告
-        if(item.report_name.indexOf("新型冠状病毒")==0){ // 核酸检测单独页面处理
+        if(item.report_name.indexOf("核酸检测")>=0){ // 核酸检测单独页面处理
           this.$Router.push({
             name: 'hsReportDownload',
             params: { 
@@ -78,7 +78,7 @@ export default {
         else{
           this.$Router.push({
             name: 'reportDownload',
-            params: { report_code: item.report_code },
+            params: { report_code: item.report_code, apply_number: item.apply_number },
           })
         }
       } else {

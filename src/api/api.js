@@ -1,6 +1,5 @@
 export default {
   ADD_PATIENT: '/patient/addPatient', //添加就诊码
-  BIND_PATIENT: '/patient/bindPatient2', //绑定就诊码
   GET_TOKEN: '/auth/login', //查询用户
   GET_USERINFO:'/auth/getUserInfo', // 获取授权详情信息
   UPDATE_USERINFO: '/user/updateUserInfo', //提交用户信息
@@ -81,6 +80,7 @@ export default {
 
   GET_PDF: '/report/getPdf', //获取pdf
   GET_JY_PDF: '/report/get_pdf',
+  
   REGISTER_SUCCESS: '/register/getSuccessRegisterList', //获取成功挂号的列表
   QUERY_HEALTH_CARD:'/health_Card/Query' //健康码查询
 }

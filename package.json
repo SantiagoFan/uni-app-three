@@ -1,6 +1,6 @@
 {
     "name": "yl-applets",
-    "version": "1.13.6",
+    "version": "1.14.2",
     "private": true,
     "scripts": {
         "serve": "npm run dev:h5",

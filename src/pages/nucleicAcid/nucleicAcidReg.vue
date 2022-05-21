@@ -39,25 +39,15 @@
           <view class="register-list__cell" v-if="sourceList.length > 0">
             <view class="list">
               <view
-                :class="[
-                  'item',
-                  {
-                    'item-active': item.count > item.reg_count,
-                    checked: item.checked,
-                  },
-                ]"
+                :class="{'item':true,'item-active': item.count > item.reg_count}"
                 v-for="(item, index) in sourceList"
                 :key="index"
                 @click="selectRange(item, index)"
               >
-                <view class="date">{{ item.time }}</view>
-                <view class="rest_source" v-if="item.count > item.reg_count"
-                  >余：{{ item.count - item.reg_count }}</view
-                >
-                <view class="rest_source" v-else>约满</view>
-
-                <view class="arrow" v-if="item.count > item.reg_count">
-                  <text class="iconfont icon-arrowb"></text>
+                <view class="content" :class="{'checked': item.checked}">
+                  <text class="date">{{ item.time }}</text>
+                  <text class="rest_source" v-if="item.count > item.reg_count">余：{{ item.count - item.reg_count }}</text>
+                  <text class="rest_source" v-else>约满</text>
                 </view>
               </view>
             </view>
@@ -77,7 +67,9 @@
     </view>
     <u-modal v-model="show_message">
       <view class="message_content">
-        <richtext :content="reminder_message"></richtext>
+        <scroll-view scroll-y="true" style="height: 1000rpx;">
+		      <richtext :content="reminder_message"></richtext>
+				</scroll-view>
       </view>
     </u-modal>
   </view>
@@ -86,6 +78,7 @@
 <script>
 import richtext from "@/components/common/richtext.vue";
 import { mapState } from "vuex";
+import moment from 'moment'
 export default {
   data() {
     return {
@@ -115,20 +108,23 @@ export default {
       }, 0);
     },
     allSelect() {
-      return this.selectedRange != null && this.selectedRange != null;
+      return this.selectedRange != null && this.selected != null;
     },
   },
   mounted() {
     this.getSettings();
-    this.getSourceList();
     this.loadOptions();
   },
   methods: {
     getSourceList() {
-      this.$http.post(this.API.NUCLEICACID_SOURCE, {}).then((res) => {
+      this.sourceList =[]
+      this.apply_date =null
+      this.selectedRange =null
+      this.$http.post(this.API.NUCLEICACID_SOURCE, { scheme_id:this.selected['scheme_pool_id']}).then((res) => {
         res.data.list.forEach((element) => {
           element.checked = false;
         });
+        // 号源
         this.sourceList = res.data.list;
         this.apply_date = res.data.date;
       });
@@ -141,14 +137,13 @@ export default {
     },
     loadOptions() {
       this.$http.post(this.API.NUCLEICACID_QUERY_OPTIONS, {}).then((res) => {
+        //测试数据
+        // res.data.push({"item_id":"JY0503","price":"6.0000","combination_id":"JY0503",scheme_pool_id:2,"item_name":"新冠病毒核酸混检"})
         res.data.forEach((element) => {
           element.checked = false;
         });
-        if (res.data.length > 0) {
-          res.data[0].checked = true;
-          this.selected = res.data[0];
-        }
         this.list = res.data;
+         this.handleChoose(0);//默认选中第一个
       });
     },
     selectRange(item, index) {
@@ -215,8 +210,10 @@ export default {
         },
       });
     },
+    /**
+     * @description: 选择项目
+     */
     handleChoose(index) {
-      this.list[index].checked = true;
       for (let i = 0; i < this.list.length; i++) {
         if (i == index) {
           this.list[i].checked = true;
@@ -224,8 +221,9 @@ export default {
           this.list[i].checked = false;
         }
       }
-      console.info(this.list);
       this.selected = this.list[index];
+      // 加载号源信息
+      this.getSourceList();
     },
   },
 };
@@ -309,7 +307,7 @@ export default {
     .register {
       &-list {
         &__cell {
-          background: #ffffff;
+          // background: #ffffff;
           .title {
             display: flex;
             align-items: center;
@@ -320,12 +318,6 @@ export default {
             padding: 0 30rpx;
             .date {
               flex: 1;
-            }
-            .arrow {
-              transition: all 0.5s;
-              &.active {
-                transform: rotate(-90deg);
-              }
             }
           }
           .wrap_con__date {
@@ -449,23 +441,35 @@ export default {
             }
           }
           & > .list {
+
             .item {
-              display: flex;
-              align-items: center;
-              height: 90rpx;
-              margin-bottom: 10rpx;
-              padding: 0 30rpx;
-              border-bottom: 2rpx solid #e9e9e9;
-              &:last-child {
-                margin-bottom: 0;
+              width: 50%;
+              display: inline-block;
+              padding: 10rpx 5rpx;
+              .content{
+                background-color: #fff;
+                border-radius: 8px;
+                padding: 0 30rpx;
+                height: 90rpx;
+                line-height: 90rpx;
+                display: flex;
+                justify-content: space-between;
+                font-size: 28rpx;
+                // 选中
+                &.checked {
+                  background-color: #0ec698;
+                  .date {
+                    color: #ffffff;
+                  }
+                  .rest_source {
+                    color: #ffffff;
+                  }
+                }
               }
               .date {
-                flex: 1;
                 color: #999999;
-                font-size: 34rpx;
               }
               .rest_source {
-                margin-right: 20rpx;
                 font-size: 28rpx;
               }
               .price {
@@ -473,29 +477,14 @@ export default {
                 margin-right: 5rpx;
                 font-size: 32rpx;
               }
-              .arrow {
-                color: #cdcdcd;
-                .iconfont {
-                  font-size: 35rpx;
-                }
-              }
-              &.checked {
-                background-color: #0ec698;
-                .date {
-                  color: #ffffff;
-                }
-                .rest_source {
-                  color: #ffffff;
-                  font-weight: bold;
-                }
-              }
+              
+              // 激活状态
               &-active {
                 .date {
                   color: #000;
                 }
                 .rest_source {
-                  color: #000;
-                  font-weight: bold;
+                  color: #02906c;
                 }
               }
             }

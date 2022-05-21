@@ -92,6 +92,7 @@ export default {
         .post(this.API.GET_PDF, {
           report_code: this.model.report_code,
           type: 2,
+          apply_number: this.$Route.query.apply_number,
         })
         .then((res) => {
           if (res.code == 20000) {

@@ -218,6 +218,8 @@
             onval
             :val="ehealth_code"
             :size="390"
+            :foreground="ehealth_color"
+            :pdground="ehealth_color"
             icon="/static/image/logo.png"
             :loadMake="true"
             :show-loading="true"
@@ -266,6 +268,7 @@ export default {
       visitCodeShow: false, // 就诊码
       showConfirm: false,
       ehealth_code: '',
+      ehealth_color:'#000000',
       patientList: [],
     }
   },
@@ -316,7 +319,9 @@ export default {
       if (this.patientInfo.ehealth_code) {
         this.visitCodeShow = true
         this.$nextTick(() => {
+          //三色码
           this.ehealth_code = this.patientInfo.ehealth_code
+          this.ehealth_color = this.patientInfo.ehealth_color
         })
       } else {
         this.showConfirm = true

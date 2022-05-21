@@ -10,7 +10,7 @@
           <view class="item">{{ model.idcard | hideIdCard }}</view>
         </view>
         <view class="qrcode" v-if='model.ehealth_code' >
-           <tki-qrcode cid="mycode" ref="qrcode" style="margin-top:10rpx" onval :val="model.ehealth_code" :size="200"  icon="/static/image/logo.png" :iconSize='20'  :loadMake="true" :show-loading="true" />
+           <tki-qrcode  :foreground="model.ehealth_color" :pdground="model.ehealth_color" cid="mycode" ref="qrcode" style="margin-top:10rpx" onval :val="model.ehealth_code" :size="200"  icon="/static/image/logo.png" :iconSize='20'  :loadMake="true" :show-loading="true" />
         </view>
       </view>
     </view>
@@ -18,6 +18,7 @@
     <my-code
       :patient_code="model.patient_code"
       :ehealth_code="model.ehealth_code"
+      :ehealth_color="model.ehealth_color"
       @refresh="updateHealth"
     ></my-code>
     <u-gap height="20" bg-color="transparent"></u-gap>
@@ -41,7 +42,7 @@ export default {
   data() {
     return {
       codeIndex: 0,
-      model: { name: '', gender: '', ehealth_code: '', patient_code: '' },
+      model: { name: '', gender: '', ehealth_code: '', patient_code: '',ehealth_color:'#000000' },
       showModal: false,
     }
   },

@@ -96,7 +96,8 @@ export default {
   },
   methods: {
     handleChoose(index) {
-      this.list[index].checked = !this.list[index].checked
+      // 不可取消
+      // this.list[index].checked = !this.list[index].checked
     },
     handleCheck() {
       this.$refs.popup.handleChoose()
@@ -111,7 +112,9 @@ export default {
             if (res.code === 20000) {
               if (res.data.length > 0) {
                 res.data.forEach((e) => {
-                  e.checked = false
+                  // e.checked = false
+                  // 默认勾选全部
+                  e.checked = true
                 })
               }
               this.list = res.data

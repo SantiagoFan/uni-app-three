@@ -288,15 +288,6 @@
       }
     },
     {
-      "path": "pages/medicalCard/medicalCardBind",
-      "name": "medicalCardBind",
-      "style": {
-        "navigationBarTitleText": "绑定就诊码",
-        "navigationBarBackgroundColor": "#0ec698",
-        "navigationBarTextStyle": "#ffffff"
-      }
-    },
-    {
       "path": "pages/medicalCard/medicalCardRegister",
       "name": "medicalCardRegister",
       "style": {

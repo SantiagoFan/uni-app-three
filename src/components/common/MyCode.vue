@@ -6,11 +6,15 @@
     </view>
     <view class="wrap-code__con">
       <view class="wrap-code__con-code1" v-if="codeIndex === 0">
-        <tki-qrcode v-if="ehealth_code" ref="qrcode" onval :val="ehealth_code" :size="400" icon="/static/image/logo.png" :loadMake="true" :show-loading="false" />
+        <tki-qrcode v-if="ehealth_code"
+        :foreground="ehealth_color"
+          :pdground="ehealth_color"
+        ref="qrcode" onval :val="ehealth_code" :size="400" icon="/static/image/logo.png" :loadMake="true" :show-loading="false" />
         <view class="nohealth" @click="refresh" v-if="!ehealth_code">点击刷新健康码</view>
       </view>
       <view class="wrap-code__con-code2" v-if="codeIndex === 1">
-        <tki-barcode ref="barcode" :onval="true" :show="true" :val="patient_code" :loadMake="true" :opations="barOpations" />
+        <tki-barcode ref="barcode" :onval="true" :show="true" :val="patient_code" :loadMake="true" 
+        :opations="barOpations" />
         <view class="num">{{ patient_code| hidePatientCard }}</view>
       </view>
     </view>
@@ -27,6 +31,10 @@ export default {
     ehealth_code: {
       type: String,
     },
+    ehealth_color: {
+      type: String,
+      default: '#000000',
+    },
   },
   watch:{
     ehealth_code(val){
@@ -41,7 +49,7 @@ export default {
       codeIndex: 0,
       barOpations: {
         height: 120,
-        displayValue: false,
+        displayValue: false
       },
     }
   },
