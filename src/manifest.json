@@ -5,7 +5,7 @@
 	"versionName": "1.0.0",
 	"versionCode": "100",
 	"transformPx": false,
-	"app-plus": { /* 5+App特有相关 */
+	"app-plus": {
 		"usingComponents": true,
 		"splashscreen": {
 			"alwaysShowBeforeRender": true,
@@ -13,7 +13,7 @@
 			"autoclose": true,
 			"delay": 0
 		},
-		"modules": { /* 模块配置 */
+		"modules": {
 
 		},
 		"distribute": { /* 应用发布信息 */
@@ -55,7 +55,7 @@
 	},
 	"mp-weixin": { /* 微信小程序特有相关 */
 		// "appid": "wxb122ef40a4df26c9",
-		"appid":"wx5e0462f1330ca0cf",
+		"appid":"wx0ef3901864c8ee30",
 		"setting": {
 			"urlCheck": false
 		},
