@@ -1,5 +1,5 @@
 <template>
-  <view style="height: 100%; width: 100%;" 
+  <view style="height: 90%; width: 100%;" 
     @touchstart="documentTouchStart" 
     @touchmove="documentTouchMove" 
     @touchend="documentTouchEnd"
@@ -12,11 +12,17 @@
       @longtap="longTap" 
       @click="tap"
     ></canvas>
+    <!-- 控制器 -->
+    <view class="control">
+      <button @click="run">跑</button>
+      <button @click="walk">走</button>
+    </view>
   </view>
 </template>
 <script>
 import * as THREE from '@/common/three.weapp.js'
 import scene from './scene'
+let worldScene = null
 export default {
   data() {
     return {
@@ -28,7 +34,7 @@ export default {
       .node()
       .exec((res) => {
         const canvas = new THREE.global.registerCanvas(res[0].node)
-        scene(canvas, THREE)
+        worldScene = scene(canvas, THREE)
       })
   },
   onUnload: function () {
@@ -36,15 +42,15 @@ export default {
   },
   methods: {
     touchStart(e) {
-      console.log('canvas', e)
+      // console.log('canvas', e)
       THREE.global.touchEventHandlerFactory('canvas', 'touchstart')(e)
     },
     touchMove(e) {
-      console.log('canvas', e)
+      // console.log('canvas', e)
       THREE.global.touchEventHandlerFactory('canvas', 'touchmove')(e)
     },
     touchEnd(e) {
-      console.log('canvas', e)
+      // console.log('canvas', e)
       THREE.global.touchEventHandlerFactory('canvas', 'touchend')(e)
     },
     touchCancel(e) {
@@ -65,6 +71,14 @@ export default {
     documentTouchEnd(e) {
       // console.log('document',e)
     },
+    run(){
+      let key = 'Run'
+      worldScene.models['Soldier'].fadeToAction(key,1)
+    },
+    walk(){
+      let key ='Walk'
+      worldScene.models['Soldier'].fadeToAction(key,1)
+    }
   },
 }
 </script>
@@ -73,5 +87,11 @@ export default {
 #c {
   width: 100%; 
   height: 100%;
+}
+.control{
+  position: absolute;
+  bottom: 30upx;
+  width: 100%;
+  height: 100upx;
 }
 </style>

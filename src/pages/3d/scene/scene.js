@@ -64,86 +64,52 @@ function createGround(THREE,worldScene){
 /**
  * 加载模型
  */
-function loadModels(THREE,worldScene,mixers){
+function loadModels(THREE,worldScene,models){
   console.info('-- 加载模型')
   let GLTFLoader = getGLTFLoader(THREE);
   let { SkeletonUtils } = getSkeletonUtils(THREE);
+  
   let window = THREE.global;
 
   var loader = new GLTFLoader();
-  var modelName = "models/gltf/Soldier.glb"; //士兵模型
-  var model = { name: "Soldier" }
   
-  // 在这里，我们定义了要放置在场景中的模型实例、它们的位置、比例和动画
-  var UNITS = [
-    {
-        modelName: "Soldier", // 使用网络文件 models/gltf/Soldier.glb
-        meshName: "vanguard_Mesh", // Name of the main mesh to animate
-        position: { x: 0, y: 0, z: 0 }, // 放置位置
-        scale: 2, // 单位缩放. 1.0  原始尺寸, 0.1 缩小十倍
-        animationName: "Idle" // 动画名称
-    },
-    {
-        modelName: "Soldier",
-        meshName: "vanguard_Mesh",
-        position: { x: 0, y: 0, z: 1 },
-        scale: 2,
-        animationName: "Walk"
-    },
-    {
-        modelName: "Soldier",
-        meshName: "vanguard_Mesh",
-        position: { x: 0, y: 0, z: 2 },
-        scale: 2,
-        animationName: "Run"
+  var model = { 
+    name: "Soldier",//士兵模型
+    fileName:'models/gltf/Soldier.glb',
+    animationName:'Idle',// 默认动作
+    meshName: "vanguard_Mesh", // Name of the main mesh to animate
+    position: { x: 0, y: 0, z: 0 }, // 放置位置
+    scale: 2, // 单位缩放. 1.0  原始尺寸, 0.1 缩小十倍
+    animations:null,
+    scene:null,
+    mixer:null,
+    actions:null,
+    activeAction:null,
+    fadeToAction(name,duration){
+      console.info('----- fadeToAction : '+name)
+      let preAction = this.activeAction
+      this.activeAction =  this.actions[name];
+
+      if(preAction == null ){
+        this.activeAction.play()
+      } else{
+        if(preAction !== this.activeAction){
+          preAction.fadeOut(duration)
+          this.activeAction
+          .reset()
+          .setEffectiveTimeScale(1)
+          .setEffectiveWeight(1)
+          .fadeIn(duration)
+          .play()
+        }
+      }
+      
     }
-  ];
-  // 实例化
-  var instantiateUnits = ()=>{
-    console.info('-- -- 人物模型 初始化开始')
-    for (var i = 0; i < UNITS.length; ++i) {
-      var u = UNITS[i];
-      console.info(u)
-      var clonedScene = SkeletonUtils.clone(model.scene);
+ }
 
-      // 克隆正确，添加模型动画
-      var clonedMesh = clonedScene.getObjectByName(u.meshName);
-      if (clonedMesh) {
-          var mixer = startAnimation(THREE, clonedMesh, model.animations, u.animationName);
-          // // Save the animation mixer in the list, will need it in the animation loop
-          mixers.push(mixer);
-      }
-      // Different models can have different configurations of armatures and meshes. Therefore,
-      // We can't set position, scale or rotation to individual mesh objects. Instead we set
-      // it to the whole cloned scene and then add the whole scene to the game world
-      // Note: this may have weird effects if you have lights or other items in the GLTF file's scene!
-      // 不同型号可以有不同配置的电枢和网格。因此,
-      // 我们不能对单个网格对象设置位置、缩放或旋转。相反,我们组
-      // 将其添加到整个克隆场景中，然后将整个场景添加到游戏世界中
-      // 注意:这可能会有奇怪的效果，如果你有灯光或其他项目在GLTF文件的场景!
-      worldScene.add(clonedScene);
-      if (u.position) {
-          clonedScene.position.set(u.position.x, u.position.y, u.position.z);
-      }
-      if (u.scale) {
-          clonedScene.scale.set(u.scale, u.scale, u.scale);
-      }
-      if (u.rotation) {
-          clonedScene.rotation.x = u.rotation.x;
-          clonedScene.rotation.y = u.rotation.y;
-          clonedScene.rotation.z = u.rotation.z;
-      }
-
-    }
-  }
-
-
-
-  loader.load("http://static.card.nmgjoin.com/three/" + modelName, (gltf)=> {
-    var scene = gltf.scene;
+  loader.load("http://static.card.nmgjoin.com/three/" + model.fileName, (gltf)=> {
     model.animations = gltf.animations;
-    model.scene = scene;
-
+    model.scene = gltf.scene;
     // 启动阴影
     gltf.scene.traverse( (object)=> {
       if (object.isMesh) {
@@ -152,26 +118,57 @@ function loadModels(THREE,worldScene,mixers){
     });
     console.log("-- -- 模型下载完成：", model.name);
     // 实例化
-    instantiateUnits();
+    // instantiateUnits();
+    initModel(THREE,worldScene,SkeletonUtils,model);
+    models[model.name] = model
   });
 }
-
 /**
-     * Start animation for a specific mesh object. Find the animation by name in the 3D model's animation array
-     * @param skinnedMesh {THREE.SkinnedMesh} The mesh to animate
-     * @param animations {Array} Array containing all the animations for this model
-     * @param animationName {string} Name of the animation to launch
-     * @return {THREE.AnimationMixer} Mixer to be used in the render loop
-     */
- function startAnimation(THREE,skinnedMesh, animations, animationName) {
+ * 初始化模型
+ * @param {object} model 
+ */
+function initModel(THREE,worldScene,SkeletonUtils,model){
+  console.info(model)
+  console.info(`-- -- 模型:${model.name} 初始化开始`)
+  var clonedScene = SkeletonUtils.clone(model.scene);
+  // 克隆正确，添加模型动画
+  var clonedMesh = clonedScene.getObjectByName(model.meshName);
+  if (clonedMesh) {
+      var [mixer,actions] = startAnimation(THREE, clonedMesh, model.animations);
+      model.actions = actions
+      model.mixer = mixer
+  }
+  worldScene.add(clonedScene);
+  if (model.position) {
+    clonedScene.position.set(model.position.x, model.position.y, model.position.z);
+  }
+  if (model.scale) {
+    clonedScene.scale.set(model.scale, model.scale, model.scale);
+  }
+  if (model.rotation) {
+    clonedScene.rotation.x = model.rotation.x;
+    clonedScene.rotation.y = model.rotation.y;
+    clonedScene.rotation.z = model.rotation.z;
+  }
+  model.fadeToAction("Idle",0)
+}
+/**
+ * 启动特定的对象的动画，在三围模型数组中按照名称查找动画
+ * @param skinnedMesh {THREE.SkinnedMesh} 要设置动画的 mesh 对象
+ * @param animations {Array} 这个模型的所有动画集合
+ * @param animationName {string} 要启动的动画名称
+ * @return {THREE.AnimationMixer}  要在循化渲染中使用的混合器
+ */
+ function startAnimation(THREE,skinnedMesh, animations) {
 
   var mixer = new THREE.AnimationMixer(skinnedMesh);
-  var clip = THREE.AnimationClip.findByName(animations, animationName);
-  if (clip) {
-      var action = mixer.clipAction(clip);
-      action.play();
+  var actions = {}
+  for (let i = 0; i < animations.length; i++) {
+    const clip = animations[i];
+    const action = mixer.clipAction(clip);
+    actions[ clip.name ] = action
   }
-  return mixer;
+  return [mixer,actions];
 }
 
 
@@ -191,7 +188,7 @@ export default function (canvas, THREE) {
   var camera = null;
   var clock = null;
   var renderer = null
-  var mixers = []; // 场景中所有有动画的THREE.AnimationMixer 对象
+  var models = {}
   var controls = null
   //////////////////////////////
 
@@ -201,7 +198,7 @@ export default function (canvas, THREE) {
   // 核心启动
   //////////////////////////////
   initScene()
-  loadModels(THREE,scene,mixers) //// 加载人物
+  loadModels(THREE,scene,models) //// 加载人物
   initRenderer()
   render()
 
@@ -265,12 +262,21 @@ export default function (canvas, THREE) {
     
     // 获取自上一帧以来所经过的时间 更新动画帧
     var mixerUpdateDelta = clock.getDelta();
-    for (var i = 0; i < mixers.length; ++i) {
-      mixers[i].update(mixerUpdateDelta);
+    for (const key in models) {
+      if (Object.hasOwnProperty.call(models, key)) {
+        const model = models[key];
+        model.mixer.update(mixerUpdateDelta);
+      }
     }
 
     renderer.render(scene, camera);
   }
-  
+  return {
+    scene,
+    camera,
+    renderer,
+    models,
+    controls 
+  }
   
 }
