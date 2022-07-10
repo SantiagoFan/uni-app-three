@@ -1,28 +1,7 @@
 import { OrbitControls } from '@/common/jsm/controls/OrbitControls'
 import getGLTFLoader from '@/common/jsm/loaders/GLTFLoader'
 import getSkeletonUtils from '@/common/jsm/utils/SkeletonUtils.js';
-/**
- * 创建光系统 
- * @param {*} THREE 
- */
-function createLight(THREE,worldScene){
-  console.info("-- 创建灯光")
-  // 半球灯
-  var hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444);
-  hemiLight.position.set(0, 20, 0);
-  worldScene.add(hemiLight);
-  // 定线光
-  var dirLight = new THREE.DirectionalLight(0xffffff);
-  dirLight.position.set(- 3, 10, - 10);
-  dirLight.castShadow = true;
-  dirLight.shadow.camera.top = 10;
-  dirLight.shadow.camera.bottom = - 10;
-  dirLight.shadow.camera.left = - 10;
-  dirLight.shadow.camera.right = 10;
-  dirLight.shadow.camera.near = 0.1;
-  dirLight.shadow.camera.far = 40;
-  worldScene.add(dirLight);
-}
+
 /**
  * 创建地板
  * @param {*} THREE 
@@ -251,6 +230,7 @@ export default function (canvas, THREE) {
       renderer.shadowMap.type = THREE.PCFSoftShadowMap;
       // 创建控制器
       controls = new OrbitControls(camera, renderer.domElement)
+      
     }
   
   
@@ -279,4 +259,26 @@ export default function (canvas, THREE) {
     controls 
   }
   
+}
+/**
+ * 创建光系统 
+ * @param {*} THREE 
+ */
+function createLight(THREE,worldScene){
+  console.info("-- 创建灯光")
+  // 半球灯
+  var hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444);
+  hemiLight.position.set(0, 20, 0);
+  worldScene.add(hemiLight);
+  // 定线光
+  var dirLight = new THREE.DirectionalLight(0xffffff);
+  dirLight.position.set(- 3, 10, - 10);
+  dirLight.castShadow = true;
+  dirLight.shadow.camera.top = 10;
+  dirLight.shadow.camera.bottom = - 10;
+  dirLight.shadow.camera.left = - 10;
+  dirLight.shadow.camera.right = 10;
+  dirLight.shadow.camera.near = 0.1;
+  dirLight.shadow.camera.far = 40;
+  worldScene.add(dirLight);
 }
