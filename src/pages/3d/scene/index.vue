@@ -1,17 +1,18 @@
 <template>
-  <view style="height: 90%; width: 100%;" 
+  <view style="height: 100%; width: 100%;" 
     @touchstart="documentTouchStart" 
     @touchmove="documentTouchMove" 
     @touchend="documentTouchEnd"
   >
-    <canvas type="webgl" id="c" 
+    <canvas type="webgl" id="c"
       @touchstart="touchStart" 
       @touchmove="touchMove"
       @touchend="touchEnd"
       @touchcancel="touchCancel"
       @longtap="longTap" 
       @click="tap"
-    ></canvas>
+    >
+    </canvas>
     <!-- 控制器 -->
     <view class="control">
       <button @click="run">跑</button>
@@ -34,7 +35,7 @@ export default {
       .node()
       .exec((res) => {
         const canvas = new THREE.global.registerCanvas(res[0].node)
-        worldScene = scene(canvas, THREE)
+        worldScene = scene(canvas)
       })
   },
   onUnload: function () {
@@ -93,5 +94,11 @@ export default {
   bottom: 30upx;
   width: 100%;
   height: 100upx;
+}
+#joystick{
+   position: absolute;
+  top:170rpx;
+  background: #000;
+  color:#fff;
 }
 </style>
