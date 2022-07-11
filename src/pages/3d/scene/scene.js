@@ -97,9 +97,6 @@ export default function (canvas) {
     // 创建控制器
     controls = new OrbitControls(camera, renderer.domElement)
     joystickControls = new JoystickControls(camera,scene,renderer.domElement);
-
-    console.info(THREEx)
-    keyboard = new THREEx.KeyboardState(renderer.domElement);
     
   }
   
