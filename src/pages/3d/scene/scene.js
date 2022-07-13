@@ -20,7 +20,6 @@ export default function (canvas) {
   var sceneOrtho = null;// 正交场景
   var renderer = null
   var controls = null
-  var joystickControls =  null
   var models = {}
   var clock = null;
 	let spriteTL;
@@ -150,7 +149,6 @@ export default function (canvas) {
 
       // 创建控制器
     controls = new OrbitControls(camera, renderer.domElement)
-    joystickControls = new JoystickControls(cameraOrtho,sceneOrtho,renderer.domElement);
     
   }
   
@@ -170,24 +168,6 @@ export default function (canvas) {
         model.mixer.update(mixerUpdateDelta);
       }
     }
-
-    joystickControls.update((movement) => {
-    //   if (movement) {
-    //     console.info(movement)
-    // //   //   /**
-    // //   //    * The values reported back might be too large for your scene.
-    // //   //    * In that case you will need to control the sensitivity.
-    // //   //    */
-    // //   //   const sensitivity = 0.0001;
-  
-    // //   //   /**
-    // //   //    * Do something with the values, for example changing the position
-    // //   //    * of the object
-    // //   //    */
-    // //   //   this.target.position.x += movement.moveX * sensitivity;
-    // //   //   this.target.position.y += movement.moveY * sensitivity;
-    //   }
-    });
 
     
     renderer.clear();

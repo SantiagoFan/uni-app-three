@@ -1,5 +1,5 @@
 <template>
-  <view style="height: 100%; width: 100%;" 
+  <view style="height: 80%; width: 100%;" 
     @touchstart="documentTouchStart" 
     @touchmove="documentTouchMove" 
     @touchend="documentTouchEnd"
@@ -94,14 +94,8 @@ export default {
 }
 .control{
   position: absolute;
-  bottom: 30upx;
+  bottom: 120upx;
   width: 100%;
   height: 100upx;
-}
-#joystick{
-   position: absolute;
-  top:170rpx;
-  background: #000;
-  color:#fff;
 }
 </style>
