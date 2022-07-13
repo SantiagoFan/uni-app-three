@@ -1,23 +1,4 @@
-# yl-applets
-
-## Project setup
-```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
-
-
-### 一健 同步代码
-npm run ci
+## 
+本项目是在小程序原生的canvas 创建 three
+大部分功能都能实现，仅作为颜色用，
+虚拟键盘实现起来非常的麻烦，故项目封存，使用嵌入web的方式实现

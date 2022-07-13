@@ -1,5 +1,6 @@
 import * as THREE from '@/common/three.weapp.js'
 import { OrbitControls } from '@/common/jsm/controls/OrbitControls'
+import { JoystickControls } from './joystick';
 import { Lead } from "./lead"
 
 /**
@@ -14,13 +15,13 @@ export default function (canvas) {
   //////////////////////////////
   // 全局变量
   //////////////////////////////
-  var camera = null;
-  var scene = null;
-  var cameraOrtho =  null;// 正交相机
-  var sceneOrtho = null;// 正交场景
-  var renderer = null
-  var controls = null
-  var joystickControls =  null
+  let camera = null;
+  let scene = null;
+  let cameraOrtho = null;
+  let sceneOrtho = null;
+  let renderer = null;
+  let controls = null;
+  let joystickControls = null;
   var models = {}
   var clock = null;
 	let spriteTL;
@@ -47,7 +48,7 @@ export default function (canvas) {
     camera = new THREE.PerspectiveCamera( fov, aspect, near, far );
     camera.position.set(3, 6, - 10);
     camera.lookAt(0, 1, 0);
-    // 正交相机
+
     const left = -width/ 2 ; // 摄像机视锥体左侧面
     const right = width /2 ; // 摄像机视锥体右侧面
     const top = height / 2 ; // 摄像机视锥体上侧面
@@ -138,19 +139,21 @@ export default function (canvas) {
       lead.load(THREE,scene,models)
     }
   
+      
+
   /**
    * 初始化渲染器
    */
    function initRenderer(){
     // 创建渲染器
-    renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer = new THREE.WebGLRenderer();
     renderer.setPixelRatio( window.devicePixelRatio );
     renderer.setSize( window.innerWidth, window.innerHeight );
     renderer.autoClear = false; // ！！容许在二维精灵层 sprited sphere上绘制
 
       // 创建控制器
     controls = new OrbitControls(camera, renderer.domElement)
-    joystickControls = new JoystickControls(cameraOrtho,sceneOrtho,renderer.domElement);
+    // joystickControls = new JoystickControls(cameraOrtho,sceneOrtho,renderer.domElement);
     
   }
   
@@ -170,26 +173,6 @@ export default function (canvas) {
         model.mixer.update(mixerUpdateDelta);
       }
     }
-
-    joystickControls.update((movement) => {
-    //   if (movement) {
-    //     console.info(movement)
-    // //   //   /**
-    // //   //    * The values reported back might be too large for your scene.
-    // //   //    * In that case you will need to control the sensitivity.
-    // //   //    */
-    // //   //   const sensitivity = 0.0001;
-  
-    // //   //   /**
-    // //   //    * Do something with the values, for example changing the position
-    // //   //    * of the object
-    // //   //    */
-    // //   //   this.target.position.x += movement.moveX * sensitivity;
-    // //   //   this.target.position.y += movement.moveY * sensitivity;
-    //   }
-    });
-
-    
     renderer.clear();
     renderer.render( scene, camera );
     renderer.clearDepth();

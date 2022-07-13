@@ -106,6 +106,14 @@
         "navigationBarTitleText": "场景",
         "backgroundColor": "#000000"
       }
+    },
+    {
+      "path": "pages/3d/twoCamera/index",
+      "name": "index",
+      "style": {
+        "navigationBarTitleText": "双摄像机",
+        "backgroundColor": "#000000"
+      }
     }
   ],
   "subPackages": [
